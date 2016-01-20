@@ -1,0 +1,174 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>608</width>
+    <height>464</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Translator</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QVBoxLayout" />
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>608</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_Open_Project" />
+    <addaction name="action_New_Project" />
+    <addaction name="separator" />
+    <addaction name="action_Save" />
+    <addaction name="action_Save_All" />
+    <addaction name="separator" />
+    <addaction name="action_Close" />
+    <addaction name="action_Close_All" />
+    <addaction name="separator" />
+    <addaction name="action_Quit" />
+   </widget>
+   <widget class="QMenu" name="menu_Help" >
+    <property name="title" >
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About" />
+   </widget>
+   <widget class="QMenu" name="menu_Project" >
+    <property name="title" >
+     <string>&amp;Project</string>
+    </property>
+    <addaction name="action_Add_Catalogue" />
+    <addaction name="action_Add_New_Catalogue" />
+    <addaction name="action_Build_Project" />
+    <addaction name="separator" />
+    <addaction name="action_Properties" />
+    <addaction name="separator" />
+    <addaction name="action_Close_Project" />
+   </widget>
+   <addaction name="menu_File" />
+   <addaction name="menu_Project" />
+   <addaction name="menu_Help" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="action_Quit" >
+   <property name="text" >
+    <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_About" >
+   <property name="text" >
+    <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="action_New_Project" >
+   <property name="text" >
+    <string>&amp;New Project...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_Add_Catalogue" >
+   <property name="text" >
+    <string>&amp;Add catalogue...</string>
+   </property>
+  </action>
+  <action name="action_Properties" >
+   <property name="text" >
+    <string>&amp;Properties</string>
+   </property>
+  </action>
+  <action name="action_Build_Project" >
+   <property name="text" >
+    <string>&amp;Build Project</string>
+   </property>
+  </action>
+  <action name="action_Open_Project" >
+   <property name="text" >
+    <string>&amp;Open Project...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_Close" >
+   <property name="text" >
+    <string>&amp;Close</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="action_Add_New_Catalogue" >
+   <property name="text" >
+    <string>Add new catalogue...</string>
+   </property>
+  </action>
+  <action name="action_Close_Project" >
+   <property name="text" >
+    <string>&amp;Close Project</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+F4</string>
+   </property>
+  </action>
+  <action name="action_Save" >
+   <property name="text" >
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_Save_All" >
+   <property name="text" >
+    <string>Save &amp;All</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="action_Close_All" >
+   <property name="text" >
+    <string>Clos&amp;e All</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+W</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>action_Quit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>303</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

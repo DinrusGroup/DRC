@@ -1,0 +1,466 @@
+# Project: dmd
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = DMD/version.o DMD/access.o DMD/aliasthis.o DMD/arrayop.o DMD/attrib.o DMD/bit.o DMD/builtin.o DMD/cast.o DMD/cdxxx.o DMD/class.o DMD/clone.o DMD/cond.o DMD/constfold.o DMD/cppmangle.o DMD/debtab.o DMD/declaration.o DMD/delegatize.o DMD/doc.o DMD/dsymbol.o DMD/dump.o DMD/e2ir.o DMD/eh.o DMD/elxxx.o DMD/entity.o DMD/enum.o DMD/expression.o DMD/fltables.o DMD/func.o DMD/glue.o DMD/hdrgen.o DMD/iasm.o DMD/id.o DMD/identifier.o DMD/idgen.o DMD/impcnvgen.o DMD/imphint.o DMD/import.o DMD/inifile.o DMD/init.o DMD/inline.o DMD/interpret.o DMD/irstate.o DMD/json.o DMD/lexer.o DMD/libelf.o DMD/libmach.o DMD/libomf.o DMD/link.o DMD/macro.o DMD/mangle.o DMD/mars.o DMD/module.o DMD/msc.o DMD/mtype.o DMD/opover.o DMD/optab.o DMD/optimize.o DMD/parse.o DMD/ph.o DMD/s2ir.o DMD/scope.o DMD/statement.o DMD/staticassert.o DMD/struct.o DMD/template.o DMD/tk.o DMD/tocsym.o DMD/toctype.o DMD/tocvdebug.o DMD/todt.o DMD/toelfdebug.o DMD/toir.o DMD/toobj.o DMD/traits.o DMD/typinf.o DMD/tytab.o DMD/unialpha.o DMD/unittests.o DMD/utf.o DMD/util.o DMD/root/aav.o DMD/root/array.o DMD/root/async.o DMD/root/dchar.o DMD/root/gnuc.o DMD/root/lstring.o DMD/root/man.o DMD/root/port.o DMD/root/response.o DMD/root/rmem.o DMD/root/root.o DMD/root/speller.o DMD/root/stringtable.o DMD/tk/filespec.o DMD/tk/list.o DMD/tk/mem.o DMD/tk/vec.o DMD/backend/aa.o DMD/backend/bcomplex.o DMD/backend/blockopt.o DMD/backend/cg.o DMD/backend/cg87.o DMD/backend/cgcod.o DMD/backend/cgcs.o DMD/backend/cgcv.o DMD/backend/cgelem.o DMD/backend/cgen.o DMD/backend/cgobj.o DMD/backend/cgreg.o DMD/backend/cgsched.o DMD/backend/cod1.o DMD/backend/cod2.o DMD/backend/cod3.o DMD/backend/cod4.o DMD/backend/cod5.o DMD/backend/code.o DMD/backend/cppman.o DMD/backend/debug.o DMD/backend/dt.o DMD/backend/dwarf.o DMD/backend/ee.o DMD/backend/el.o DMD/backend/elfobj.o DMD/backend/evalu8.o DMD/backend/gdag.o DMD/backend/gflow.o DMD/backend/glocal.o DMD/backend/gloop.o DMD/backend/go.o DMD/backend/gother.o DMD/backend/html.o DMD/backend/machobj.o DMD/backend/md5.o DMD/backend/newman.o DMD/backend/nteh.o DMD/backend/optabgen.o DMD/backend/os.o DMD/backend/out.o DMD/backend/outbuf.o DMD/backend/ptrntab.o DMD/backend/rtlsym.o DMD/backend/strtold.o DMD/backend/symbol.o DMD/backend/ti_achar.o DMD/backend/type.o DMD/backend/var.o $(RES)
+LINKOBJ  = DMD/version.o DMD/access.o DMD/aliasthis.o DMD/arrayop.o DMD/attrib.o DMD/bit.o DMD/builtin.o DMD/cast.o DMD/cdxxx.o DMD/class.o DMD/clone.o DMD/cond.o DMD/constfold.o DMD/cppmangle.o DMD/debtab.o DMD/declaration.o DMD/delegatize.o DMD/doc.o DMD/dsymbol.o DMD/dump.o DMD/e2ir.o DMD/eh.o DMD/elxxx.o DMD/entity.o DMD/enum.o DMD/expression.o DMD/fltables.o DMD/func.o DMD/glue.o DMD/hdrgen.o DMD/iasm.o DMD/id.o DMD/identifier.o DMD/idgen.o DMD/impcnvgen.o DMD/imphint.o DMD/import.o DMD/inifile.o DMD/init.o DMD/inline.o DMD/interpret.o DMD/irstate.o DMD/json.o DMD/lexer.o DMD/libelf.o DMD/libmach.o DMD/libomf.o DMD/link.o DMD/macro.o DMD/mangle.o DMD/mars.o DMD/module.o DMD/msc.o DMD/mtype.o DMD/opover.o DMD/optab.o DMD/optimize.o DMD/parse.o DMD/ph.o DMD/s2ir.o DMD/scope.o DMD/statement.o DMD/staticassert.o DMD/struct.o DMD/template.o DMD/tk.o DMD/tocsym.o DMD/toctype.o DMD/tocvdebug.o DMD/todt.o DMD/toelfdebug.o DMD/toir.o DMD/toobj.o DMD/traits.o DMD/typinf.o DMD/tytab.o DMD/unialpha.o DMD/unittests.o DMD/utf.o DMD/util.o DMD/root/aav.o DMD/root/array.o DMD/root/async.o DMD/root/dchar.o DMD/root/gnuc.o DMD/root/lstring.o DMD/root/man.o DMD/root/port.o DMD/root/response.o DMD/root/rmem.o DMD/root/root.o DMD/root/speller.o DMD/root/stringtable.o DMD/tk/filespec.o DMD/tk/list.o DMD/tk/mem.o DMD/tk/vec.o DMD/backend/aa.o DMD/backend/bcomplex.o DMD/backend/blockopt.o DMD/backend/cg.o DMD/backend/cg87.o DMD/backend/cgcod.o DMD/backend/cgcs.o DMD/backend/cgcv.o DMD/backend/cgelem.o DMD/backend/cgen.o DMD/backend/cgobj.o DMD/backend/cgreg.o DMD/backend/cgsched.o DMD/backend/cod1.o DMD/backend/cod2.o DMD/backend/cod3.o DMD/backend/cod4.o DMD/backend/cod5.o DMD/backend/code.o DMD/backend/cppman.o DMD/backend/debug.o DMD/backend/dt.o DMD/backend/dwarf.o DMD/backend/ee.o DMD/backend/el.o DMD/backend/elfobj.o DMD/backend/evalu8.o DMD/backend/gdag.o DMD/backend/gflow.o DMD/backend/glocal.o DMD/backend/gloop.o DMD/backend/go.o DMD/backend/gother.o DMD/backend/html.o DMD/backend/machobj.o DMD/backend/md5.o DMD/backend/newman.o DMD/backend/nteh.o DMD/backend/optabgen.o DMD/backend/os.o DMD/backend/out.o DMD/backend/outbuf.o DMD/backend/ptrntab.o DMD/backend/rtlsym.o DMD/backend/strtold.o DMD/backend/symbol.o DMD/backend/ti_achar.o DMD/backend/type.o DMD/backend/var.o $(RES)
+LIBS =  -L"d:/dinrus/MINGW/lib"  
+INCS =  -I"d:/dinrus/MINGW/include" 
+CXXINCS =  -I"d:/dinrus/MINGW/lib/gcc/mingw32/3.4.2/include"  -I"d:/dinrus/MINGW/include/c++/3.4.2/backward"  -I"d:/dinrus/MINGW/include/c++/3.4.2/mingw32"  -I"d:/dinrus/MINGW/include/c++/3.4.2"  -I"d:/dinrus/MINGW/include"  -I"D:/dinrus/MINGW/include/atk-1.0"  -I"D:/dinrus/MINGW/include/freetype2"  -I"D:/dinrus/MINGW/include/orc-0.4"  -I"D:/dinrus/MINGW/include/gtk-2.0"  -I"D:/dinrus/MINGW/include/glib-2.0" 
+BIN  = dmd.exe
+CXXFLAGS = $(CXXINCS) -D_DH  
+CFLAGS = $(INCS) -D_DH  
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before dmd.exe all-after
+
+include DMD/linux.mak
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "dmd.exe" $(LIBS)
+
+DMD/version.o: DMD/version.c
+	$(CPP) -c DMD/version.c -o DMD/version.o $(CXXFLAGS)
+
+DMD/access.o: DMD/access.c
+	$(CPP) -c DMD/access.c -o DMD/access.o $(CXXFLAGS)
+
+DMD/aliasthis.o: DMD/aliasthis.c
+	$(CPP) -c DMD/aliasthis.c -o DMD/aliasthis.o $(CXXFLAGS)
+
+DMD/arrayop.o: DMD/arrayop.c
+	$(CPP) -c DMD/arrayop.c -o DMD/arrayop.o $(CXXFLAGS)
+
+DMD/attrib.o: DMD/attrib.c
+	$(CPP) -c DMD/attrib.c -o DMD/attrib.o $(CXXFLAGS)
+
+DMD/bit.o: DMD/bit.c
+	$(CPP) -c DMD/bit.c -o DMD/bit.o $(CXXFLAGS)
+
+DMD/builtin.o: DMD/builtin.c
+	$(CPP) -c DMD/builtin.c -o DMD/builtin.o $(CXXFLAGS)
+
+DMD/cast.o: DMD/cast.c
+	$(CPP) -c DMD/cast.c -o DMD/cast.o $(CXXFLAGS)
+
+DMD/cdxxx.o: DMD/cdxxx.c
+	$(CPP) -c DMD/cdxxx.c -o DMD/cdxxx.o $(CXXFLAGS)
+
+DMD/class.o: DMD/class.c
+	$(CPP) -c DMD/class.c -o DMD/class.o $(CXXFLAGS)
+
+DMD/clone.o: DMD/clone.c
+	$(CPP) -c DMD/clone.c -o DMD/clone.o $(CXXFLAGS)
+
+DMD/cond.o: DMD/cond.c
+	$(CPP) -c DMD/cond.c -o DMD/cond.o $(CXXFLAGS)
+
+DMD/constfold.o: DMD/constfold.c
+	$(CPP) -c DMD/constfold.c -o DMD/constfold.o $(CXXFLAGS)
+
+DMD/cppmangle.o: DMD/cppmangle.c
+	$(CPP) -c DMD/cppmangle.c -o DMD/cppmangle.o $(CXXFLAGS)
+
+DMD/debtab.o: DMD/debtab.c
+	$(CPP) -c DMD/debtab.c -o DMD/debtab.o $(CXXFLAGS)
+
+DMD/declaration.o: DMD/declaration.c
+	$(CPP) -c DMD/declaration.c -o DMD/declaration.o $(CXXFLAGS)
+
+DMD/delegatize.o: DMD/delegatize.c
+	$(CPP) -c DMD/delegatize.c -o DMD/delegatize.o $(CXXFLAGS)
+
+DMD/doc.o: DMD/doc.c
+	$(CPP) -c DMD/doc.c -o DMD/doc.o $(CXXFLAGS)
+
+DMD/dsymbol.o: DMD/dsymbol.c
+	$(CPP) -c DMD/dsymbol.c -o DMD/dsymbol.o $(CXXFLAGS)
+
+DMD/dump.o: DMD/dump.c
+	$(CPP) -c DMD/dump.c -o DMD/dump.o $(CXXFLAGS)
+
+DMD/e2ir.o: DMD/e2ir.c
+	$(CPP) -c DMD/e2ir.c -o DMD/e2ir.o $(CXXFLAGS)
+
+DMD/eh.o: DMD/eh.c
+	$(CPP) -c DMD/eh.c -o DMD/eh.o $(CXXFLAGS)
+
+DMD/elxxx.o: DMD/elxxx.c
+	$(CPP) -c DMD/elxxx.c -o DMD/elxxx.o $(CXXFLAGS)
+
+DMD/entity.o: DMD/entity.c
+	$(CPP) -c DMD/entity.c -o DMD/entity.o $(CXXFLAGS)
+
+DMD/enum.o: DMD/enum.c
+	$(CPP) -c DMD/enum.c -o DMD/enum.o $(CXXFLAGS)
+
+DMD/expression.o: DMD/expression.c
+	$(CPP) -c DMD/expression.c -o DMD/expression.o $(CXXFLAGS)
+
+DMD/fltables.o: DMD/fltables.c
+	$(CPP) -c DMD/fltables.c -o DMD/fltables.o $(CXXFLAGS)
+
+DMD/func.o: DMD/func.c
+	$(CPP) -c DMD/func.c -o DMD/func.o $(CXXFLAGS)
+
+DMD/glue.o: DMD/glue.c
+	$(CPP) -c DMD/glue.c -o DMD/glue.o $(CXXFLAGS)
+
+DMD/hdrgen.o: DMD/hdrgen.c
+	$(CPP) -c DMD/hdrgen.c -o DMD/hdrgen.o $(CXXFLAGS)
+
+DMD/iasm.o: DMD/iasm.c
+	$(CPP) -c DMD/iasm.c -o DMD/iasm.o $(CXXFLAGS)
+
+DMD/id.o: DMD/id.c
+	$(CPP) -c DMD/id.c -o DMD/id.o $(CXXFLAGS)
+
+DMD/identifier.o: DMD/identifier.c
+	$(CPP) -c DMD/identifier.c -o DMD/identifier.o $(CXXFLAGS)
+
+DMD/idgen.o: DMD/idgen.c
+	$(CPP) -c DMD/idgen.c -o DMD/idgen.o $(CXXFLAGS)
+
+DMD/impcnvgen.o: DMD/impcnvgen.c
+	$(CPP) -c DMD/impcnvgen.c -o DMD/impcnvgen.o $(CXXFLAGS)
+
+DMD/imphint.o: DMD/imphint.c
+	$(CPP) -c DMD/imphint.c -o DMD/imphint.o $(CXXFLAGS)
+
+DMD/import.o: DMD/import.c
+	$(CPP) -c DMD/import.c -o DMD/import.o $(CXXFLAGS)
+
+DMD/inifile.o: DMD/inifile.c
+	$(CPP) -c DMD/inifile.c -o DMD/inifile.o $(CXXFLAGS)
+
+DMD/init.o: DMD/init.c
+	$(CPP) -c DMD/init.c -o DMD/init.o $(CXXFLAGS)
+
+DMD/inline.o: DMD/inline.c
+	$(CPP) -c DMD/inline.c -o DMD/inline.o $(CXXFLAGS)
+
+DMD/interpret.o: DMD/interpret.c
+	$(CPP) -c DMD/interpret.c -o DMD/interpret.o $(CXXFLAGS)
+
+DMD/irstate.o: DMD/irstate.c
+	$(CPP) -c DMD/irstate.c -o DMD/irstate.o $(CXXFLAGS)
+
+DMD/json.o: DMD/json.c
+	$(CPP) -c DMD/json.c -o DMD/json.o $(CXXFLAGS)
+
+DMD/lexer.o: DMD/lexer.c
+	$(CPP) -c DMD/lexer.c -o DMD/lexer.o $(CXXFLAGS)
+
+DMD/libelf.o: DMD/libelf.c
+	$(CPP) -c DMD/libelf.c -o DMD/libelf.o $(CXXFLAGS)
+
+DMD/libmach.o: DMD/libmach.c
+	$(CPP) -c DMD/libmach.c -o DMD/libmach.o $(CXXFLAGS)
+
+DMD/libomf.o: DMD/libomf.c
+	$(CPP) -c DMD/libomf.c -o DMD/libomf.o $(CXXFLAGS)
+
+DMD/link.o: DMD/link.c
+	$(CPP) -c DMD/link.c -o DMD/link.o $(CXXFLAGS)
+
+DMD/macro.o: DMD/macro.c
+	$(CPP) -c DMD/macro.c -o DMD/macro.o $(CXXFLAGS)
+
+DMD/mangle.o: DMD/mangle.c
+	$(CPP) -c DMD/mangle.c -o DMD/mangle.o $(CXXFLAGS)
+
+DMD/mars.o: DMD/mars.c
+	$(CPP) -c DMD/mars.c -o DMD/mars.o $(CXXFLAGS)
+
+DMD/module.o: DMD/module.c
+	$(CPP) -c DMD/module.c -o DMD/module.o $(CXXFLAGS)
+
+DMD/msc.o: DMD/msc.c
+	$(CPP) -c DMD/msc.c -o DMD/msc.o $(CXXFLAGS)
+
+DMD/mtype.o: DMD/mtype.c
+	$(CPP) -c DMD/mtype.c -o DMD/mtype.o $(CXXFLAGS)
+
+DMD/opover.o: DMD/opover.c
+	$(CPP) -c DMD/opover.c -o DMD/opover.o $(CXXFLAGS)
+
+DMD/optab.o: DMD/optab.c
+	$(CPP) -c DMD/optab.c -o DMD/optab.o $(CXXFLAGS)
+
+DMD/optimize.o: DMD/optimize.c
+	$(CPP) -c DMD/optimize.c -o DMD/optimize.o $(CXXFLAGS)
+
+DMD/parse.o: DMD/parse.c
+	$(CPP) -c DMD/parse.c -o DMD/parse.o $(CXXFLAGS)
+
+DMD/ph.o: DMD/ph.c
+	$(CPP) -c DMD/ph.c -o DMD/ph.o $(CXXFLAGS)
+
+DMD/s2ir.o: DMD/s2ir.c
+	$(CPP) -c DMD/s2ir.c -o DMD/s2ir.o $(CXXFLAGS)
+
+DMD/scope.o: DMD/scope.c
+	$(CPP) -c DMD/scope.c -o DMD/scope.o $(CXXFLAGS)
+
+DMD/statement.o: DMD/statement.c
+	$(CPP) -c DMD/statement.c -o DMD/statement.o $(CXXFLAGS)
+
+DMD/staticassert.o: DMD/staticassert.c
+	$(CPP) -c DMD/staticassert.c -o DMD/staticassert.o $(CXXFLAGS)
+
+DMD/struct.o: DMD/struct.c
+	$(CPP) -c DMD/struct.c -o DMD/struct.o $(CXXFLAGS)
+
+DMD/template.o: DMD/template.c
+	$(CPP) -c DMD/template.c -o DMD/template.o $(CXXFLAGS)
+
+DMD/tk.o: DMD/tk.c
+	$(CPP) -c DMD/tk.c -o DMD/tk.o $(CXXFLAGS)
+
+DMD/tocsym.o: DMD/tocsym.c
+	$(CPP) -c DMD/tocsym.c -o DMD/tocsym.o $(CXXFLAGS)
+
+DMD/toctype.o: DMD/toctype.c
+	$(CPP) -c DMD/toctype.c -o DMD/toctype.o $(CXXFLAGS)
+
+DMD/tocvdebug.o: DMD/tocvdebug.c
+	$(CPP) -c DMD/tocvdebug.c -o DMD/tocvdebug.o $(CXXFLAGS)
+
+DMD/todt.o: DMD/todt.c
+	$(CPP) -c DMD/todt.c -o DMD/todt.o $(CXXFLAGS)
+
+DMD/toelfdebug.o: DMD/toelfdebug.c
+	$(CPP) -c DMD/toelfdebug.c -o DMD/toelfdebug.o $(CXXFLAGS)
+
+DMD/toir.o: DMD/toir.c
+	$(CPP) -c DMD/toir.c -o DMD/toir.o $(CXXFLAGS)
+
+DMD/toobj.o: DMD/toobj.c
+	$(CPP) -c DMD/toobj.c -o DMD/toobj.o $(CXXFLAGS)
+
+DMD/traits.o: DMD/traits.c
+	$(CPP) -c DMD/traits.c -o DMD/traits.o $(CXXFLAGS)
+
+DMD/typinf.o: DMD/typinf.c
+	$(CPP) -c DMD/typinf.c -o DMD/typinf.o $(CXXFLAGS)
+
+DMD/tytab.o: DMD/tytab.c
+	$(CPP) -c DMD/tytab.c -o DMD/tytab.o $(CXXFLAGS)
+
+DMD/unialpha.o: DMD/unialpha.c
+	$(CPP) -c DMD/unialpha.c -o DMD/unialpha.o $(CXXFLAGS)
+
+DMD/unittests.o: DMD/unittests.c
+	$(CPP) -c DMD/unittests.c -o DMD/unittests.o $(CXXFLAGS)
+
+DMD/utf.o: DMD/utf.c
+	$(CPP) -c DMD/utf.c -o DMD/utf.o $(CXXFLAGS)
+
+DMD/util.o: DMD/util.c
+	$(CPP) -c DMD/util.c -o DMD/util.o $(CXXFLAGS)
+
+DMD/root/aav.o: DMD/root/aav.c
+	$(CPP) -c DMD/root/aav.c -o DMD/root/aav.o $(CXXFLAGS)
+
+DMD/root/array.o: DMD/root/array.c
+	$(CPP) -c DMD/root/array.c -o DMD/root/array.o $(CXXFLAGS)
+
+DMD/root/async.o: DMD/root/async.c
+	$(CPP) -c DMD/root/async.c -o DMD/root/async.o $(CXXFLAGS)
+
+DMD/root/dchar.o: DMD/root/dchar.c
+	$(CPP) -c DMD/root/dchar.c -o DMD/root/dchar.o $(CXXFLAGS)
+
+DMD/root/gnuc.o: DMD/root/gnuc.c
+	$(CPP) -c DMD/root/gnuc.c -o DMD/root/gnuc.o $(CXXFLAGS)
+
+DMD/root/lstring.o: DMD/root/lstring.c
+	$(CPP) -c DMD/root/lstring.c -o DMD/root/lstring.o $(CXXFLAGS)
+
+DMD/root/man.o: DMD/root/man.c
+	$(CPP) -c DMD/root/man.c -o DMD/root/man.o $(CXXFLAGS)
+
+DMD/root/port.o: DMD/root/port.c
+	$(CPP) -c DMD/root/port.c -o DMD/root/port.o $(CXXFLAGS)
+
+DMD/root/response.o: DMD/root/response.c
+	$(CPP) -c DMD/root/response.c -o DMD/root/response.o $(CXXFLAGS)
+
+DMD/root/rmem.o: DMD/root/rmem.c
+	$(CPP) -c DMD/root/rmem.c -o DMD/root/rmem.o $(CXXFLAGS)
+
+DMD/root/root.o: DMD/root/root.c
+	$(CPP) -c DMD/root/root.c -o DMD/root/root.o $(CXXFLAGS)
+
+DMD/root/speller.o: DMD/root/speller.c
+	$(CPP) -c DMD/root/speller.c -o DMD/root/speller.o $(CXXFLAGS)
+
+DMD/root/stringtable.o: DMD/root/stringtable.c
+	$(CPP) -c DMD/root/stringtable.c -o DMD/root/stringtable.o $(CXXFLAGS)
+
+DMD/tk/filespec.o: DMD/tk/filespec.c
+	$(CPP) -c DMD/tk/filespec.c -o DMD/tk/filespec.o $(CXXFLAGS)
+
+DMD/tk/list.o: DMD/tk/list.c
+	$(CPP) -c DMD/tk/list.c -o DMD/tk/list.o $(CXXFLAGS)
+
+DMD/tk/mem.o: DMD/tk/mem.c
+	$(CPP) -c DMD/tk/mem.c -o DMD/tk/mem.o $(CXXFLAGS)
+
+DMD/tk/vec.o: DMD/tk/vec.c
+	$(CPP) -c DMD/tk/vec.c -o DMD/tk/vec.o $(CXXFLAGS)
+
+DMD/backend/aa.o: DMD/backend/aa.c
+	$(CPP) -c DMD/backend/aa.c -o DMD/backend/aa.o $(CXXFLAGS)
+
+DMD/backend/bcomplex.o: DMD/backend/bcomplex.c
+	$(CPP) -c DMD/backend/bcomplex.c -o DMD/backend/bcomplex.o $(CXXFLAGS)
+
+DMD/backend/blockopt.o: DMD/backend/blockopt.c
+	$(CPP) -c DMD/backend/blockopt.c -o DMD/backend/blockopt.o $(CXXFLAGS)
+
+DMD/backend/cg.o: DMD/backend/cg.c
+	$(CPP) -c DMD/backend/cg.c -o DMD/backend/cg.o $(CXXFLAGS)
+
+DMD/backend/cg87.o: DMD/backend/cg87.c
+	$(CPP) -c DMD/backend/cg87.c -o DMD/backend/cg87.o $(CXXFLAGS)
+
+DMD/backend/cgcod.o: DMD/backend/cgcod.c
+	$(CPP) -c DMD/backend/cgcod.c -o DMD/backend/cgcod.o $(CXXFLAGS)
+
+DMD/backend/cgcs.o: DMD/backend/cgcs.c
+	$(CPP) -c DMD/backend/cgcs.c -o DMD/backend/cgcs.o $(CXXFLAGS)
+
+DMD/backend/cgcv.o: DMD/backend/cgcv.c
+	$(CPP) -c DMD/backend/cgcv.c -o DMD/backend/cgcv.o $(CXXFLAGS)
+
+DMD/backend/cgelem.o: DMD/backend/cgelem.c
+	$(CPP) -c DMD/backend/cgelem.c -o DMD/backend/cgelem.o $(CXXFLAGS)
+
+DMD/backend/cgen.o: DMD/backend/cgen.c
+	$(CPP) -c DMD/backend/cgen.c -o DMD/backend/cgen.o $(CXXFLAGS)
+
+DMD/backend/cgobj.o: DMD/backend/cgobj.c
+	$(CPP) -c DMD/backend/cgobj.c -o DMD/backend/cgobj.o $(CXXFLAGS)
+
+DMD/backend/cgreg.o: DMD/backend/cgreg.c
+	$(CPP) -c DMD/backend/cgreg.c -o DMD/backend/cgreg.o $(CXXFLAGS)
+
+DMD/backend/cgsched.o: DMD/backend/cgsched.c
+	$(CPP) -c DMD/backend/cgsched.c -o DMD/backend/cgsched.o $(CXXFLAGS)
+
+DMD/backend/cod1.o: DMD/backend/cod1.c
+	$(CPP) -c DMD/backend/cod1.c -o DMD/backend/cod1.o $(CXXFLAGS)
+
+DMD/backend/cod2.o: DMD/backend/cod2.c
+	$(CPP) -c DMD/backend/cod2.c -o DMD/backend/cod2.o $(CXXFLAGS)
+
+DMD/backend/cod3.o: DMD/backend/cod3.c
+	$(CPP) -c DMD/backend/cod3.c -o DMD/backend/cod3.o $(CXXFLAGS)
+
+DMD/backend/cod4.o: DMD/backend/cod4.c
+	$(CPP) -c DMD/backend/cod4.c -o DMD/backend/cod4.o $(CXXFLAGS)
+
+DMD/backend/cod5.o: DMD/backend/cod5.c
+	$(CPP) -c DMD/backend/cod5.c -o DMD/backend/cod5.o $(CXXFLAGS)
+
+DMD/backend/code.o: DMD/backend/code.c
+	$(CPP) -c DMD/backend/code.c -o DMD/backend/code.o $(CXXFLAGS)
+
+DMD/backend/cppman.o: DMD/backend/cppman.c
+	$(CPP) -c DMD/backend/cppman.c -o DMD/backend/cppman.o $(CXXFLAGS)
+
+DMD/backend/debug.o: DMD/backend/debug.c
+	$(CPP) -c DMD/backend/debug.c -o DMD/backend/debug.o $(CXXFLAGS)
+
+DMD/backend/dt.o: DMD/backend/dt.c
+	$(CPP) -c DMD/backend/dt.c -o DMD/backend/dt.o $(CXXFLAGS)
+
+DMD/backend/dwarf.o: DMD/backend/dwarf.c
+	$(CPP) -c DMD/backend/dwarf.c -o DMD/backend/dwarf.o $(CXXFLAGS)
+
+DMD/backend/ee.o: DMD/backend/ee.c
+	$(CPP) -c DMD/backend/ee.c -o DMD/backend/ee.o $(CXXFLAGS)
+
+DMD/backend/el.o: DMD/backend/el.c
+	$(CPP) -c DMD/backend/el.c -o DMD/backend/el.o $(CXXFLAGS)
+
+DMD/backend/elfobj.o: DMD/backend/elfobj.c
+	$(CPP) -c DMD/backend/elfobj.c -o DMD/backend/elfobj.o $(CXXFLAGS)
+
+DMD/backend/evalu8.o: DMD/backend/evalu8.c
+	$(CPP) -c DMD/backend/evalu8.c -o DMD/backend/evalu8.o $(CXXFLAGS)
+
+DMD/backend/gdag.o: DMD/backend/gdag.c
+	$(CPP) -c DMD/backend/gdag.c -o DMD/backend/gdag.o $(CXXFLAGS)
+
+DMD/backend/gflow.o: DMD/backend/gflow.c
+	$(CPP) -c DMD/backend/gflow.c -o DMD/backend/gflow.o $(CXXFLAGS)
+
+DMD/backend/glocal.o: DMD/backend/glocal.c
+	$(CPP) -c DMD/backend/glocal.c -o DMD/backend/glocal.o $(CXXFLAGS)
+
+DMD/backend/gloop.o: DMD/backend/gloop.c
+	$(CPP) -c DMD/backend/gloop.c -o DMD/backend/gloop.o $(CXXFLAGS)
+
+DMD/backend/go.o: DMD/backend/go.c
+	$(CPP) -c DMD/backend/go.c -o DMD/backend/go.o $(CXXFLAGS)
+
+DMD/backend/gother.o: DMD/backend/gother.c
+	$(CPP) -c DMD/backend/gother.c -o DMD/backend/gother.o $(CXXFLAGS)
+
+DMD/backend/html.o: DMD/backend/html.c
+	$(CPP) -c DMD/backend/html.c -o DMD/backend/html.o $(CXXFLAGS)
+
+DMD/backend/machobj.o: DMD/backend/machobj.c
+	$(CPP) -c DMD/backend/machobj.c -o DMD/backend/machobj.o $(CXXFLAGS)
+
+DMD/backend/md5.o: DMD/backend/md5.c
+	$(CPP) -c DMD/backend/md5.c -o DMD/backend/md5.o $(CXXFLAGS)
+
+DMD/backend/newman.o: DMD/backend/newman.c
+	$(CPP) -c DMD/backend/newman.c -o DMD/backend/newman.o $(CXXFLAGS)
+
+DMD/backend/nteh.o: DMD/backend/nteh.c
+	$(CPP) -c DMD/backend/nteh.c -o DMD/backend/nteh.o $(CXXFLAGS)
+
+DMD/backend/optabgen.o: DMD/backend/optabgen.c
+	$(CPP) -c DMD/backend/optabgen.c -o DMD/backend/optabgen.o $(CXXFLAGS)
+
+DMD/backend/os.o: DMD/backend/os.c
+	$(CPP) -c DMD/backend/os.c -o DMD/backend/os.o $(CXXFLAGS)
+
+DMD/backend/out.o: DMD/backend/out.c
+	$(CPP) -c DMD/backend/out.c -o DMD/backend/out.o $(CXXFLAGS)
+
+DMD/backend/outbuf.o: DMD/backend/outbuf.c
+	$(CPP) -c DMD/backend/outbuf.c -o DMD/backend/outbuf.o $(CXXFLAGS)
+
+DMD/backend/ptrntab.o: DMD/backend/ptrntab.c
+	$(CPP) -c DMD/backend/ptrntab.c -o DMD/backend/ptrntab.o $(CXXFLAGS)
+
+DMD/backend/rtlsym.o: DMD/backend/rtlsym.c
+	$(CPP) -c DMD/backend/rtlsym.c -o DMD/backend/rtlsym.o $(CXXFLAGS)
+
+DMD/backend/strtold.o: DMD/backend/strtold.c
+	$(CPP) -c DMD/backend/strtold.c -o DMD/backend/strtold.o $(CXXFLAGS)
+
+DMD/backend/symbol.o: DMD/backend/symbol.c
+	$(CPP) -c DMD/backend/symbol.c -o DMD/backend/symbol.o $(CXXFLAGS)
+
+DMD/backend/ti_achar.o: DMD/backend/ti_achar.c
+	$(CPP) -c DMD/backend/ti_achar.c -o DMD/backend/ti_achar.o $(CXXFLAGS)
+
+DMD/backend/type.o: DMD/backend/type.c
+	$(CPP) -c DMD/backend/type.c -o DMD/backend/type.o $(CXXFLAGS)
+
+DMD/backend/var.o: DMD/backend/var.c
+	$(CPP) -c DMD/backend/var.c -o DMD/backend/var.o $(CXXFLAGS)
