@@ -416,7 +416,7 @@ union Значение
 /// Информация related в a Тип.
 struct МетаИнфоТип
 {
-  сим mangle; /// Mangle character of the тип.
+  сим mangle; /// Mangle символ of the тип.
   бкрат размер; /// Байт размер of the тип.
   Значение* дефолтИниц; /// Дефолт initialization значение.
 }

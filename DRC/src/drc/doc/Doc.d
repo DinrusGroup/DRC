@@ -9,7 +9,7 @@ import drc.lexer.Funcs;
 import drc.Unicode;
 import common;
 
-import tango.text.Ascii : icompare;
+import text.Ascii : сравнилюб;
 
 alias drc.doc.Parser.ПарсерЗначенияИдентификатора.телоТекста телоТекста;
 
@@ -43,7 +43,7 @@ class КомментарийДДок
   бул дитто_ли()
   {
     return сводка && резделы.length == 1 &&
-           icompare(сводка.текст, "определено") == 0;
+           сравнилюб(сводка.текст, "определено") == 0;
   }
 }
 
@@ -148,7 +148,7 @@ static:
       return null;
     ткст результат;
     foreach (сема; семы)
-    { // Determine how many characters в slice off из the конец of the comment.
+    { // Determine how many characters в срез off из the конец of the comment.
       // 0 for "//", 2 for "+/" and "*/".
       auto n = isLineComment(сема) ? 0 : 2;
       результат ~= санитируй(сема.исхТекст[3 .. $-n], сема.старт[1]);
@@ -161,7 +161,7 @@ static:
   /// Sanitizes a DDoc comment ткст.
   ///
   /// Leading "commentChar"s are removed из the lines.
-  /// The various новстр types are converted в '\n'.
+  /// The various нс types are converted в '\n'.
   /// Параметры:
   ///   comment = the ткст в be sanitized.
   ///   commentChar = '/', '+', or '*'
@@ -169,14 +169,14 @@ static:
   {
     alias comment результат;
 
-    бул новстр = да; // Истина when at the beginning of a new line.
+    бул нс = да; // Истина when at the beginning of a new line.
     бцел i, j;
     auto len = результат.length;
     for (; i < len; i++, j++)
     {
-      if (новстр)
+      if (нс)
       { // Ignore commentChars at the beginning of each new line.
-        новстр = нет;
+        нс = нет;
         auto начало = i;
         while (i < len && пбел_ли(результат[i]))
           i++;
@@ -196,7 +196,7 @@ static:
           i++;
       case '\n':
         результат[j] = '\n'; // Copy Новстр as '\n'.
-        новстр = да;
+        нс = да;
         continue;
       default:
         if (!аски_ли(результат[i]) && i+2 < len && новСтрЮ_ли(результат.ptr + i))
@@ -205,7 +205,7 @@ static:
           goto case '\n';
         }
       }
-      // Copy character.
+      // Copy символ.
       результат[j] = результат[i];
     }
     результат.length = j; // Adjust length.
@@ -222,7 +222,7 @@ static:
   /// Unindents all lines in текст by the maximum amount possible.
   /// Note: counts tabulators the same as single spaces.
   /// Возвращает: the unindented текст or the original текст.
-  сим[] unindentText(сим[] текст)
+  ткст unindentText(ткст текст)
   {
     сим* p = текст.ptr, конец = p + текст.length;
     бцел отступ = бцел.max; // Start with the largest число.
@@ -276,8 +276,8 @@ static:
 /// Parses a DDoc comment ткст.
 struct ПарсерДДок
 {
-  сим* p; /// Current character pointer.
-  сим* конецТекста; /// Points one character past the конец of the текст.
+  сим* p; /// Current символ pointer.
+  сим* конецТекста; /// Points one символ past the конец of the текст.
   Раздел[] резделы; /// Parsed резделы.
   Раздел сводка; /// Optional сводка раздел.
   Раздел описание; /// Optional описание раздел.
@@ -349,7 +349,7 @@ struct ПарсерДДок
     return p < конец && *p == '-' && p+2 < конец && p[1] == '-' && p[2] == '-';
   }
 
-  /// Skips over a код раздел and sets p one character past it.
+  /// Skips over a код раздел and sets p one символ past it.
   ///
   /// Note: apparently DMD doesn't пропусти over код резделы when
   /// parsing DDoc резделы. However, из experience it seems
@@ -375,7 +375,7 @@ struct ПарсерДДок
   ///   идент = установи в the Идентификатор.
   ///   началоТела = установи в the beginning of the текст body (whitespace пропустиped.)
   /// Возвращает: да if found.
-  бул найдиСледщИдДвоеточие(ref сим[] идент, ref сим* началоТела)
+  бул найдиСледщИдДвоеточие(ref ткст идент, ref сим* началоТела)
   {
     while (p < конецТекста)
     {
@@ -425,13 +425,13 @@ class Раздел
   }
 
   /// Реле-insensitively compares the раздел's имя with name2.
-  бул Является(сим[] name2)
+  бул Является(ткст name2)
   {
-    return icompare(имя, name2) == 0;
+    return сравнилюб(имя, name2) == 0;
   }
 
   /// Returns the раздел's текст including its имя.
-  сим[] весьТекст()
+  ткст весьТекст()
   {
     if (имя.length == 0)
       return текст;

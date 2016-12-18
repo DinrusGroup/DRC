@@ -30,7 +30,7 @@ struct Сема
   /// TODO: remove в save space; can be replaced by 'предш.конец'.
   сим* пп;
   сим* старт; /// Указывает на первый символ семы.
-  сим* конец;   /// Points one character past the конец of the сема.
+  сим* конец;   /// Points one символ past the конец of the сема.
 
   /// Данные, ассоциированные с данной семой.
   /// TODO: move данные structures out; use only pointers here в keep Сема.sizeof small.
@@ -56,7 +56,7 @@ struct Сема
                       +/
     }
     Идентификатор* идент; /// При keywords and identifiers.
-    дим  дим_;   /// A character значение.
+    дим  дим_;   /// A символ значение.
     дол   дол_;    /// A дол integer значение.
     бдол  бдол_;   /// An unsigned дол integer значение.
     цел    цел_;     /// An integer значение.

@@ -176,9 +176,9 @@ class Лексер
 
   private проц  установиНачалоСтроки(сим* p)
   {
-    // Check that we can look behind one character.
+    // Check that we can look behind one символ.
     assert((p-1) >= текст.ptr && p < конец);
-    // Check that предшious character is a нс.
+    // Check that предшious символ is a нс.
     assert(конецНовСтроки_ли(p - 1));
     this.началоСтроки = p;
   }
@@ -218,7 +218,7 @@ class Лексер
     return this.сема.вид;
   }
 
-  /// Returns да if p points в the last character of a Новстр.
+  /// Returns да if p points в the last символ of a Новстр.
   бул конецНовСтроки_ли(сим* p)
   {
     if (*p == '\n' || *p == '\r')
@@ -580,7 +580,7 @@ class Лексер
          else
            t.вид = TOK.Модуль;
          goto Lcommon;
-      // Single character семы:
+      // Single символ семы:
       case '(':
         t.вид = TOK.ЛСкобка;
         goto Lcommon;
@@ -781,7 +781,7 @@ class Лексер
       }
     }
 
-    // 4 character семы.
+    // 4 символ семы.
     switch (c)
     {
     case toБцел!(">>>="):
@@ -799,7 +799,7 @@ class Лексер
     c >>>= 8;
   L3characters:
     assert(p == t.старт);
-    // 3 character семы.
+    // 3 символ семы.
     switch (c)
     {
     case toБцел!(">>="):
@@ -835,7 +835,7 @@ class Лексер
     c >>>= 8;
   L2characters:
     assert(p == t.старт);
-    // 2 character семы.
+    // 2 символ семы.
     switch (c)
     {
     case toБцел!("/+"):
@@ -932,7 +932,7 @@ class Лексер
   L1character:
     assert(p == t.старт);
     assert(*p == c, Формат("p={0},c={1}", *p, cast(дим)c));
-    // 1 character семы.
+    // 1 символ семы.
     // TODO: conсторонаr storing the сема тип in ptable.
     switch (c)
     {
@@ -1215,7 +1215,7 @@ class Лексер
     return;
   }
 
-  /// Scans the postfix character of a ткст literal.
+  /// Scans the postfix символ of a ткст literal.
   ///
   /// PostfixChar := "c" | "w" | "d"
   сим scanPostfix()
@@ -1296,7 +1296,7 @@ class Лексер
     assert(0);
   }
 
-  /// Scans a character literal.
+  /// Scans a символ literal.
   ///
   /// СимЛитерал := "'" Сим "'"
   проц  scanCharacterLiteral(ref Сема t)
@@ -1496,8 +1496,8 @@ version(D2)
     ткст буфер;
     дим открывающий_delim = 0, // 0 if no nested delimiter or '[', '(', '<', '{'
           закрывающий_delim; // Will be ']', ')', '>', '},
-                         // the first character of an identifier or
-                         // any другой Unicode/ASCII character.
+                         // the first символ of an identifier or
+                         // any другой Unicode/ASCII символ.
     ткст ткт_delim; // Идентификатор delimiter.
     бцел уровень = 1; // Counter for nestable delimiters.
 
@@ -1572,7 +1572,7 @@ version(D2)
     бул checkStringDelim(сим* p)
     {
       assert(ткт_delim.length != 0);
-      if (буфер[$-1] == '\n' && // Last character copied в буфер must be '\n'.
+      if (буфер[$-1] == '\n' && // Last символ copied в буфер must be '\n'.
           конец-p >= ткт_delim.length && // Check remaining length.
           p[0..ткт_delim.length] == ткт_delim) // Compare.
         return да;
@@ -1895,11 +1895,11 @@ version(D2)
         else
           encodeUTF8(ткт, раскодируйЮ8());
         ++p;
-        // TODO: check for unprintable character?
+        // TODO: check for unprintable символ?
         ошибка(sequenceStart, ИДС.UndefinedEscapeSequence, ткт);
       }
     }
-    return СИМ_ЗАМЕНЫ; // Ошибка: return replacement character.
+    return СИМ_ЗАМЕНЫ; // Ошибка: return replacement символ.
   }
 
   /// Scans a число literal.
@@ -2504,8 +2504,8 @@ version(D2)
   /// Creates an ошибка report and appends it в a список.
   /// Параметры:
   ///   номСтр = the line число.
-  ///   началоСтроки = points в the first character of the current line.
-  ///   columnPos = points в the character where the ошибка is located.
+  ///   началоСтроки = points в the first символ of the current line.
+  ///   columnPos = points в the символ where the ошибка is located.
   ///   сооб = the сообщение.
   проц  error_(бцел номСтр, сим* началоСтроки, сим* columnPos, ткст сооб,
               TypeInfo[] _arguments, base.спис_ва _argptr)
@@ -2568,8 +2568,8 @@ version(D2)
     return строкаИдентификатора_ли(ткт) && !резервныйИдентификатор_ли(ткт);
   }
 
-  /// Returns да if the current character в be decoded is
-  /// a Unicode alpha character.
+  /// Returns да if the current символ в be decoded is
+  /// a Unicode alpha символ.
   ///
   /// The current pointer 'p' is установи в the last trailbyte if да is returned.
   бул юАльфа_ли()
@@ -2619,7 +2619,7 @@ version(D2)
     assert(ведомыйБайт_ли(*p));
     if (!верноСимвол_ли(d) || !униАльфа_ли(d))
       return нет;
-    // Only advance pointer if this is a Unicode alpha character.
+    // Only advance pointer if this is a Unicode alpha символ.
     this.p = p;
     return да;
   }
@@ -2686,7 +2686,7 @@ version(D2)
     Lerr:
       // Three cases:
       // *) the UTF-8 sequence was successfully decoded but the resulting
-      //    character is invalid.
+      //    символ is invalid.
       //    p points в last trail байт in the sequence.
       // *) the UTF-8 sequence is overlong.
       //    p points в second байт in the sequence.
@@ -2694,7 +2694,7 @@ version(D2)
       //    a trail байт.
       //    p points в second байт in the sequence.
       assert(ведомыйБайт_ли(*p));
-      // Move в следщ ASCII character or lead байт of a UTF-8 sequence.
+      // Move в следщ ASCII символ or lead байт of a UTF-8 sequence.
       while (p < (конец-1) && ведомыйБайт_ли(*p))
         ++p;
       --p;
@@ -2708,11 +2708,11 @@ version(D2)
     return d;
   }
 
-  /// Encodes the character d and appends it в ткт.
+  /// Encodes the символ d and appends it в ткт.
   static проц  encodeUTF8(ref ткст ткт, дим d)
   {
     assert(!аски_ли(d), "check for ASCII сим before calling encodeUTF8().");
-    assert(верноСимвол_ли(d), "check if character is valid before calling encodeUTF8().");
+    assert(верноСимвол_ли(d), "check if символ is valid before calling encodeUTF8().");
 
     сим[6] b = void;
     if (d < 0x800)

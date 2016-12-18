@@ -11,7 +11,7 @@ const сим[3] СТР_ЗАМЕНЫ = \uFFFD; /// Ditto
 /// Неверный символ, возвращается при ошибке.
 const дим СИМ_ОШИБКИ = 0xD800;
 
-/// Возвращает: да if this character is not a surrogate
+/// Возвращает: да if this символ is not a surrogate
 /// код point and not higher than 0x10FFFF.
 бул верноСимвол_ли(дим d)
 {
@@ -39,7 +39,7 @@ const дим СИМ_ОШИБКИ = 0xD800;
   return (b & 0xC0) == 0xC0; // 11xx_xxxx
 }
 
-/// Advances ref_p only if this is a valid Unicode alpha character.
+/// Advances ref_p only if this is a valid Unicode alpha символ.
 /// Параметры:
 ///   ref_p = установи в the last trail байт of the valid UTF-8 sequence.
 бул юАльфа_ли(ref сим* ref_p, сим* конец)
@@ -56,7 +56,7 @@ body
   return да;
 }
 
-/// Decodes a character из ткт at индекс.
+/// Decodes a символ из ткт at индекс.
 /// Параметры:
 ///   индекс = установи в one past the ASCII сим or one past the last trail байт
 ///           of the valid UTF-8 sequence.
@@ -73,7 +73,7 @@ body
   return c;
 }
 
-/// Decodes a character starting at ref_p.
+/// Decodes a символ starting at ref_p.
 /// Параметры:
 ///   ref_p = установи в one past the ASCII сим or one past the last trail байт
 ///           of the valid UTF-8 sequence.
@@ -222,7 +222,7 @@ body
   }
 }
 
-/// Decodes a character из a UTF-16 sequence.
+/// Decodes a символ из a UTF-16 sequence.
 /// Параметры:
 ///   ткт = the UTF-16 sequence.
 ///   индекс = where в старт из.
@@ -252,7 +252,7 @@ body
   return СИМ_ОШИБКИ;
 }
 
-/// Decodes a character из a UTF-16 sequence.
+/// Decodes a символ из a UTF-16 sequence.
 /// Параметры:
 ///   p = старт of the UTF-16 sequence.
 ///   конец = one past the конец of the sequence.
@@ -280,7 +280,7 @@ body
   return СИМ_ОШИБКИ;
 }
 
-/// Decodes a character из a zero-terminated UTF-16 ткст.
+/// Decodes a символ из a zero-terminated UTF-16 ткст.
 /// Параметры:
 ///   p = старт of the UTF-16 sequence.
 /// Возвращает: СИМ_ОШИБКИ in case of an ошибка in the sequence.

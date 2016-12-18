@@ -362,7 +362,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
           while (пбел_ли(*--codeEnd))
           {}
           if (*codeEnd != '\n') // Leaving the pointer on '\n' will exclude it.
-            codeEnd++; // Include the non-нс character.
+            codeEnd++; // Include the non-нс символ.
           if (codeBegin < codeEnd)
           { // Highlight the extracted source код.
             auto codeText = сделайТекст(codeBegin, codeEnd);

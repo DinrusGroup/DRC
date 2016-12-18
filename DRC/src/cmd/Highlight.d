@@ -70,7 +70,7 @@ struct КомандаВыделить
   }
 }
 
-/// Escapes the characters '<', '>' and '&' with named character entities.
+/// Escapes the characters '<', '>' and '&' with named символ entities.
 ткст xml_escape(ткст текст)
 {
   ткст результат;

@@ -14,10 +14,10 @@ import common;
 /// Преобразует различные форматы кодировки Unicode в UTF-8.
 struct Преобразователь
 {
-  сим[] путьКФайлу; /// Для сообщений об ошибках.
+  ткст путьКФайлу; /// Для сообщений об ошибках.
   Диагностика диаг;
 
-  static Преобразователь opCall(сим[] путьКФайлу, Диагностика диаг)
+  static Преобразователь opCall(ткст путьКФайлу, Диагностика диаг)
   {
     Преобразователь конв;
     конв.путьКФайлу = путьКФайлу;
@@ -43,7 +43,7 @@ struct Преобразователь
   /// Swaps the bytes of c on a little-endian machine.
   дим БЕВМашинноеДслово(дим c)
   {
-    version(LittleEndian)
+    version(ЛитлЭндиан)
       return инвертироватьБайты(c);
     else
       return c;
@@ -52,7 +52,7 @@ struct Преобразователь
   /// Swaps the bytes of c on a big-endian machine.
   дим ЛЕВМашинноеДслово(дим c)
   {
-    version(LittleEndian)
+    version(ЛитлЭндиан)
       return c;
     else
       return инвертироватьБайты(c);
@@ -61,7 +61,7 @@ struct Преобразователь
   /// Swaps the bytes of c on a little-endian machine.
   шим БЕВМашинноеСлово(шим c)
   {
-    version(LittleEndian)
+    version(ЛитлЭндиан)
       return инвертироватьБайты(c);
     else
       return c;
@@ -70,19 +70,19 @@ struct Преобразователь
   /// Swaps the bytes of c on a big-endian machine.
   шим ЛЕВМашинноеСлово(шим c)
   {
-    version(LittleEndian)
+    version(ЛитлЭндиан)
       return c;
     else
       return инвертироватьБайты(c);
   }
 
   /// Преобразует текст в UTF-32 в UTF-8.
-  сим[] УТФ32вУТФ8(бул БЕ_ли)(ббайт[] данные)
+  ткст УТФ32вУТФ8(бул БЕ_ли)(ббайт[] данные)
   {
     if (данные.length == 0)
       return null;
 
-    сим[] результат;
+    ткст результат;
     бцел номСтр = 1;
     дим[] текст = cast(дим[]) данные[0 .. $-($%4)]; // Trim в multiple of 4.
     foreach (дим c; текст)
@@ -119,7 +119,7 @@ struct Преобразователь
   alias УТФ32вУТФ8!(нет) UTF32LEtoUTF8; /// Instantiation for UTF-32 LE.
 
   /// Converts a UTF-16 текст в UTF-8.
-  сим[] УТФ16вУТФ8(бул БЕ_ли)(ббайт[] данные)
+  ткст УТФ16вУТФ8(бул БЕ_ли)(ббайт[] данные)
   {
     if (данные.length == 0)
       return null;
@@ -127,7 +127,7 @@ struct Преобразователь
     шим[] текст = cast(шим[]) данные[0 .. $-($%2)]; // Trim в multiple of two.
     шим* p = текст.ptr,
          конец = текст.ptr + текст.length;
-    сим[] результат;
+    ткст результат;
     бцел номСтр = 1;
 
     for (; p < конец; p++)
@@ -182,19 +182,19 @@ struct Преобразователь
 
   /// Converts the текст in данные в UTF-8.
   /// Leaves данные unchanged if it is in UTF-8 already.
-  сим[] данныеВУТФ8(ббайт[] данные)
+  ткст данныеВУТФ8(ббайт[] данные)
   {
     if (данные.length == 0)
       return "";
 
-    сим[] текст;
+    ткст текст;
     МПБ мпб = опишиМПБ(данные);
 
     switch (мпб)
     {
     case МПБ.Нет:
-      // No МПБ found. According в the specs the first character
-      // must be an ASCII character.
+      // No МПБ found. According в the specs the first символ
+      // must be an ASCII символ.
       if (данные.length >= 4)
       {
         if (данные[0..3] == cast(ббайт[3])x"00 00 00")
@@ -223,19 +223,19 @@ struct Преобразователь
       }
       текст = cast(сим[])данные; // UTF-8
       break;
-    case МПБ.UTF8:
+    case МПБ.Ю8:
       текст = cast(сим[])данные[3..$];
       break;
-    case МПБ.UTF16BE:
+    case МПБ.Ю16БЕ:
       текст = UTF16BEtoUTF8(данные[2..$]);
       break;
-    case МПБ.UTF16LE:
+    case МПБ.Ю16ЛЕ:
       текст = UTF16LEtoUTF8(данные[2..$]);
       break;
-    case МПБ.UTF32BE:
+    case МПБ.Ю32БЕ:
       текст = UTF32BEtoUTF8(данные[4..$]);
       break;
-    case МПБ.UTF32LE:
+    case МПБ.Ю32ЛЕ:
       текст = UTF32LEtoUTF8(данные[4..$]);
       break;
     default:
@@ -247,7 +247,7 @@ struct Преобразователь
 
 /// Replaces invalid UTF-8 sequences with U+FFFD (if there's enough space,)
 /// and Newlines with '\n'.
-сим[] обеззаразьТекст(сим[] текст)
+ткст обеззаразьТекст(ткст текст)
 {
   if (!текст.length)
     return null;
@@ -282,7 +282,7 @@ struct Преобразователь
       дим c = раскодируй(p, конец);
 
       if (c == СИМ_ОШИБКИ)
-      { // Skip в следщ ASCII character or valid UTF-8 sequence.
+      { // Skip в следщ ASCII символ or valid UTF-8 sequence.
         while (++p < конец && ведомыйБайт_ли(*p))
         {}
         alias СТР_ЗАМЕНЫ R;
@@ -309,8 +309,8 @@ unittest
   выдай("Testing function Преобразователь.\n");
   struct Data2Text
   {
-    сим[] текст;
-    сим[] ожидаемое = "source";
+    ткст текст;
+    ткст ожидаемое = "source";
     ббайт[] данные()
     { return cast(ббайт[])текст; }
   }

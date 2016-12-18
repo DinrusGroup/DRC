@@ -30,13 +30,13 @@ const дим _Z_ = 26; /// Control+Z.
   return *p == '\n' || *p == '\r' || новСтрЮ_ли(p);
 }
 
-/// Возвращает: да if c is a Новстр character.
+/// Возвращает: да if c is a Новстр символ.
 бул новСтр_ли(дим c)
 {
   return c == '\n' || c == '\r' || симНовСтрЮ_ли(c);
 }
 
-/// Возвращает: да if p points в an КФ character.
+/// Возвращает: да if p points в an КФ символ.
 /// $(PRE
 /// КФ := "\0" | _Z_
 /// _Z_ := "\x1A"
@@ -46,7 +46,7 @@ const дим _Z_ = 26; /// Control+Z.
   return c == 0 || c == _Z_;
 }
 
-/// Возвращает: да if p points в the first character of an EndOfLine.
+/// Возвращает: да if p points в the first символ of an EndOfLine.
 /// $(PRE EndOfLine := Новстр | КФ)
 бул конецСтроки_ли(сим* p)
 {
@@ -100,7 +100,7 @@ body
 }
 
 /// Scans a Новстр in reverse direction and sets конец
-/// on the first character of the нс.
+/// on the first символ of the нс.
 /// Возвращает: да if found or нет otherwise.
 бул сканируйНовСтрРеверс(сим* начало, ref сим* конец)
 {
@@ -146,7 +146,7 @@ body
   return null;
 }
 
-/// ASCII character properties таблица.
+/// ASCII символ properties таблица.
 static const цел ptable[256] = [
  0, 0, 0, 0, 0, 0, 0, 0, 0,32, 0,32,32, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -166,7 +166,7 @@ static const цел ptable[256] = [
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ];
 
-/// Enumeration of character property флаги.
+/// Enumeration of символ property флаги.
 enum СвойствоС
 {
        Восмиричный = 1,    /// 0-7
@@ -192,13 +192,13 @@ private alias СвойствоС CP;
 цел цифробукв_ли(сим c) { return ptable[c] & (CP.Буква | CP.Десятичный); }
 /// Возвращает: да if c is the beginning of a D identifier (only ASCII.)
 цел начсим_ли(сим c) { return ptable[c] & (CP.Буква | CP.Подчерк); }
-/// Возвращает: да if c is a D identifier character (only ASCII.)
+/// Возвращает: да if c is a D identifier символ (only ASCII.)
 цел идент_ли(сим c) { return ptable[c] & (CP.Буква | CP.Подчерк | CP.Десятичный); }
-/// Возвращает: да if c is a whitespace character.
+/// Возвращает: да if c is a whitespace символ.
 цел пбел_ли(сим c) { return ptable[c] & CP.Пробельный; }
 /// Возвращает: the escape значение for c.
 цел сим8еск(сим c) { return ptable[c] >> 8; /*(ptable[c] & EVMask) >> 8;*/ }
-/// Возвращает: да if c is an ASCII character.
+/// Возвращает: да if c is an ASCII символ.
 цел аски_ли(бцел c) { return c < 128; }
 
 version(gen_ptable)
@@ -206,7 +206,7 @@ static this()
 {
   alias ptable p;
   assert(p.length == 256);
-  // Initialize character properties таблица.
+  // Initialize символ properties таблица.
   for (цел i; i < p.length; ++i)
   {
     p[i] = 0; // Reset
@@ -224,7 +224,7 @@ static this()
       p[i] |= CP.Пробельный;
   }
   // Store escape sequence значения in second байт.
-  assert(СвойствоС.max <= ббайт.max, "character property флаги and escape значение байт overlap.");
+  assert(СвойствоС.max <= ббайт.max, "символ property флаги and escape значение байт overlap.");
   p['\''] |= 39 << 8;
   p['"'] |= 34 << 8;
   p['?'] |= 63 << 8;

@@ -8,7 +8,7 @@
  */
 
 /**
- * Simple Unicode character classification functions.
+ * Simple Unicode символ classification functions.
  * При ASCII classification, see $(LINK2 std_ctype.html, std.ctype).
  * Macros:
  *	WIKI=Phobos/StdUni
@@ -26,7 +26,7 @@
 module util.uni;
 
 /**
- * Returns !=0 if c is a Unicode нижний case character.
+ * Returns !=0 if c is a Unicode нижний case символ.
  */
 цел униПроп_ли(дим c)
 {
@@ -37,7 +37,7 @@ module util.uni;
 }
 
 /**
- * Returns !=0 if c is a Unicode верхний case character.
+ * Returns !=0 if c is a Unicode верхний case символ.
  */
 цел униЗаг_ли(дим c)
 {
@@ -48,7 +48,7 @@ module util.uni;
 }
 
 /**
- * Если c is a Unicode верхний case character, return the нижний case
+ * Если c is a Unicode верхний case символ, return the нижний case
  * equivalent, otherwise return c.
  */
 дим вУниПроп(дим c)
@@ -114,7 +114,7 @@ module util.uni;
 }
 
 /**
- * Если c is a Unicode нижний case character, return the верхний case
+ * Если c is a Unicode нижний case символ, return the верхний case
  * equivalent, otherwise return c.
  */
 дим вУниЗаг(дим c)
@@ -181,7 +181,7 @@ module util.uni;
 
 
 /*******************************
- * Итог !=0 if u is a Unicode alpha character.
+ * Итог !=0 if u is a Unicode alpha символ.
  * (general Unicode категория: Lu, Ll, Lt, Lm and Lo)
  *
  * Standards: Unicode 5.0.0

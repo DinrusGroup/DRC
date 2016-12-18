@@ -84,10 +84,10 @@ abstract class Узел
   final Узел dup()
   {
     // Find out the размер of this объект.
-    alias typeof(this.classinfo.иниц[0]) byte_t;
+    alias typeof(this.classinfo.иниц[0]) т_байт;
     т_мера размер = this.classinfo.иниц.length;
     // Copy this объект's данные.
-    byte_t[] данные = (cast(byte_t*)this)[0..размер].dup;
+    т_байт[] данные = (cast(т_байт*)this)[0..размер].dup;
     return cast(Узел)данные.ptr;
   }
 
