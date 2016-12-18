@@ -20,7 +20,7 @@ private static const сим[][] предопрИденты = [
   // Предопределенные идентификаторы версии:
   "DigitalMars", "X86", "X86_64",
   /*"Windows", */"Win32", "Win64",
-  "Linux:linux", "LittleEndian", "BigEndian",
+  "Linux:linux", "ЛитлЭндиан", "BigEndian",
   "D_Coverage", "D_InlineAsm_X86", "D_Version2",
   "none", "all",
   // Вариадические параметры:
@@ -84,7 +84,7 @@ private static const сим[][] предопрИденты = [
   "XMM4", "XMM5", "XMM6", "XMM7",
 ];
 
-сим[][] дайПару(сим[] текстИда)
+сим[][] дайПару(ткст текстИда)
 {
   foreach (i, c; текстИда)
     if (c == ':')
@@ -95,8 +95,8 @@ private static const сим[][] предопрИденты = [
 unittest
 {
   static assert(
-    дайПару("test") == ["test", "test"] &&
-    дайПару("test:tset") == ["test", "tset"] &&
+    дайПару("тест") == ["тест", "тест"] &&
+    дайПару("тест:tset") == ["тест", "tset"] &&
     дайПару("empty:") == ["empty", ""]
   );
 }
@@ -121,11 +121,11 @@ unittest
   ];
   ---
 +/
-сим[] генерируйЧленыИдент()
+ткст генерируйЧленыИдент()
 {
-  сим[] приват_члены = "private struct Иды {static const:";
-  сим[] публ_члены = "";
-  сим[] массив = "private Идентификатор*[] __allIds = [";
+  ткст приват_члены = "private struct Иды {static const:";
+  ткст публ_члены = "";
+  ткст массив = "private Идентификатор*[] __allIds = [";
 
   foreach (идент; предопрИденты)
   {
@@ -144,9 +144,9 @@ unittest
 }
 
 /// CTF for generating the члены of the enum ВИД.
-сим[] генерируйЧленыИД()
+ткст генерируйЧленыИД()
 {
-  сим[] члены;
+  ткст члены;
   foreach (идент; предопрИденты)
     члены ~= дайПару(идент)[0] ~ ",\n";
   return члены;

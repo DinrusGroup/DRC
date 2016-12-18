@@ -13,7 +13,7 @@ import common;
 /// Traverses the syntax tree and writes DDoc макрос в a ткст буфер.
 class РЯРЭмиттерДДок : ЭмиттерДДок
 {
-  /// Constructs a РЯРЭмиттерДДок object.
+  /// Constructs a РЯРЭмиттерДДок объект.
   this(Модуль модуль, ТаблицаМакросов мтаблица, бул включатьНедокументированное,
        ПодсветчикСем псвСем)
   {
@@ -45,7 +45,7 @@ override:
   {
     if (!ddoc(d))
       return d;
-    сим[] тип = "auto";
+    ткст тип = "auto";
     if (d.узелТипа)
       тип = textSpan(d.узелТипа.типОснова.начало, d.узелТипа.конец);
     foreach (имя; d.имена)

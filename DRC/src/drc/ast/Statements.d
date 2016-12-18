@@ -225,7 +225,7 @@ class ИнструкцияСКаждым : Инструкция
     this.телоПри = телоПри;
   }
 
-  /// Возвращает да, если это a foreach_reverse statement.
+  /// Возвращает да, если из_ a foreach_reverse statement.
   бул isReverse()
   {
     return лекс == TOK.Длявсех_реверс;

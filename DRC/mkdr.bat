@@ -1,14 +1,15 @@
+set this=%DINRUS%\..\dev\DINRUS\DRC
 dinrusex
 :::d:\dinrus\bin\dsss build -full
 
 :b
-if exist objs.rsp del objs.rsp
+if exist %this%\objs.rsp del %this%\objs.rsp
 
-%DINRUS%\ls2 src2\*.d src2\util\*.d src2\drc\*.d src2\drc\ast\*.d src2\drc\code\*.d src2\drc\doc\*.d src2\drc\lexer\*.d src2\drc\parser\*.d src2\drc\semantic\*.d src2\drc\translator\*.d src2\cmd\*d>>objs.rsp
+%DINRUS%\ls2 %this%\src\*.d %this%\src\util\*.d %this%\src\drc\*.d %this%\src\drc\ast\*.d %this%\src\drc\code\*.d %this%\src\drc\doc\*.d %this%\src\drc\lexer\*.d %this%\src\drc\parser\*.d %this%\src\drc\semantic\*.d %this%\src\drc\translator\*.d %this%\src\cmd\*d>>%this%\objs.rsp
 
-%DINRUS%\dmd -release -O -ofdrc.exe -d @objs.rsp ..\Exe\Resources\dinrus.res
-upx drc.exe
-copy .\drc.exe .\bin\drc.exe
+%DINRUS%\dmd -release -O -of%this%\drc2.exe -d @%this%\objs.rsp %this%\..\base\Exe\Resources\dinrus.res DinrusTango.lib
+upx %this%\drc2.exe
+copy %this%\drc2.exe %this%\bin\drc.exe
 pause
 exit
 :goto b

@@ -27,24 +27,24 @@ import common;
 проц  прагма_сооб(Масштаб масш, Сема* pragmaLoc, Выражение[] арги)
 {
   if (арги.length == 0)
-    return /*масш.ошибка(pragmaLoc, "ожидаемое expression arguments в pragma")*/;
+    return /*масш.ошибка(pragmaLoc, "ожидаемое выражение arguments в pragma")*/;
 
   foreach (арг; арги)
   {
     auto в = арг/+.evaluate()+/;
     if (в is null)
     {
-      // масш.ошибка(в.начало, "expression is not оцениuatable at compile время");
+      // масш.ошибка(в.начало, "выражение is not оцениuatable at compile время");
     }
     else if (auto ткстВыр = в.Является!(ТекстовоеВыражение))
       // Print ткст в standard output.
       выдай(ткстВыр.дайТекст());
     else
     {
-      // масш.ошибка(в.начало, "expression must evaluate в a ткст");
+      // масш.ошибка(в.начало, "выражение must evaluate в a ткст");
     }
   }
-  // Print a новстр at the конец.
+  // Print a нс at the конец.
   выдай('\n');
 }
 
@@ -52,12 +52,12 @@ import common;
 проц  прагма_биб(Масштаб масш, Сема* pragmaLoc, Выражение[] арги)
 {
   if (арги.length != 1)
-    return /*масш.ошибка(pragmaLoc, "ожидаемое one expression аргумент в pragma")*/;
+    return /*масш.ошибка(pragmaLoc, "ожидаемое one выражение аргумент в pragma")*/;
 
   auto в = арги[0]/+.evaluate()+/;
   if (в is null)
   {
-    // масш.ошибка(в.начало, "expression is not оцениuatable at compile время");
+    // масш.ошибка(в.начало, "выражение is not оцениuatable at compile время");
   }
   else if (auto ткстВыр = в.Является!(ТекстовоеВыражение))
   {
@@ -66,7 +66,7 @@ import common;
   }
   else
   {
-    // масш.ошибка(в.начало, "expression must evaluate в a ткст");
+    // масш.ошибка(в.начало, "выражение must evaluate в a ткст");
   }
 }
 

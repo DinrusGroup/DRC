@@ -16,9 +16,15 @@ import drc.SourceText;
 import drc.Time;
 import common;
 
-import tango.stdc.stdlib : strtof, strtod, strtold;
-import tango.stdc.errno : errno, ERANGE;
-import tango.core.Vararg;
+import cidrus : strtof, strtod, strtold;
+import cidrus : ERANGE;
+import core.Vararg;
+
+extern  (C) int getErrno();      // for internal use
+extern  (C) int setErrno(int);   // for internal use
+
+alias getErrno errno;
+alias setErrno errno;
 
 public import drc.lexer.Funcs;
 
@@ -39,14 +45,14 @@ class Лексер
   ОшибкаЛексера[] ошибки;
   /// Всегда указывает на первый символ текущей строки.
   сим* началоСтроки;
-//   Сема* новстр;     /// Current новстр сема.
+//   Сема* нс;     /// Current нс сема.
   бцел номСтр = 1;   /// Current, actual source текст line число.
   бцел lineNum_hline; /// Line число установи by #line.
   бцел inTokenString; /// > 0 if внутри q{ }
   /// Holds the original file путь and the modified one (by #line.)
   ДанныеНовСтр.ФПути* путиКФайлам;
 
-  /// Конструировать Лексер object.
+  /// Конструировать Лексер объект.
   /// Параметры:
   ///   исхТекст = the UTF-8 source код.
   ///   диаг = used for collecting ошибка сообщения.
@@ -66,19 +72,19 @@ class Лексер
     this.сема = this.глава;
     // Initialize this.путиКФайлам.
     новыйПутьФ(this.исхТекст.путьКФайлу);
-    // Add a новстр as the first сема after the глава.
-    auto новстр = new Сема;
-    новстр.вид = TOK.Новстр;
-    новстр.установиФлагПробельные();
-    новстр.старт = новстр.конец = this.p;
-    новстр.новстр.путиКФайлам = this.путиКФайлам;
-    новстр.новстр.oriLineNum = 1;
-    новстр.новстр.setLineNum = 0;
+    // Add a нс as the first сема after the глава.
+    auto нс = new Сема;
+    нс.вид = TOK.Новстр;
+    нс.установиФлагПробельные();
+    нс.старт = нс.конец = this.p;
+    нс.нс.путиКФайлам = this.путиКФайлам;
+    нс.нс.oriLineNum = 1;
+    нс.нс.setLineNum = 0;
     // Link in.
-    this.сема.следщ = новстр;
-    новстр.предш = this.сема;
-    this.сема = новстр;
-//     this.новстр = новстр;
+    this.сема.следщ = нс;
+    нс.предш = this.сема;
+    this.сема = нс;
+//     this.нс = нс;
     сканируйШебанг();
   }
 
@@ -95,7 +101,7 @@ class Лексер
     delete хвост;
   }
 
-  сим[] текст()
+  ткст текст()
   {
     return исхТекст.данные;
   }
@@ -126,7 +132,7 @@ class Лексер
     switch (t.вид)
     {
     case TOK.ФАЙЛ:
-      t.ткт = this.путиКФайлам.setPath;
+      t.ткт = this.путиКФайлам.устПуть;
       break;
     case TOK.СТРОКА:
       t.бцел_ = this.номерСтрокиОшиб(this.номСтр);
@@ -160,11 +166,11 @@ class Лексер
   }
 
   /// Sets a new file путь.
-  проц  новыйПутьФ(сим[] новПуть)
+  проц  новыйПутьФ(ткст новПуть)
   {
     auto пути = new ДанныеНовСтр.ФПути;
-    пути.oriPath = this.исхТекст.путьКФайлу;
-    пути.setPath = новПуть;
+    пути.исхПуть = this.исхТекст.путьКФайлу;
+    пути.устПуть = новПуть;
     this.путиКФайлам = пути;
   }
 
@@ -172,7 +178,7 @@ class Лексер
   {
     // Check that we can look behind one character.
     assert((p-1) >= текст.ptr && p < конец);
-    // Check that предшious character is a новстр.
+    // Check that предшious character is a нс.
     assert(конецНовСтроки_ли(p - 1));
     this.началоСтроки = p;
   }
@@ -187,7 +193,7 @@ class Лексер
     {
       t = t.следщ;
 //       if (t.вид == TOK.Новстр)
-//         this.новстр = t;
+//         this.нс = t;
     }
     else if (t != this.хвост)
     {
@@ -262,12 +268,12 @@ class Лексер
         ++p;
         ++номСтр;
         установиНачалоСтроки(p);
-//         this.новстр = &t;
+//         this.нс = &t;
         t.вид = TOK.Новстр;
         t.установиФлагПробельные();
-        t.новстр.путиКФайлам = this.путиКФайлам;
-        t.новстр.oriLineNum = номСтр;
-        t.новстр.setLineNum = lineNum_hline;
+        t.нс.путиКФайлам = this.путиКФайлам;
+        t.нс.oriLineNum = номСтр;
+        t.нс.setLineNum = lineNum_hline;
         t.конец = p;
         return;
       default:
@@ -357,7 +363,7 @@ class Лексер
       case '"':
         return scanNormalStringLiteral(t);
       case '\\':
-        сим[] буфер;
+        ткст буфер;
         do
         {
           бул isBinary;
@@ -647,7 +653,7 @@ class Лексер
   }
 
   /// Converts a ткст literal в an integer.
-  template toБцел(сим[] T)
+  template toБцел(ткст T)
   {
     static assert(0 < T.length && T.length <= 4);
     static if (T.length == 1)
@@ -665,33 +671,33 @@ class Лексер
   ///   goto Lcommon;
   /// ---
   /// FIXME: Can't use this yet due в a $(DMDBUG 1534, bug) in DMD.
-  template case_(сим[] ткт, сим[] вид, сим[] лейбл)
+  template case_(ткст ткт, ткст вид, ткст лейбл)
   {
-    const сим[] case_ =
+    const ткст case_ =
       `case `~toБцел!(ткт).stringof~`:`
         `t.вид = TOK.`~вид~`;`
         `goto `~лейбл~`;`;
   }
   //pragma(сооб, case_!("<", "Меньше", "Lcommon"));
 
-  template case_L4(сим[] ткт, TOK вид)
+  template case_L4(ткст ткт, TOK вид)
   {
-    const сим[] case_L4 = case_!(ткт, вид, "Lcommon_4");
+    const ткст case_L4 = case_!(ткт, вид, "Lcommon_4");
   }
 
-  template case_L3(сим[] ткт, TOK вид)
+  template case_L3(ткст ткт, TOK вид)
   {
-    const сим[] case_L3 = case_!(ткт, вид, "Lcommon_3");
+    const ткст case_L3 = case_!(ткт, вид, "Lcommon_3");
   }
 
-  template case_L2(сим[] ткт, TOK вид)
+  template case_L2(ткст ткт, TOK вид)
   {
-    const сим[] case_L2 = case_!(ткт, вид, "Lcommon_2");
+    const ткст case_L2 = case_!(ткт, вид, "Lcommon_2");
   }
 
-  template case_L1(сим[] ткт, TOK вид)
+  template case_L1(ткст ткт, TOK вид)
   {
-    const сим[] case_L3 = case_!(ткт, вид, "Lcommon");
+    const ткст case_L3 = case_!(ткт, вид, "Lcommon");
   }
 
   /// An alternative сканируй method.
@@ -729,12 +735,12 @@ class Лексер
       ++p;
       ++номСтр;
       установиНачалоСтроки(p);
-//       this.новстр = &t;
+//       this.нс = &t;
       t.вид = TOK.Новстр;
       t.установиФлагПробельные();
-      t.новстр.путиКФайлам = this.путиКФайлам;
-      t.новстр.oriLineNum = номСтр;
-      t.новстр.setLineNum = lineNum_hline;
+      t.нс.путиКФайлам = this.путиКФайлам;
+      t.нс.oriLineNum = номСтр;
+      t.нс.setLineNum = lineNum_hline;
       t.конец = p;
       return;
     default:
@@ -937,7 +943,7 @@ class Лексер
     case '"':
       return scanNormalStringLiteral(t);
     case '\\':
-      сим[] буфер;
+      ткст буфер;
       do
       {
         бул isBinary;
@@ -1239,7 +1245,7 @@ class Лексер
     auto tokenLineNum = номСтр;
     auto tokenLineBegin = началоСтроки;
     t.вид = TOK.Ткст;
-    сим[] буфер;
+    ткст буфер;
     бцел c;
     while (1)
     {
@@ -1334,7 +1340,7 @@ class Лексер
     auto tokenLineBegin = началоСтроки;
     t.вид = TOK.Ткст;
     бцел delim = *p;
-    сим[] буфер;
+    ткст буфер;
     бцел c;
     while (1)
     {
@@ -1487,12 +1493,12 @@ version(D2)
     auto tokenLineNum = номСтр;
     auto tokenLineBegin = началоСтроки;
 
-    сим[] буфер;
+    ткст буфер;
     дим открывающий_delim = 0, // 0 if no nested delimiter or '[', '(', '<', '{'
           закрывающий_delim; // Will be ']', ')', '>', '},
                          // the first character of an identifier or
                          // any другой Unicode/ASCII character.
-    сим[] ткт_delim; // Идентификатор delimiter.
+    ткст ткт_delim; // Идентификатор delimiter.
     бцел уровень = 1; // Counter for nestable delimiters.
 
     ++p; ++p; // Skip q"
@@ -1554,7 +1560,7 @@ version(D2)
       while (идент_ли(c) || !аски_ли(c) && юАльфа_ли())
       // Store identifier
       ткт_delim = начало[0..p-начало];
-      // Scan новстр
+      // Scan нс
       if (сканируйНовСтр())
         --p; // Go back one because of "c = *++p;" in main loop.
       else
@@ -1713,7 +1719,7 @@ version(D2)
     assert(сема.вид == TOK.ПФСкобка && t.следщ is null ||
            сема.вид == TOK.КФ && t.следщ !is null);
 
-    сим[] буфер;
+    ткст буфер;
     // сема points в } or КФ
     if (сема.вид == TOK.КФ)
     {
@@ -1883,7 +1889,7 @@ version(D2)
           кф_ли(*p) ? `\КФ` : `\NewLine`);
       else
       {
-        сим[] ткт = `\`;
+        ткст ткт = `\`;
         if (аски_ли(c))
           ткт ~= *p;
         else
@@ -2123,22 +2129,22 @@ version(D2)
       Дол     = 2
     }
 
-    // Scan optional suffix: L, Lu, LU, u, uL, U or UL.
-    Suffix suffix;
+    // Scan optional суффикс: L, Lu, LU, u, uL, U or UL.
+    Suffix суффикс;
     while (1)
     {
       switch (*p)
       {
       case 'L':
-        if (suffix & Suffix.Дол)
+        if (суффикс & Suffix.Дол)
           break;
-        suffix |= Suffix.Дол;
+        суффикс |= Suffix.Дол;
         ++p;
         continue;
       case 'u', 'U':
-        if (suffix & Suffix.Unsigned)
+        if (суффикс & Suffix.Unsigned)
           break;
-        suffix |= Suffix.Unsigned;
+        суффикс |= Suffix.Unsigned;
         ++p;
         continue;
       default:
@@ -2148,7 +2154,7 @@ version(D2)
     }
 
     // Determine тип of Integer.
-    switch (suffix)
+    switch (суффикс)
     {
     case Suffix.Нет:
       if (бдол_ & 0x8000_0000_0000_0000)
@@ -2245,7 +2251,7 @@ version(D2)
     }
 
     // Copy whole число and remove underscores из буфер.
-    сим[] буфер = t.старт[0..p-t.старт].dup;
+    ткст буфер = t.старт[0..p-t.старт].dup;
     бцел j;
     foreach (c; буфер)
       if (c != '_')
@@ -2283,7 +2289,7 @@ version(D2)
     while (цифра_ли(*++p) || *p == '_')
     {}
     // Copy whole число and remove underscores из буфер.
-    сим[] буфер = t.старт[0..p-t.старт].dup;
+    ткст буфер = t.старт[0..p-t.старт].dup;
     бцел j;
     foreach (c; буфер)
       if (c != '_')
@@ -2453,7 +2459,7 @@ version(D2)
   ///
   /// Useful in the parsing phase for representing a узел in the AST
   /// that doesn't consume an actual сема из the source текст.
-  Сема* insertEmptyTokenBefore(Сема* t)
+  Сема* вставьПустуюСемуПеред(Сема* t)
   {
     assert(t !is null && t.предш !is null);
     assert(текст.ptr <= t.старт && t.старт < конец, Сема.вТкст(t.вид));
@@ -2477,8 +2483,8 @@ version(D2)
     return номСтр - this.lineNum_hline;
   }
 
-  /// Forwards ошибка parameters.
-  проц  ошибка(сим* columnPos, сим[] сооб, ...)
+  /// Forwards ошибка параметры.
+  проц  ошибка(сим* columnPos, ткст сооб, ...)
   {
     error_(this.номСтр, this.началоСтроки, columnPos, сооб, _arguments, _argptr);
   }
@@ -2501,11 +2507,11 @@ version(D2)
   ///   началоСтроки = points в the first character of the current line.
   ///   columnPos = points в the character where the ошибка is located.
   ///   сооб = the сообщение.
-  проц  error_(бцел номСтр, сим* началоСтроки, сим* columnPos, сим[] сооб,
-              TypeInfo[] _arguments, va_list _argptr)
+  проц  error_(бцел номСтр, сим* началоСтроки, сим* columnPos, ткст сооб,
+              TypeInfo[] _arguments, base.спис_ва _argptr)
   {
     номСтр = this.номерСтрокиОшиб(номСтр);
-    auto errorPath = this.путиКФайлам.setPath;
+    auto errorPath = this.путиКФайлам.устПуть;
     auto положение = new Положение(errorPath, номСтр, началоСтроки, columnPos);
     сооб = Формат(_arguments, _argptr, сооб);
     auto ошибка = new ОшибкаЛексера(положение, сооб);
@@ -2530,7 +2536,7 @@ version(D2)
   }
 
   /// Returns да if ткт is a valid D identifier.
-  static бул строкаИдентификатора_ли(сим[] ткт)
+  static бул строкаИдентификатора_ли(ткст ткт)
   {
     if (ткт.length == 0 || цифра_ли(ткт[0]))
       return нет;
@@ -2546,7 +2552,7 @@ version(D2)
 
   /// Returns да if ткт is a keyword or
   /// a special сема (__FILE__, __LINE__ etc.)
-  static бул резервныйИдентификатор_ли(сим[] ткт)
+  static бул резервныйИдентификатор_ли(ткст ткт)
   {
     if (ткт.length == 0)
       return нет;
@@ -2556,8 +2562,8 @@ version(D2)
     return да;
   }
 
-  /// Возвращает да, если это a valid identifier and if it's not reserved.
-  static бул действитНерезИдентификатор_ли(сим[] ткт)
+  /// Возвращает да, если из_ a valid identifier and if it's not reserved.
+  static бул действитНерезИдентификатор_ли(ткст ткт)
   {
     return строкаИдентификатора_ли(ткт) && !резервныйИдентификатор_ли(ткт);
   }
@@ -2585,9 +2591,9 @@ version(D2)
       if ((d & 0xFE) == 0xC0) // 1100000x
         return нет;
     }
-    const сим[] проверьСледующийБайт = "if (!ведомыйБайт_ли(*++p))"
+    const ткст проверьСледующийБайт = "if (!ведомыйБайт_ли(*++p))"
                                  "  return нет;";
-    const сим[] добавьШестьБит = "d = (d << 6) | *p & 0b0011_1111;";
+    const ткст добавьШестьБит = "d = (d << 6) | *p & 0b0011_1111;";
     // Decode
     if ((d & 0b1110_0000) == 0b1100_0000)
     {
@@ -2644,9 +2650,9 @@ version(D2)
         goto Lerr;
     }
 
-    const сим[] проверьСледующийБайт = "if (!ведомыйБайт_ли(*++p))"
+    const ткст проверьСледующийБайт = "if (!ведомыйБайт_ли(*++p))"
                                  "  goto Lerr2;";
-    const сим[] добавьШестьБит = "d = (d << 6) | *p & 0b0011_1111;";
+    const ткст добавьШестьБит = "d = (d << 6) | *p & 0b0011_1111;";
 
     // Decode
     if ((d & 0b1110_0000) == 0b1100_0000)
@@ -2703,7 +2709,7 @@ version(D2)
   }
 
   /// Encodes the character d and appends it в ткт.
-  static проц  encodeUTF8(ref сим[] ткт, дим d)
+  static проц  encodeUTF8(ref ткст ткт, дим d)
   {
     assert(!аски_ли(d), "check for ASCII сим before calling encodeUTF8().");
     assert(верноСимвол_ли(d), "check if character is valid before calling encodeUTF8().");
@@ -2757,11 +2763,11 @@ version(D2)
 
   /// Formats the bytes between старт and конец.
   /// Возвращает: в.g.: abc -> \x61\x62\x63
-  static сим[] formatBytes(сим* старт, сим* конец)
+  static ткст formatBytes(сим* старт, сим* конец)
   {
     auto тктLen = конец-старт;
     const formatLen = `\xXX`.length;
-    сим[] результат = new сим[тктLen*formatLen]; // Reserve space.
+    ткст результат = new сим[тктLen*formatLen]; // Reserve space.
     результат.length = 0;
     foreach (c; cast(ббайт[])старт[0..тктLen])
       результат ~= Формат("\\x{:X}", c);
@@ -2795,7 +2801,7 @@ unittest
   выдай("Тестируем Лексер.\n");
   struct Пара
   {
-    сим[] текстТокена;
+    ткст текстТокена;
     TOK вид;
   }
   static Пара[] пары = [
@@ -2838,14 +2844,14 @@ unittest
     {"\u2028",  TOK.Новстр},       {"\u2029",  TOK.Новстр}
   ];
 
-  сим[] ист;
+  ткст ист;
 
   // Join all сема тексты into a single ткст.
   foreach (i, пара; пары)
     if (пара.вид == TOK.Комментарий && пара.текстТокена[1] == '/' || // Line comment.
         пара.вид == TOK.Шебанг)
     {
-      assert(пары[i+1].вид == TOK.Новстр); // Must be followed by a новстр.
+      assert(пары[i+1].вид == TOK.Новстр); // Must be followed by a нс.
       ист ~= пара.текстТокена;
     }
     else

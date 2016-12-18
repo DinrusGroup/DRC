@@ -3,18 +3,18 @@
 /// $(Maturity high)
 module drc.Version;
 
-private сим[] вТкст(бцел x)
+private ткст вТкст(бцел x)
 {
-  сим[] ткт;
+  ткст ткт;
   do
     ткт = cast(сим)('0' + (x % 10)) ~ ткт;
   while (x /= 10)
   return ткт;
 }
 
-private сим[] вТкст(бцел x, бцел pad)
+private ткст вТкст(бцел x, бцел pad)
 {
-  сим[] ткт = вТкст(x);
+  ткст ткт = вТкст(x);
   if (pad > ткт.length)
     for (бцел i = pad-ткт.length; i; i--)
       ткт = "0" ~ ткт;
@@ -31,6 +31,6 @@ const бцел VERSION_MAJOR = VERSION_MAJOR_DEFAULT;
 /// The minor version число of this compiler.
 const бцел VERSION_MINOR = 0;
 /// The compiler version formatted as a ткст.
-const сим[] ВЕРСИЯ = вТкст(VERSION_MAJOR)~"."~вТкст(VERSION_MINOR, 3);
+const ткст ВЕРСИЯ = вТкст(VERSION_MAJOR)~"."~вТкст(VERSION_MINOR, 3);
 /// The имя of the compiler.
-const сим[] ПОСТАВЩИК = "дил";
+const ткст ПОСТАВЩИК = "Dinrus Group";

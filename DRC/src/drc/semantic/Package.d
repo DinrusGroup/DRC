@@ -16,7 +16,7 @@ class Пакет : СимволМасштаба
   Пакет[] пакеты; /// The sub-пакеты contained in this package.
   Модуль[] модули;   /// The модули contained in this package.
 
-  /// Constructs a Пакет object.
+  /// Constructs a Пакет объект.
   this(ткст имяПкт)
   {
     auto идент = ТаблицаИд.сыщи(имяПкт);
@@ -24,7 +24,7 @@ class Пакет : СимволМасштаба
     this.имяПкт = имяПкт;
   }
 
-  /// Возвращает да, если это the корень package.
+  /// Возвращает да, если из_ the корень package.
   бул корень_ли()
   {
     return родитель is null;

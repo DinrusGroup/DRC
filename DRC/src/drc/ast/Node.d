@@ -37,7 +37,7 @@ abstract class Узел
 
   проц  добавьОтпрыск(Узел отпрыск)
   {
-    assert(отпрыск !is null, "ошибка в " ~ this.classinfo.name);
+    assert(отпрыск !is null, "ошибка в " ~ this.classinfo.имя);
     this.отпрыски ~= отпрыск;
   }
 
@@ -53,7 +53,7 @@ abstract class Узел
         if (отпрыск is null)
           return нет;
       return да; }(),
-      "ошибка в " ~ this.classinfo.name
+      "ошибка в " ~ this.classinfo.имя
     );
     this.отпрыски ~= отпрыски;
   }
@@ -80,13 +80,13 @@ abstract class Узел
   /// Returns a deep копируй of this узел.
   abstract Узел копируй();
 
-  /// Returns a shallow копируй of this object.
+  /// Returns a shallow копируй of this объект.
   final Узел dup()
   {
-    // Find out the размер of this object.
+    // Find out the размер of this объект.
     alias typeof(this.classinfo.иниц[0]) byte_t;
     т_мера размер = this.classinfo.иниц.length;
-    // Copy this object's данные.
+    // Copy this объект's данные.
     byte_t[] данные = (cast(byte_t*)this)[0..размер].dup;
     return cast(Узел)данные.ptr;
   }

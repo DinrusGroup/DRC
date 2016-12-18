@@ -18,10 +18,11 @@ import SettingsLoader;
 import Settings;
 import common;
 
-import tango.io.Buffer;
-import tango.io.Print;
-import tango.io.FilePath;
+import io.Buffer;
+import io.FilePath;
+import io.stream.Format;
 
+public alias ФормВывод!(сим) Print;
 /// The highlight команда.
 struct КомандаВыделить
 {
@@ -38,7 +39,7 @@ struct КомандаВыделить
   alias Опция Опции;
 
   Опции опции; /// команда опции.
-  ткст путьКФайлу; /// File путь в the module в be highlighted.
+  ткст путьКФайлу; /// Файл путь в the module в be highlighted.
   Диагностика диаг;
 
   /// Adds o в the опции.
@@ -57,26 +58,26 @@ struct КомандаВыделить
     auto mapFilePath = опции & Опция.ГЯР ? ГлобальныеНастройки.файлКартыГЯР
                                              : ГлобальныеНастройки.файлКартыРЯР;
     auto карта = ЗагрузчикКартыТегов(диаг).загрузи(mapFilePath);
-    auto tags = new КартаТегов(карта);
+    auto тэги = new КартаТегов(карта);
 
-    if (диаг.естьИнфо_ли)
+    if (диаг.естьИнфо)
       return;
 
     if (опции & Опция.Синтаксис)
-      highlightSyntax(путьКФайлу, tags, выдай, опции);
+      highlightSyntax(путьКФайлу, тэги, выдай, опции);
     else
-      highlightTokens(путьКФайлу, tags, выдай, опции);
+      highlightTokens(путьКФайлу, тэги, выдай, опции);
   }
 }
 
 /// Escapes the characters '<', '>' and '&' with named character entities.
-сим[] xml_escape(сим[] текст)
+ткст xml_escape(ткст текст)
 {
-  сим[] результат;
+  ткст результат;
   foreach(c; текст)
     switch(c)
     {
-      case '<': результат ~= "&lt;";  break;
+      case '<': результат ~= "&тк;";  break;
       case '>': результат ~= "&gt;";  break;
       case '&': результат ~= "&amp;"; break;
       default:  результат ~= c;
@@ -88,7 +89,7 @@ struct КомандаВыделить
   return текст;
 }
 
-/// Maps семы в (format) тксты.
+/// Maps семы в (форматируй) тксты.
 class КартаТегов
 {
   ткст[ткст] таблица;
@@ -143,46 +144,46 @@ class КартаТегов
          NestedC, Шебанг, HLine, Filespec, Нелегал, Новстр, ОсобаяСема,
          Декларация, Инструкция, Выражение, Тип, Иное, КФ;
 
-  /// Returns the tag for the категория 'nc'.
-  ткст getTag(КатегорияУзла nc)
+  /// Returns the тэг for the категория 'nc'.
+  ткст дайТэг(КатегорияУзла nc)
   {
-    ткст tag;
+    ткст тэг;
     switch (nc)
     { alias КатегорияУзла NC;
-    case NC.Декларация: tag = Декларация; break;
-    case NC.Инструкция:   tag = Инструкция; break;
-    case NC.Выражение:  tag = Выражение; break;
-    case NC.Тип:        tag = Тип; break;
-    case NC.Иное:       tag = Иное; break;
+    case NC.Декларация: тэг = Декларация; break;
+    case NC.Инструкция:   тэг = Инструкция; break;
+    case NC.Выражение:  тэг = Выражение; break;
+    case NC.Тип:        тэг = Тип; break;
+    case NC.Иное:       тэг = Иное; break;
     default: assert(0);
     }
-    return tag;
+    return тэг;
   }
 }
 
-/// Find the last occurrence of object in subject.
+/// Find the last occurrence of объект in субъект.
 /// Возвращает: the индекс if found, or -1 if not.
-цел rfind(сим[] subject, сим object)
+цел rfind(ткст субъект, сим объект)
 {
-  foreach_reverse(i, c; subject)
-    if (c == object)
+  foreach_reverse(i, c; субъект)
+    if (c == объект)
       return i;
   return -1;
 }
 
 /// Returns the крат class имя of a class descending из Узел.$(BR)
 /// E.g.: drc.ast.Declarations.ДекларацияКласса -> Класс
-сим[] getShortClassName(Узел узел)
+ткст дайКраткоеИмяКласса(Узел узел)
 {
   static сим[][] name_table;
   if (name_table is null)
     name_table = new сим[][ВидУзла.max+1]; // Create a new таблица.
   // Look up in таблица.
-  сим[] имя = name_table[узел.вид];
+  ткст имя = name_table[узел.вид];
   if (имя !is null)
     return имя; // Итог cached имя.
 
-  имя = узел.classinfo.name; // Get the fully qualified имя of the class.
+  имя = узел.classinfo.имя; // Get the fully qualified имя of the class.
   имя = имя[rfind(имя, '.')+1 .. $]; // Remove package and module имя.
 
   бцел suffixLength;
@@ -206,7 +207,7 @@ class КартаТегов
   default:
     assert(0);
   }
-  // Remove common suffix.
+  // Remove common суффикс.
   имя = имя[0 .. $ - suffixLength];
   // Store the имя in the таблица.
   name_table[узел.вид] = имя;
@@ -271,27 +272,27 @@ class TokenExBuilder : ДефолтныйВизитёр
   }
 }
 
-проц  выведиОшибки(Лексер lx, КартаТегов tags, Print print)
+проц  выведиОшибки(Лексер lx, КартаТегов тэги, Print print)
 {
   foreach (в; lx.ошибки)
-    print.format(tags["ОшибкаЛексера"], в.путьКФайлу, в.место, в.столб, xml_escape(в.дайСооб));
+    print.форматируй(тэги["ОшибкаЛексера"], в.путьКФайлу, в.место, в.столб, xml_escape(в.дайСооб));
 }
 
-проц  выведиОшибки(Парсер парсер, КартаТегов tags, Print print)
+проц  выведиОшибки(Парсер парсер, КартаТегов тэги, Print print)
 {
   foreach (в; парсер.ошибки)
-    print.format(tags["ОшибкаПарсера"], в.путьКФайлу, в.место, в.столб, xml_escape(в.дайСооб));
+    print.форматируй(тэги["ОшибкаПарсера"], в.путьКФайлу, в.место, в.столб, xml_escape(в.дайСооб));
 }
 
-проц  printLines(бцел lines, КартаТегов tags, Print print)
+проц  printLines(бцел lines, КартаТегов тэги, Print print)
 {
-  auto lineNumberFormat = tags["НомерСтроки"];
+  auto lineNumberFormat = тэги["НомерСтроки"];
   for (auto номСтр = 1; номСтр <= lines; номСтр++)
-    print.format(lineNumberFormat, номСтр);
+    print.форматируй(lineNumberFormat, номСтр);
 }
 
 /// Highlights the syntax in a source file.
-проц  highlightSyntax(ткст путьКФайлу, КартаТегов tags,
+проц  highlightSyntax(ткст путьКФайлу, КартаТегов тэги,
                      Print print,
                      КомандаВыделить.Опции опции)
 {
@@ -302,26 +303,26 @@ class TokenExBuilder : ДефолтныйВизитёр
   auto builder = new TokenExBuilder();
   auto tokenExList = builder.build(корень, lx.перваяСема());
 
-  print.format(tags["ЗаголовокДок"], (new FilePath(путьКФайлу)).name());
+  print.форматируй(тэги["ЗаголовокДок"], (new ФПуть(путьКФайлу)).имя());
   if (lx.ошибки.length || парсер.ошибки.length)
   { // Output ошибка сообщения.
-    print(tags["НачалоКомп"]);
-    выведиОшибки(lx, tags, print);
-    выведиОшибки(парсер, tags, print);
-    print(tags["КонецКомп"]);
+    print(тэги["НачалоКомп"]);
+    выведиОшибки(lx, тэги, print);
+    выведиОшибки(парсер, тэги, print);
+    print(тэги["КонецКомп"]);
   }
 
   if (опции & КомандаВыделить.Опция.ВыводСтрок)
   {
-    print(tags["НачалоНомераСтроки"]);
-    printLines(lx.номСтр, tags, print);
-    print(tags["КонецНомераСтроки"]);
+    print(тэги["НачалоНомераСтроки"]);
+    printLines(lx.номСтр, тэги, print);
+    print(тэги["КонецНомераСтроки"]);
   }
 
-  print(tags["НачалоИсходника"]);
+  print(тэги["НачалоИсходника"]);
 
-  auto tagNodeBegin = tags["НачалоУзла"];
-  auto tagNodeEnd = tags["КонецУзла"];
+  auto tagNodeBegin = тэги["НачалоУзла"];
+  auto tagNodeEnd = тэги["КонецУзла"];
 
   // Iterate over список of семы.
   foreach (ref tokenEx; tokenExList)
@@ -330,77 +331,77 @@ class TokenExBuilder : ДефолтныйВизитёр
 
     сема.пп && print(сема.пробСимволы); // Print preceding whitespace.
     if (сема.пробел_ли) {
-      printToken(сема, tags, print);
+      printToken(сема, тэги, print);
       continue;
     }
     // <узел>
     foreach (узел; tokenEx.beginNodes)
-      print.format(tagNodeBegin, tags.getTag(узел.категория), getShortClassName(узел));
+      print.форматируй(tagNodeBegin, тэги.дайТэг(узел.категория), дайКраткоеИмяКласса(узел));
     // Сема текст.
-    printToken(сема, tags, print);
+    printToken(сема, тэги, print);
     // </узел>
     if (опции & КомандаВыделить.Опция.ГЯР)
       foreach_reverse (узел; tokenEx.endNodes)
         print(tagNodeEnd);
     else
       foreach_reverse (узел; tokenEx.endNodes)
-        print.format(tagNodeEnd, tags.getTag(узел.категория));
+        print.форматируй(tagNodeEnd, тэги.дайТэг(узел.категория));
   }
-  print(tags["КонецИсходника"]);
-  print(tags["КонецДок"]);
+  print(тэги["КонецИсходника"]);
+  print(тэги["КонецДок"]);
 }
 
 /// Highlights all семы of a source file.
-проц  highlightTokens(ткст путьКФайлу, КартаТегов tags,
+проц  highlightTokens(ткст путьКФайлу, КартаТегов тэги,
                      Print print,
                      КомандаВыделить.Опции опции)
 {
   auto lx = new Лексер(new ИсходныйТекст(путьКФайлу, да));
   lx.сканируйВсе();
 
-  print.format(tags["ЗаголовокДок"], (new FilePath(путьКФайлу)).name());
+  print.форматируй(тэги["ЗаголовокДок"], (new ФПуть(путьКФайлу)).имя());
   if (lx.ошибки.length)
   {
-    print(tags["НачалоКомп"]);
-    выведиОшибки(lx, tags, print);
-    print(tags["КонецКомп"]);
+    print(тэги["НачалоКомп"]);
+    выведиОшибки(lx, тэги, print);
+    print(тэги["КонецКомп"]);
   }
 
   if (опции & КомандаВыделить.Опция.ВыводСтрок)
   {
-    print(tags["НачалоНомераСтроки"]);
-    printLines(lx.номСтр, tags, print);
-    print(tags["КонецНомераСтроки"]);
+    print(тэги["НачалоНомераСтроки"]);
+    printLines(lx.номСтр, тэги, print);
+    print(тэги["КонецНомераСтроки"]);
   }
 
-  print(tags["НачалоИсходника"]);
+  print(тэги["НачалоИсходника"]);
   // Traverse linked список and print семы.
   for (auto сема = lx.перваяСема(); сема; сема = сема.следщ) {
     сема.пп && print(сема.пробСимволы); // Print preceding whitespace.
-    printToken(сема, tags, print);
+    printToken(сема, тэги, print);
   }
-  print(tags["КонецИсходника"]);
-  print(tags["КонецДок"]);
+  print(тэги["КонецИсходника"]);
+  print(тэги["КонецДок"]);
 }
 
 /// A сема highlighter designed for DDoc.
 class ПодсветчикСем
 {
-  КартаТегов tags;
+  КартаТегов тэги;
   this(Диагностика диаг, бул useHTML = да)
   {
     ткст путьКФайлу = ГлобальныеНастройки.файлКартыГЯР;
     if (!useHTML)
       путьКФайлу = ГлобальныеНастройки.файлКартыРЯР;
     auto карта = ЗагрузчикКартыТегов(диаг).загрузи(путьКФайлу);
-    tags = new КартаТегов(карта);
+    тэги = new КартаТегов(карта);
   }
 
   /// Highlights семы in a DDoc код раздел.
-  /// Возвращает: a ткст with the highlighted семы (in ГЯР tags.)
+  /// Возвращает: a ткст with the highlighted семы (in ГЯР тэги.)
   ткст highlight(ткст текст, ткст путьКФайлу)
   {
-    auto буфер = new GrowBuffer(текст.length);
+    auto буфер = объБуферРоста(текст.length);
     auto print = new Print(Формат, буфер);
 
     auto lx = new Лексер(new ИсходныйТекст(путьКФайлу, текст));
@@ -411,60 +412,60 @@ class ПодсветчикСем
     if (lx.ошибки.length)
     { // Output ошибка сообщения.
       // FIXME: CompBegin and CompEnd break the таблица layout.
-//       print(tags["НачалоКомп"]);
-      выведиОшибки(lx, tags, print);
-//       print(tags["КонецКомп"]);
+//       print(тэги["НачалоКомп"]);
+      выведиОшибки(lx, тэги, print);
+//       print(тэги["КонецКомп"]);
     }
     // Traverse linked список and print семы.
     for (auto сема = lx.перваяСема(); сема; сема = сема.следщ) {
       сема.пп && print(сема.пробСимволы); // Print preceding whitespace.
-      printToken(сема, tags, print);
+      printToken(сема, тэги, print);
     }
     print("\n)");
-    return cast(сим[])буфер.slice();
+    return cast(сим[])буфер.срез();
   }
 }
 
 /// Prints a сема в the тктeam print.
-проц  printToken(Сема* сема, КартаТегов tags, Print print)
+проц  printToken(Сема* сема, КартаТегов тэги, Print print)
 {
   switch(сема.вид)
   {
   case TOK.Идентификатор:
-    print.format(tags.Идентификатор, сема.исхТекст);
+    print.форматируй(тэги.Идентификатор, сема.исхТекст);
     break;
   case TOK.Комментарий:
     ткст formatStr;
     switch (сема.старт[1])
     {
-    case '/': formatStr = tags.LineC; break;
-    case '*': formatStr = tags.BlockC; break;
-    case '+': formatStr = tags.NestedC; break;
+    case '/': formatStr = тэги.LineC; break;
+    case '*': formatStr = тэги.BlockC; break;
+    case '+': formatStr = тэги.NestedC; break;
     default: assert(0);
     }
-    print.format(formatStr, xml_escape(сема.исхТекст));
+    print.форматируй(formatStr, xml_escape(сема.исхТекст));
     break;
   case TOK.Ткст:
-    print.format(tags.Ткст, xml_escape(сема.исхТекст));
+    print.форматируй(тэги.Ткст, xml_escape(сема.исхТекст));
     break;
   case TOK.СимЛитерал:
-    print.format(tags.Сим, xml_escape(сема.исхТекст));
+    print.форматируй(тэги.Сим, xml_escape(сема.исхТекст));
     break;
   case TOK.Цел32, TOK.Цел64, TOK.Бцел32, TOK.Бцел64,
        TOK.Плав32, TOK.Плав64, TOK.Плав80,
        TOK.Мнимое32, TOK.Мнимое64, TOK.Мнимое80:
-    print.format(tags.Число, сема.исхТекст);
+    print.форматируй(тэги.Число, сема.исхТекст);
     break;
   case TOK.Шебанг:
-    print.format(tags.Шебанг, xml_escape(сема.исхТекст));
+    print.форматируй(тэги.Шебанг, xml_escape(сема.исхТекст));
     break;
   case TOK.HashLine:
-    auto formatStr = tags.HLine;
+    auto formatStr = тэги.HLine;
     // The текст в be inserted into formatStr.
-    auto буфер = new GrowBuffer;
+    auto буфер = объБуферРоста;
     auto print2 = new Print(Формат, буфер);
 
-    проц  printWS(сим* старт, сим* конец)
+    проц  выводитьШС(сим* старт, сим* конец)
     {
       старт != конец && print2(старт[0 .. конец - старт]);
     }
@@ -472,37 +473,37 @@ class ПодсветчикСем
     auto чис = сема.tokLineNum;
     if (чис is null)
     { // Malformed #line
-      print.format(formatStr, сема.исхТекст);
+      print.форматируй(formatStr, сема.исхТекст);
       break;
     }
 
     // Print whitespace between #line and число.
-    printWS(сема.старт, чис.старт); // Prints "#line" as well.
-    printToken(чис, tags, print2); // Print the число.
+    выводитьШС(сема.старт, чис.старт); // Prints "#line" as well.
+    printToken(чис, тэги, print2); // Print the число.
 
     if (auto filespec = сема.tokLineFilespec)
     { // Print whitespace between число and filespec.
-      printWS(чис.конец, filespec.старт);
-      print2.format(tags.Filespec, xml_escape(filespec.исхТекст));
+      выводитьШС(чис.конец, filespec.старт);
+      print2.форматируй(тэги.Filespec, xml_escape(filespec.исхТекст));
     }
     // Finally print the whole сема.
-    print.format(formatStr, cast(сим[])буфер.slice());
+    print.форматируй(formatStr, cast(сим[])буфер.срез());
     break;
   case TOK.Нелегал:
-    print.format(tags.Нелегал, сема.исхТекст());
+    print.форматируй(тэги.Нелегал, сема.исхТекст());
     break;
   case TOK.Новстр:
-    print.format(tags.Новстр, сема.исхТекст());
+    print.форматируй(тэги.Новстр, сема.исхТекст());
     break;
   case TOK.КФ:
-    print(tags.КФ);
+    print(тэги.КФ);
     break;
   default:
     if (сема.кслово_ли())
-      print.format(tags.КСлово, сема.исхТекст);
+      print.форматируй(тэги.КСлово, сема.исхТекст);
     else if (сема.спецСема_ли)
-      print.format(tags.ОсобаяСема, сема.исхТекст);
+      print.форматируй(тэги.ОсобаяСема, сема.исхТекст);
     else
-      print(tags[сема.вид]);
+      print(тэги[сема.вид]);
   }
 }

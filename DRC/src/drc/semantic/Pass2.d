@@ -27,13 +27,13 @@ import drc.CompilerInfo;
 import common;
 
 /// The second pass determines the types of символы and the types
-/// of expressions and also evaluates them.
+/// of выражения and also evaluates them.
 class СемантическаяПроходка2 : ДефолтныйВизитёр
 {
   Масштаб масш; /// The current Масштаб.
   Модуль модуль; /// The module в be semantically checked.
 
-  /// Constructs a СемантическаяПроходка2 object.
+  /// Constructs a СемантическаяПроходка2 объект.
   /// Параметры:
   ///   модуль = the module в be checked.
   this(Модуль модуль)
@@ -70,7 +70,7 @@ class СемантическаяПроходка2 : ДефолтныйВизит
   }
 
   /// Creates an ошибка report.
-  проц  ошибка(Сема* сема, сим[] форматирСооб, ...)
+  проц  ошибка(Сема* сема, ткст форматирСооб, ...)
   {
     auto положение = сема.дайПоложениеОшибки();
     auto сооб = Формат(_arguments, _argptr, форматирСооб);
@@ -86,8 +86,8 @@ class СемантическаяПроходка2 : ДефолтныйВизит
   /// The current Масштаб символ в use for looking up identifiers.
   /// E.g.:
   /// ---
-  /// object.method(); // *) object is looked up in the current Масштаб.
-  ///                  // *) идМасштаб is установи if object is a СимволМасштаба.
+  /// объект.method(); // *) объект is looked up in the current Масштаб.
+  ///                  // *) идМасштаб is установи if объект is a СимволМасштаба.
   ///                  // *) method will be looked up in идМасштаб.
   /// drc.ast.Node.Узел узел; // A fully qualified тип.
   /// ---
@@ -190,14 +190,14 @@ override
 
   // Тип nodes:
 
-  T посети(ТипТипа t)
+  T посети(ТТип t)
   {
     t.в = посетиВ(t.в);
     t.тип = t.в.тип;
     return t;
   }
 
-  T посети(ТипМассив t)
+  T посети(ТМассив t)
   {
     auto типОснова = посетиТ(t.следщ).тип;
     if (t.ассоциативный_ли)
@@ -211,7 +211,7 @@ override
     return t;
   }
 
-  T посети(ТипУказатель t)
+  T посети(ТУказатель t)
   {
     t.тип = посетиТ(t.следщ).тип.укНа();
     return t;
@@ -227,7 +227,7 @@ override
     return t;
   }
 
-  T посети(ТипИдентификатор t)
+  T посети(ТИдентификатор t)
   {
     auto идСема = t.начало;
     auto символ = ищи(идСема);
@@ -235,7 +235,7 @@ override
     return t;
   }
 
-  T посети(ТипЭкземплярШаблона t)
+  T посети(ТЭкземплярШаблона t)
   {
     auto идСема = t.начало;
     auto символ = ищи(идСема);
@@ -243,7 +243,7 @@ override
     return t;
   }
 
-  T посети(ТипМасштабаМодуля t)
+  T посети(ТМасштабМодуля t)
   {
     идМасштаб = модуль;
     return t;
@@ -398,7 +398,7 @@ override
       auto исходныйТекст = new ИсходныйТекст(путьКФайлу, ткстВыр.дайТекст());
       auto парсер = new Парсер(исходныйТекст, модуль.диаг);
       выр = парсер.старт2();
-      выр = посетиВ(выр); // Check expression.
+      выр = посетиВ(выр); // Check выражение.
     }
     me.выр = выр;
     me.тип = выр.тип;

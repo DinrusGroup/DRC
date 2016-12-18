@@ -3,20 +3,9 @@
 /// $(Maturity high)
 module common;
 
-public import tango.io.Stdout;
-public import tango.text.convert.Layout;
-//import tango.io.stream.Format;
+public import io.Stdout;
+public import text.convert.Layout, text.convert.Format;
+alias Стдвыв выдай;
 
-alias Stdout выдай;
-//alias tango.io.stream.Format.FormatOutput.nl новстр;
-/// Ткст aliases.
-//alias сим[] ткст;
-//alias шим[] wstring; /// определено
-//alias дим[] dstring; /// определено
 
-/// Global formatter instance.
-static Layout!(сим) Формат;
-static this()
-{
-  Формат = new typeof(Формат);
-}
+

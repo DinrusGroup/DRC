@@ -16,10 +16,10 @@ import drc.Diagnostics;
 import drc.SourceText;
 import common;
 
-import tango.io.FilePath;
-import tango.io.model.IFile;
+import io.FilePath;
+import io.model;
 
-alias FileConst.PathSeparatorChar папРазд;
+alias ФайлКонст.СимПутьРазд папРазд;
 
 /// Represents a semantic D module and a source file.
 class Модуль : СимволМасштаба
@@ -49,7 +49,7 @@ class Модуль : СимволМасштаба
     super(СИМ.Модуль, null, null);
   }
 
-  /// Constructs a Модуль object.
+  /// Constructs a Модуль объект.
   /// Параметры:
   ///   путьКФайлу = file путь в the source текст; loaded in the constructor.
   ///   диаг = used for collecting ошибка сообщения.
@@ -104,7 +104,7 @@ class Модуль : СимволМасштаба
 
     if (!this.пкиМодуля.length)
     { // Take the base имя of the file as the module имя.
-      auto ткт = (new FilePath(путьКФайлу)).name(); // E.g.: Узел
+      auto ткт = (new ФПуть(путьКФайлу)).имя(); // E.g.: Узел
       if (!Лексер.действитНерезИдентификатор_ли(ткт))
       {
         auto положение = this.перваяСема().дайПоложениеОшибки();

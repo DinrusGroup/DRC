@@ -5,12 +5,6 @@ module drc.lexer.Funcs;
 
 import drc.Unicode : юАльфа_ли;
 
-const сим[3] РС = \u2028; /// Разделитель строк Unicode.
-const дим РСд = 0x2028;  /// определено
-const сим[3] РА = \u2029; /// Разделитель абзацев Unicode.
-const дим РАд = 0x2029;  /// определено
-static assert(РС[0] == РА[0] && РС[1] == РА[1]);
-
 const дим _Z_ = 26; /// Control+Z.
 
 /// Возвращает: да if d is a Unicode line or paragraph разделитель.
@@ -106,7 +100,7 @@ body
 }
 
 /// Scans a Новстр in reverse direction and sets конец
-/// on the first character of the новстр.
+/// on the first character of the нс.
 /// Возвращает: да if found or нет otherwise.
 бул сканируйНовСтрРеверс(сим* начало, ref сим* конец)
 {
@@ -135,7 +129,7 @@ body
 ///   конец = where it ends.
 /// Возвращает: the identifier if valid (sets ref_p one past the ид,) or
 ///          null if invalid (leaves ref_p unchanged.)
-сим[] сканируйИдентификатор(ref сим* ref_p, сим* конец)
+ткст сканируйИдентификатор(ref сим* ref_p, сим* конец)
 in { assert(ref_p && ref_p < конец); }
 body
 {
@@ -243,11 +237,11 @@ static this()
   p['t'] |= 9 << 8;
   p['v'] |= 11 << 8;
   // Print a formatted массив literal.
-  сим[] массив = "[\n";
+  ткст массив = "[\n";
   foreach (i, c; ptable)
   {
     массив ~= Формат((c>255?" 0x{0:x},":"{0,2},"), c) ~ (((i+1) % 16) ? "":"\n");
   }
   массив[$-2..$] = "\n]";
-  выдай(массив).новстр;
+  выдай(массив).нс;
 }

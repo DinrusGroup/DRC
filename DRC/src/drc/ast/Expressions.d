@@ -25,8 +25,8 @@ class НелегальноеВыражение : Выражение
 
 abstract class БинарноеВыражение : Выражение
 {
-  Выражение лв; /// Left-hand сторона expression.
-  Выражение пв; /// Right-hand сторона expression.
+  Выражение лв; /// Left-hand сторона выражение.
+  Выражение пв; /// Right-hand сторона выражение.
   Сема* лекс;
   this(Выражение лв, Выражение пв, Сема* лекс)
   {
@@ -625,7 +625,7 @@ class ВыражениеСпецСема : Выражение
     this.особаяСема = особаяСема;
   }
 
-  Выражение значение; /// The expression created in the semantic phase.
+  Выражение значение; /// The выражение created in the semantic phase.
 
   mixin(методКопирования);
 }
@@ -767,7 +767,7 @@ class ВыражениеРеал : Выражение
 }
 
 
-/// Этот expression holds a complex число.
+/// Этот выражение holds a complex число.
 /// It is only created in the semantic phase.
 class ВыражениеКомплекс : Выражение
 {
@@ -815,7 +815,7 @@ class ТекстовоеВыражение : Выражение
     this.тип = new СМассивТип(типСим, ткт.length);
   }
 
-  this(сим[] ткт)
+  this(ткст ткт)
   {
     this(cast(ббайт[])ткт, Типы.Сим);
   }
@@ -831,9 +831,9 @@ class ТекстовоеВыражение : Выражение
   }
 
   /// Returns the ткст excluding the terminating 0.
-  сим[] дайТекст()
+  ткст дайТекст()
   {
-    // TODO: convert в сим[] if типСим !is Типы.Сим.
+    // TODO: convert в ткст if типСим !is Типы.Сим.
     return cast(сим[])ткт[0..$-1];
   }
 

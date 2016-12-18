@@ -8,8 +8,8 @@ import drc.Diagnostics;
 import drc.Messages;
 import common;
 
-import tango.io.File,
-       tango.io.FilePath;
+import io.File,
+       io.FilePath;
 	   
 	
 
@@ -20,9 +20,9 @@ final class ИсходныйТекст
 {
   /// The file путь в the source текст. Mainly used for ошибка сообщения.
   ткст путьКФайлу;
-  сим[] данные; /// The UTF-8, zero-terminated source текст.
+  ткст данные; /// The UTF-8, zero-terminated source текст.
 
-  /// Constructs a ИсходныйТекст object.
+  /// Constructs a ИсходныйТекст объект.
   /// Параметры:
   ///   путьКФайлу = file путь в the source file.
   ///   загрузитьФайл = whether в загрузи the file in the constructor.
@@ -32,11 +32,11 @@ final class ИсходныйТекст
     загрузитьФайл && загрузи();
   }
 
-  /// Constructs a ИсходныйТекст object.
+  /// Constructs a ИсходныйТекст объект.
   /// Параметры:
   ///   путьКФайлу = file путь for ошибка сообщения.
   ///   данные = memory буфер.
-  this(ткст путьКФайлу, сим[] данные)
+  this(ткст путьКФайлу, ткст данные)
   {
     this(путьКФайлу);
     this.данные = данные;
@@ -52,7 +52,7 @@ final class ИсходныйТекст
 
     scope(failure)
     {
-      if (!(new FilePath(this.путьКФайлу)).exists())
+      if (!(new ФПуть(this.путьКФайлу)).есть_ли())
         диаг ~= new ОшибкаЛексера(new Положение(путьКФайлу, 0),
                                   сооб.ФайлОтсутствует);
       else
@@ -63,7 +63,7 @@ final class ИсходныйТекст
     }
 
     // Read the file.
-    auto rawdata = cast(ббайт[]) (new File(путьКФайлу)).read();
+    auto rawdata = cast(ббайт[]) (new Файл(путьКФайлу)).читай();
     // Convert the данные.
     auto конвертер = Преобразователь(путьКФайлу, диаг);
     данные = конвертер.данныеВУТФ8(rawdata);

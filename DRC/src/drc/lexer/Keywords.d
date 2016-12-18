@@ -14,8 +14,8 @@ static const Идентификатор[] g_reservedIds = [
   {"иной", TOK.Алиас},
   {"align", TOK.Расклад},
   {"расклад", TOK.Расклад},
-  {"asm", TOK.Asm},
-  {"асм", TOK.Asm},
+  {"asm", TOK.Асм},
+  {"асм", TOK.Асм},
   {"assert", TOK.Подтвердить},
   {"подтверди", TOK.Подтвердить},
   {"auto", TOK.Авто},
@@ -162,7 +162,7 @@ static const Идентификатор[] g_reservedIds = [
   {"этот", TOK.Этот},
   {"throw", TOK.Брось},
   {"брось", TOK.Брось},
-  {"__traits", TOK.Traits}, // D2.0
+  {"__traits", TOK.Трэтс}, // D2.0
   {"true", TOK.Истина},
   {"да", TOK.Истина},
   {"try", TOK.Пробуй},
@@ -187,7 +187,7 @@ static const Идентификатор[] g_reservedIds = [
   {"версия", TOK.Версия},
   {"void", TOK.Проц},
   {"проц", TOK.Проц},
-  {"volatile", TOK.Volatile},
+  {"volatile", TOK.Волатайл},
   {"wchar", TOK.Шим},
   {"шим", TOK.Шим},
   {"while", TOK.Пока},

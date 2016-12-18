@@ -24,9 +24,9 @@ import drc.Enums;
 import drc.Time;
 import common;
 
-import tango.text.Ascii : toUpper;
-import tango.io.File;
-import tango.io.FilePath;
+import text.Ascii : вЗаг;
+import io.File;
+import io.FilePath;
 
 /// ddoc команда.
 struct КомандаДДок
@@ -69,7 +69,7 @@ struct КомандаДДок
     {
       auto мод = new Модуль(путьКФайлу, диаг);
 
-      // Only разбор if the file is not a "DDoc"-file.
+      // Only разбор if the файл is not a "DDoc"-файл.
       if (!ЭмиттерДДок.isDDocFile(мод))
       {
         мод.разбор();
@@ -84,9 +84,9 @@ struct КомандаДДок
           modFQNs ~= [путьКФайлу, мод.дайПКН()];
       }
       else // Normally done in мод.разбор().
-        мод.установиПКН((new FilePath(путьКФайлу)).name());
+        мод.установиПКН((new ФПуть(путьКФайлу)).имя());
 
-      // Write the documentation file.
+      // Write the documentation файл.
      пишиФайлДокументации(мод, мтаблица);
     }
 
@@ -128,15 +128,15 @@ struct КомандаДДок
                                          подробно ? диаг : null);
     // debug текстФайла ~= "\n<pre>\n" ~ doc.текст ~ "\n</pre>";
 
-    // Build destination file путь.
-    auto путьНазнач = new FilePath(путьКПапкеНазн);
-    путьНазнач.append(мод.дайПКН() ~ расшВыводимогоФайла);
+    // Build destination файл путь.
+    auto путьНазнач = new ФПуть(путьКПапкеНазн);
+    путьНазнач.добавь(мод.дайПКН() ~ расшВыводимогоФайла);
     // Verbose output of activity.
-    if (подробно) // TODO: create a setting for this format ткст in dilconf.d?
-      выдай.formatln("ддок {} > {}", мод.путьКФайлу, путьНазнач);
-    // Finally пиши the file out в the harddisk.
-    scope file = new File(путьНазнач.вТкст());
-    file.write(текстФайла);
+    if (подробно) // TODO: create a setting for this форматируй ткст in dilconf.d?
+      выдай.форматнс("ддок {} > {}", мод.путьКФайлу, путьНазнач);
+    // Finally пиши the файл out в the harddisk.
+    scope файл = new Файл(путьНазнач.вТкст());
+    файл.пиши(текстФайла);
   }
 
   /// Записываен на диск список обработанных модулей.
@@ -144,11 +144,11 @@ struct КомандаДДок
   ///   списокМодулей = список модулей.
   проц   пишиТекстФайлМодулей(ткст[][] списокМодулей)
   {
-    сим[] текст;
+    ткст текст;
     foreach (мод; списокМодулей)
       текст ~= мод[0] ~ ", " ~ мод[1] ~ \n;
-    scope file = new File(ПутьТкстаМод);
-    file.write(текст);
+    scope файл = new Файл(ПутьТкстаМод);
+    файл.пиши(текст);
   }
 
   /// Загружает файл макросов. Преобразует любую кодировку Unicode в UTF-8.

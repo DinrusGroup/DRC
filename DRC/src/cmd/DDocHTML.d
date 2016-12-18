@@ -12,7 +12,7 @@ import common;
 /// Traverses the syntax tree and writes DDoc макрос в a ткст буфер.
 class ГЯРЭмиттерДДок : ЭмиттерДДок
 {
-  /// Constructs a ГЯРЭмиттерДДок object.
+  /// Constructs a ГЯРЭмиттерДДок объект.
   this(Модуль модуль, ТаблицаМакросов мтаблица, бул включатьНедокументированное,
        ПодсветчикСем псвСем)
   {

@@ -629,4 +629,6 @@ unittest
 	else
 	    assert(!униАльфа_ли(i));
     }
+	assert(униАльфа_ли(cast(дим)'А'));
+	assert(униАльфа_ли(cast(дим)'ё'));
 }

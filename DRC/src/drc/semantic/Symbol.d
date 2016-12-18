@@ -27,7 +27,7 @@ enum СИМ
 //   Тип,
 }
 
-/// A символ represents an object with semantic код information.
+/// A символ represents an объект with semantic код information.
 class Символ
 { /// Enumeration of символ statuses.
   enum Состояние : бкрат
@@ -45,7 +45,7 @@ class Символ
   /// Useful for source код положение инфо and retriоцени of doc comments.
   Узел узел;
 
-  /// Constructs a Символ object.
+  /// Constructs a Символ объект.
   /// Параметры:
   ///   сид = the символ's ID.
   ///   имя = the символ's имя.
@@ -74,9 +74,9 @@ class Символ
   { return состояние == Состояние.Обработан; }
 
   /// A template macro for building isXYZ() methods.
-  private template isX(сим[] вид)
+  private template isX(ткст вид)
   {
-    const сим[] isX = `бул `~вид~`_ли(){ return сид == СИМ.`~вид~`; }`;
+    const ткст isX = `бул `~вид~`_ли(){ return сид == СИМ.`~вид~`; }`;
   }
   mixin(isX!("Модуль"));
   mixin(isX!("Пакет"));
@@ -103,7 +103,7 @@ class Символ
 
   /// Возвращает: the fully qualified имя of this символ.
   /// E.g.: drc.semantic.Symbol.Символ.дайПКН
-  сим[] дайПКН()
+  ткст дайПКН()
   {
     if (!имя)
       return родитель ? родитель.дайПКН() : "";

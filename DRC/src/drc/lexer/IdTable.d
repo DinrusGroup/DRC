@@ -135,7 +135,7 @@ static:
     ++anonCount;
     auto x = anonCount;
     // Convert счёт в a ткст and добавь it в ткт.
-    сим[] чис;
+    ткст чис;
     do
       чис = cast(сим)('0' + (x % 10)) ~ чис;
     while (x /= 10)

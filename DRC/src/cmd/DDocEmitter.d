@@ -22,12 +22,12 @@ import drc.SourceText;
 import drc.Enums;
 import common;
 
-import tango.text.Ascii : toUpper, icompare;
+import text.Ascii : вЗаг, сравнилюб;
 
 /// Обходит синтактическое дерево и записывает макросы DDoc в текстовый буфер.
 abstract class ЭмиттерДДок : ДефолтныйВизитёр
 {
-  сим[] текст; /// Буфер, в который происходит запись.
+  ткст текст; /// Буфер, в который происходит запись.
   бул включатьНедокументированное;
   ТаблицаМакросов мтаблица;
   Модуль модуль;
@@ -49,7 +49,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Метод ввода.
-  сим[] выдать()
+  ткст выдать()
   {
     if (isDDocFile(модуль))
     { // Модуль действительно является текстовым файлом DDoc.
@@ -86,32 +86,32 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     auto данные = мод.исходныйТекст.данные;
     // 5 = "ddoc\n".length; +1 = trailing '\0' in данные.
     if (данные.length >= 5 + 1 && // Check for minimum length.
-        icompare(данные[0..4], "ddoc") == 0 && // Check first four characters.
-        новСтр_ли(данные.ptr + 4)) // Check for a новстр.
+        сравнилюб(данные[0..4], "ddoc") == 0 && // Check first four characters.
+        новСтр_ли(данные.ptr + 4)) // Check for a нс.
       return да;
     return нет;
   }
 
   /// Returns the DDoc текст of this module.
-  static сим[] дайТекстДДок(Модуль мод)
+  static ткст дайТекстДДок(Модуль мод)
   {
     auto данные = мод.исходныйТекст.данные;
     сим* p = данные.ptr + "ddoc".length;
-    if (сканируйНовСтр(p)) // Skip the новстр.
+    if (сканируйНовСтр(p)) // Skip the нс.
       // Exclude preceding "Ddoc\n" and trailing '\0'.
       return данные[p-данные.ptr .. $-1];
     return null;
   }
 
-  сим[] textSpan(Сема* левый, Сема* правый)
+  ткст textSpan(Сема* левый, Сема* правый)
   {
     //assert(левый && правый && (левый.конец <= правый.старт || левый is правый));
-    //сим[] результат;
+    //ткст результат;
     //TODO: filter out whitespace семы.
     return Сема.textSpan(левый, правый);
   }
 
-  /// The template parameters of the current declaration.
+  /// The template параметры of the current declaration.
   ПараметрыШаблона шпарамы;
 
   /// Reflects the fully qualified имя of the current символ's родитель.
@@ -137,7 +137,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// Returns a unique, identifying ткст for the current символ.
   ткст getSymbolFQN(ткст имя)
   {
-    сим[] fqn;
+    ткст fqn;
     foreach (name_part; fqnStack)
       fqn ~= name_part ~ ".";
     fqn ~= имя;
@@ -149,7 +149,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     else
       fqnCount[fqn] = 1; // Start counting with 1.
 
-    if (счёт > 1) // Ignore unique suffix for the значение 1.
+    if (счёт > 1) // Ignore unique суффикс for the значение 1.
       fqn ~= Формат(":{}", счёт);
     return fqn;
   }
@@ -234,10 +234,10 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
           пиши("\n$(DDOC_SUMMARY ");
         else if (s is c.описание)
           пиши("\n$(DDOC_DESCRIPTION ");
-        else if (auto имя = toUpper(s.имя.dup) in specialSections)
+        else if (auto имя = вЗаг(s.имя.dup) in specialSections)
           пиши("\n$(DDOC_", *имя, " ");
         else if (s.Является("парамы"))
-        { // Process parameters раздел.
+        { // Process параметры раздел.
           auto ps = new РазделПараметров(s.имя, s.текст);
           пиши("\n$(DDOC_PARAMS ");
           foreach (i, paramName; ps.paramNames)
@@ -262,7 +262,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Replaces occurrences of '_' with ' ' in ткт.
-  сим[] replace_(сим[] ткт)
+  ткст replace_(ткст ткт)
   {
     foreach (ref c; ткт.dup)
       if (c == '_') c = ' ';
@@ -272,16 +272,16 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// Scans the comment текст and:
   /// $(UL
   /// $(LI пропустиs and leaves macro invocations unchanged)
-  /// $(LI пропустиs ГЯР tags)
+  /// $(LI пропустиs ГЯР тэги)
   /// $(LI escapes '(', ')', '<', '>' and '&')
   /// $(LI inserts $&#40;DDOC_BLANKLINE&#41; in place of \n\n)
   /// $(LI highlights код in код резделы)
   /// )
-  сим[] scanCommentText(сим[] текст)
+  ткст scanCommentText(ткст текст)
   {
     сим* p = текст.ptr;
     сим* конец = p + текст.length;
-    сим[] результат = new сим[текст.length]; // Reserve space.
+    ткст результат = new сим[текст.length]; // Reserve space.
     результат.length = 0;
 
     while (p < конец)
@@ -310,7 +310,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
               break;
             }
           результат ~= сделайТекст(начало, p);
-        } // <tag ...> or </tag>
+        } // <тэг ...> or </тэг>
         else if (p < конец && (буква_ли(*p) || *p == '/'))
         {
           while (++p < конец && *p != '>') // Skip в закрывающий '>'.
@@ -318,14 +318,14 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
           if (p == конец)
           { // No закрывающий '>' found.
             p = начало + 1;
-            результат ~= "&lt;";
+            результат ~= "&тк;";
             continue;
           }
           p++; // Skip '>'.
           результат ~= сделайТекст(начало, p);
         }
         else
-          результат ~= "&lt;";
+          результат ~= "&тк;";
         continue;
       case '(': результат ~= "&#40;"; break;
       case ')': результат ~= "&#41;"; break;
@@ -351,18 +351,18 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
           auto codeBegin = p;
           while (p < конец && пбел_ли(*p))
             p++;
-          if (p < конец && *p == '\n') // Skip first новстр.
+          if (p < конец && *p == '\n') // Skip first нс.
             codeBegin = ++p;
           // Find закрывающий dashes.
           while (p < конец && !(*p == '-' && p+2 < конец &&
                             p[1] == '-' && p[2] == '-'))
             p++;
-          // Remove last новстр if present.
+          // Remove last нс if present.
           auto codeEnd = p;
           while (пбел_ли(*--codeEnd))
           {}
           if (*codeEnd != '\n') // Leaving the pointer on '\n' will exclude it.
-            codeEnd++; // Include the non-новстр character.
+            codeEnd++; // Include the non-нс character.
           if (codeBegin < codeEnd)
           { // Highlight the extracted source код.
             auto codeText = сделайТекст(codeBegin, codeEnd);
@@ -384,14 +384,14 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Escapes '<', '>' and '&' with named ГЯР entities.
-  сим[] escape(сим[] текст)
+  ткст escape(ткст текст)
   {
-    сим[] результат = new сим[текст.length]; // Reserve space.
+    ткст результат = new сим[текст.length]; // Reserve space.
     результат.length = 0;
     foreach(c; текст)
       switch(c)
       {
-        case '<': результат ~= "&lt;";  break;
+        case '<': результат ~= "&тк;";  break;
         case '>': результат ~= "&gt;";  break;
         case '&': результат ~= "&amp;"; break;
         default:  результат ~= c;
@@ -440,7 +440,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     пиши(")");
   }
 
-  /// Writes the current template parameters в the текст буфер.
+  /// Writes the current template параметры в the текст буфер.
   проц  writeTemplateParams()
   {
     if (!шпарамы)
@@ -524,8 +524,8 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   проц  SYMBOL(ткст имя, ткст вид, Декларация d)
   {
     auto fqn = getSymbolFQN(имя);
-    auto место = d.начало.getRealLocation();
-    auto loc_end = d.конец.getRealLocation();
+    auto место = d.начало.дайРеальноеПоложение();
+    auto loc_end = d.конец.дайРеальноеПоложение();
     auto ткт = Формат("$(DIL_SYMBOL {}, {}, {}, {}, {})",
                       имя, fqn, вид, место.номСтр, loc_end.номСтр);
     пиши(ткт);
@@ -779,7 +779,7 @@ override:
   {
     if (!ddoc(d))
       return d;
-    сим[] тип = "auto";
+    ткст тип = "auto";
     if (d.узелТипа)
       тип = textSpan(d.узелТипа.типОснова.начало, d.узелТипа.конец);
     foreach (имя; d.имена)
