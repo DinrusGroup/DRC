@@ -1,0 +1,3 @@
+#ifndef _dmd_icpp_init_stub
+#define _dmd_icpp_init_stub
+#endif
