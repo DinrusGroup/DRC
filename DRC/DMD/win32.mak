@@ -4,7 +4,7 @@
 # All Rights Reserved
 # Build dmd with Digital Mars C++ compiler
 
-D=e:
+D=d:
 #DMDSVN=\svnproj\dm\trunk\src
 DMDSVN=\svnproj\dm\branches\dmd-1.x\src
 SCROOT=$D\dinrus
