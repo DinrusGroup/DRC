@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DinrusDMD", "DinrusDMD\DinrusDMD.vcxproj", "{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DinrusDMD", "DinrusDMD.vcxproj", "{03A12680-F2FA-44C7-B032-23DC6208A865}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Debug|x64.ActiveCfg = Debug|x64
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Debug|x64.Build.0 = Debug|x64
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Debug|x86.ActiveCfg = Debug|Win32
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Debug|x86.Build.0 = Debug|Win32
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Release|x64.ActiveCfg = Release|x64
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Release|x64.Build.0 = Release|x64
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Release|x86.ActiveCfg = Release|Win32
-		{4DAB4F6C-F13F-42C5-A09C-5B5CD8914B71}.Release|x86.Build.0 = Release|Win32
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Debug|x64.ActiveCfg = Debug|x64
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Debug|x64.Build.0 = Debug|x64
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Debug|x86.ActiveCfg = Debug|Win32
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Debug|x86.Build.0 = Debug|Win32
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x64.ActiveCfg = Release|x64
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x64.Build.0 = Release|x64
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x86.ActiveCfg = Release|Win32
+		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
