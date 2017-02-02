@@ -1,0 +1,500 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 1163
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 162
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+
+	public	?mangle@@YAPADPAUDeclaration@@@Z
+	public	?mangle@Declaration@@UAEPADXZ
+	public	?mangle@FuncDeclaration@@UAEPADXZ
+	public	?mangle@StructDeclaration@@UAEPADXZ
+	public	?mangle@TypedefDeclaration@@UAEPADXZ
+	public	?mangle@ClassDeclaration@@UAEPADXZ
+includelib SNN.lib
+	extrn	??1OutBuffer@@UAE@XZ
+	extrn	?toChars@OutBuffer@@UAEPADXZ
+	extrn	?printf@OutBuffer@@QAAXPBDZZ
+	extrn	_strlen
+	extrn	?writestring@OutBuffer@@QAEXPBD@Z
+	extrn	??0OutBuffer@@QAE@XZ
+	extrn	?error@Dsymbol@@QAAXPBDZZ
+	extrn	_memcmp
+	extrn	?moduleinfo@Module@@2PAUClassDeclaration@@A
+	extrn	?classinfo@ClassDeclaration@@2PAU1@A
+	extrn	?object@ClassDeclaration@@2PAU1@A
+	extrn	?TypeInfo_Tuple@Id@@2PAUIdentifier@@A
+	extrn	?TypeInfo_Typedef@Id@@2PAUIdentifier@@A
+	extrn	?TypeInfo_Class@Id@@2PAUIdentifier@@A
+	extrn	?TypeInfo_Struct@Id@@2PAUIdentifier@@A
+	extrn	?TypeInfo@Id@@2PAUIdentifier@@A
+	extrn	?object@Id@@2PAUIdentifier@@A
+	extrn	?Exception@Id@@2PAUIdentifier@@A
+	extrn	__assert
+	extrn	?isDllMain@FuncDeclaration@@QAEHXZ
+	extrn	?isWinMain@FuncDeclaration@@QAEHXZ
+	extrn	?isMain@FuncDeclaration@@QAEHXZ
+	extrn	_fprintf
+	extrn	__iob
+	extrn	?writeByte@OutBuffer@@QAEXI@Z
+	extrn	?needThisPrefix@Type@@SADXZ
+	extrn	?prependstring@OutBuffer@@QAEXPBD@Z
+	extrn	_sprintf
+
+	public	?mangle@TemplateInstance@@UAEPADXZ
+	public	?mangle@Dsymbol@@UAEPADXZ
+_TEXT	segment
+	assume	CS:_TEXT
+?mangle@@YAPADPAUDeclaration@@@Z:
+		sub	ESP,024h
+		push	EBX
+		push	EBP
+		mov	EBP,030h[ESP]
+		push	ESI
+		push	EDI
+		lea	ECX,014h[ESP]
+		call	near ptr ??0OutBuffer@@QAE@XZ
+		mov	EBX,EBP
+L16:		cmp	dword ptr 4[EBX],0
+		je	L84
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 0F8h[EDX]
+		mov	ESI,EAX
+		cmp	EBX,EBP
+		je	L45
+		test	ESI,ESI
+		je	L45
+		push	ESI
+		call	near ptr ?mangle@@YAPADPAUDeclaration@@@Z
+		add	ESP,4
+		push	EAX
+		lea	ECX,018h[ESP]
+		call	near ptr ?prependstring@OutBuffer@@QAEXPBD@Z
+		jmp short	L9D
+L45:		mov	ECX,4[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		mov	ESI,EAX
+		push	EAX
+		call	near ptr _strlen
+		mov	EDI,EAX
+		push	ESI
+		lea	ECX,01Ch[ESP]
+		call	near ptr ?prependstring@OutBuffer@@QAEXPBD@Z
+		push	EDI
+		push	offset FLAT:_DATA
+		lea	EDX,030h[ESP]
+		push	EDX
+		call	near ptr _sprintf
+		lea	ECX,034h[ESP]
+		push	ECX
+		lea	ECX,028h[ESP]
+		call	near ptr ?prependstring@OutBuffer@@QAEXPBD@Z
+		add	ESP,010h
+		jmp short	L92
+L84:		push	offset FLAT:_DATA[4]
+		lea	ECX,018h[ESP]
+		call	near ptr ?prependstring@OutBuffer@@QAEXPBD@Z
+L92:		mov	EBX,0Ch[EBX]
+		test	EBX,EBX
+		jne	L16
+L9D:		mov	EAX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 0F8h[EAX]
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	LDC
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 098h[EDX]
+		test	EAX,EAX
+		jne	LCA
+		mov	ESI,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 0174h[ESI]
+		test	EAX,EAX
+		je	LDC
+LCA:		call	near ptr ?needThisPrefix@Type@@SADXZ
+		movsx	EAX,AL
+		push	EAX
+		lea	ECX,018h[ESP]
+		call	near ptr ?writeByte@OutBuffer@@QAEXI@Z
+LDC:		mov	EAX,028h[EBP]
+		cmp	dword ptr 0Ch[EAX],0
+		je	LF6
+		mov	EDX,028h[EBP]
+		push	dword ptr 0Ch[EDX]
+		lea	ECX,018h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L114
+LF6:		test	EBX,EBX
+		je	L103
+		cmp	dword ptr 0C8h[EBX],0
+		jne	L114
+L103:		push	051h
+		push	offset FLAT:_DATA[8]
+		push	offset FLAT:_DATA[014h]
+		call	near ptr __assert
+L114:		lea	ECX,014h[ESP]
+		call	near ptr ?toChars@OutBuffer@@UAEPADXZ
+		mov	ESI,EAX
+		lea	ECX,014h[ESP]
+		mov	dword ptr 018h[ESP],0
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		mov	EAX,ESI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,024h
+		ret
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?mangle@Declaration@@UAEPADXZ:
+		sub	ESP,014h
+		mov	EAX,0Ch[ECX]
+		test	EAX,EAX
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		je	L15C
+		mov	EDX,[EAX]
+		mov	ECX,EAX
+		call	dword ptr 0CCh[EDX]
+		test	EAX,EAX
+		je	L1C6
+L15C:		mov	EBX,03Ch[ESI]
+		cmp	EBX,5
+		ja	L195
+		jmp	dword ptr FLAT:_DATA[058h][EBX*4]
+		mov	ECX,4[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		pop	ESI
+		pop	EBX
+		add	ESP,014h
+		ret
+		push	offset FLAT:_DATA[02Ch]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		mov	ECX,4[ESI]
+		mov	EAX,[ECX]
+		call	dword ptr 014h[EAX]
+		pop	ESI
+		pop	EBX
+		add	ESP,014h
+		ret
+L195:		push	dword ptr 03Ch[ESI]
+		mov	EBX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EBX]
+		push	EAX
+		push	offset FLAT:_DATA[040h]
+		push	offset FLAT:__iob[040h]
+		call	near ptr _fprintf
+		push	087h
+		push	offset FLAT:_DATA[8]
+		push	offset FLAT:_DATA[4]
+		call	near ptr __assert
+		add	ESP,010h
+L1C6:		push	ESI
+		call	near ptr ?mangle@@YAPADPAUDeclaration@@@Z
+		mov	EBX,EAX
+		lea	ECX,010h[ESP]
+		call	near ptr ??0OutBuffer@@QAE@XZ
+		push	offset FLAT:_DATA[054h]
+		lea	ECX,014h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		push	EBX
+		lea	ECX,014h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		lea	ECX,010h[ESP]
+		call	near ptr ?toChars@OutBuffer@@UAEPADXZ
+		mov	EBX,EAX
+		lea	ECX,010h[ESP]
+		mov	dword ptr 014h[ESP],0
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		add	ESP,4
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBX
+		add	ESP,014h
+		ret
+?mangle@FuncDeclaration@@UAEPADXZ:
+		push	EBX
+		mov	EBX,ECX
+		call	near ptr ?isMain@FuncDeclaration@@QAEHXZ
+		test	EAX,EAX
+		je	L229
+		pop	EBX
+		mov	EAX,offset FLAT:_DATA[070h]
+		ret
+L229:		mov	ECX,EBX
+		call	near ptr ?isWinMain@FuncDeclaration@@QAEHXZ
+		test	EAX,EAX
+		jne	L23F
+		mov	ECX,EBX
+		call	near ptr ?isDllMain@FuncDeclaration@@QAEHXZ
+		test	EAX,EAX
+		je	L249
+L23F:		mov	ECX,4[EBX]
+		mov	EAX,[ECX]
+		call	dword ptr 014h[EAX]
+		pop	EBX
+		ret
+L249:		test	EBX,EBX
+		jne	L261
+		push	0A3h
+		push	offset FLAT:_DATA[8]
+		push	offset FLAT:_DATA[078h]
+		call	near ptr __assert
+L261:		mov	ECX,EBX
+		call	near ptr ?mangle@Declaration@@UAEPADXZ
+		pop	EBX
+		ret
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?mangle@StructDeclaration@@UAEPADXZ:
+		push	ECX
+		call	near ptr ?mangle@Dsymbol@@UAEPADXZ
+		pop	ECX
+		ret
+?mangle@TypedefDeclaration@@UAEPADXZ:
+		push	ECX
+		call	near ptr ?mangle@Dsymbol@@UAEPADXZ
+		pop	ECX
+		ret
+?mangle@ClassDeclaration@@UAEPADXZ:
+		push	ECX
+		mov	EAX,0Ch[ECX]
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		mov	EDX,4[EBX]
+		push	ESI
+		push	EDI
+		mov	010h[ESP],EAX
+		cmp	EDX,?Exception@Id@@2PAUIdentifier@@A
+		jne	L2A9
+		mov	EDI,0Ch[EBX]
+		mov	EAX,4[EDI]
+		cmp	EAX,?object@Id@@2PAUIdentifier@@A
+		je	L304
+		jmp short	L30B
+L2A9:		cmp	EDX,?TypeInfo@Id@@2PAUIdentifier@@A
+		je	L304
+		cmp	EDX,?TypeInfo_Struct@Id@@2PAUIdentifier@@A
+		je	L304
+		cmp	EDX,?TypeInfo_Class@Id@@2PAUIdentifier@@A
+		je	L304
+		cmp	EDX,?TypeInfo_Typedef@Id@@2PAUIdentifier@@A
+		je	L304
+		cmp	EDX,?TypeInfo_Tuple@Id@@2PAUIdentifier@@A
+		je	L304
+		cmp	EBX,?object@ClassDeclaration@@2PAU1@A
+		je	L304
+		cmp	EBX,?classinfo@ClassDeclaration@@2PAU1@A
+		je	L304
+		cmp	EBX,?moduleinfo@Module@@2PAUClassDeclaration@@A
+		je	L304
+		mov	ESI,[EDX]
+		push	9
+		mov	ECX,EDX
+		push	offset FLAT:_DATA[080h]
+		call	dword ptr 014h[ESI]
+		push	EAX
+		call	near ptr _memcmp
+		add	ESP,0Ch
+		test	EAX,EAX
+		jne	L30B
+L304:		mov	dword ptr 0Ch[EBX],0
+L30B:		mov	ECX,EBX
+		call	near ptr ?mangle@Dsymbol@@UAEPADXZ
+		mov	EDX,010h[ESP]
+		mov	0Ch[EBX],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret
+?mangle@TemplateInstance@@UAEPADXZ:
+		sub	ESP,018h
+		push	EBX
+		mov	EBX,ECX
+		push	ESI
+		push	EDI
+		mov	020h[ESP],ECX
+		lea	ECX,0Ch[ESP]
+		call	near ptr ??0OutBuffer@@QAE@XZ
+		mov	EAX,4[EBX]
+		test	EAX,EAX
+		je	L345
+		mov	EDX,[EAX]
+		mov	ECX,EAX
+		call	dword ptr 014h[EDX]
+		jmp short	L34C
+L345:		mov	ESI,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[ESI]
+L34C:		mov	01Ch[ESP],EAX
+		cmp	dword ptr 054h[EBX],0
+		jne	L366
+		push	offset FLAT:_DATA[08Ch]
+		push	EBX
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		jmp short	L398
+L366:		mov	EAX,054h[EBX]
+		mov	EDI,0Ch[EAX]
+		test	EDI,EDI
+		je	L398
+		mov	020h[ESP],EBX
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 094h[EDX]
+		mov	EBX,EAX
+		cmp	byte ptr [EAX],05Fh
+		jne	L38E
+		cmp	byte ptr 1[EBX],044h
+		jne	L38E
+		add	EBX,2
+L38E:		push	EBX
+		lea	ECX,010h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+L398:		mov	EBX,01Ch[ESP]
+		push	EBX
+		push	EBX
+		call	near ptr _strlen
+		add	ESP,4
+		push	EAX
+		push	offset FLAT:_DATA[09Ch]
+		lea	EAX,018h[ESP]
+		push	EAX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		lea	ECX,01Ch[ESP]
+		call	near ptr ?toChars@OutBuffer@@UAEPADXZ
+		mov	EBX,EAX
+		lea	ECX,01Ch[ESP]
+		mov	dword ptr 020h[ESP],0
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		add	ESP,010h
+		mov	EAX,EBX
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,018h
+		ret
+		nop
+		nop
+?mangle@Dsymbol@@UAEPADXZ:
+		sub	ESP,018h
+		push	EBX
+		push	ESI
+		push	EDI
+		mov	020h[ESP],ECX
+		lea	ECX,0Ch[ESP]
+		call	near ptr ??0OutBuffer@@QAE@XZ
+		mov	EAX,020h[ESP]
+		mov	EDX,4[EAX]
+		test	EDX,EDX
+		je	L409
+		mov	ESI,[EDX]
+		mov	ECX,EDX
+		call	dword ptr 014h[ESI]
+		mov	EBX,EAX
+		jmp short	L412
+L409:		mov	EDI,[EAX]
+		mov	ECX,EAX
+		call	dword ptr 014h[EDI]
+		mov	EBX,EAX
+L412:		mov	EAX,020h[ESP]
+		mov	EDX,0Ch[EAX]
+		test	EDX,EDX
+		je	L449
+		mov	01Ch[ESP],EBX
+		mov	ESI,[EDX]
+		mov	ECX,EDX
+		call	dword ptr 094h[ESI]
+		mov	EBX,EAX
+		cmp	byte ptr [EAX],05Fh
+		jne	L43B
+		cmp	byte ptr 1[EBX],044h
+		jne	L43B
+		add	EBX,2
+L43B:		push	EBX
+		lea	ECX,010h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EBX,01Ch[ESP]
+L449:		push	EBX
+		push	EBX
+		call	near ptr _strlen
+		add	ESP,4
+		push	EAX
+		push	offset FLAT:_DATA[09Ch]
+		lea	EAX,018h[ESP]
+		push	EAX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		lea	ECX,01Ch[ESP]
+		call	near ptr ?toChars@OutBuffer@@UAEPADXZ
+		mov	EBX,EAX
+		lea	ECX,01Ch[ESP]
+		mov	dword ptr 020h[ESP],0
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		add	ESP,010h
+		mov	EAX,EBX
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,018h
+		ret
+_TEXT	ends
+_DATA	segment
+D0	db	025h,064h,000h,000h
+D4	db	030h,000h,000h,000h
+D8	db	06dh,061h,06eh,067h,06ch,065h,02eh,063h
+	db	000h,000h,000h,000h
+D14	db	066h,064h,020h,026h
+	db	026h,020h,066h,064h,02dh,03eh,069h,06eh
+	db	066h,065h,072h,052h,065h,074h,054h,079h
+	db	070h,065h,000h,000h
+D2C	db	066h,06fh,072h,077h
+	db	061h,072h,064h,020h,064h,065h,063h,06ch
+	db	061h,072h,061h,074h,069h,06fh,06eh,000h
+D40	db	027h,025h,073h,027h,02ch,020h,06ch,069h
+	db	06eh,06bh,061h,067h,065h,020h,03dh,020h
+	db	025h,064h,00ah,000h
+D54	db	05fh,044h,000h,000h
+	dd	offset FLAT:?mangle@Declaration@@UAEPADXZ[039h]
+	dd	offset FLAT:?mangle@Declaration@@UAEPADXZ[086h]
+	dd	offset FLAT:?mangle@Declaration@@UAEPADXZ[02Bh]
+	dd	offset FLAT:?mangle@Declaration@@UAEPADXZ[02Bh]
+	dd	offset FLAT:?mangle@Declaration@@UAEPADXZ[02Bh]
+	dd	offset FLAT:?mangle@Declaration@@UAEPADXZ[02Bh]
+D70	db	05fh,044h,06dh,061h,069h,06eh,000h,000h
+D78	db	074h,068h,069h,073h,000h,000h,000h,000h
+D80	db	054h,079h,070h,065h,049h,06eh,066h,06fh
+	db	05fh,000h,000h,000h
+D8C	db	069h,073h,020h,06eh
+	db	06fh,074h,020h,064h,065h,066h,069h,06eh
+	db	065h,064h,000h,000h
+D9C	db	025h,07ah,075h,025h
+	db	073h,000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+	end

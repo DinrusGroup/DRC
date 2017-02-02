@@ -1,0 +1,1097 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 2763
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 216
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+
+	public	?Pname@@3QBDB
+	public	?Pkind@@3QBDB
+	public	?Pfile@@3QBDB
+	public	?Pline@@3QBDB
+	public	?Ptype@@3QBDB
+	public	?Pcomment@@3QBDB
+	public	?Pmembers@@3QBDB
+	public	?json_generate@@YAXPAUArray@@@Z
+	public	?JsonString@@YAXPAUOutBuffer@@PBD@Z
+	public	?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+	public	?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z
+	public	?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@Module@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@AttribDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@ConditionalDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@InvariantDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@DtorDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@StaticCtorDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@StaticDtorDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@ClassInfoDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@ModuleInfoDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@TypeInfoDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@UnitTestDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@Declaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@AggregateDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@TemplateDeclaration@@UAEXPAUOutBuffer@@@Z
+includelib SNN.lib
+	extrn	?writestring@OutBuffer@@QAEXPBD@Z
+	extrn	?isAnonymous@Dsymbol@@QAEHXZ
+	extrn	?toChars@ModuleDeclaration@@QAEPADXZ
+	extrn	?printf@OutBuffer@@QAAXPBDZZ
+	extrn	?writeByte@OutBuffer@@QAEXI@Z
+	extrn	??1OutBuffer@@UAE@XZ
+	extrn	?writev@File@@QAEXXZ
+	extrn	?free@Mem@@QAEXPAX@Z
+	extrn	?mem@@3UMem@@A
+	extrn	?ensurePathExists@FileName@@SAXPBD@Z
+	extrn	?path@FileName@@SAPADPBD@Z
+	extrn	__assert
+	extrn	??0File@@QAE@PAUFileName@@@Z
+	extrn	??2@YAPAXI@Z
+	extrn	?defaultExt@FileName@@SAPAU1@PBD0@Z
+	extrn	?global@@3UGlobal@@A
+	extrn	_fwrite
+	extrn	__iob
+	extrn	?forceExt@FileName@@SAPAU1@PBD0@Z
+	extrn	?name@FileName@@SAPADPBD@Z
+	extrn	_printf
+	extrn	??0OutBuffer@@QAE@XZ
+
+	public	?toJsonBuffer@EnumDeclaration@@UAEXPAUOutBuffer@@@Z
+	public	?toJsonBuffer@EnumMember@@UAEXPAUOutBuffer@@@Z
+_TEXT	segment
+	assume	CS:_TEXT
+?json_generate@@YAXPAUArray@@@Z:
+		sub	ESP,018h
+		push	EBX
+		push	ESI
+		push	EDI
+		mov	EDI,028h[ESP]
+		lea	ECX,010h[ESP]
+		call	near ptr ??0OutBuffer@@QAE@XZ
+		push	offset FLAT:?Pmembers@@3QBDB[8]
+		lea	ECX,014h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		xor	ESI,ESI
+		cmp	4[EDI],ESI
+		je	L6C
+L28:		cmp	byte ptr ?global@@3UGlobal@@A[048h],0
+		mov	EDX,8[EDI]
+		mov	EBX,[ESI*4][EDX]
+		je	L4C
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pmembers@@3QBDB[0Ch]
+		call	near ptr _printf
+		add	ESP,8
+L4C:		lea	ECX,010h[ESP]
+		mov	EDX,[EBX]
+		push	ECX
+		mov	ECX,EBX
+		call	dword ptr 064h[EDX]
+		push	offset FLAT:?Pmembers@@3QBDB[01Ch]
+		lea	ECX,014h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		inc	ESI
+		cmp	4[EDI],ESI
+		ja	L28
+L6C:		lea	EAX,010h[ESP]
+		push	EAX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		push	offset FLAT:?Pmembers@@3QBDB[020h]
+		lea	ECX,018h[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	ESI,?global@@3UGlobal@@A[0A0h]
+		add	ESP,4
+		cmp	dword ptr ?global@@3UGlobal@@A[0A0h],0
+		je	LA1
+		mov	EBX,?global@@3UGlobal@@A[0A0h]
+		cmp	byte ptr [EBX],0
+		jne	LD2
+LA1:		mov	EDX,?global@@3UGlobal@@A[0DCh]
+		mov	ECX,8[EDX]
+		push	dword ptr [ECX]
+		call	near ptr ?name@FileName@@SAPADPBD@Z
+		mov	EBX,EAX
+		push	dword ptr ?global@@3UGlobal@@A[020h]
+		push	EBX
+		call	near ptr ?forceExt@FileName@@SAPAU1@PBD0@Z
+		mov	EDI,EAX
+		add	ESP,8
+		mov	EDX,[EDI]
+		mov	ECX,EAX
+		call	dword ptr 014h[EDX]
+		mov	ESI,EAX
+		add	ESP,4
+		jmp short	L123
+LD2:		mov	EDX,?global@@3UGlobal@@A[0A0h]
+		cmp	byte ptr [EDX],02Dh
+		jne	L123
+		cmp	byte ptr 1[EDX],0
+		jne	L123
+		push	offset FLAT:__iob[020h]
+		push	dword ptr 01Ch[ESP]
+		push	1
+		push	dword ptr 020h[ESP]
+		call	near ptr _fwrite
+		mov	EBX,EAX
+		cmp	EBX,028h[ESP]
+		je	L110
+		push	04Ch
+		push	offset FLAT:?Pmembers@@3QBDB[024h]
+		push	offset FLAT:?Pmembers@@3QBDB[02Ch]
+		call	near ptr __assert
+L110:		lea	ECX,020h[ESP]
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		add	ESP,010h
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,018h
+		ret
+L123:		push	dword ptr ?global@@3UGlobal@@A[020h]
+		push	ESI
+		call	near ptr ?defaultExt@FileName@@SAPAU1@PBD0@Z
+		mov	028h[ESP],EAX
+		push	018h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L150
+		mov	ECX,EBX
+		push	dword ptr 028h[ESP]
+		call	near ptr ??0File@@QAE@PAUFileName@@@Z
+		mov	EBX,EAX
+L150:		test	EBX,EBX
+		jne	L165
+		push	053h
+		push	offset FLAT:?Pmembers@@3QBDB[024h]
+		push	offset FLAT:?Pmembers@@3QBDB[03Ch]
+		call	near ptr __assert
+L165:		mov	EDX,020h[ESP]
+		mov	ECX,01Ch[ESP]
+		mov	8[EBX],ECX
+		mov	ECX,EBX
+		mov	0Ch[EBX],EDX
+		mov	dword ptr 4[EBX],1
+		add	ESP,8
+		mov	EDX,[EBX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		call	near ptr ?path@FileName@@SAPADPBD@Z
+		add	ESP,4
+		mov	EDI,EAX
+		cmp	byte ptr [EAX],0
+		je	L19D
+		push	EDI
+		call	near ptr ?ensurePathExists@FileName@@SAXPBD@Z
+		add	ESP,4
+L19D:		push	EDI
+		mov	ECX,offset FLAT:?mem@@3UMem@@A
+		call	near ptr ?free@Mem@@QAEXPAX@Z
+		mov	ECX,EBX
+		call	near ptr ?writev@File@@QAEXXZ
+		lea	ECX,010h[ESP]
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,018h
+		ret
+		nop
+?JsonString@@YAXPAUOutBuffer@@PBD@Z:
+		push	EAX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		mov	ECX,EBX
+		push	ESI
+		mov	ESI,014h[ESP]
+		push	022h
+		call	near ptr ?writeByte@OutBuffer@@QAEXI@Z
+		cmp	byte ptr [ESI],0
+		je	L2C0
+L1DD:		mov	CL,[ESI]
+		mov	EAX,ECX
+		and	EAX,0FFh
+		cmp	EAX,0Ah
+		je	L210
+		cmp	EAX,0Dh
+		je	L221
+		cmp	EAX,9
+		je	L232
+		cmp	EAX,022h
+		je	L240
+		cmp	EAX,05Ch
+		je	L24E
+		cmp	EAX,02Fh
+		je	L25C
+		cmp	EAX,8
+		je	L26A
+		cmp	EAX,0Ch
+		je	L278
+		jmp short	L286
+L210:		push	offset FLAT:?Pmembers@@3QBDB[048h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp	near ptr L2B6
+L221:		push	offset FLAT:?Pmembers@@3QBDB[04Ch]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp	near ptr L2B6
+L232:		push	offset FLAT:?Pmembers@@3QBDB[050h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L2B6
+L240:		push	offset FLAT:?Pmembers@@3QBDB[054h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L2B6
+L24E:		push	offset FLAT:?Pmembers@@3QBDB[058h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L2B6
+L25C:		push	offset FLAT:?Pmembers@@3QBDB[05Ch]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L2B6
+L26A:		push	offset FLAT:?Pmembers@@3QBDB[060h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L2B6
+L278:		push	offset FLAT:?Pmembers@@3QBDB[064h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L2B6
+L286:		cmp	CL,020h
+		jae	L2A5
+		mov	8[ESP],CL
+		movzx	EDX,byte ptr 8[ESP]
+		push	EDX
+		push	offset FLAT:?Pmembers@@3QBDB[068h]
+		push	EBX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		add	ESP,0Ch
+		jmp short	L2B6
+L2A5:		mov	8[ESP],CL
+		movzx	EDX,byte ptr 8[ESP]
+		mov	ECX,EBX
+		push	EDX
+		call	near ptr ?writeByte@OutBuffer@@QAEXI@Z
+L2B6:		inc	ESI
+		cmp	byte ptr [ESI],0
+		jne	L1DD
+L2C0:		push	022h
+		mov	ECX,EBX
+		call	near ptr ?writeByte@OutBuffer@@QAEXI@Z
+		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret
+		nop
+		nop
+		nop
+?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z:
+		push	EBX
+		mov	EBX,8[ESP]
+		push	dword ptr 0Ch[ESP]
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[070h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		push	dword ptr 018h[ESP]
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[01Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,010h
+		pop	EBX
+		ret
+?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z:
+		push	EBX
+		mov	EBX,8[ESP]
+		push	dword ptr 0Ch[ESP]
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[070h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		push	dword ptr 018h[ESP]
+		push	offset FLAT:?Pmembers@@3QBDB[074h]
+		push	EBX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[01Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,014h
+		pop	EBX
+		ret
+?JsonRemoveComma@@YAXPAUOutBuffer@@@Z:
+		push	EBX
+		mov	EAX,8[ESP]
+		mov	ECX,8[EAX]
+		push	ESI
+		mov	EDX,2
+		cmp	ECX,EDX
+		jb	L36F
+		mov	EBX,0Ch[ESP]
+		mov	ESI,4[EBX]
+		add	ESI,ECX
+		cmp	byte ptr -2[ESI],02Ch
+		jne	L36F
+		cmp	byte ptr -1[ESI],0Ah
+		jne	L36F
+		mov	EAX,0Ch[ESP]
+		sub	8[EAX],EDX
+L36F:		pop	ESI
+		pop	EBX
+		ret
+?toJsonBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toJsonBuffer@Module@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	EBP
+		mov	EBP,ECX
+		mov	ECX,EBX
+		push	ESI
+		push	EDI
+		push	offset FLAT:?Pmembers@@3QBDB[078h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EAX,03Ch[EBP]
+		test	EAX,EAX
+		je	L3AB
+		mov	ECX,EAX
+		call	near ptr ?toChars@ModuleDeclaration@@QAEPADXZ
+		push	EAX
+		push	offset FLAT:?Pname@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L3AB:		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 028h[EDX]
+		push	EAX
+		push	offset FLAT:?Pkind@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		mov	ECX,040h[EBP]
+		mov	EAX,[ECX]
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:?Pfile@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,018h
+		mov	ESI,018h[EBP]
+		test	ESI,ESI
+		je	L3EC
+		push	ESI
+		push	offset FLAT:?Pcomment@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L3EC:		push	offset FLAT:?Pmembers@@3QBDB
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[07Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		xor	ESI,ESI
+		mov	018h[ESP],EDX
+		add	ESP,8
+		mov	ECX,028h[EBP]
+		cmp	4[ECX],ESI
+		je	L44D
+L417:		mov	EDX,028h[EBP]
+		mov	ECX,8[EDX]
+		mov	EDX,8[EBX]
+		cmp	EDX,010h[ESP]
+		mov	EDI,[ESI*4][ECX]
+		je	L43C
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		mov	010h[ESP],EDX
+L43C:		push	EBX
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 064h[EDX]
+		mov	ECX,028h[EBP]
+		inc	ESI
+		cmp	4[ECX],ESI
+		ja	L417
+L44D:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[088h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[08Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	EAX
+		ret	4
+?toJsonBuffer@AttribDeclaration@@UAEXPAUOutBuffer@@@Z:
+		sub	ESP,0Ch
+		mov	EAX,[ECX]
+		push	EBX
+		mov	EBX,014h[ESP]
+		push	EBP
+		push	ESI
+		push	EDI
+		push	0
+		push	0
+		call	dword ptr 015Ch[EAX]
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L4DA
+		mov	ECX,8[EBX]
+		xor	ESI,ESI
+		mov	014h[ESP],ECX
+		cmp	4[EBP],ESI
+		je	L4D1
+L4A1:		mov	EDX,8[EBP]
+		mov	ECX,8[EBX]
+		mov	EDI,[ESI*4][EDX]
+		cmp	ECX,014h[ESP]
+		je	L4C3
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		mov	014h[ESP],EDX
+L4C3:		push	EBX
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 064h[EDX]
+		inc	ESI
+		cmp	4[EBP],ESI
+		ja	L4A1
+L4D1:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		add	ESP,4
+L4DA:		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+?toJsonBuffer@ConditionalDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		mov	EAX,02Ch[ECX]
+		cmp	dword ptr 0Ch[EAX],0
+		je	L4F7
+		push	dword ptr 8[ESP]
+		call	near ptr ?toJsonBuffer@AttribDeclaration@@UAEXPAUOutBuffer@@@Z
+L4F7:		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?toJsonBuffer@InvariantDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toJsonBuffer@DtorDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?toJsonBuffer@StaticCtorDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toJsonBuffer@StaticDtorDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?toJsonBuffer@ClassInfoDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toJsonBuffer@ModuleInfoDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?toJsonBuffer@TypeInfoDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toJsonBuffer@UnitTestDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?toJsonBuffer@Declaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	ESI
+		mov	ESI,ECX
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[078h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pname@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 028h[EDX]
+		push	EAX
+		push	offset FLAT:?Pkind@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,018h
+		mov	ECX,028h[ESI]
+		test	ECX,ECX
+		je	L599
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Ptype@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L599:		mov	ECX,018h[ESI]
+		test	ECX,ECX
+		je	L5AF
+		push	ECX
+		push	offset FLAT:?Pcomment@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L5AF:		cmp	dword ptr 020h[ESI],0
+		je	L5C6
+		push	dword ptr 020h[ESI]
+		push	offset FLAT:?Pline@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z
+		add	ESP,0Ch
+L5C6:		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 0ECh[EDX]
+		test	EAX,EAX
+		je	L5EB
+		mov	ECX,048h[EAX]
+		mov	EAX,[ECX]
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:?Pmembers@@3QBDB[090h]
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L5EB:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[08Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret	4
+?toJsonBuffer@AggregateDeclaration@@UAEXPAUOutBuffer@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		mov	EBX,014h[ESP]
+		push	EBP
+		push	ESI
+		push	EDI
+		mov	EDI,ECX
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[078h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pname@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 028h[EDX]
+		push	EAX
+		push	offset FLAT:?Pkind@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,018h
+		mov	ECX,018h[EDI]
+		test	ECX,ECX
+		je	L65E
+		push	ECX
+		push	offset FLAT:?Pcomment@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L65E:		cmp	dword ptr 020h[EDI],0
+		je	L675
+		push	dword ptr 020h[EDI]
+		push	offset FLAT:?Pline@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z
+		add	ESP,0Ch
+L675:		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 0128h[EDX]
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L73C
+		mov	ECX,0A8h[EBP]
+		test	ECX,ECX
+		je	L6A7
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pmembers@@3QBDB[090h]
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L6A7:		cmp	dword ptr 0E8h[EBP],0
+		je	L73C
+		push	offset FLAT:?Pmembers@@3QBDB[098h]
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[07Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		xor	ESI,ESI
+		mov	018h[ESP],EDX
+		add	ESP,8
+		cmp	0E8h[EBP],ESI
+		jle	L727
+L6DF:		mov	ECX,0ECh[EBP]
+		mov	EDX,[ESI*4][ECX]
+		mov	ECX,8[EBX]
+		mov	014h[ESP],EDX
+		cmp	ECX,010h[ESP]
+		je	L708
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		mov	010h[ESP],EDX
+L708:		mov	ECX,014h[ESP]
+		mov	ECX,8[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		inc	ESI
+		add	ESP,8
+		cmp	0E8h[EBP],ESI
+		jg	L6DF
+L727:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[0A4h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+L73C:		cmp	dword ptr 028h[EDI],0
+		je	L7B9
+		push	offset FLAT:?Pmembers@@3QBDB
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[07Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		xor	ESI,ESI
+		mov	020h[ESP],EDX
+		add	ESP,8
+		mov	ECX,028h[EDI]
+		cmp	4[ECX],ESI
+		je	L7A4
+L76D:		mov	EDX,028h[EDI]
+		mov	ECX,8[EDX]
+		mov	EDX,8[EBX]
+		cmp	EDX,018h[ESP]
+		mov	EBP,[ESI*4][ECX]
+		je	L792
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		mov	018h[ESP],EDX
+L792:		push	EBX
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 064h[EDX]
+		mov	ECX,028h[EDI]
+		inc	ESI
+		cmp	4[ECX],ESI
+		ja	L76D
+L7A4:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[088h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+L7B9:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[08Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+?toJsonBuffer@TemplateDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	EBP
+		mov	EBP,ECX
+		mov	ECX,EBX
+		push	ESI
+		push	EDI
+		push	offset FLAT:?Pmembers@@3QBDB[078h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EAX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:?Pname@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 028h[EDX]
+		push	EAX
+		push	offset FLAT:?Pkind@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,018h
+		mov	ESI,018h[EBP]
+		test	ESI,ESI
+		je	L830
+		push	ESI
+		push	offset FLAT:?Pcomment@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L830:		cmp	dword ptr 020h[EBP],0
+		je	L847
+		push	dword ptr 020h[EBP]
+		push	offset FLAT:?Pline@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z
+		add	ESP,0Ch
+L847:		push	offset FLAT:?Pmembers@@3QBDB
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[07Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		xor	ESI,ESI
+		mov	018h[ESP],EDX
+		add	ESP,8
+		mov	ECX,028h[EBP]
+		cmp	4[ECX],ESI
+		je	L8A8
+L872:		mov	EDX,028h[EBP]
+		mov	ECX,8[EDX]
+		mov	EDX,8[EBX]
+		cmp	EDX,010h[ESP]
+		mov	EDI,[ESI*4][ECX]
+		je	L897
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		mov	010h[ESP],EDX
+L897:		push	EBX
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 064h[EDX]
+		mov	ECX,028h[EBP]
+		inc	ESI
+		cmp	4[ECX],ESI
+		ja	L872
+L8A8:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[088h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[08Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	EAX
+		ret	4
+?toJsonBuffer@EnumDeclaration@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	EBP
+		push	ESI
+		mov	ESI,ECX
+		push	EDI
+		call	near ptr ?isAnonymous@Dsymbol@@QAEHXZ
+		test	EAX,EAX
+		je	L92C
+		mov	EDX,028h[ESI]
+		test	EDX,EDX
+		je	LA3D
+		xor	EDI,EDI
+		cmp	4[EDX],EDI
+		je	L91E
+L8F7:		mov	ECX,028h[ESI]
+		mov	EDX,8[ECX]
+		mov	EBP,[EDI*4][EDX]
+		push	EBX
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 064h[EDX]
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,028h[ESI]
+		inc	EDI
+		cmp	4[EDX],EDI
+		ja	L8F7
+L91E:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		add	ESP,4
+		jmp	near ptr LA3D
+L92C:		push	offset FLAT:?Pmembers@@3QBDB[078h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pname@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 028h[EDX]
+		push	EAX
+		push	offset FLAT:?Pkind@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,018h
+		mov	ECX,018h[ESI]
+		test	ECX,ECX
+		je	L977
+		push	ECX
+		push	offset FLAT:?Pcomment@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L977:		cmp	dword ptr 020h[ESI],0
+		je	L98E
+		push	dword ptr 020h[ESI]
+		push	offset FLAT:?Pline@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z
+		add	ESP,0Ch
+L98E:		mov	EDX,03Ch[ESI]
+		test	EDX,EDX
+		je	L9AB
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pmembers@@3QBDB[090h]
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+L9AB:		cmp	dword ptr 028h[ESI],0
+		je	LA28
+		push	offset FLAT:?Pmembers@@3QBDB
+		push	EBX
+		call	near ptr ?JsonString@@YAXPAUOutBuffer@@PBD@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[07Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		xor	EDI,EDI
+		mov	018h[ESP],EDX
+		add	ESP,8
+		mov	ECX,028h[ESI]
+		cmp	4[ECX],EDI
+		je	LA13
+L9DC:		mov	EDX,028h[ESI]
+		mov	ECX,8[EDX]
+		mov	EDX,8[EBX]
+		cmp	EDX,010h[ESP]
+		mov	EBP,[EDI*4][ECX]
+		je	LA01
+		push	offset FLAT:?Pmembers@@3QBDB[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,8[EBX]
+		mov	010h[ESP],EDX
+LA01:		push	EBX
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 064h[EDX]
+		mov	ECX,028h[ESI]
+		inc	EDI
+		cmp	4[ECX],EDI
+		ja	L9DC
+LA13:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[088h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+LA28:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[08Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+LA3D:		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	EAX
+		ret	4
+?toJsonBuffer@EnumMember@@UAEXPAUOutBuffer@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	ESI
+		mov	ESI,ECX
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[078h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:?Pname@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 028h[EDX]
+		push	EAX
+		push	offset FLAT:?Pkind@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,018h
+		mov	ECX,018h[ESI]
+		test	ECX,ECX
+		je	LA99
+		push	ECX
+		push	offset FLAT:?Pcomment@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBD1@Z
+		add	ESP,0Ch
+LA99:		cmp	dword ptr 020h[ESI],0
+		je	LAB0
+		push	dword ptr 020h[ESI]
+		push	offset FLAT:?Pline@@3QBDB
+		push	EBX
+		call	near ptr ?JsonProperty@@YAXPAUOutBuffer@@PBDH@Z
+		add	ESP,0Ch
+LAB0:		push	EBX
+		call	near ptr ?JsonRemoveComma@@YAXPAUOutBuffer@@@Z
+		mov	ECX,EBX
+		push	offset FLAT:?Pmembers@@3QBDB[08Ch]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		add	ESP,4
+		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret	4
+_TEXT	ends
+_DATA	segment
+?Pname@@3QBDB:
+	db	06eh,061h,06dh,065h,000h,000h,000h,000h
+?Pkind@@3QBDB:
+	db	06bh,069h,06eh,064h,000h,000h,000h,000h
+?Pfile@@3QBDB:
+	db	066h,069h,06ch,065h,000h,000h,000h,000h
+?Pline@@3QBDB:
+	db	06ch,069h,06eh,065h,000h,000h,000h,000h
+?Ptype@@3QBDB:
+	db	074h,079h,070h,065h,000h,000h,000h,000h
+?Pcomment@@3QBDB:
+	db	063h,06fh,06dh,06dh,065h,06eh,074h,000h
+?Pmembers@@3QBDB:
+	db	06dh,065h,06dh,062h,065h,072h,073h,000h
+	db	05bh,00ah,000h,000h,06ah,073h,06fh,06eh
+	db	020h,067h,065h,06eh,020h,025h,073h,00ah
+	db	000h,000h,000h,000h,02ch,00ah,000h,000h
+	db	05dh,00ah,000h,000h,06ah,073h,06fh,06eh
+	db	02eh,063h,000h,000h,06eh,020h,03dh,03dh
+	db	020h,062h,075h,066h,02eh,06fh,066h,066h
+	db	073h,065h,074h,000h,06ah,073h,06fh,06eh
+	db	066h,069h,06ch,065h,000h,000h,000h,000h
+	db	05ch,06eh,000h,000h,05ch,072h,000h,000h
+	db	05ch,074h,000h,000h,05ch,022h,000h,000h
+	db	05ch,05ch,000h,000h,05ch,02fh,000h,000h
+	db	05ch,062h,000h,000h,05ch,066h,000h,000h
+	db	05ch,075h,025h,030h,034h,078h,000h,000h
+	db	020h,03ah,020h,000h,025h,064h,000h,000h
+	db	07bh,00ah,000h,000h,020h,03ah,020h,05bh
+	db	00ah,000h,000h,000h,02ch,00ah,000h,000h
+	db	05dh,00ah,000h,000h,07dh,00ah,000h,000h
+	db	062h,061h,073h,065h,000h,000h,000h,000h
+	db	069h,06eh,074h,065h,072h,066h,061h,063h
+	db	065h,073h,000h,000h,05dh,02ch,00ah,000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+	end

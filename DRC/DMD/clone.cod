@@ -1,0 +1,182 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 442
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 11
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+includelib SNN.lib
+	extrn	?push@Array@@QAEXPAX@Z
+	extrn	??0ExpStatement@@QAE@ULoc@@PAUExpression@@@Z
+	extrn	??2@YAPAXI@Z
+	extrn	??0DtorDeclaration@@QAE@ULoc@@0PAUIdentifier@@@Z
+	extrn	?idPool@Lexer@@SAPAUIdentifier@@PBD@Z
+	extrn	?combine@Expression@@SAPAU1@PAU1@0@Z
+	extrn	??0CallExp@@QAE@ULoc@@PAUExpression@@@Z
+	extrn	??0DotVarExp@@QAE@ULoc@@PAUExpression@@PAUDeclaration@@@Z
+	extrn	??0ThisExp@@QAE@ULoc@@@Z
+
+	public	?buildDtor@AggregateDeclaration@@QAEPAUFuncDeclaration@@PAUScope@@@Z
+_TEXT	segment
+	assume	CS:_TEXT
+?buildDtor@AggregateDeclaration@@QAEPAUFuncDeclaration@@PAUScope@@@Z:
+		sub	ESP,03Ch
+		push	EBX
+		push	EBP
+		mov	EBP,ECX
+		push	ESI
+		push	EDI
+		mov	048h[ESP],ECX
+		mov	EAX,08Ch[ECX]
+		test	EAX,EAX
+		je	L1E
+		cmp	EAX,1
+		je	L2A
+		jmp short	L3C
+L1E:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,03Ch
+		ret	4
+L2A:		mov	EDX,090h[EBP]
+		mov	EAX,[EDX]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,03Ch
+		ret	4
+L3C:		mov	048h[ESP],EBP
+		xor	ECX,ECX
+		mov	EBX,048h[ESP]
+		mov	010h[ESP],ECX
+		xor	EBP,EBP
+		cmp	08Ch[EBX],ECX
+		je	L10C
+		mov	01Ch[ESP],ECX
+		mov	018h[ESP],ECX
+		mov	024h[ESP],ECX
+		mov	020h[ESP],ECX
+		mov	02Ch[ESP],ECX
+		mov	028h[ESP],ECX
+L70:		mov	EDX,048h[ESP]
+		mov	ECX,090h[EDX]
+		mov	ECX,[EBP*4][ECX]
+		mov	014h[ESP],ECX
+		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	LA2
+		mov	ECX,EBX
+		push	dword ptr 01Ch[ESP]
+		push	dword ptr 01Ch[ESP]
+		call	near ptr ??0ThisExp@@QAE@ULoc@@@Z
+		mov	EBX,EAX
+LA2:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	LC8
+		mov	ECX,ESI
+		push	dword ptr 014h[ESP]
+		push	EBX
+		push	dword ptr 02Ch[ESP]
+		push	dword ptr 02Ch[ESP]
+		call	near ptr ??0DotVarExp@@QAE@ULoc@@PAUExpression@@PAUDeclaration@@@Z
+		mov	ESI,EAX
+LC8:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	LEA
+		mov	ECX,EDI
+		push	ESI
+		push	dword ptr 030h[ESP]
+		push	dword ptr 030h[ESP]
+		call	near ptr ??0CallExp@@QAE@ULoc@@PAUExpression@@@Z
+		mov	EDI,EAX
+LEA:		push	dword ptr 010h[ESP]
+		push	EDI
+		call	near ptr ?combine@Expression@@SAPAU1@PAU1@0@Z
+		inc	EBP
+		mov	018h[ESP],EAX
+		add	ESP,8
+		mov	EDX,048h[ESP]
+		cmp	08Ch[EDX],EBP
+		ja	L70
+L10C:		mov	EBP,048h[ESP]
+		push	0E0h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L160
+		push	offset FLAT:_DATA
+		call	near ptr ?idPool@Lexer@@SAPAUIdentifier@@PBD@Z
+		add	ESP,4
+		xor	ECX,ECX
+		push	EAX
+		mov	040h[ESP],ECX
+		mov	EDX,040h[ESP]
+		mov	03Ch[ESP],ECX
+		mov	EAX,03Ch[ESP]
+		push	EDX
+		push	EAX
+		mov	040h[ESP],ECX
+		mov	EDX,040h[ESP]
+		mov	03Ch[ESP],ECX
+		mov	EAX,03Ch[ESP]
+		mov	ECX,EBX
+		push	EDX
+		push	EAX
+		call	near ptr ??0DtorDeclaration@@QAE@ULoc@@0PAUIdentifier@@@Z
+		mov	EBX,EAX
+L160:		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L197
+		mov	ECX,ESI
+		push	dword ptr 010h[ESP]
+		mov	dword ptr 048h[ESP],0
+		mov	dword ptr 044h[ESP],0
+		mov	EDX,048h[ESP]
+		mov	EAX,044h[ESP]
+		push	EDX
+		push	EAX
+		call	near ptr ??0ExpStatement@@QAE@ULoc@@PAUExpression@@@Z
+		mov	ESI,EAX
+L197:		mov	054h[EBX],ESI
+		mov	ECX,028h[EBP]
+		push	EBX
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		push	dword ptr 050h[ESP]
+		call	dword ptr 040h[EDX]
+		mov	EAX,EBX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,03Ch
+		ret	4
+_TEXT	ends
+_DATA	segment
+D0	db	05fh,05fh,061h,067h,067h,072h,044h,074h
+	db	06fh,072h,000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+	end

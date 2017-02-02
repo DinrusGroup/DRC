@@ -6,6 +6,7 @@
 	#pragma once
 	#include "targetver.h"
 	#define WIN32_LEAN_AND_MEAN 
+#define M_UNICODE
 
 	 // Исключите редко используемые компоненты из заголовков Windows
 	 // Файлы заголовков Windows:
@@ -22,8 +23,8 @@
 
 	
 	
-#include ".\DMD\aa.h"
-#include ".\DMD\aav.h"
+//#include ".\DMD\aa.h"
+//#include ".\DMD\aav.h"
 #include ".\DMD\aggregate.h"
 #include ".\DMD\aliasthis.h"
 #include ".\DMD\arraytypes.h"
@@ -91,7 +92,7 @@
 #include ".\DMD\stringtable.h"
 #include ".\DMD\tassert.h"
 #include ".\DMD\template.h"
-#include ".\DMD\tinfo.h"
+//#include ".\DMD\tinfo.h"
 #include ".\DMD\toir.h"
 #include ".\DMD\token.h"
 #include ".\DMD\total.h"

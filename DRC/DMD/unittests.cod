@@ -1,0 +1,24 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 1
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 0
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+includelib SNN.lib
+
+	public	?unittests@@YAXXZ
+_TEXT	segment
+	assume	CS:_TEXT
+?unittests@@YAXXZ:
+		ret
+_TEXT	ends
+_DATA	segment
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+	end

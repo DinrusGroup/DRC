@@ -1,0 +1,1189 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 922
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 164
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+	extrn	??_7DebugSymbol@@6B@
+	extrn	??_7Dsymbol@@6B@
+	extrn	??_7Object@@6B@
+	extrn	??_GDebugSymbol@@UAEPAXI@Z
+	extrn	?dyncast@Dsymbol@@UAEHXZ
+	extrn	?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z
+	extrn	?checkCtorConstInit@Dsymbol@@UAEXXZ
+	extrn	?isPackage@Dsymbol@@UAEPAUPackage@@XZ
+	extrn	?isModule@Dsymbol@@UAEPAUModule@@XZ
+	extrn	?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ
+	extrn	?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ
+	extrn	?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ
+	extrn	?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ
+	extrn	?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ
+	extrn	?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ
+	extrn	?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ
+	extrn	?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ
+	extrn	?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ
+	extrn	?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	extrn	?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ
+	extrn	?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ
+	extrn	?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ
+	extrn	?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ
+	extrn	?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ
+	extrn	?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ
+	extrn	?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ
+	extrn	?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ
+	extrn	?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ
+	extrn	?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ
+	extrn	?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ
+	extrn	?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ
+	extrn	?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	extrn	?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ
+	extrn	?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ
+	extrn	?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ
+	extrn	?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ
+	extrn	?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ
+	extrn	?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ
+	extrn	?isImport@Dsymbol@@UAEPAUImport@@XZ
+	extrn	?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ
+	extrn	?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ
+	extrn	?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ
+	extrn	?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ
+	extrn	?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ
+	extrn	??_GDsymbol@@UAEPAXI@Z
+	extrn	??_GObject@@UAEPAXI@Z
+
+	public	??0DebugSymbol@@QAE@ULoc@@PAUIdentifier@@@Z
+	public	??0DebugSymbol@@QAE@ULoc@@I@Z
+	public	?syntaxCopy@DebugSymbol@@UAEPAUDsymbol@@PAU2@@Z
+	public	?addMember@DebugSymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z
+	public	?semantic@DebugSymbol@@UAEXPAUScope@@@Z
+	extrn	??_7VersionSymbol@@6B@
+
+	public	?toCBuffer@DebugSymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	public	?kind@DebugSymbol@@UAEPBDXZ
+	extrn	??_GVersionSymbol@@UAEPAXI@Z
+
+	public	??0VersionSymbol@@QAE@ULoc@@PAUIdentifier@@@Z
+	public	??0VersionSymbol@@QAE@ULoc@@I@Z
+	public	?syntaxCopy@VersionSymbol@@UAEPAUDsymbol@@PAU2@@Z
+	public	?addMember@VersionSymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z
+	public	?semantic@VersionSymbol@@UAEXPAUScope@@@Z
+includelib SNN.lib
+	extrn	?writenl@OutBuffer@@QAEXXZ
+	extrn	?writestring@OutBuffer@@QAEXPBD@Z
+	extrn	?printf@OutBuffer@@QAAXPBDZZ
+	extrn	?error@Dsymbol@@QAAXPBDZZ
+	extrn	?push@Array@@QAEXPAX@Z
+	extrn	??0Array@@QAE@XZ
+	extrn	??2@YAPAXI@Z
+	extrn	?findCondition@@YAHPAUArray@@PAUIdentifier@@@Z
+	extrn	?checkPredefined@VersionCondition@@SAXULoc@@PBD@Z
+	extrn	__assert
+	extrn	??0Dsymbol@@QAE@XZ
+	extrn	??3@YAXPAX@Z
+	extrn	??0Dsymbol@@QAE@PAUIdentifier@@@Z
+	extrn	?cvMember@Dsymbol@@UAEHPAE@Z
+	extrn	?toObjFile@Dsymbol@@UAEXH@Z
+	extrn	?toSymbol@Dsymbol@@UAEPAUSymbol@@XZ
+	extrn	?emitComment@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?addComment@Dsymbol@@UAEXPAE@Z
+	extrn	?hasPointers@Dsymbol@@UAEHXZ
+	extrn	?oneMember@Dsymbol@@UAEHPAPAU1@@Z
+	extrn	?prot@Dsymbol@@UAE?AW4PROT@@XZ
+	extrn	?needThis@Dsymbol@@UAEHXZ
+	extrn	?mangle@Dsymbol@@UAEPADXZ
+	extrn	?getType@Dsymbol@@UAEPAUType@@XZ
+	extrn	?isMember@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	extrn	?isLabel@Dsymbol@@UAEPAULabelDsymbol@@XZ
+	extrn	?isDeprecated@Dsymbol@@UAEHXZ
+	extrn	?isImportedSymbol@Dsymbol@@UAEHXZ
+	extrn	?isExport@Dsymbol@@UAEHXZ
+	extrn	?isClassMember@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	extrn	?isThis@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	extrn	?defineRef@Dsymbol@@UAEXPAU1@@Z
+	extrn	?isforwardRef@Dsymbol@@UAEHXZ
+	extrn	?size@Dsymbol@@UAEIULoc@@@Z
+	extrn	?toJsonBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	extrn	?toDocBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	extrn	?toHBuffer@Dsymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	extrn	?overloadInsert@Dsymbol@@UAEHPAU1@@Z
+	extrn	?search@Dsymbol@@UAEPAU1@ULoc@@PAUIdentifier@@H@Z
+	extrn	?inlineScan@Dsymbol@@UAEXXZ
+	extrn	?semantic3@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?semantic2@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?semantic0@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?importAll@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?setScope@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?toAlias@Dsymbol@@UAEPAU1@XZ
+	extrn	?toPrettyChars@Dsymbol@@UAEPBDXZ
+	extrn	?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	extrn	?toDchars@Object@@UAEPADXZ
+	extrn	?toChars@Dsymbol@@UAEPADXZ
+	extrn	?print@Object@@UAEXXZ
+	extrn	?compare@Object@@UAEHPAU1@@Z
+	extrn	?hashCode@Object@@UAEIXZ
+	extrn	?equals@Dsymbol@@UAEHPAUObject@@@Z
+	extrn	?dyncast@Object@@UAEHXZ
+	extrn	?toChars@Object@@UAEPADXZ
+	extrn	?equals@Object@@UAEHPAU1@@Z
+	extrn	?syntaxCopy@Dsymbol@@UAEPAU1@PAU1@@Z
+	extrn	?toCBuffer@Dsymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	extrn	?semantic@Dsymbol@@UAEXPAUScope@@@Z
+	extrn	?addMember@Dsymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z
+	extrn	?kind@Dsymbol@@UAEPBDXZ
+
+	public	?toCBuffer@VersionSymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	public	?kind@VersionSymbol@@UAEPBDXZ
+??_7DebugSymbol@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_7Dsymbol@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_7Object@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_GDebugSymbol@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+?dyncast@Dsymbol@@UAEHXZ	COMDAT flags=x0 attr=x10 align=x0 
+?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z	COMDAT flags=x0 attr=x10 align=x0 
+?checkCtorConstInit@Dsymbol@@UAEXXZ	COMDAT flags=x0 attr=x10 align=x0 
+?isPackage@Dsymbol@@UAEPAUPackage@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isModule@Dsymbol@@UAEPAUModule@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isImport@Dsymbol@@UAEPAUImport@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ	COMDAT flags=x0 attr=x10 align=x0 
+??_GDsymbol@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+??_GObject@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+??_7VersionSymbol@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_GVersionSymbol@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+
+_TEXT	segment
+	assume	CS:_TEXT
+??0DebugSymbol@@QAE@ULoc@@PAUIdentifier@@@Z:
+		push	EBX
+		mov	EBX,ECX
+		push	dword ptr 010h[ESP]
+		call	near ptr ??0Dsymbol@@QAE@PAUIdentifier@@@Z
+		mov	EAX,8[ESP]
+		mov	EDX,0Ch[ESP]
+		mov	01Ch[EBX],EAX
+		mov	EAX,EBX
+		mov	dword ptr [EBX],offset FLAT:??_7DebugSymbol@@6B@
+		mov	020h[EBX],EDX
+		pop	EBX
+		ret	0Ch
+??0DebugSymbol@@QAE@ULoc@@I@Z:
+		push	EBX
+		mov	EBX,ECX
+		call	near ptr ??0Dsymbol@@QAE@XZ
+		mov	EAX,010h[ESP]
+		mov	EDX,0Ch[ESP]
+		mov	028h[EBX],EAX
+		mov	EAX,8[ESP]
+		mov	01Ch[EBX],EAX
+		mov	EAX,EBX
+		mov	dword ptr [EBX],offset FLAT:??_7DebugSymbol@@6B@
+		mov	020h[EBX],EDX
+		pop	EBX
+		ret	0Ch
+		nop
+?syntaxCopy@DebugSymbol@@UAEPAUDsymbol@@PAU2@@Z:
+		push	ECX
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		cmp	dword ptr 010h[ESP],0
+		je	L6D
+		push	02Bh
+		push	offset FLAT:_DATA
+		push	offset FLAT:_DATA[0Ch]
+		call	near ptr __assert
+L6D:		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L8F
+		mov	ECX,EBX
+		push	dword ptr 4[ESI]
+		push	dword ptr 020h[ESI]
+		push	dword ptr 01Ch[ESI]
+		call	near ptr ??0DebugSymbol@@QAE@ULoc@@PAUIdentifier@@@Z
+		mov	EBX,EAX
+L8F:		mov	EDX,028h[ESI]
+		mov	EAX,EBX
+		mov	028h[EBX],EDX
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+?addMember@DebugSymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z:
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		mov	ECX,010h[ESP]
+		push	EDI
+		mov	EDX,[ECX]
+		call	dword ptr 0CCh[EDX]
+		mov	EBX,EAX
+		cmp	dword ptr 4[ESI],0
+		je	L12E
+		test	EBX,EBX
+		jne	LCD
+		push	offset FLAT:_DATA[010h]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		jmp short	L14B
+LCD:		push	dword ptr 4[ESI]
+		push	dword ptr 0B0h[EBX]
+		call	near ptr ?findCondition@@YAHPAUArray@@PAUIdentifier@@@Z
+		add	ESP,8
+		test	EAX,EAX
+		je	LF0
+		push	offset FLAT:_DATA[034h]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+LF0:		cmp	dword ptr 0ACh[EBX],0
+		jne	L118
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L112
+		mov	ECX,EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EDI,EAX
+L112:		mov	0ACh[EBX],EDI
+L118:		mov	ECX,4[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		mov	ECX,0ACh[EBX]
+		push	EAX
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		jmp short	L14B
+L12E:		test	EBX,EBX
+		jne	L142
+		push	offset FLAT:_DATA[048h]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		jmp short	L14B
+L142:		mov	ECX,028h[ESI]
+		mov	0A8h[EBX],ECX
+L14B:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		ret	0Ch
+?semantic@DebugSymbol@@UAEXPAUScope@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toCBuffer@DebugSymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		mov	ECX,EBX
+		push	ESI
+		push	offset FLAT:_DATA[074h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EAX,8[ESP]
+		cmp	dword ptr 4[EAX],0
+		je	L18B
+		mov	EDX,8[ESP]
+		mov	ECX,4[EDX]
+		mov	ESI,[ECX]
+		call	dword ptr 014h[ESI]
+		mov	ECX,EBX
+		push	EAX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L19C
+L18B:		push	dword ptr 028h[EAX]
+		push	offset FLAT:_DATA[080h]
+		push	EBX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		add	ESP,0Ch
+L19C:		push	offset FLAT:_DATA[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	ECX,EBX
+		call	near ptr ?writenl@OutBuffer@@QAEXXZ
+		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret	8
+?kind@DebugSymbol@@UAEPBDXZ:
+		push	ECX
+		mov	EAX,offset FLAT:_DATA[088h]
+		pop	ECX
+		ret
+		nop
+		nop
+		nop
+??0VersionSymbol@@QAE@ULoc@@PAUIdentifier@@@Z:
+		push	EBX
+		mov	EBX,ECX
+		push	dword ptr 010h[ESP]
+		call	near ptr ??0Dsymbol@@QAE@PAUIdentifier@@@Z
+		mov	EAX,8[ESP]
+		mov	EDX,0Ch[ESP]
+		mov	01Ch[EBX],EAX
+		mov	EAX,EBX
+		mov	dword ptr [EBX],offset FLAT:??_7VersionSymbol@@6B@
+		mov	020h[EBX],EDX
+		pop	EBX
+		ret	0Ch
+??0VersionSymbol@@QAE@ULoc@@I@Z:
+		push	EBX
+		mov	EBX,ECX
+		call	near ptr ??0Dsymbol@@QAE@XZ
+		mov	EAX,010h[ESP]
+		mov	EDX,0Ch[ESP]
+		mov	028h[EBX],EAX
+		mov	EAX,8[ESP]
+		mov	01Ch[EBX],EAX
+		mov	EAX,EBX
+		mov	dword ptr [EBX],offset FLAT:??_7VersionSymbol@@6B@
+		mov	020h[EBX],EDX
+		pop	EBX
+		ret	0Ch
+		nop
+?syntaxCopy@VersionSymbol@@UAEPAUDsymbol@@PAU2@@Z:
+		push	ECX
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		cmp	dword ptr 010h[ESP],0
+		je	L22D
+		push	07Bh
+		push	offset FLAT:_DATA
+		push	offset FLAT:_DATA[0Ch]
+		call	near ptr __assert
+L22D:		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L24F
+		mov	ECX,EBX
+		push	dword ptr 4[ESI]
+		push	dword ptr 020h[ESI]
+		push	dword ptr 01Ch[ESI]
+		call	near ptr ??0VersionSymbol@@QAE@ULoc@@PAUIdentifier@@@Z
+		mov	EBX,EAX
+L24F:		mov	EDX,028h[ESI]
+		mov	EAX,EBX
+		mov	028h[EBX],EDX
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+?addMember@VersionSymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z:
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		mov	ECX,010h[ESP]
+		push	EDI
+		mov	EDX,[ECX]
+		call	dword ptr 0CCh[EDX]
+		mov	EBX,EAX
+		cmp	dword ptr 4[ESI],0
+		je	L309
+		mov	ECX,4[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	dword ptr 020h[ESI]
+		push	dword ptr 01Ch[ESI]
+		call	near ptr ?checkPredefined@VersionCondition@@SAXULoc@@PBD@Z
+		add	ESP,0Ch
+		test	EBX,EBX
+		jne	L2A8
+		push	offset FLAT:_DATA[010h]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		jmp short	L326
+L2A8:		push	dword ptr 4[ESI]
+		push	dword ptr 0BCh[EBX]
+		call	near ptr ?findCondition@@YAHPAUArray@@PAUIdentifier@@@Z
+		add	ESP,8
+		test	EAX,EAX
+		je	L2CB
+		push	offset FLAT:_DATA[034h]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+L2CB:		cmp	dword ptr 0B8h[EBX],0
+		jne	L2F3
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L2ED
+		mov	ECX,EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EDI,EAX
+L2ED:		mov	0B8h[EBX],EDI
+L2F3:		mov	ECX,4[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		mov	ECX,0B8h[EBX]
+		push	EAX
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		jmp short	L326
+L309:		test	EBX,EBX
+		jne	L31D
+		push	offset FLAT:_DATA[048h]
+		push	ESI
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		jmp short	L326
+L31D:		mov	ECX,028h[ESI]
+		mov	0B4h[EBX],ECX
+L326:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		ret	0Ch
+		nop
+		nop
+?semantic@VersionSymbol@@UAEXPAUScope@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?toCBuffer@VersionSymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		mov	ECX,EBX
+		push	ESI
+		push	offset FLAT:_DATA[090h]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	EAX,8[ESP]
+		cmp	dword ptr 4[EAX],0
+		je	L368
+		mov	EDX,8[ESP]
+		mov	ECX,4[EDX]
+		mov	ESI,[ECX]
+		call	dword ptr 014h[ESI]
+		mov	ECX,EBX
+		push	EAX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		jmp short	L379
+L368:		push	dword ptr 028h[EAX]
+		push	offset FLAT:_DATA[080h]
+		push	EBX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		add	ESP,0Ch
+L379:		push	offset FLAT:_DATA[084h]
+		mov	ECX,EBX
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		mov	ECX,EBX
+		call	near ptr ?writenl@OutBuffer@@QAEXXZ
+		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret	8
+?kind@VersionSymbol@@UAEPBDXZ:
+		push	ECX
+		mov	EAX,offset FLAT:_DATA[09Ch]
+		pop	ECX
+		ret
+_TEXT	ends
+_DATA	segment
+D0	db	076h,065h,072h,073h,069h,06fh,06eh,02eh
+	db	063h,000h,000h,000h
+DC	db	021h,073h,000h,000h
+D10	db	064h,065h,063h,06ch,061h,072h,061h,074h
+	db	069h,06fh,06eh,020h,06dh,075h,073h,074h
+	db	020h,062h,065h,020h,061h,074h,020h,06dh
+	db	06fh,064h,075h,06ch,065h,020h,06ch,065h
+	db	076h,065h,06ch,000h
+D34	db	064h,065h,066h,069h
+	db	06eh,065h,064h,020h,061h,066h,074h,065h
+	db	072h,020h,075h,073h,065h,000h,000h,000h
+D48	db	06ch,065h,076h,065h,06ch,020h,064h,065h
+	db	063h,06ch,061h,072h,061h,074h,069h,06fh
+	db	06eh,020h,06dh,075h,073h,074h,020h,062h
+	db	065h,020h,061h,074h,020h,06dh,06fh,064h
+	db	075h,06ch,065h,020h,06ch,065h,076h,065h
+	db	06ch,000h,000h,000h
+D74	db	064h,065h,062h,075h
+	db	067h,020h,03dh,020h,000h,000h,000h,000h
+D80	db	025h,075h,000h,000h
+D84	db	03bh,000h,000h,000h
+D88	db	064h,065h,062h,075h,067h,000h,000h,000h
+D90	db	076h,065h,072h,073h,069h,06fh,06eh,020h
+	db	03dh,020h,000h,000h
+D9C	db	076h,065h,072h,073h
+	db	069h,06fh,06eh,000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+??_7DebugSymbol@@6B@	comdat
+	dd	offset FLAT:??_GDebugSymbol@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Dsymbol@@UAEHPAUObject@@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Dsymbol@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?toPrettyChars@Dsymbol@@UAEPBDXZ
+	dd	offset FLAT:?kind@DebugSymbol@@UAEPBDXZ
+	dd	offset FLAT:?toAlias@Dsymbol@@UAEPAU1@XZ
+	dd	offset FLAT:?addMember@DebugSymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z
+	dd	offset FLAT:?setScope@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?importAll@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic0@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic@DebugSymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic2@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic3@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?inlineScan@Dsymbol@@UAEXXZ
+	dd	offset FLAT:?search@Dsymbol@@UAEPAU1@ULoc@@PAUIdentifier@@H@Z
+	dd	offset FLAT:?overloadInsert@Dsymbol@@UAEHPAU1@@Z
+	dd	offset FLAT:?toHBuffer@Dsymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	dd	offset FLAT:?toCBuffer@DebugSymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	dd	offset FLAT:?toDocBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?toJsonBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?size@Dsymbol@@UAEIULoc@@@Z
+	dd	offset FLAT:?isforwardRef@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?defineRef@Dsymbol@@UAEXPAU1@@Z
+	dd	offset FLAT:?isThis@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?isClassMember@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	dd	offset FLAT:?isExport@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isImportedSymbol@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isDeprecated@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isLabel@Dsymbol@@UAEPAULabelDsymbol@@XZ
+	dd	offset FLAT:?isMember@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?getType@Dsymbol@@UAEPAUType@@XZ
+	dd	offset FLAT:?mangle@Dsymbol@@UAEPADXZ
+	dd	offset FLAT:?needThis@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?prot@Dsymbol@@UAE?AW4PROT@@XZ
+	dd	offset FLAT:?syntaxCopy@DebugSymbol@@UAEPAUDsymbol@@PAU2@@Z
+	dd	offset FLAT:?oneMember@Dsymbol@@UAEHPAPAU1@@Z
+	dd	offset FLAT:?hasPointers@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z
+	dd	offset FLAT:?checkCtorConstInit@Dsymbol@@UAEXXZ
+	dd	offset FLAT:?addComment@Dsymbol@@UAEXPAE@Z
+	dd	offset FLAT:?emitComment@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?toSymbol@Dsymbol@@UAEPAUSymbol@@XZ
+	dd	offset FLAT:?toObjFile@Dsymbol@@UAEXH@Z
+	dd	offset FLAT:?cvMember@Dsymbol@@UAEHPAE@Z
+	dd	offset FLAT:?isPackage@Dsymbol@@UAEPAUPackage@@XZ
+	dd	offset FLAT:?isModule@Dsymbol@@UAEPAUModule@@XZ
+	dd	offset FLAT:?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ
+	dd	offset FLAT:?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ
+	dd	offset FLAT:?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ
+	dd	offset FLAT:?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ
+	dd	offset FLAT:?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ
+	dd	offset FLAT:?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ
+	dd	offset FLAT:?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ
+	dd	offset FLAT:?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ
+	dd	offset FLAT:?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ
+	dd	offset FLAT:?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ
+	dd	offset FLAT:?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ
+	dd	offset FLAT:?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ
+	dd	offset FLAT:?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ
+	dd	offset FLAT:?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ
+	dd	offset FLAT:?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ
+	dd	offset FLAT:?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ
+	dd	offset FLAT:?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ
+	dd	offset FLAT:?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ
+	dd	offset FLAT:?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ
+	dd	offset FLAT:?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ
+	dd	offset FLAT:?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ
+	dd	offset FLAT:?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	dd	offset FLAT:?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ
+	dd	offset FLAT:?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ
+	dd	offset FLAT:?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ
+	dd	offset FLAT:?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ
+	dd	offset FLAT:?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ
+	dd	offset FLAT:?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ
+	dd	offset FLAT:?isImport@Dsymbol@@UAEPAUImport@@XZ
+	dd	offset FLAT:?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ
+	dd	offset FLAT:?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ
+	dd	offset FLAT:?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ
+	dd	offset FLAT:?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ
+	dd	offset FLAT:?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ
+??_7DebugSymbol@@6B@	ends
+??_7Dsymbol@@6B@	comdat
+	dd	offset FLAT:??_GDsymbol@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Dsymbol@@UAEHPAUObject@@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Dsymbol@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?toPrettyChars@Dsymbol@@UAEPBDXZ
+	dd	offset FLAT:?kind@Dsymbol@@UAEPBDXZ
+	dd	offset FLAT:?toAlias@Dsymbol@@UAEPAU1@XZ
+	dd	offset FLAT:?addMember@Dsymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z
+	dd	offset FLAT:?setScope@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?importAll@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic0@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic2@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic3@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?inlineScan@Dsymbol@@UAEXXZ
+	dd	offset FLAT:?search@Dsymbol@@UAEPAU1@ULoc@@PAUIdentifier@@H@Z
+	dd	offset FLAT:?overloadInsert@Dsymbol@@UAEHPAU1@@Z
+	dd	offset FLAT:?toHBuffer@Dsymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	dd	offset FLAT:?toCBuffer@Dsymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	dd	offset FLAT:?toDocBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?toJsonBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?size@Dsymbol@@UAEIULoc@@@Z
+	dd	offset FLAT:?isforwardRef@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?defineRef@Dsymbol@@UAEXPAU1@@Z
+	dd	offset FLAT:?isThis@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?isClassMember@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	dd	offset FLAT:?isExport@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isImportedSymbol@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isDeprecated@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isLabel@Dsymbol@@UAEPAULabelDsymbol@@XZ
+	dd	offset FLAT:?isMember@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?getType@Dsymbol@@UAEPAUType@@XZ
+	dd	offset FLAT:?mangle@Dsymbol@@UAEPADXZ
+	dd	offset FLAT:?needThis@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?prot@Dsymbol@@UAE?AW4PROT@@XZ
+	dd	offset FLAT:?syntaxCopy@Dsymbol@@UAEPAU1@PAU1@@Z
+	dd	offset FLAT:?oneMember@Dsymbol@@UAEHPAPAU1@@Z
+	dd	offset FLAT:?hasPointers@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z
+	dd	offset FLAT:?checkCtorConstInit@Dsymbol@@UAEXXZ
+	dd	offset FLAT:?addComment@Dsymbol@@UAEXPAE@Z
+	dd	offset FLAT:?emitComment@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?toSymbol@Dsymbol@@UAEPAUSymbol@@XZ
+	dd	offset FLAT:?toObjFile@Dsymbol@@UAEXH@Z
+	dd	offset FLAT:?cvMember@Dsymbol@@UAEHPAE@Z
+	dd	offset FLAT:?isPackage@Dsymbol@@UAEPAUPackage@@XZ
+	dd	offset FLAT:?isModule@Dsymbol@@UAEPAUModule@@XZ
+	dd	offset FLAT:?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ
+	dd	offset FLAT:?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ
+	dd	offset FLAT:?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ
+	dd	offset FLAT:?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ
+	dd	offset FLAT:?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ
+	dd	offset FLAT:?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ
+	dd	offset FLAT:?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ
+	dd	offset FLAT:?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ
+	dd	offset FLAT:?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ
+	dd	offset FLAT:?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ
+	dd	offset FLAT:?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ
+	dd	offset FLAT:?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ
+	dd	offset FLAT:?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ
+	dd	offset FLAT:?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ
+	dd	offset FLAT:?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ
+	dd	offset FLAT:?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ
+	dd	offset FLAT:?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ
+	dd	offset FLAT:?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ
+	dd	offset FLAT:?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ
+	dd	offset FLAT:?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ
+	dd	offset FLAT:?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ
+	dd	offset FLAT:?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	dd	offset FLAT:?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ
+	dd	offset FLAT:?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ
+	dd	offset FLAT:?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ
+	dd	offset FLAT:?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ
+	dd	offset FLAT:?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ
+	dd	offset FLAT:?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ
+	dd	offset FLAT:?isImport@Dsymbol@@UAEPAUImport@@XZ
+	dd	offset FLAT:?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ
+	dd	offset FLAT:?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ
+	dd	offset FLAT:?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ
+	dd	offset FLAT:?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ
+	dd	offset FLAT:?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ
+??_7Dsymbol@@6B@	ends
+??_7Object@@6B@	comdat
+	dd	offset FLAT:??_GObject@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Object@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Object@@UAEHXZ
+??_7Object@@6B@	ends
+??_GDebugSymbol@@UAEPAXI@Z	comdat
+	assume	CS:??_GDebugSymbol@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L2C
+		mov	dword ptr [EBX],offset FLAT:??_7DebugSymbol@@6B@
+		mov	dword ptr [EBX],offset FLAT:??_7Dsymbol@@6B@
+		mov	dword ptr [EBX],offset FLAT:??_7Object@@6B@
+		test	dword ptr 8[ESP],1
+		je	L2C
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L2C:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GDebugSymbol@@UAEPAXI@Z	ends
+?dyncast@Dsymbol@@UAEHXZ	comdat
+	assume	CS:?dyncast@Dsymbol@@UAEHXZ
+		push	ECX
+		mov	EAX,2
+		pop	ECX
+		ret
+?dyncast@Dsymbol@@UAEHXZ	ends
+?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z	comdat
+	assume	CS:?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z
+		push	ECX
+		pop	EAX
+		ret	4
+?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z	ends
+?checkCtorConstInit@Dsymbol@@UAEXXZ	comdat
+	assume	CS:?checkCtorConstInit@Dsymbol@@UAEXXZ
+		push	ECX
+		pop	EAX
+		ret
+?checkCtorConstInit@Dsymbol@@UAEXXZ	ends
+?isPackage@Dsymbol@@UAEPAUPackage@@XZ	comdat
+	assume	CS:?isPackage@Dsymbol@@UAEPAUPackage@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isPackage@Dsymbol@@UAEPAUPackage@@XZ	ends
+?isModule@Dsymbol@@UAEPAUModule@@XZ	comdat
+	assume	CS:?isModule@Dsymbol@@UAEPAUModule@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isModule@Dsymbol@@UAEPAUModule@@XZ	ends
+?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ	comdat
+	assume	CS:?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ	ends
+?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ	comdat
+	assume	CS:?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ	ends
+?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ	comdat
+	assume	CS:?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ	ends
+?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ	comdat
+	assume	CS:?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ	ends
+?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ	comdat
+	assume	CS:?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ	ends
+?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ	comdat
+	assume	CS:?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ	ends
+?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ	comdat
+	assume	CS:?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ	ends
+?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ	comdat
+	assume	CS:?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ	ends
+?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ	comdat
+	assume	CS:?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ	ends
+?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ	comdat
+	assume	CS:?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ	ends
+?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ	comdat
+	assume	CS:?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ	ends
+?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ	comdat
+	assume	CS:?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ	ends
+?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ	comdat
+	assume	CS:?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ	ends
+?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ	comdat
+	assume	CS:?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ	ends
+?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ	comdat
+	assume	CS:?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ	ends
+?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ	comdat
+	assume	CS:?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ	ends
+?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ	comdat
+	assume	CS:?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ	ends
+?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ	comdat
+	assume	CS:?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ	ends
+?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ	comdat
+	assume	CS:?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ	ends
+?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ	comdat
+	assume	CS:?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ	ends
+?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ	comdat
+	assume	CS:?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ	ends
+?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ	comdat
+	assume	CS:?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ	ends
+?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ	comdat
+	assume	CS:?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ	ends
+?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ	comdat
+	assume	CS:?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ	ends
+?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ	comdat
+	assume	CS:?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ	ends
+?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ	comdat
+	assume	CS:?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ	ends
+?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ	comdat
+	assume	CS:?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ	ends
+?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ	comdat
+	assume	CS:?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ	ends
+?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ	comdat
+	assume	CS:?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ	ends
+?isImport@Dsymbol@@UAEPAUImport@@XZ	comdat
+	assume	CS:?isImport@Dsymbol@@UAEPAUImport@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isImport@Dsymbol@@UAEPAUImport@@XZ	ends
+?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ	comdat
+	assume	CS:?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ	ends
+?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ	comdat
+	assume	CS:?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ	ends
+?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ	comdat
+	assume	CS:?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ	ends
+?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ	comdat
+	assume	CS:?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ	ends
+?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ	comdat
+	assume	CS:?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ
+		push	ECX
+		xor	EAX,EAX
+		pop	ECX
+		ret
+?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ	ends
+??_GDsymbol@@UAEPAXI@Z	comdat
+	assume	CS:??_GDsymbol@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L26
+		mov	dword ptr [EBX],offset FLAT:??_7Dsymbol@@6B@
+		mov	dword ptr [EBX],offset FLAT:??_7Object@@6B@
+		test	dword ptr 8[ESP],1
+		je	L26
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L26:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GDsymbol@@UAEPAXI@Z	ends
+??_GObject@@UAEPAXI@Z	comdat
+	assume	CS:??_GObject@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L20
+		mov	dword ptr [EBX],offset FLAT:??_7Object@@6B@
+		test	dword ptr 8[ESP],1
+		je	L20
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L20:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GObject@@UAEPAXI@Z	ends
+??_7VersionSymbol@@6B@	comdat
+	dd	offset FLAT:??_GVersionSymbol@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Dsymbol@@UAEHPAUObject@@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Dsymbol@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?toPrettyChars@Dsymbol@@UAEPBDXZ
+	dd	offset FLAT:?kind@VersionSymbol@@UAEPBDXZ
+	dd	offset FLAT:?toAlias@Dsymbol@@UAEPAU1@XZ
+	dd	offset FLAT:?addMember@VersionSymbol@@UAEHPAUScope@@PAUScopeDsymbol@@H@Z
+	dd	offset FLAT:?setScope@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?importAll@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic0@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic@VersionSymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic2@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?semantic3@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?inlineScan@Dsymbol@@UAEXXZ
+	dd	offset FLAT:?search@Dsymbol@@UAEPAU1@ULoc@@PAUIdentifier@@H@Z
+	dd	offset FLAT:?overloadInsert@Dsymbol@@UAEHPAU1@@Z
+	dd	offset FLAT:?toHBuffer@Dsymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	dd	offset FLAT:?toCBuffer@VersionSymbol@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z
+	dd	offset FLAT:?toDocBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?toJsonBuffer@Dsymbol@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?size@Dsymbol@@UAEIULoc@@@Z
+	dd	offset FLAT:?isforwardRef@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?defineRef@Dsymbol@@UAEXPAU1@@Z
+	dd	offset FLAT:?isThis@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?isClassMember@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	dd	offset FLAT:?isExport@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isImportedSymbol@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isDeprecated@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?isLabel@Dsymbol@@UAEPAULabelDsymbol@@XZ
+	dd	offset FLAT:?isMember@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?getType@Dsymbol@@UAEPAUType@@XZ
+	dd	offset FLAT:?mangle@Dsymbol@@UAEPADXZ
+	dd	offset FLAT:?needThis@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?prot@Dsymbol@@UAE?AW4PROT@@XZ
+	dd	offset FLAT:?syntaxCopy@VersionSymbol@@UAEPAUDsymbol@@PAU2@@Z
+	dd	offset FLAT:?oneMember@Dsymbol@@UAEHPAPAU1@@Z
+	dd	offset FLAT:?hasPointers@Dsymbol@@UAEHXZ
+	dd	offset FLAT:?addLocalClass@Dsymbol@@UAEXPAUClassDeclarations@@@Z
+	dd	offset FLAT:?checkCtorConstInit@Dsymbol@@UAEXXZ
+	dd	offset FLAT:?addComment@Dsymbol@@UAEXPAE@Z
+	dd	offset FLAT:?emitComment@Dsymbol@@UAEXPAUScope@@@Z
+	dd	offset FLAT:?toSymbol@Dsymbol@@UAEPAUSymbol@@XZ
+	dd	offset FLAT:?toObjFile@Dsymbol@@UAEXH@Z
+	dd	offset FLAT:?cvMember@Dsymbol@@UAEHPAE@Z
+	dd	offset FLAT:?isPackage@Dsymbol@@UAEPAUPackage@@XZ
+	dd	offset FLAT:?isModule@Dsymbol@@UAEPAUModule@@XZ
+	dd	offset FLAT:?isEnumMember@Dsymbol@@UAEPAUEnumMember@@XZ
+	dd	offset FLAT:?isTemplateDeclaration@Dsymbol@@UAEPAUTemplateDeclaration@@XZ
+	dd	offset FLAT:?isTemplateInstance@Dsymbol@@UAEPAUTemplateInstance@@XZ
+	dd	offset FLAT:?isTemplateMixin@Dsymbol@@UAEPAUTemplateMixin@@XZ
+	dd	offset FLAT:?isDeclaration@Dsymbol@@UAEPAUDeclaration@@XZ
+	dd	offset FLAT:?isThisDeclaration@Dsymbol@@UAEPAUThisDeclaration@@XZ
+	dd	offset FLAT:?isTupleDeclaration@Dsymbol@@UAEPAUTupleDeclaration@@XZ
+	dd	offset FLAT:?isTypedefDeclaration@Dsymbol@@UAEPAUTypedefDeclaration@@XZ
+	dd	offset FLAT:?isAliasDeclaration@Dsymbol@@UAEPAUAliasDeclaration@@XZ
+	dd	offset FLAT:?isAggregateDeclaration@Dsymbol@@UAEPAUAggregateDeclaration@@XZ
+	dd	offset FLAT:?isFuncDeclaration@Dsymbol@@UAEPAUFuncDeclaration@@XZ
+	dd	offset FLAT:?isFuncAliasDeclaration@Dsymbol@@UAEPAUFuncAliasDeclaration@@XZ
+	dd	offset FLAT:?isFuncLiteralDeclaration@Dsymbol@@UAEPAUFuncLiteralDeclaration@@XZ
+	dd	offset FLAT:?isCtorDeclaration@Dsymbol@@UAEPAUCtorDeclaration@@XZ
+	dd	offset FLAT:?isPostBlitDeclaration@Dsymbol@@UAEPAUPostBlitDeclaration@@XZ
+	dd	offset FLAT:?isDtorDeclaration@Dsymbol@@UAEPAUDtorDeclaration@@XZ
+	dd	offset FLAT:?isStaticCtorDeclaration@Dsymbol@@UAEPAUStaticCtorDeclaration@@XZ
+	dd	offset FLAT:?isStaticDtorDeclaration@Dsymbol@@UAEPAUStaticDtorDeclaration@@XZ
+	dd	offset FLAT:?isInvariantDeclaration@Dsymbol@@UAEPAUInvariantDeclaration@@XZ
+	dd	offset FLAT:?isUnitTestDeclaration@Dsymbol@@UAEPAUUnitTestDeclaration@@XZ
+	dd	offset FLAT:?isNewDeclaration@Dsymbol@@UAEPAUNewDeclaration@@XZ
+	dd	offset FLAT:?isVarDeclaration@Dsymbol@@UAEPAUVarDeclaration@@XZ
+	dd	offset FLAT:?isClassDeclaration@Dsymbol@@UAEPAUClassDeclaration@@XZ
+	dd	offset FLAT:?isStructDeclaration@Dsymbol@@UAEPAUStructDeclaration@@XZ
+	dd	offset FLAT:?isUnionDeclaration@Dsymbol@@UAEPAUUnionDeclaration@@XZ
+	dd	offset FLAT:?isInterfaceDeclaration@Dsymbol@@UAEPAUInterfaceDeclaration@@XZ
+	dd	offset FLAT:?isScopeDsymbol@Dsymbol@@UAEPAUScopeDsymbol@@XZ
+	dd	offset FLAT:?isWithScopeSymbol@Dsymbol@@UAEPAUWithScopeSymbol@@XZ
+	dd	offset FLAT:?isArrayScopeSymbol@Dsymbol@@UAEPAUArrayScopeSymbol@@XZ
+	dd	offset FLAT:?isImport@Dsymbol@@UAEPAUImport@@XZ
+	dd	offset FLAT:?isEnumDeclaration@Dsymbol@@UAEPAUEnumDeclaration@@XZ
+	dd	offset FLAT:?isDeleteDeclaration@Dsymbol@@UAEPAUDeleteDeclaration@@XZ
+	dd	offset FLAT:?isSymbolDeclaration@Dsymbol@@UAEPAUSymbolDeclaration@@XZ
+	dd	offset FLAT:?isAttribDeclaration@Dsymbol@@UAEPAUAttribDeclaration@@XZ
+	dd	offset FLAT:?isOverloadSet@Dsymbol@@UAEPAUOverloadSet@@XZ
+??_7VersionSymbol@@6B@	ends
+??_GVersionSymbol@@UAEPAXI@Z	comdat
+	assume	CS:??_GVersionSymbol@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L2C
+		mov	dword ptr [EBX],offset FLAT:??_7VersionSymbol@@6B@
+		mov	dword ptr [EBX],offset FLAT:??_7Dsymbol@@6B@
+		mov	dword ptr [EBX],offset FLAT:??_7Object@@6B@
+		test	dword ptr 8[ESP],1
+		je	L2C
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L2C:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GVersionSymbol@@UAEPAXI@Z	ends
+	end

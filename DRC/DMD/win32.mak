@@ -32,7 +32,7 @@ LFLAGS=
 
 LINKN=$(SCROOT)\bin\dmlink /de
 
-CFLAGS=-I$(ROOT);$(INCLUDE) $(XFLG) $(OPT) $(DEBUG) -cpp -D_DH
+CFLAGS=-I$(ROOT);$(INCLUDE) $(XFLG) $(OPT) $(DEBUG) -cpp -D_DH -cod
 MFLAGS=-I$C;$(TK) -DMARS -cpp $(DEBUG) -e -wx -D_DH
 
 # Makerules:

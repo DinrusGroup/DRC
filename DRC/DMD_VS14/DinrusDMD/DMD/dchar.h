@@ -27,7 +27,7 @@ typedef size_t hash_t;
 
 // NOTE: All functions accepting pointer arguments must not be NULL
 
-#if M_UNICODE
+#ifdef M_UNICODE
 
 #include <string.h>
 #include <wchar.h>

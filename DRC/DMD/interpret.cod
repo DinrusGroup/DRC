@@ -1,0 +1,7794 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 19895
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 2505
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+	extrn	??_7Dsymbols@@6B@
+	extrn	??_GDsymbols@@UAEPAXI@Z
+	extrn	??_7Expressions@@6B@
+	extrn	??_GExpressions@@UAEPAXI@Z
+
+	public	??0InterState@@QAE@XZ
+	public	?interpret@FuncDeclaration@@QAEPAUExpression@@PAUInterState@@PAUExpressions@@PAU2@@Z
+	public	?interpret@Statement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ExpStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CompoundStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@UnrolledLoopStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@IfStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ScopeStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?replaceReturnReference@@YAPAUExpression@@PAU1@PAUInterState@@@Z
+	public	?interpret@ReturnStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@BreakStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ContinueStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@WhileStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DoStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ForStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ForeachStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@SwitchStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CaseStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DefaultStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@GotoStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@GotoCaseStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@GotoDefaultStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@LabelStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@TryCatchStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@TryFinallyStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ThrowStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@OnScopeStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@WithStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AsmStatement@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@Expression@@UAEPAU1@PAUInterState@@@Z
+	public	?interpret@ThisExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@NullExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@IntegerExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@RealExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ComplexExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@StringExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@FuncExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@SymOffExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DelegateExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+	public	?getVarExp@@YAPAUExpression@@ULoc@@PAUInterState@@PAUDeclaration@@@Z
+	public	?interpret@VarExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DeclarationExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@TupleExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ArrayLiteralExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AssocArrayLiteralExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@StructLiteralExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@NewExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpretCommon@UnaExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@@Z@Z
+	public	?interpret@NegExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ComExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@NotExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@BoolExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+	public	?interpret@AddExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@MinExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@MulExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DivExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ModExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ShlExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ShrExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@UshrExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AndExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@OrExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@XorExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpretCommon2@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@W4TOK@@PAUType@@PAU2@3@Z@Z
+	public	?interpret@EqualExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@IdentityExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CmpExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?changeOneElement@@YAPAUExpressions@@PAU1@IPAX@Z
+	public	?spliceElements@@YAPAUExpressions@@PAU1@0I@Z
+	public	?spliceStringExp@@YAPAUStringExp@@PAU1@0I@Z
+	public	?createBlockDuplicatedArrayLiteral@@YAPAUArrayLiteralExp@@PAUType@@PAUExpression@@I@Z
+	public	?createBlockDuplicatedStringLiteral@@YAPAUStringExp@@PAUType@@IIH@Z
+	public	?addVarToInterstate@@YAXPAUInterState@@PAUVarDeclaration@@@Z
+	public	?modifyStructField@@YAPAUExpression@@PAUType@@PAUStructLiteralExp@@IPAU1@@Z
+	public	?assignArrayElement@@YAPAUExpression@@ULoc@@PAU1@11@Z
+	public	?isUnaExp@@YAPAUUnaExp@@PAUExpression@@@Z
+	public	?findExpressionDepth@ExpressionReverseIterator@@QAEHPAUExpression@@@Z
+	public	?getExpressionAtDepth@ExpressionReverseIterator@@QAEPAUExpression@@H@Z
+	public	?findParentVar@@YAPAUVarDeclaration@@PAUExpression@@0@Z
+	public	?assignDotVar@@YAPAUExpression@@UExpressionReverseIterator@@HPAU1@1@Z
+	public	?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+	public	?interpret@AssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AddAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@MinAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CatAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@MulAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DivAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ModAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ShlAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ShrAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@UshrAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AndAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@OrAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@XorAssignExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@PostExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AndAndExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@OrOrExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CallExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CommaExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CondExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@ArrayLengthExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@IndexExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@SliceExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CatExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@CastExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@AssertExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@PtrExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret@DotVarExp@@UAEPAUExpression@@PAUInterState@@@Z
+	public	?interpret_aaLen@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z
+	public	?interpret_aaKeys@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z
+includelib SNN.lib
+	extrn	??0TypeSArray@@QAE@PAUType@@PAUExpression@@@Z
+	extrn	??0IntegerExp@@QAE@_K@Z
+	extrn	??2@YAPAXI@Z
+	extrn	??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+	extrn	??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+	extrn	?basic@Type@@2QAPAU1@A
+	extrn	?Tsize_t@@3HA
+	extrn	?error@Expression@@QAAXPBDZZ
+	extrn	?getField@StructLiteralExp@@QAEPAUExpression@@PAUType@@I@Z
+	extrn	?Ptr@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?Cast@@YAPAUExpression@@PAUType@@0PAU1@@Z
+	extrn	?Cat@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Slice@@YAPAUExpression@@PAUType@@PAU1@11@Z
+	extrn	?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?Index@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	??1Array@@UAE@XZ
+	extrn	?global@@3UGlobal@@A
+	extrn	?expType@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?adDup@Id@@2PAUIdentifier@@A
+	extrn	?aaValues@Id@@2PAUIdentifier@@A
+	extrn	?aaKeys@Id@@2PAUIdentifier@@A
+	extrn	?aaLen@Id@@2PAUIdentifier@@A
+	extrn	?Min@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Add@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Xor@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Or@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?And@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Ushr@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Shr@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Shl@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Mod@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Div@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?Mul@@YAPAUExpression@@PAUType@@PAU1@1@Z
+	extrn	?isCTFE@VarDeclaration@@QAEHXZ
+	extrn	??0AssocArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@1@Z
+	extrn	?push@Array@@QAEXPAX@Z
+	extrn	??0Array@@QAE@XZ
+	extrn	__assert
+	extrn	?setDim@Array@@QAEXI@Z
+	extrn	??0StructLiteralExp@@QAE@ULoc@@PAUStructDeclaration@@PAUExpressions@@@Z
+	extrn	?getFieldIndex@StructLiteralExp@@QAEHPAUType@@I@Z
+	extrn	?copy@Array@@QAEPAU1@XZ
+	extrn	?Equal@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+	extrn	??0StringExp@@QAE@ULoc@@PAXI@Z
+	extrn	_memcpy
+	extrn	?calloc@Mem@@QAEPAXII@Z
+	extrn	?mem@@3UMem@@A
+	extrn	?error@@YAXULoc@@PBDZZ
+	extrn	?Cmp@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+	extrn	?Identity@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+	extrn	?Bool@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?Not@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?Com@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?Neg@@YAPAUExpression@@PAUType@@PAU1@@Z
+	extrn	?expandTuples@@YAXPAUExpressions@@@Z
+	extrn	?remove@Array@@QAEXI@Z
+	extrn	??0TypeTuple@@QAE@PAUExpressions@@@Z
+	extrn	??0TupleExp@@QAE@ULoc@@PAUExpressions@@@Z
+	extrn	?toInitializer@AggregateDeclaration@@QAEPAUSymbol@@XZ
+	extrn	?error@Statement@@QAAXPBDZZ
+	extrn	?copy@Expression@@QAEPAU1@XZ
+	extrn	??3@YAXPAX@Z
+	extrn	?getNth@Parameter@@SAPAU1@PAUParameters@@IPAI@Z
+	extrn	?error@Dsymbol@@QAAXPBDZZ
+	extrn	?dyncast@Object@@UAEHXZ
+	extrn	?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	extrn	?toDchars@Object@@UAEPADXZ
+	extrn	?toChars@Array@@UAEPADXZ
+	extrn	?print@Object@@UAEXXZ
+	extrn	?compare@Object@@UAEHPAU1@@Z
+	extrn	?hashCode@Object@@UAEIXZ
+	extrn	?equals@Object@@UAEHPAU1@@Z
+	extrn	_memset
+
+	public	?interpret_aaValues@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z
+??_7Dsymbols@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_GDsymbols@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+??_7Expressions@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_GExpressions@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+
+_TEXT	segment
+	assume	CS:_TEXT
+??0InterState@@QAE@XZ:
+		push	ECX
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		lea	ECX,8[ECX]
+		mov	8[ESP],ECX
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EAX,8[ESP]
+		push	02Ch
+		push	0
+		mov	dword ptr [EAX],offset FLAT:??_7Dsymbols@@6B@
+		push	EBX
+		call	near ptr _memset
+		add	ESP,0Ch
+		mov	EAX,EBX
+		pop	EBX
+		add	ESP,8
+		ret
+		nop
+?interpret@FuncDeclaration@@QAEPAUExpression@@PAUInterState@@PAUExpressions@@PAU2@@Z:
+		sub	ESP,08Ch
+		push	EBX
+		push	EBP
+		mov	EBP,ECX
+		push	ESI
+		push	EDI
+		mov	EBX,0A0h[ESP]
+		mov	ESI,0A4h[ESP]
+		cmp	dword ptr ?global@@3UGlobal@@A[0F8h],0
+		mov	EDI,0A8h[ESP]
+		jne	LC7
+		cmp	dword ptr 0B4h[EBP],0
+		jne	LC7
+		cmp	dword ptr 0B8h[EBP],4
+		je	LC7
+		cmp	dword ptr 054h[EBP],0
+		jne	L99
+		push	offset FLAT:_DATA
+		mov	dword ptr 0B4h[EBP],1
+		push	EBP
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+L99:		cmp	dword ptr 0B8h[EBP],4
+		jge	LBA
+		cmp	dword ptr 024h[EBP],0
+		je	LBA
+		push	dword ptr 024h[EBP]
+		mov	EDX,0[EBP]
+		call	dword ptr 048h[EDX]
+		cmp	dword ptr ?global@@3UGlobal@@A[0F8h],0
+		jne	LC7
+LBA:		mov	ECX,5
+		cmp	0B8h[EBP],ECX
+		jge	LD6
+LC7:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+LD6:		mov	ECX,028h[EBP]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		mov	020h[ESP],EAX
+		cmp	dword ptr 4[EAX],5
+		je	LF9
+		push	06Eh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[05Ch]
+		call	near ptr __assert
+LF9:		mov	ECX,024h[EAX]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		mov	ECX,020h[ESP]
+		cmp	dword ptr 02Ch[ECX],0
+		je	L152
+		test	ESI,ESI
+		je	L152
+		mov	EDX,08Ch[EBP]
+		test	EDX,EDX
+		je	L121
+		mov	ECX,4[ESI]
+		cmp	ECX,4[EDX]
+		jne	L12B
+L121:		test	EDX,EDX
+		jne	L152
+		cmp	dword ptr 4[ESI],0
+		je	L152
+L12B:		push	offset FLAT:_DATA[070h]
+		mov	dword ptr 0B4h[EBP],1
+		push	EBP
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		add	ESP,8
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+L152:		lea	ECX,024h[ESP]
+		call	near ptr ??0InterState@@QAE@XZ
+		lea	ECX,050h[ESP]
+		mov	024h[ESP],EBX
+		mov	028h[ESP],EBP
+		mov	048h[ESP],EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	ECX,EBP
+		mov	dword ptr 050h[ESP],offset FLAT:??_7Expressions@@6B@
+		mov	dword ptr 064h[ESP],0
+		mov	EDX,0[EBP]
+		call	dword ptr 098h[EDX]
+		test	EAX,EAX
+		je	L1E5
+		test	EDI,EDI
+		jne	L1E5
+		mov	dword ptr 0B4h[EBP],1
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0ACh]
+		push	EBP
+		call	near ptr ?error@Dsymbol@@QAAXPBDZZ
+		lea	ECX,05Ch[ESP]
+		mov	dword ptr 05Ch[ESP],offset FLAT:??_7Expressions@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,038h[ESP]
+		mov	dword ptr 038h[ESP],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		add	ESP,0Ch
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+L1E5:		test	EDI,EDI
+		je	L22B
+		test	EBX,EBX
+		jne	L22B
+		push	EBX
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		jne	L22B
+		mov	dword ptr 050h[ESP],offset FLAT:??_7Expressions@@6B@
+		lea	ECX,050h[ESP]
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,02Ch[ESP]
+		mov	dword ptr 02Ch[ESP],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+L22B:		test	ESI,ESI
+		je	L4E1
+		mov	0A4h[ESP],ESI
+		mov	ECX,0A4h[ESP]
+		mov	0A8h[ESP],EDI
+		mov	EDX,4[ECX]
+		test	EDX,EDX
+		mov	064h[ESP],EDX
+		je	L278
+		mov	ECX,08Ch[EBP]
+		test	ECX,ECX
+		je	L264
+		mov	ECX,4[ECX]
+		cmp	ECX,EDX
+		je	L278
+L264:		push	08Dh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0CCh]
+		call	near ptr __assert
+L278:		push	EDX
+		lea	ECX,054h[ESP]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		lea	ECX,068h[ESP]
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr 068h[ESP],offset FLAT:??_7Expressions@@6B@
+		push	dword ptr 064h[ESP]
+		lea	ECX,06Ch[ESP]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	EDI,EDI
+		cmp	064h[ESP],EDI
+		je	L39B
+L2AC:		mov	EDX,0A4h[ESP]
+		mov	ECX,8[EDX]
+		mov	ESI,[EDI*4][ECX]
+		push	0
+		mov	EDX,024h[ESP]
+		push	EDI
+		push	dword ptr 028h[EDX]
+		call	near ptr ?getNth@Parameter@@SAPAU1@PAUParameters@@IPAI@Z
+		mov	088h[ESP],EAX
+		add	ESP,0Ch
+		mov	EDX,0Ch[EAX]
+		mov	01Ch[ESP],EDX
+		mov	EAX,8[EAX]
+		xor	EDX,EDX
+		mov	018h[ESP],EAX
+		and	EAX,0201000h
+		or	EDX,EAX
+		je	L348
+		test	EBX,EBX
+		jne	L389
+		mov	EAX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:_DATA[0100h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		mov	EBX,offset FLAT:??_7Expressions@@6B@
+		lea	ECX,074h[ESP]
+		mov	074h[ESP],EBX
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,05Ch[ESP]
+		mov	05Ch[ESP],EBX
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,038h[ESP]
+		mov	dword ptr 038h[ESP],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		add	ESP,0Ch
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+L348:		mov	EAX,018h[ESP]
+		mov	ECX,01Ch[ESP]
+		and	EAX,02000h
+		xor	ECX,ECX
+		or	ECX,EAX
+		jne	L389
+		mov	EDX,07Ch[ESP]
+		mov	ECX,010h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		cmp	dword ptr 4[EAX],1
+		jne	L376
+		cmp	dword ptr 0Ch[ESI],013h
+		jne	L376
+		mov	ESI,018h[ESI]
+L376:		push	EBX
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L41B
+L389:		mov	EDX,070h[ESP]
+		mov	[EDI*4][EDX],ESI
+		inc	EDI
+		cmp	EDI,064h[ESP]
+		jb	L2AC
+L39B:		xor	EDI,EDI
+		cmp	064h[ESP],EDI
+		je	L4C9
+L3A7:		mov	ECX,070h[ESP]
+		mov	ESI,[EDI*4][ECX]
+		push	0
+		mov	EDX,024h[ESP]
+		push	EDI
+		push	dword ptr 028h[EDX]
+		call	near ptr ?getNth@Parameter@@SAPAU1@PAUParameters@@IPAI@Z
+		mov	ECX,08Ch[EBP]
+		mov	EDX,8[ECX]
+		mov	ECX,[EDI*4][EDX]
+		mov	EDX,068h[ECX]
+		mov	090h[ESP],ECX
+		mov	ECX,064h[ESP]
+		mov	[EDI*4][ECX],EDX
+		add	ESP,0Ch
+		mov	EDX,0Ch[EAX]
+		mov	EAX,8[EAX]
+		and	EAX,0201000h
+		xor	EDX,EDX
+		or	EDX,EAX
+		je	L4B4
+		cmp	dword ptr 0Ch[ESI],01Ah
+		jne	L4B4
+		mov	080h[ESP],ESI
+		mov	EDX,080h[ESP]
+		mov	ECX,018h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	ESI,EAX
+		test	EAX,EAX
+		jne	L468
+L41B:		mov	dword ptr 0B4h[EBP],1
+		mov	EAX,offset FLAT:??_7Expressions@@6B@
+		lea	ECX,068h[ESP]
+		mov	068h[ESP],EAX
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,050h[ESP]
+		mov	dword ptr 050h[ESP],offset FLAT:??_7Expressions@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,02Ch[ESP]
+		mov	dword ptr 02Ch[ESP],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+L468:		mov	EAX,084h[ESP]
+		mov	ECX,080h[ESP]
+		test	EBX,EBX
+		mov	068h[EAX],ECX
+		jne	L491
+		push	0CCh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0134h]
+		call	near ptr __assert
+L491:		xor	EDX,EDX
+		cmp	0Ch[EBX],EDX
+		je	L4BE
+L498:		mov	ECX,010h[EBX]
+		cmp	[EDX*4][ECX],ESI
+		jne	L4AC
+		mov	ECX,010h[EBX]
+		mov	[EDX*4][ECX],0
+		jmp short	L4BE
+L4AC:		inc	EDX
+		cmp	0Ch[EBX],EDX
+		ja	L498
+		jmp short	L4BE
+L4B4:		mov	ECX,084h[ESP]
+		mov	068h[ECX],ESI
+L4BE:		inc	EDI
+		cmp	EDI,064h[ESP]
+		jb	L3A7
+L4C9:		mov	dword ptr 068h[ESP],offset FLAT:??_7Expressions@@6B@
+		mov	EDI,0A8h[ESP]
+		lea	ECX,068h[ESP]
+		call	near ptr ??1Array@@UAE@XZ
+L4E1:		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 098h[EDX]
+		test	EAX,EAX
+		je	L536
+		cmp	dword ptr 0Ch[EDI],01Ah
+		jne	L536
+		test	EBX,EBX
+		je	L536
+		mov	0A8h[ESP],EDI
+		mov	ECX,0A8h[ESP]
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		xor	ESI,ESI
+		mov	EDI,EAX
+		cmp	0Ch[EBX],ESI
+		je	L536
+L51C:		mov	ECX,010h[EBX]
+		cmp	[ESI*4][ECX],EDI
+		jne	L530
+		mov	EDX,010h[EBX]
+		mov	[ESI*4][EDX],0
+		jmp short	L536
+L530:		inc	ESI
+		cmp	0Ch[EBX],ESI
+		ja	L51C
+L536:		lea	ECX,088h[ESP]
+		call	near ptr ??0Array@@QAE@XZ
+		test	EBX,EBX
+		mov	dword ptr 088h[ESP],offset FLAT:??_7Expressions@@6B@
+		je	L59A
+		mov	EAX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 0174h[EAX]
+		test	EAX,EAX
+		jne	L59A
+		push	dword ptr 0Ch[EBX]
+		lea	ECX,08Ch[ESP]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	ESI,ESI
+		cmp	0Ch[EBX],ESI
+		je	L59A
+L576:		mov	EDX,010h[EBX]
+		mov	EAX,[ESI*4][EDX]
+		test	EAX,EAX
+		je	L594
+		mov	EDX,090h[ESP]
+		mov	ECX,068h[EAX]
+		mov	[ESI*4][EDX],ECX
+		mov	dword ptr 068h[EAX],0
+L594:		inc	ESI
+		cmp	0Ch[EBX],ESI
+		ja	L576
+L59A:		lea	ECX,024h[ESP]
+		push	ECX
+		mov	ECX,054h[EBP]
+		mov	EDX,[ECX]
+		call	dword ptr 060h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		jne	L5B0
+		xor	EDI,EDI
+L5B0:		cmp	EDI,4
+		jne	L5C7
+		mov	EDX,044h[ESP]
+		mov	040h[ESP],EDX
+		mov	dword ptr 044h[ESP],0
+		jmp short	L59A
+L5C7:		xor	ESI,ESI
+		cmp	064h[ESP],ESI
+		je	L5EC
+L5CF:		mov	ECX,058h[ESP]
+		mov	EDX,[ESI*4][ECX]
+		mov	ECX,08Ch[EBP]
+		mov	ECX,8[ECX]
+		mov	ECX,[ESI*4][ECX]
+		inc	ESI
+		mov	068h[ECX],EDX
+		cmp	ESI,064h[ESP]
+		jb	L5CF
+L5EC:		test	EBX,EBX
+		je	L623
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 0174h[EDX]
+		test	EAX,EAX
+		jne	L623
+		xor	EDX,EDX
+		cmp	0Ch[EBX],EDX
+		je	L623
+L606:		mov	ECX,010h[EBX]
+		mov	ESI,[EDX*4][ECX]
+		test	ESI,ESI
+		je	L61D
+		mov	ECX,090h[ESP]
+		mov	ECX,[EDX*4][ECX]
+		mov	068h[ESI],ECX
+L61D:		inc	EDX
+		cmp	0Ch[EBX],EDX
+		ja	L606
+L623:		mov	EAX,offset FLAT:??_7Expressions@@6B@
+		lea	ECX,088h[ESP]
+		mov	088h[ESP],EAX
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,050h[ESP]
+		mov	dword ptr 050h[ESP],offset FLAT:??_7Expressions@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		lea	ECX,02Ch[ESP]
+		mov	dword ptr 02Ch[ESP],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,08Ch
+		ret	0Ch
+		nop
+		nop
+		nop
+		nop
+?interpret@Statement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	EBX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ESI
+		mov	EBX,ECX
+		test	EDX,EDX
+		push	EDI
+		je	L697
+		cmp	EDX,EBX
+		je	L68C
+		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		ret	4
+L68C:		mov	ESI,010h[ESP]
+		mov	dword ptr 01Ch[ESI],0
+L697:		mov	EDI,[EBX]
+		call	dword ptr 014h[EDI]
+		push	EAX
+		push	offset FLAT:_DATA[013Ch]
+		push	EBX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		ret	4
+?interpret@ExpStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	EBX
+		test	EDX,EDX
+		push	ESI
+		je	L6D3
+		cmp	EDX,ECX
+		jne	L6F6
+		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L6D3:		mov	ESI,010h[ECX]
+		test	ESI,ESI
+		je	L6F6
+		push	dword ptr 010h[ESP]
+		mov	EAX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 078h[EAX]
+		mov	EDX,1
+		cmp	EAX,EDX
+		jne	L6F6
+		pop	ESI
+		mov	EAX,EDX
+		pop	EBX
+		pop	ECX
+		ret	4
+L6F6:		pop	ESI
+		xor	EAX,EAX
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+?interpret@CompoundStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		xor	EAX,EAX
+		push	EBX
+		push	EBP
+		mov	EBP,010h[ESP]
+		push	ESI
+		push	EDI
+		mov	EDI,ECX
+		mov	010h[ESP],EAX
+		cmp	01Ch[EBP],EDI
+		jne	L719
+		mov	01Ch[EBP],EAX
+L719:		mov	EDX,010h[EDI]
+		test	EDX,EDX
+		je	L74D
+		xor	EBX,EBX
+		cmp	4[EDX],EAX
+		je	L74D
+L727:		mov	ECX,010h[EDI]
+		mov	EDX,8[ECX]
+		mov	ESI,[EBX*4][EDX]
+		test	ESI,ESI
+		je	L744
+		push	EBP
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 060h[EDX]
+		test	EAX,EAX
+		mov	010h[ESP],EAX
+		jne	L74D
+L744:		mov	ECX,010h[EDI]
+		inc	EBX
+		cmp	4[ECX],EBX
+		ja	L727
+L74D:		mov	EAX,010h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@UnrolledLoopStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	EBX
+		xor	EBX,EBX
+		push	EBP
+		mov	EBP,ECX
+		push	ESI
+		mov	ESI,014h[ESP]
+		push	EDI
+		cmp	01Ch[ESI],EBP
+		jne	L775
+		mov	01Ch[ESI],EBX
+L775:		mov	EDX,010h[EBP]
+		test	EDX,EDX
+		je	L7C1
+		mov	018h[ESP],ESI
+		xor	ESI,ESI
+		cmp	4[EDX],EBX
+		je	L7C1
+L787:		mov	ECX,010h[EBP]
+		mov	EDX,8[ECX]
+		mov	EDI,[ESI*4][EDX]
+		push	dword ptr 018h[ESP]
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L7C1
+		cmp	EBX,2
+		jne	L7AB
+		xor	EBX,EBX
+		jmp short	L7B8
+L7AB:		cmp	EBX,3
+		jne	L7B4
+		xor	EBX,EBX
+		jmp short	L7C1
+L7B4:		test	EBX,EBX
+		jne	L7C1
+L7B8:		mov	ECX,010h[EBP]
+		inc	ESI
+		cmp	4[ECX],ESI
+		ja	L787
+L7C1:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@IfStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	EBX
+		push	ESI
+		mov	ESI,010h[ESP]
+		mov	EAX,01Ch[ESI]
+		cmp	EAX,ECX
+		jne	L7E5
+		mov	dword ptr 01Ch[ESI],0
+L7E5:		cmp	dword ptr 01Ch[ESI],0
+		je	L825
+		xor	EBX,EBX
+		mov	EDX,018h[ECX]
+		test	EDX,EDX
+		je	L7FE
+		push	ESI
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+L7FE:		cmp	dword ptr 01Ch[ESI],0
+		je	L81D
+		mov	ECX,8[ESP]
+		cmp	dword ptr 01Ch[ECX],0
+		je	L81D
+		push	ESI
+		mov	EDX,0Ch[ESP]
+		mov	ECX,01Ch[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+L81D:		pop	ESI
+		mov	EAX,EBX
+		pop	EBX
+		pop	ECX
+		ret	4
+L825:		push	ESI
+		mov	ECX,014h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		test	EAX,EAX
+		jne	L848
+		push	01A9h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0170h]
+		call	near ptr __assert
+L848:		cmp	EBX,1
+		je	L8A8
+		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L878
+		mov	ECX,8[ESP]
+		mov	EDX,018h[ECX]
+		test	EDX,EDX
+		je	L874
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		push	ESI
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	L8A8
+L874:		xor	EBX,EBX
+		jmp short	L8A8
+L878:		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L8A3
+		mov	ECX,8[ESP]
+		mov	EDX,01Ch[ECX]
+		test	EDX,EDX
+		je	L89F
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		push	ESI
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	L8A8
+L89F:		xor	EBX,EBX
+		jmp short	L8A8
+L8A3:		mov	EBX,1
+L8A8:		pop	ESI
+		mov	EAX,EBX
+		pop	EBX
+		pop	ECX
+		ret	4
+?interpret@ScopeStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EDX,8[ESP]
+		mov	EAX,01Ch[EDX]
+		push	ECX
+		cmp	EAX,ECX
+		push	EBX
+		jne	L8C5
+		mov	dword ptr 01Ch[EDX],0
+L8C5:		mov	010h[ESP],EDX
+		mov	EDX,010h[ECX]
+		test	EDX,EDX
+		je	L8DD
+		mov	EBX,[EDX]
+		mov	ECX,EDX
+		push	dword ptr 010h[ESP]
+		call	dword ptr 060h[EBX]
+		jmp short	L8DF
+L8DD:		xor	EAX,EAX
+L8DF:		pop	EBX
+		add	ESP,8
+		ret	4
+?replaceReturnReference@@YAPAUExpression@@PAU1@PAUInterState@@@Z:
+		push	EAX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	EBP
+		mov	EBP,014h[ESP]
+		push	ESI
+		push	EDI
+		mov	EDI,EBX
+		cmp	dword ptr 0Ch[EBX],012h
+		jne	L916
+		mov	byte ptr 028h[EBP],1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		push	EBP
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		jne	L916
+		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+L916:		mov	EAX,0Ch[EDI]
+		cmp	EAX,01Ah
+		jne	L952
+		mov	ECX,018h[EDI]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L935
+		cmp	dword ptr 068h[EBX],0
+		jne	L949
+L935:		push	01D6h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0174h]
+		call	near ptr __assert
+L949:		mov	EAX,068h[EBX]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+L952:		cmp	EAX,07Bh
+		jne	L960
+		mov	EAX,024h[EBP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+L960:		mov	ECX,EDI
+		call	near ptr ?copy@Expression@@QAEPAU1@XZ
+		mov	EDI,EAX
+		mov	010h[ESP],EAX
+L96D:		mov	EBX,0Ch[EDI]
+		cmp	EBX,03Ah
+		je	L98F
+		cmp	EBX,01Bh
+		je	L98F
+		cmp	EBX,01Ch
+		je	L98F
+		cmp	EBX,01Fh
+		je	L98F
+		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+L98F:		mov	EBX,018h[EDI]
+		mov	ESI,EBX
+		cmp	dword ptr 0Ch[EBX],012h
+		jne	L9B5
+		mov	byte ptr 028h[EBP],1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		push	EBP
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		jne	L9B5
+		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+L9B5:		mov	ECX,0Ch[EBX]
+		cmp	ECX,01Ah
+		jne	L9D1
+		mov	ECX,018h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		test	EAX,EAX
+		je	L9D9
+		mov	EBX,068h[EAX]
+		jmp short	L9D9
+L9D1:		cmp	ECX,07Bh
+		jne	L9D9
+		mov	EBX,024h[EBP]
+L9D9:		cmp	ESI,EBX
+		jne	L9E8
+		mov	ECX,EBX
+		call	near ptr ?copy@Expression@@QAEPAU1@XZ
+		mov	EBX,EAX
+		mov	ESI,EAX
+L9E8:		mov	EDX,0Ch[EDI]
+		cmp	EDX,03Ah
+		je	L9FF
+		cmp	EDX,01Bh
+		je	L9FF
+		cmp	EDX,01Ch
+		je	L9FF
+		cmp	EDX,01Fh
+		jne	LA02
+L9FF:		mov	018h[EDI],EBX
+LA02:		cmp	ESI,EBX
+		jne	LA0D
+		mov	EDI,EBX
+		jmp	near ptr L96D
+LA0D:		mov	EAX,010h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+?interpret@ReturnStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		push	ESI
+		push	EDI
+		je	LA41
+		cmp	EDX,ECX
+		je	LA36
+		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+LA36:		mov	EBX,018h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+LA41:		cmp	dword ptr 010h[ECX],0
+		jne	LA55
+		pop	EDI
+		mov	EAX,5
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+LA55:		cmp	dword ptr 018h[ESP],0
+		je	LA6D
+		mov	ESI,018h[ESP]
+		mov	EDI,4[ESI]
+		test	EDI,EDI
+		je	LA6D
+		cmp	dword ptr 028h[EDI],0
+		jne	LA81
+LA6D:		push	021Eh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0184h]
+		call	near ptr __assert
+LA81:		mov	ECX,010h[ECX]
+		mov	EDX,[ECX]
+		push	dword ptr 018h[ESP]
+		call	dword ptr 078h[EDX]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@BreakStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	EBX
+		test	EDX,EDX
+		je	LAB9
+		cmp	EDX,ECX
+		je	LAAE
+		pop	EBX
+		xor	EAX,EAX
+		pop	ECX
+		ret	4
+LAAE:		mov	EBX,0Ch[ESP]
+		mov	dword ptr 01Ch[EBX],0
+LAB9:		cmp	dword ptr 010h[ECX],0
+		mov	EAX,1
+		jne	LAC9
+		mov	EAX,3
+LAC9:		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+?interpret@ContinueStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	EBX
+		test	EDX,EDX
+		je	LAF3
+		cmp	EDX,ECX
+		je	LAE8
+		pop	EBX
+		xor	EAX,EAX
+		pop	ECX
+		ret	4
+LAE8:		mov	EBX,0Ch[ESP]
+		mov	dword ptr 01Ch[EBX],0
+LAF3:		cmp	dword ptr 010h[ECX],0
+		mov	EAX,1
+		jne	LAFF
+		inc	EAX
+LAFF:		pop	EBX
+		pop	ECX
+		ret	4
+?interpret@WhileStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	025Dh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+		xor	EAX,EAX
+		pop	ECX
+		ret	4
+		nop
+?interpret@DoStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	EBX
+		push	ESI
+		mov	ESI,010h[ESP]
+		mov	EAX,01Ch[ESI]
+		cmp	EAX,ECX
+		jne	LB35
+		mov	dword ptr 01Ch[ESI],0
+LB35:		cmp	dword ptr 01Ch[ESI],0
+		je	LB79
+		mov	EDX,010h[ECX]
+		test	EDX,EDX
+		je	LB4E
+		push	ESI
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	LB50
+LB4E:		xor	EBX,EBX
+LB50:		cmp	dword ptr 01Ch[ESI],0
+		jne	LB64
+		cmp	EBX,1
+		je	LC08
+		cmp	EBX,3
+		jne	LB6C
+LB64:		pop	ESI
+		xor	EAX,EAX
+		pop	EBX
+		pop	ECX
+		ret	4
+LB6C:		cmp	EBX,2
+		je	LBA5
+		test	EBX,EBX
+		jne	LC08
+LB79:		mov	ECX,8[ESP]
+		mov	EDX,010h[ECX]
+		test	EDX,EDX
+		je	LB90
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		push	ESI
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	LB92
+LB90:		xor	EBX,EBX
+LB92:		cmp	EBX,1
+		je	LC08
+		cmp	EBX,3
+		je	LBEB
+		test	EBX,EBX
+		je	LBA5
+		cmp	EBX,2
+		jne	LC08
+LBA5:		push	ESI
+		mov	ECX,0Ch[ESP]
+		mov	ECX,014h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	LC08
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 07Ch[EDX]
+		test	EAX,EAX
+		jne	LBCB
+		mov	EBX,1
+		jmp short	LC08
+LBCB:		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		jne	LB79
+		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	LBEF
+LBEB:		xor	EBX,EBX
+		jmp short	LC08
+LBEF:		push	0295h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+		jmp	near ptr LB79
+LC08:		pop	ESI
+		mov	EAX,EBX
+		pop	EBX
+		pop	ECX
+		ret	4
+?interpret@ForStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	EBX
+		push	ESI
+		mov	ESI,0Ch[ESP]
+		push	EDI
+		mov	EDI,ECX
+		cmp	01Ch[ESI],EDI
+		jne	LC25
+		mov	dword ptr 01Ch[ESI],0
+LC25:		mov	EDX,010h[EDI]
+		test	EDX,EDX
+		je	LC57
+		push	ESI
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	LD48
+		test	EBX,EBX
+		je	LC57
+		push	02A8h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B4h]
+		call	near ptr __assert
+LC57:		cmp	dword ptr 01Ch[ESI],0
+		je	LC99
+		mov	ECX,01Ch[EDI]
+		test	ECX,ECX
+		je	LC6E
+		push	ESI
+		mov	EDX,[ECX]
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	LC70
+LC6E:		xor	EBX,EBX
+LC70:		cmp	dword ptr 01Ch[ESI],0
+		jne	LC84
+		cmp	EBX,1
+		je	LD48
+		cmp	EBX,3
+		jne	LC8C
+LC84:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		ret	4
+LC8C:		cmp	EBX,2
+		je	LCFE
+		test	EBX,EBX
+		jne	LD48
+LC99:		cmp	dword ptr 014h[EDI],0
+		je	LCD8
+LC9F:		push	ESI
+		mov	ECX,014h[EDI]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	LD48
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 07Ch[EDX]
+		test	EAX,EAX
+		jne	LCC8
+		mov	EBX,1
+		jmp	near ptr LD48
+LCC8:		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	LD14
+LCD8:		mov	ECX,01Ch[EDI]
+		test	ECX,ECX
+		je	LCE9
+		push	ESI
+		mov	EDX,[ECX]
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	LCEB
+LCE9:		xor	EBX,EBX
+LCEB:		cmp	EBX,1
+		je	LD48
+		cmp	EBX,3
+		je	LD24
+		test	EBX,EBX
+		je	LCFE
+		cmp	EBX,2
+		jne	LD48
+LCFE:		mov	ECX,018h[EDI]
+		test	ECX,ECX
+		je	LC99
+		push	ESI
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	LD48
+		jmp short	LC99
+LD14:		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	LD28
+LD24:		xor	EBX,EBX
+		jmp short	LD48
+LD28:		push	02DEh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+		cmp	dword ptr 014h[EDI],0
+		jne	LC9F
+		jmp short	LCD8
+LD48:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBX
+		ret	4
+?interpret@ForeachStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,024h
+		push	EBX
+		push	EBP
+		mov	EBP,030h[ESP]
+		push	ESI
+		mov	ESI,ECX
+		push	EDI
+		cmp	01Ch[EBP],ESI
+		jne	LD69
+		mov	dword ptr 01Ch[EBP],0
+LD69:		cmp	dword ptr 01Ch[EBP],0
+		je	LD7B
+		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,024h
+		ret	4
+LD7B:		xor	EDX,EDX
+		mov	EAX,024h[ESI]
+		mov	EBX,030h[EAX]
+		mov	ECX,034h[EAX]
+		and	EBX,01000h
+		and	ECX,EDX
+		mov	014h[ESP],EDX
+		test	EBX,EBX
+		jne	LDDC
+		mov	EDI,EAX
+		mov	ECX,034h[EAX]
+		mov	EAX,030h[EDI]
+		and	EAX,0200000h
+		and	ECX,EDX
+		test	EAX,EAX
+		jne	LDDC
+		mov	EBX,014h[ESP]
+		mov	ECX,018h[ESI]
+		mov	EDI,[ECX]
+		push	EBP
+		call	dword ptr 078h[EDI]
+		cmp	EAX,1
+		mov	018h[ESP],EAX
+		je	LDDC
+		push	EAX
+		mov	EDX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[EDX*4]
+		call	near ptr ?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+		add	ESP,8
+		mov	EDI,EAX
+		cmp	EAX,1
+		jne	LDEB
+LDDC:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,024h
+		ret	4
+LDEB:		mov	ECX,020h[ESI]
+		test	ECX,ECX
+		je	LDF7
+		mov	EDX,068h[ECX]
+		jmp short	LDF9
+LDF7:		xor	EDX,EDX
+LDF9:		mov	ECX,024h[ESI]
+		mov	01Ch[ESP],EDX
+		mov	EDX,068h[ECX]
+		mov	ECX,EDI
+		mov	020h[ESP],EDX
+		mov	EDX,[EDI]
+		call	dword ptr 038h[EDX]
+		mov	024h[ESP],EAX
+		mov	028h[ESP],EDX
+		cmp	dword ptr 010h[ESI],0CCh
+		jne	LF00
+		mov	dword ptr 02Ch[ESP],0
+		mov	ECX,028h[ESP]
+		mov	dword ptr 030h[ESP],0
+		or	ECX,024h[ESP]
+		je	LFC8
+LE41:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	LE75
+		mov	EDX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[EDX*4]
+		mov	ECX,EDI
+		push	dword ptr 034h[ESP]
+		push	dword ptr 034h[ESP]
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+LE75:		mov	EDX,020h[ESI]
+		test	EDX,EDX
+		je	LE7F
+		mov	068h[EDX],EDI
+LE7F:		push	EDI
+		mov	ECX,024h[ESI]
+		push	dword ptr 01Ch[ESP]
+		push	dword ptr 028h[ECX]
+		call	near ptr ?Index@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		add	ESP,0Ch
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	LFC8
+		mov	EDX,024h[ESI]
+		mov	068h[EDX],EBX
+		mov	ECX,01Ch[ESI]
+		test	ECX,ECX
+		je	LEB4
+		mov	EDX,[ECX]
+		push	EBP
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	LEB6
+LEB4:		xor	EBX,EBX
+LEB6:		cmp	EBX,1
+		je	LFC8
+		cmp	EBX,3
+		je	LF9D
+		cmp	EBX,2
+		jne	LED1
+		xor	EBX,EBX
+		jmp short	LED9
+LED1:		test	EBX,EBX
+		jne	LFC8
+LED9:		add	dword ptr 02Ch[ESP],1
+		mov	EAX,02Ch[ESP]
+		adc	dword ptr 030h[ESP],0
+		mov	EDX,030h[ESP]
+		cmp	EDX,028h[ESP]
+		jne	LEF5
+		cmp	EAX,024h[ESP]
+LEF5:		jb	LE41
+		jmp	near ptr LFC8
+LF00:		mov	02Ch[ESP],EAX
+		mov	EAX,02Ch[ESP]
+		mov	030h[ESP],EDX
+		mov	EDX,030h[ESP]
+		sub	dword ptr 02Ch[ESP],1
+		sbb	dword ptr 030h[ESP],0
+		or	EDX,EAX
+		je	LFC8
+LF22:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	LF56
+		mov	ECX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[ECX*4]
+		mov	ECX,EDI
+		push	dword ptr 034h[ESP]
+		push	dword ptr 034h[ESP]
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+LF56:		mov	EDX,020h[ESI]
+		test	EDX,EDX
+		je	LF60
+		mov	068h[EDX],EDI
+LF60:		push	EDI
+		mov	ECX,024h[ESI]
+		push	dword ptr 01Ch[ESP]
+		push	dword ptr 028h[ECX]
+		call	near ptr ?Index@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		add	ESP,0Ch
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	LFC8
+		mov	EDX,024h[ESI]
+		mov	068h[EDX],EBX
+		mov	ECX,01Ch[ESI]
+		test	ECX,ECX
+		je	LF91
+		mov	EDX,[ECX]
+		push	EBP
+		call	dword ptr 060h[EDX]
+		mov	EBX,EAX
+		jmp short	LF93
+LF91:		xor	EBX,EBX
+LF93:		cmp	EBX,1
+		je	LFC8
+		cmp	EBX,3
+		jne	LFA1
+LF9D:		xor	EBX,EBX
+		jmp short	LFC8
+LFA1:		cmp	EBX,2
+		jne	LFC4
+		xor	EBX,EBX
+LFA8:		mov	EAX,02Ch[ESP]
+		mov	EDX,030h[ESP]
+		sub	dword ptr 02Ch[ESP],1
+		sbb	dword ptr 030h[ESP],0
+		or	EDX,EAX
+		jne	LF22
+		jmp short	LFC8
+LFC4:		test	EBX,EBX
+		je	LFA8
+LFC8:		mov	EDX,024h[ESI]
+		mov	ECX,020h[ESP]
+		mov	068h[EDX],ECX
+		mov	ECX,020h[ESI]
+		test	ECX,ECX
+		je	LFE0
+		mov	EDX,01Ch[ESP]
+		mov	068h[ECX],EDX
+LFE0:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,024h
+		ret	4
+		nop
+		nop
+		nop
+		nop
+?interpret@SwitchStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		mov	EBP,018h[ESP]
+		push	ESI
+		push	EDI
+		mov	EDI,ECX
+		cmp	01Ch[EBP],EDI
+		jne	L1009
+		mov	dword ptr 01Ch[EBP],0
+L1009:		cmp	dword ptr 01Ch[EBP],0
+		je	L1045
+		mov	EDX,014h[EDI]
+		test	EDX,EDX
+		je	L1022
+		push	EBP
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 060h[EDX]
+		mov	ESI,EAX
+		jmp short	L1024
+L1022:		xor	ESI,ESI
+L1024:		cmp	dword ptr 01Ch[EBP],0
+		jne	L115D
+		cmp	ESI,1
+		je	L1169
+		cmp	ESI,3
+		je	L115D
+		jmp	near ptr L1169
+L1045:		mov	020h[ESP],EBP
+		mov	ECX,010h[EDI]
+		mov	EAX,[ECX]
+		push	dword ptr 020h[ESP]
+		call	dword ptr 078h[EAX]
+		mov	EBP,EAX
+		cmp	EAX,1
+		je	L109A
+		mov	dword ptr 014h[ESP],0
+		mov	EDX,030h[EDI]
+		test	EDX,EDX
+		je	L10CC
+		xor	EBX,EBX
+		cmp	4[EDX],EBX
+		je	L10CC
+L1072:		mov	ECX,030h[EDI]
+		mov	EDX,8[ECX]
+		mov	ECX,[EBX*4][EDX]
+		mov	018h[ESP],ECX
+		push	dword ptr 010h[ECX]
+		push	EBP
+		push	dword ptr ?basic@Type@@2QAPAU1@A[048h]
+		push	036h
+		call	near ptr ?Equal@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+		add	ESP,010h
+		mov	ESI,EAX
+		cmp	EAX,1
+		jne	L10A9
+L109A:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L10A9:		push	1
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L10C3
+		mov	EAX,018h[ESP]
+		mov	014h[ESP],EAX
+		jmp short	L10CC
+L10C3:		mov	ECX,030h[EDI]
+		inc	EBX
+		cmp	4[ECX],EBX
+		ja	L1072
+L10CC:		cmp	dword ptr 014h[ESP],0
+		jne	L10FF
+		cmp	dword ptr 034h[EDI],0
+		je	L10F0
+		mov	EBX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 014h[EBX]
+		push	EAX
+		push	offset FLAT:_DATA[01B8h]
+		push	EDI
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,0Ch
+L10F0:		mov	EDX,018h[EDI]
+		mov	EBP,020h[ESP]
+		mov	014h[ESP],EDX
+		mov	020h[ESP],EBP
+L10FF:		mov	EBP,014h[ESP]
+		test	EBP,EBP
+		jne	L111B
+		push	03BEh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01E8h]
+		call	near ptr __assert
+L111B:		mov	ECX,020h[ESP]
+		mov	01Ch[ECX],EBP
+		mov	EDX,014h[EDI]
+		test	EDX,EDX
+		je	L1138
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		push	dword ptr 020h[ESP]
+		call	dword ptr 060h[EDX]
+		mov	ESI,EAX
+		jmp short	L113A
+L1138:		xor	ESI,ESI
+L113A:		mov	ECX,020h[ESP]
+		cmp	dword ptr 01Ch[ECX],0
+		je	L1158
+		push	03C1h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01ECh]
+		call	near ptr __assert
+L1158:		cmp	ESI,3
+		jne	L1169
+L115D:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L1169:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+?interpret@CaseStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EDX,8[ESP]
+		mov	EAX,01Ch[EDX]
+		cmp	EAX,ECX
+		jne	L1188
+		mov	dword ptr 01Ch[EDX],0
+L1188:		cmp	dword ptr 014h[ECX],0
+		je	L11A2
+		mov	8[ESP],EDX
+		mov	ECX,014h[ECX]
+		mov	EDX,[ECX]
+		push	dword ptr 8[ESP]
+		call	dword ptr 060h[EDX]
+		pop	ECX
+		ret	4
+L11A2:		pop	ECX
+		xor	EAX,EAX
+		ret	4
+?interpret@DefaultStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EDX,8[ESP]
+		mov	EAX,01Ch[EDX]
+		cmp	EAX,ECX
+		jne	L11BB
+		mov	dword ptr 01Ch[EDX],0
+L11BB:		cmp	dword ptr 010h[ECX],0
+		je	L11D5
+		mov	8[ESP],EDX
+		mov	ECX,010h[ECX]
+		mov	EDX,[ECX]
+		push	dword ptr 8[ESP]
+		call	dword ptr 060h[EDX]
+		pop	ECX
+		ret	4
+L11D5:		pop	ECX
+		xor	EAX,EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@GotoStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		push	ESI
+		push	EDI
+		je	L120A
+		cmp	EDX,ECX
+		je	L11FF
+		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L11FF:		mov	EBX,018h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L120A:		mov	ESI,014h[ECX]
+		test	ESI,ESI
+		je	L1217
+		cmp	dword ptr 028h[ESI],0
+		jne	L122B
+L1217:		push	03E7h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01FCh]
+		call	near ptr __assert
+L122B:		mov	EAX,018h[ESP]
+		mov	EDI,028h[ESI]
+		mov	020h[EAX],EDI
+		mov	EAX,4
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@GotoCaseStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		push	ESI
+		push	EDI
+		je	L126D
+		cmp	EDX,ECX
+		je	L1262
+		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L1262:		mov	EBX,018h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L126D:		mov	ESI,014h[ECX]
+		test	ESI,ESI
+		jne	L1288
+		push	03F2h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0218h]
+		call	near ptr __assert
+L1288:		mov	EDI,018h[ESP]
+		mov	EAX,4
+		mov	020h[EDI],ESI
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+		nop
+?interpret@GotoDefaultStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		push	ESI
+		push	EDI
+		je	L12CA
+		cmp	EDX,ECX
+		je	L12BF
+		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L12BF:		mov	EBX,018h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L12CA:		mov	ESI,010h[ECX]
+		test	ESI,ESI
+		je	L12D7
+		cmp	dword ptr 018h[ESI],0
+		jne	L12EB
+L12D7:		push	03FDh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[021Ch]
+		call	near ptr __assert
+L12EB:		mov	EAX,018h[ESP]
+		mov	EDI,018h[ESI]
+		mov	020h[EAX],EDI
+		mov	EAX,4
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@LabelStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EDX,8[ESP]
+		mov	EAX,01Ch[EDX]
+		push	ECX
+		cmp	EAX,ECX
+		push	EBX
+		jne	L1318
+		mov	dword ptr 01Ch[EDX],0
+L1318:		mov	010h[ESP],EDX
+		mov	EDX,014h[ECX]
+		test	EDX,EDX
+		je	L1330
+		mov	EBX,[EDX]
+		mov	ECX,EDX
+		push	dword ptr 010h[ESP]
+		call	dword ptr 060h[EBX]
+		jmp short	L1332
+L1330:		xor	EAX,EAX
+L1332:		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@TryCatchStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		je	L1366
+		cmp	EDX,ECX
+		je	L135B
+		pop	EBX
+		add	ESP,8
+		xor	EAX,EAX
+		ret	4
+L135B:		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L1366:		push	offset FLAT:_DATA[0230h]
+		push	ECX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@TryFinallyStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		je	L13A6
+		cmp	EDX,ECX
+		je	L139B
+		pop	EBX
+		add	ESP,8
+		xor	EAX,EAX
+		ret	4
+L139B:		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L13A6:		push	offset FLAT:_DATA[0264h]
+		push	ECX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@ThrowStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		je	L13E6
+		cmp	EDX,ECX
+		je	L13DB
+		pop	EBX
+		add	ESP,8
+		xor	EAX,EAX
+		ret	4
+L13DB:		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L13E6:		push	offset FLAT:_DATA[029Ch]
+		push	ECX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@OnScopeStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		je	L1426
+		cmp	EDX,ECX
+		je	L141B
+		pop	EBX
+		add	ESP,8
+		xor	EAX,EAX
+		ret	4
+L141B:		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L1426:		push	offset FLAT:_DATA[02CCh]
+		push	ECX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@WithStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		je	L1466
+		cmp	EDX,ECX
+		je	L145B
+		pop	EBX
+		add	ESP,8
+		xor	EAX,EAX
+		ret	4
+L145B:		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L1466:		push	offset FLAT:_DATA[0304h]
+		push	ECX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@AsmStatement@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,01Ch[EAX]
+		push	ECX
+		test	EDX,EDX
+		push	EBX
+		je	L14A6
+		cmp	EDX,ECX
+		je	L149B
+		pop	EBX
+		add	ESP,8
+		xor	EAX,EAX
+		ret	4
+L149B:		mov	EBX,010h[ESP]
+		mov	dword ptr 01Ch[EBX],0
+L14A6:		push	offset FLAT:_DATA[0334h]
+		push	ECX
+		call	near ptr ?error@Statement@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@Expression@@UAEPAU1@PAUInterState@@@Z:
+		push	EBX
+		mov	EAX,[ECX]
+		mov	EBX,ECX
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:_DATA[036Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EBX
+		ret	4
+?interpret@ThisExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EDX,8[ESP]
+		test	EDX,EDX
+		push	ECX
+		push	EBX
+		je	L150C
+		cmp	dword ptr 024h[EDX],0
+		je	L150C
+		mov	010h[ESP],EDX
+		push	dword ptr 010h[ESP]
+		mov	EDX,014h[ESP]
+		mov	ECX,024h[EDX]
+		mov	EBX,[ECX]
+		call	dword ptr 078h[EBX]
+		pop	EBX
+		add	ESP,8
+		ret	4
+L150C:		push	offset FLAT:_DATA[0390h]
+		push	ECX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@NullExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+?interpret@IntegerExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+?interpret@RealExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+		nop
+		nop
+?interpret@ComplexExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+?interpret@StringExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+		nop
+		nop
+?interpret@FuncExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+?interpret@SymOffExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	EBX
+		mov	EBX,ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		call	dword ptr 0F8h[EAX]
+		test	EAX,EAX
+		je	L1575
+		cmp	dword ptr 01Ch[EBX],0
+		jne	L1575
+		mov	EAX,EBX
+		pop	EBX
+		ret	4
+L1575:		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[036Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EBX
+		ret	4
+?interpret@DelegateExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,ECX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z:
+		push	EAX
+		push	EBX
+		push	EBP
+		mov	EBP,018h[ESP]
+		test	EBP,EBP
+		push	ESI
+		mov	ESI,014h[ESP]
+		push	EDI
+		mov	EDI,01Ch[ESP]
+		je	L15B9
+		mov	byte ptr 0[EBP],0
+L15B9:		mov	ECX,0Ch[ESI]
+		mov	EDX,07Bh
+		cmp	ECX,EDX
+		jne	L15F9
+		test	EDI,EDI
+		jne	L15DD
+		push	04ADh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[03C0h]
+		call	near ptr __assert
+L15DD:		cmp	ESI,EDI
+		jne	L15F5
+		push	04AEh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[03C8h]
+		call	near ptr __assert
+L15F5:		mov	ESI,EDI
+		jmp short	L15B9
+L15F9:		mov	EAX,01Ah
+		cmp	ECX,EAX
+		jne	L1669
+		mov	ECX,018h[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L163F
+		mov	ECX,068h[EBX]
+		test	ECX,ECX
+		je	L163F
+		cmp	dword ptr 0Ch[ECX],01Ah
+		jne	L163F
+		mov	EDX,068h[EBX]
+		mov	ECX,018h[EDX]
+		mov	EDX,018h[EDX]
+		mov	EDX,[EDX]
+		call	dword ptr 0150h[EDX]
+		test	EAX,EAX
+		jne	L1669
+		test	EBP,EBP
+		je	L1661
+		mov	byte ptr 0[EBP],1
+		jmp short	L1661
+L163F:		test	EBX,EBX
+		je	L1669
+		mov	EDX,068h[EBX]
+		test	EDX,EDX
+		je	L1669
+		mov	ECX,0Ch[EDX]
+		cmp	ECX,03Ah
+		je	L1661
+		cmp	ECX,01Bh
+		je	L1661
+		cmp	ECX,07Bh
+		je	L1661
+		cmp	ECX,01Fh
+		jne	L1669
+L1661:		mov	ESI,068h[EBX]
+		jmp	near ptr L15B9
+L1669:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+?getVarExp@@YAPAUExpression@@ULoc@@PAUInterState@@PAUDeclaration@@@Z:
+		sub	ESP,014h
+		mov	ECX,024h[ESP]
+		mov	EDX,[ECX]
+		push	EBX
+		push	ESI
+		mov	ESI,1
+		call	dword ptr 0124h[EDX]
+		mov	ECX,02Ch[ESP]
+		mov	EDX,[ECX]
+		mov	EBX,EAX
+		call	dword ptr 0150h[EDX]
+		test	EBX,EBX
+		mov	0Ch[ESP],EAX
+		je	L1839
+		mov	EAX,030h[EBX]
+		mov	EDX,034h[EBX]
+		and	EAX,4
+		xor	EDX,EDX
+		test	EAX,EAX
+		je	L16DF
+		cmp	dword ptr 048h[EBX],0
+		je	L16DF
+		mov	ECX,048h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 030h[EDX]
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L1827
+		cmp	dword ptr 010h[ESI],0
+		jne	L1827
+		mov	ECX,028h[EBX]
+		mov	010h[ESI],ECX
+		jmp	near ptr L1827
+L16DF:		mov	ECX,EBX
+		call	near ptr ?isCTFE@VarDeclaration@@QAEHXZ
+		test	EAX,EAX
+		jne	L16FF
+		mov	ESI,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 0168h[ESI]
+		test	EAX,EAX
+		jne	L1775
+		cmp	dword ptr 028h[ESP],0
+		je	L1775
+L16FF:		cmp	dword ptr 068h[EBX],0
+		jne	L1775
+		cmp	dword ptr 048h[EBX],0
+		je	L175B
+		mov	ECX,048h[EBX]
+		mov	ESI,[ECX]
+		call	dword ptr 03Ch[ESI]
+		test	EAX,EAX
+		je	L173F
+		mov	EAX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:_DATA[03D8h]
+		push	dword ptr 02Ch[ESP]
+		push	dword ptr 02Ch[ESP]
+		call	near ptr ?error@@YAXULoc@@PBDZZ
+		add	ESP,010h
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,014h
+		ret
+L173F:		push	dword ptr 028h[ESP]
+		mov	ECX,048h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 030h[EDX]
+		mov	ESI,EAX
+		mov	EDX,[ESI]
+		mov	ECX,EAX
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		jmp	near ptr L1827
+L175B:		push	dword ptr 024h[ESP]
+		mov	ECX,028h[EBX]
+		mov	EDX,[ECX]
+		push	dword ptr 024h[ESP]
+		call	dword ptr 090h[EDX]
+		mov	ESI,EAX
+		jmp	near ptr L1827
+L1775:		mov	EAX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 0168h[EAX]
+		test	EAX,EAX
+		jne	L17B2
+		cmp	dword ptr 028h[ESP],0
+		jne	L17B2
+		mov	ESI,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[ESI]
+		push	EAX
+		push	offset FLAT:_DATA[0404h]
+		push	dword ptr 02Ch[ESP]
+		push	dword ptr 02Ch[ESP]
+		call	near ptr ?error@@YAXULoc@@PBDZZ
+		add	ESP,010h
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,014h
+		ret
+L17B2:		mov	ESI,068h[EBX]
+		mov	ECX,EBX
+		call	near ptr ?isCTFE@VarDeclaration@@QAEHXZ
+		test	EAX,EAX
+		jne	L17F2
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 0168h[EDX]
+		test	EAX,EAX
+		je	L17F2
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0430h]
+		push	dword ptr 02Ch[ESP]
+		push	dword ptr 02Ch[ESP]
+		call	near ptr ?error@@YAXULoc@@PBDZZ
+		mov	ESI,1
+		add	ESP,010h
+		jmp short	L1827
+L17F2:		test	ESI,ESI
+		jne	L1815
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[03D8h]
+		push	dword ptr 02Ch[ESP]
+		push	dword ptr 02Ch[ESP]
+		call	near ptr ?error@@YAXULoc@@PBDZZ
+		add	ESP,010h
+		jmp short	L1827
+L1815:		cmp	ESI,1
+		je	L1827
+		push	dword ptr 028h[ESP]
+		mov	EAX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 078h[EAX]
+		mov	ESI,EAX
+L1827:		test	ESI,ESI
+		jne	L18BE
+		mov	ESI,1
+		jmp	near ptr L18BE
+L1839:		mov	EBX,0Ch[ESP]
+		test	EBX,EBX
+		je	L18BE
+		mov	ECX,04Ch[EBX]
+		call	near ptr ?toInitializer@AggregateDeclaration@@QAEPAUSymbol@@XZ
+		cmp	EAX,048h[EBX]
+		jne	L18BE
+		mov	0Ch[ESP],EBX
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	010h[ESP],EAX
+		je	L1875
+		mov	ECX,EAX
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EDX,010h[ESP]
+		mov	dword ptr [EDX],offset FLAT:??_7Expressions@@6B@
+L1875:		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L18B3
+		push	dword ptr 010h[ESP]
+		mov	ECX,010h[ESP]
+		push	dword ptr 04Ch[ECX]
+		mov	ECX,EBX
+		mov	dword ptr 020h[ESP],0
+		mov	dword ptr 01Ch[ESP],0
+		mov	EDX,020h[ESP]
+		mov	EAX,01Ch[ESP]
+		push	EDX
+		push	EAX
+		call	near ptr ??0StructLiteralExp@@QAE@ULoc@@PAUStructDeclaration@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L18B3:		mov	EDX,[EBX]
+		mov	ECX,EBX
+		push	0
+		call	dword ptr 028h[EDX]
+		mov	ESI,EAX
+L18BE:		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		add	ESP,014h
+		ret
+?interpret@VarExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	dword ptr 018h[ECX]
+		push	dword ptr 0Ch[ESP]
+		push	dword ptr 8[ECX]
+		push	dword ptr 4[ECX]
+		call	near ptr ?getVarExp@@YAPAUExpression@@ULoc@@PAUInterState@@PAUDeclaration@@@Z
+		add	ESP,010h
+		pop	ECX
+		ret	4
+?interpret@DeclarationExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		push	EBX
+		push	ESI
+		push	EDI
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L199B
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 02Ch[EDX]
+		cmp	EAX,EBX
+		jne	L1959
+		mov	EDI,030h[EBX]
+		mov	EDX,034h[EBX]
+		and	EDI,1
+		xor	EDX,EDX
+		test	EDI,EDI
+		jne	L1959
+		cmp	dword ptr 048h[EBX],0
+		je	L1959
+		mov	ECX,048h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 048h[EDX]
+		test	EAX,EAX
+		mov	0Ch[ESP],EAX
+		je	L1944
+		push	dword ptr 018h[ESP]
+		mov	EAX,010h[ESP]
+		mov	ECX,0Ch[EAX]
+		mov	EBX,[ECX]
+		call	dword ptr 078h[EBX]
+		mov	ESI,EAX
+		jmp	near ptr L19EB
+L1944:		mov	ECX,048h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 03Ch[EDX]
+		test	EAX,EAX
+		jne	L19E9
+		jmp	near ptr L19EB
+L1959:		cmp	EAX,EBX
+		jne	L19EB
+		mov	EAX,030h[EBX]
+		mov	EDX,034h[EBX]
+		and	EAX,4
+		xor	EDX,EDX
+		test	EAX,EAX
+		je	L19EB
+		cmp	dword ptr 048h[EBX],0
+		je	L19EB
+		mov	ECX,048h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 030h[EDX]
+		mov	ESI,EAX
+		test	EAX,EAX
+		jne	L198D
+		mov	ESI,1
+		jmp short	L19EB
+L198D:		cmp	dword ptr 010h[ESI],0
+		jne	L19EB
+		mov	ECX,028h[EBX]
+		mov	010h[ESI],ECX
+		jmp short	L19EB
+L199B:		mov	EBX,010h[ESP]
+		mov	ECX,018h[EBX]
+		mov	EAX,[ECX]
+		call	dword ptr 0154h[EAX]
+		test	EAX,EAX
+		jne	L19CC
+		mov	ECX,018h[EBX]
+		mov	ESI,[ECX]
+		call	dword ptr 0DCh[ESI]
+		test	EAX,EAX
+		jne	L19CC
+		mov	ECX,018h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 0E8h[EDX]
+		test	EAX,EAX
+		je	L19E9
+L19CC:		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0464h]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		mov	ESI,1
+		add	ESP,0Ch
+		jmp short	L19EB
+L19E9:		xor	ESI,ESI
+L19EB:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpret@TupleExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		mov	EBP,ECX
+		push	ESI
+		xor	ESI,ESI
+		push	EDI
+		mov	dword ptr 014h[ESP],0
+		mov	EAX,018h[EBP]
+		cmp	4[EAX],ESI
+		je	L1ABF
+L1A15:		mov	ECX,018h[EBP]
+		mov	EDX,8[ECX]
+		mov	EBX,[ESI*4][EDX]
+		push	dword ptr 020h[ESP]
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		jne	L1A4D
+		mov	EBP,014h[ESP]
+		test	EBP,EBP
+		je	L1A41
+		push	1
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr [EDX]
+L1A41:		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L1A4D:		cmp	EDI,EBX
+		je	L1AB2
+		mov	018h[ESP],EDI
+		cmp	dword ptr 014h[ESP],0
+		jne	L1AA4
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L1A79
+		mov	ECX,EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr [EDI],offset FLAT:??_7Expressions@@6B@
+L1A79:		mov	ECX,EDI
+		mov	014h[ESP],EDI
+		mov	EDX,018h[EBP]
+		push	dword ptr 4[EDX]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	EBX,EBX
+		test	ESI,ESI
+		je	L1AA4
+L1A90:		mov	EDX,018h[EBP]
+		mov	ECX,8[EDX]
+		mov	EDX,[EBX*4][ECX]
+		mov	ECX,8[EDI]
+		mov	[EBX*4][ECX],EDX
+		inc	EBX
+		cmp	EBX,ESI
+		jb	L1A90
+L1AA4:		mov	EBX,014h[ESP]
+		mov	EDI,8[EBX]
+		mov	EAX,018h[ESP]
+		mov	[ESI*4][EDI],EAX
+L1AB2:		mov	EDX,018h[EBP]
+		inc	ESI
+		cmp	4[EDX],ESI
+		ja	L1A15
+L1ABF:		cmp	dword ptr 014h[ESP],0
+		je	L1B1F
+		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L1AE9
+		mov	ECX,EBX
+		push	dword ptr 014h[ESP]
+		push	dword ptr 8[EBP]
+		push	dword ptr 4[EBP]
+		call	near ptr ??0TupleExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L1AE9:		push	dword ptr 018h[EBX]
+		call	near ptr ?expandTuples@@YAXPAUExpressions@@@Z
+		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L1B0D
+		mov	ECX,ESI
+		push	dword ptr 018h[EBX]
+		call	near ptr ??0TypeTuple@@QAE@PAUExpressions@@@Z
+		mov	ESI,EAX
+L1B0D:		mov	EAX,EBX
+		mov	010h[EBX],ESI
+		add	ESP,4
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L1B1F:		pop	EDI
+		mov	EAX,EBP
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@ArrayLiteralExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		push	ESI
+		mov	ESI,ECX
+		mov	EAX,018h[ESI]
+		push	EDI
+		test	EAX,EAX
+		mov	dword ptr 014h[ESP],0
+		je	L1BF1
+		xor	EBP,EBP
+		cmp	dword ptr 4[EAX],0
+		je	L1BF1
+L1B58:		mov	ECX,018h[ESI]
+		mov	EDX,8[ECX]
+		mov	EBX,[EBP*4][EDX]
+		push	dword ptr 020h[ESP]
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L1C5B
+		cmp	EDI,EBX
+		je	L1BE4
+		mov	018h[ESP],EDI
+		cmp	dword ptr 014h[ESP],0
+		jne	L1BD6
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L1BA3
+		mov	ECX,EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr [EDI],offset FLAT:??_7Expressions@@6B@
+L1BA3:		mov	EDX,018h[ESI]
+		mov	ECX,EDI
+		mov	014h[ESP],EDI
+		push	dword ptr 4[EDX]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		mov	EDX,018h[ESI]
+		xor	EBX,EBX
+		cmp	4[EDX],EBX
+		je	L1BD6
+L1BBE:		mov	ECX,018h[ESI]
+		mov	EDX,8[ECX]
+		mov	ECX,[EBX*4][EDX]
+		mov	EDX,8[EDI]
+		mov	[EBX*4][EDX],ECX
+		mov	ECX,018h[ESI]
+		inc	EBX
+		cmp	4[ECX],EBX
+		ja	L1BBE
+L1BD6:		mov	EBX,014h[ESP]
+		mov	EDI,8[EBX]
+		mov	EAX,018h[ESP]
+		mov	[EBP*4][EDI],EAX
+L1BE4:		mov	EDX,018h[ESI]
+		inc	EBP
+		cmp	4[EDX],EBP
+		ja	L1B58
+L1BF1:		cmp	dword ptr 018h[ESI],0
+		je	L1C4F
+		cmp	dword ptr 014h[ESP],0
+		je	L1C4F
+		push	dword ptr 014h[ESP]
+		call	near ptr ?expandTuples@@YAXPAUExpressions@@@Z
+		add	ESP,4
+		mov	ECX,014h[ESP]
+		mov	EDI,018h[ESI]
+		mov	EBX,4[ECX]
+		cmp	EBX,4[EDI]
+		jne	L1C5B
+		mov	EBP,014h[ESP]
+		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L1C3D
+		mov	ECX,EBX
+		push	EBP
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L1C3D:		mov	EDX,010h[ESI]
+		mov	EAX,EBX
+		mov	010h[EBX],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L1C4F:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L1C5B:		cmp	dword ptr 014h[ESP],0
+		je	L1C73
+		mov	EBP,014h[ESP]
+		test	EBP,EBP
+		je	L1C73
+		push	1
+		mov	EBX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr [EBX]
+L1C73:		push	offset FLAT:_DATA[0494h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+?interpret@AssocArrayLiteralExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,02Ch
+		push	EBX
+		xor	EBX,EBX
+		push	EBP
+		push	ESI
+		push	EDI
+		mov	038h[ESP],ECX
+		mov	ESI,018h[ECX]
+		mov	EDX,01Ch[ECX]
+		mov	010h[ESP],ESI
+		mov	02Ch[ESP],EDX
+		mov	EDX,010h[ESP]
+		cmp	4[EDX],EBX
+		je	L1D5C
+L1CB8:		mov	ECX,038h[ESP]
+		mov	EDX,01Ch[ECX]
+		mov	ECX,8[EDX]
+		mov	EDX,[EBX*4][ECX]
+		mov	030h[ESP],EDX
+		push	dword ptr 040h[ESP]
+		mov	ECX,03Ch[ESP]
+		mov	EDX,018h[ECX]
+		mov	ECX,8[EDX]
+		mov	EBP,[EBX*4][ECX]
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L1EB5
+		cmp	EDI,EBP
+		je	L1D0B
+		mov	ECX,038h[ESP]
+		mov	EDX,018h[ECX]
+		cmp	EDX,ESI
+		jne	L1D05
+		mov	ECX,EDX
+		call	near ptr ?copy@Array@@QAEPAU1@XZ
+		mov	ESI,EAX
+L1D05:		mov	EDX,8[ESI]
+		mov	[EBX*4][EDX],EDI
+L1D0B:		push	dword ptr 040h[ESP]
+		mov	ECX,034h[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L1EB5
+		cmp	EDI,030h[ESP]
+		je	L1D4B
+		mov	ECX,038h[ESP]
+		mov	EDX,01Ch[ECX]
+		cmp	EDX,02Ch[ESP]
+		jne	L1D41
+		mov	ECX,EDX
+		call	near ptr ?copy@Array@@QAEPAU1@XZ
+		mov	02Ch[ESP],EAX
+L1D41:		mov	EDX,02Ch[ESP]
+		mov	ECX,8[EDX]
+		mov	[EBX*4][ECX],EDI
+L1D4B:		mov	EDX,038h[ESP]
+		mov	ECX,018h[EDX]
+		inc	EBX
+		cmp	4[ECX],EBX
+		ja	L1CB8
+L1D5C:		mov	EDX,038h[ESP]
+		mov	EBX,02Ch[ESP]
+		cmp	018h[EDX],ESI
+		je	L1D72
+		push	ESI
+		call	near ptr ?expandTuples@@YAXPAUExpressions@@@Z
+		add	ESP,4
+L1D72:		mov	ECX,038h[ESP]
+		cmp	01Ch[ECX],EBX
+		je	L1D84
+		push	EBX
+		call	near ptr ?expandTuples@@YAXPAUExpressions@@@Z
+		add	ESP,4
+L1D84:		mov	02Ch[ESP],EBX
+		mov	EBX,02Ch[ESP]
+		mov	EAX,4[ESI]
+		cmp	EAX,4[EBX]
+		jne	L1EB5
+		mov	ECX,1
+		cmp	EAX,ECX
+		jbe	L1E5C
+L1DA5:		mov	034h[ESP],ECX
+		mov	EDX,034h[ESP]
+		mov	ECX,8[ESI]
+		mov	EBP,-4[EDX*4][ECX]
+		mov	ECX,4[ESI]
+		mov	EBX,EDX
+		cmp	ECX,EDX
+		jbe	L1E4E
+L1DC1:		mov	EDX,8[ESI]
+		push	[EBX*4][EDX]
+		push	EBP
+		push	dword ptr ?basic@Type@@2QAPAU1@A[080h]
+		push	036h
+		call	near ptr ?Equal@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+		add	ESP,010h
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L1EB5
+		push	1
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L1E44
+		mov	ECX,038h[ESP]
+		mov	EDX,018h[ECX]
+		mov	EBX,02Ch[ESP]
+		cmp	EDX,ESI
+		jne	L1E0B
+		mov	ECX,EDX
+		call	near ptr ?copy@Array@@QAEPAU1@XZ
+		mov	ESI,EAX
+L1E0B:		mov	EDX,038h[ESP]
+		mov	ECX,01Ch[EDX]
+		cmp	ECX,EBX
+		jne	L1E1D
+		call	near ptr ?copy@Array@@QAEPAU1@XZ
+		mov	EBX,EAX
+L1E1D:		mov	EDX,034h[ESP]
+		dec	EDX
+		mov	ECX,ESI
+		push	EDX
+		mov	02Ch[ESP],EDX
+		call	near ptr ?remove@Array@@QAEXI@Z
+		mov	EDX,028h[ESP]
+		mov	ECX,EBX
+		push	EDX
+		call	near ptr ?remove@Array@@QAEXI@Z
+		dec	dword ptr 034h[ESP]
+		mov	02Ch[ESP],EBX
+		jmp short	L1E4E
+L1E44:		inc	EBX
+		cmp	4[ESI],EBX
+		ja	L1DC1
+L1E4E:		mov	ECX,034h[ESP]
+		inc	ECX
+		cmp	4[ESI],ECX
+		ja	L1DA5
+L1E5C:		mov	EDX,038h[ESP]
+		mov	EBX,02Ch[ESP]
+		cmp	018h[EDX],ESI
+		jne	L1E6E
+		cmp	01Ch[EDX],EBX
+		je	L1EA9
+L1E6E:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L1E93
+		mov	ECX,038h[ESP]
+		push	EBX
+		push	ESI
+		push	dword ptr 8[ECX]
+		push	dword ptr 4[ECX]
+		mov	ECX,EDI
+		call	near ptr ??0AssocArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@1@Z
+		mov	EDI,EAX
+L1E93:		mov	EDX,038h[ESP]
+		mov	ECX,010h[EDX]
+		mov	010h[EDI],ECX
+		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,02Ch
+		ret	4
+L1EA9:		pop	EDI
+		mov	EAX,EDX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,02Ch
+		ret	4
+L1EB5:		mov	EBX,038h[ESP]
+		cmp	018h[EBX],ESI
+		je	L1ED2
+		mov	EBX,02Ch[ESP]
+		test	ESI,ESI
+		je	L1ECE
+		push	1
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr [EDX]
+L1ECE:		mov	02Ch[ESP],EBX
+L1ED2:		mov	ESI,038h[ESP]
+		mov	EAX,01Ch[ESI]
+		cmp	EAX,02Ch[ESP]
+		je	L1EEB
+		test	EAX,EAX
+		je	L1EEB
+		mov	EBX,[EAX]
+		push	1
+		mov	ECX,EAX
+		call	dword ptr [EBX]
+L1EEB:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,02Ch
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@StructLiteralExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		push	ESI
+		mov	ESI,ECX
+		mov	EAX,018h[ESI]
+		push	EDI
+		mov	dword ptr 014h[ESP],0
+		cmp	dword ptr 05Ch[EAX],0
+		je	L1F37
+		push	offset FLAT:_DATA[04B4h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L1F37:		mov	EDX,01Ch[ESI]
+		test	EDX,EDX
+		je	L1FEF
+		xor	EBP,EBP
+		cmp	dword ptr 4[EDX],0
+		je	L1FEF
+L1F4E:		mov	ECX,01Ch[ESI]
+		mov	EDX,8[ECX]
+		mov	EBX,[EBP*4][EDX]
+		test	EBX,EBX
+		je	L1FE2
+		push	dword ptr 020h[ESP]
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L2017
+		cmp	EDI,EBX
+		je	L1FE2
+		mov	018h[ESP],EDI
+		cmp	dword ptr 014h[ESP],0
+		jne	L1FD4
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L1FA1
+		mov	ECX,EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr [EDI],offset FLAT:??_7Expressions@@6B@
+L1FA1:		mov	EDX,01Ch[ESI]
+		mov	ECX,EDI
+		mov	014h[ESP],EDI
+		push	dword ptr 4[EDX]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		mov	EDX,01Ch[ESI]
+		xor	EBX,EBX
+		cmp	4[EDX],EBX
+		je	L1FD4
+L1FBC:		mov	ECX,01Ch[ESI]
+		mov	EDX,8[ECX]
+		mov	ECX,[EBX*4][EDX]
+		mov	EDX,8[EDI]
+		mov	[EBX*4][EDX],ECX
+		mov	ECX,01Ch[ESI]
+		inc	EBX
+		cmp	4[ECX],EBX
+		ja	L1FBC
+L1FD4:		mov	EBX,014h[ESP]
+		mov	EDI,8[EBX]
+		mov	EAX,018h[ESP]
+		mov	[EBP*4][EDI],EAX
+L1FE2:		mov	EDX,01Ch[ESI]
+		inc	EBP
+		cmp	4[EDX],EBP
+		ja	L1F4E
+L1FEF:		cmp	dword ptr 01Ch[ESI],0
+		je	L206E
+		cmp	dword ptr 014h[ESP],0
+		je	L206E
+		push	dword ptr 014h[ESP]
+		call	near ptr ?expandTuples@@YAXPAUExpressions@@@Z
+		add	ESP,4
+		mov	ECX,014h[ESP]
+		mov	EDI,01Ch[ESI]
+		mov	EBX,4[ECX]
+		cmp	EBX,4[EDI]
+		je	L2036
+L2017:		mov	ESI,014h[ESP]
+		test	ESI,ESI
+		je	L2027
+		push	1
+		mov	EBX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr [EBX]
+L2027:		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L2036:		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L205C
+		mov	ECX,EBX
+		push	dword ptr 014h[ESP]
+		push	dword ptr 018h[ESI]
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0StructLiteralExp@@QAE@ULoc@@PAUStructDeclaration@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L205C:		mov	EDX,010h[ESI]
+		mov	EAX,EBX
+		mov	010h[EBX],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L206E:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@NewExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,020h[ECX]
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		push	ESI
+		push	EDI
+		cmp	dword ptr 4[EAX],0
+		jne	L2106
+		mov	EDX,024h[EBX]
+		test	EDX,EDX
+		je	L2106
+		cmp	dword ptr 4[EDX],1
+		jne	L2106
+		mov	EDI,024h[EBX]
+		mov	EDX,8[EDI]
+		mov	ECX,[EDX]
+		push	dword ptr 018h[ESP]
+		mov	ESI,[ECX]
+		call	dword ptr 078h[ESI]
+		cmp	EAX,1
+		jne	L20C1
+		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L20C1:		mov	ECX,EAX
+		mov	EAX,[EAX]
+		call	dword ptr 034h[EAX]
+		mov	EDI,020h[EBX]
+		mov	ECX,024h[EDI]
+		push	EAX
+		mov	ESI,[ECX]
+		mov	dword ptr 014h[ESP],0
+		mov	dword ptr 010h[ESP],0
+		mov	EDX,014h[ESP]
+		mov	EAX,010h[ESP]
+		push	EDX
+		push	EAX
+		call	dword ptr 090h[ESI]
+		push	EAX
+		push	dword ptr 020h[EBX]
+		call	near ptr ?createBlockDuplicatedArrayLiteral@@YAPAUArrayLiteralExp@@PAUType@@PAUExpression@@I@Z
+		add	ESP,0Ch
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L2106:		mov	ESI,[EBX]
+		call	dword ptr 014h[ESI]
+		push	EAX
+		push	offset FLAT:_DATA[036Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+?interpretCommon@UnaExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@@Z@Z:
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		push	ESI
+		push	dword ptr 010h[ESP]
+		call	dword ptr 078h[EAX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L215F
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 07Ch[EDX]
+		cmp	EAX,1
+		jne	L215F
+		push	EBX
+		mov	ESI,0Ch[ESP]
+		push	dword ptr 010h[ESI]
+		call	dword ptr 01Ch[ESP]
+		add	ESP,8
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	8
+L215F:		pop	ESI
+		mov	EAX,1
+		pop	EBX
+		pop	ECX
+		ret	8
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@NegExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Neg@@YAPAUExpression@@PAUType@@PAU1@@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@UnaExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@@Z@Z
+		pop	ECX
+		ret	4
+?interpret@ComExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Com@@YAPAUExpression@@PAUType@@PAU1@@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@UnaExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@@Z@Z
+		pop	ECX
+		ret	4
+?interpret@NotExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Not@@YAPAUExpression@@PAUType@@PAU1@@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@UnaExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@@Z@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@BoolExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Bool@@YAPAUExpression@@PAUType@@PAU1@@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@UnaExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@@Z@Z
+		pop	ECX
+		ret	4
+?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z:
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		push	ESI
+		push	dword ptr 010h[ESP]
+		call	dword ptr 078h[EAX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L2222
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 07Ch[EDX]
+		mov	ESI,1
+		cmp	EAX,ESI
+		jne	L2222
+		push	dword ptr 010h[ESP]
+		mov	ECX,0Ch[ESP]
+		mov	ECX,01Ch[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L2222
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 07Ch[EDX]
+		cmp	EAX,1
+		jne	L2222
+		push	ESI
+		mov	ECX,0Ch[ESP]
+		push	EBX
+		push	dword ptr 010h[ECX]
+		call	dword ptr 020h[ESP]
+		add	ESP,0Ch
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	8
+L2222:		pop	ESI
+		mov	EAX,1
+		pop	EBX
+		pop	ECX
+		ret	8
+		nop
+		nop
+		nop
+?interpret@AddExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Add@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@MinExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Min@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@MulExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Mul@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@DivExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Div@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@ModExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Mod@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@ShlExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Shl@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@ShrExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Shr@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@UshrExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Ushr@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@AndExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?And@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@OrExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Or@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpret@XorExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Xor@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@Z@Z
+		pop	ECX
+		ret	4
+?interpretCommon2@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@W4TOK@@PAUType@@PAU2@3@Z@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		push	ESI
+		push	EDI
+		push	dword ptr 018h[ESP]
+		call	dword ptr 078h[EAX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L23AB
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 07Ch[EDX]
+		mov	ESI,1
+		cmp	EAX,ESI
+		je	L2355
+		mov	EDI,0Ch[EBX]
+		cmp	EDI,0Dh
+		je	L2355
+		cmp	EDI,07Ah
+		je	L2355
+		cmp	EDI,02Fh
+		je	L2355
+		cmp	EDI,031h
+		jne	L23AB
+L2355:		push	dword ptr 018h[ESP]
+		mov	ECX,014h[ESP]
+		mov	ECX,01Ch[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L23AB
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 07Ch[EDX]
+		cmp	EAX,1
+		je	L238F
+		mov	ECX,0Ch[ESI]
+		cmp	ECX,0Dh
+		je	L238F
+		cmp	ECX,07Ah
+		je	L238F
+		cmp	ECX,02Fh
+		je	L238F
+		cmp	ECX,031h
+		jne	L23AB
+L238F:		push	ESI
+		mov	EDX,014h[ESP]
+		push	EBX
+		push	dword ptr 010h[EDX]
+		push	dword ptr 0Ch[EDX]
+		call	dword ptr 02Ch[ESP]
+		add	ESP,010h
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	8
+L23AB:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	8
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@EqualExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Equal@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon2@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@W4TOK@@PAUType@@PAU2@3@Z@Z
+		pop	ECX
+		ret	4
+?interpret@IdentityExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Identity@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon2@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@W4TOK@@PAUType@@PAU2@3@Z@Z
+		pop	ECX
+		ret	4
+?interpret@CmpExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	offset FLAT:?Cmp@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?interpretCommon2@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@W4TOK@@PAUType@@PAU2@3@Z@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?changeOneElement@@YAPAUExpressions@@PAU1@IPAX@Z:
+		push	EAX
+		push	EBX
+		push	EBP
+		mov	EBP,010h[ESP]
+		push	ESI
+		push	EDI
+		mov	EDI,01Ch[ESP]
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L242A
+		mov	ECX,ESI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr [ESI],offset FLAT:??_7Expressions@@6B@
+L242A:		mov	ECX,ESI
+		push	dword ptr 4[EBP]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	EBX,EBX
+		cmp	4[ESI],EBX
+		je	L245D
+L243B:		cmp	EBX,EDI
+		jne	L244B
+		mov	EDX,8[ESI]
+		mov	ECX,020h[ESP]
+		mov	[EBX*4][EDX],ECX
+		jmp short	L2457
+L244B:		mov	EDX,8[EBP]
+		mov	ECX,[EBX*4][EDX]
+		mov	EDX,8[ESI]
+		mov	[EBX*4][EDX],ECX
+L2457:		inc	EBX
+		cmp	4[ESI],EBX
+		ja	L243B
+L245D:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+?spliceElements@@YAPAUExpressions@@PAU1@0I@Z:
+		push	EAX
+		push	EBX
+		push	EBP
+		mov	EBP,014h[ESP]
+		push	ESI
+		mov	ESI,01Ch[ESP]
+		push	EDI
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L248F
+		mov	ECX,EDI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr [EDI],offset FLAT:??_7Expressions@@6B@
+L248F:		mov	EDX,018h[ESP]
+		mov	ECX,EDI
+		push	dword ptr 4[EDX]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	EBX,EBX
+		cmp	4[EDI],EBX
+		je	L24D9
+L24A4:		cmp	EBX,ESI
+		jb	L24C3
+		mov	EDX,4[EBP]
+		add	EDX,ESI
+		cmp	EDX,EBX
+		jbe	L24C3
+		mov	ECX,EBX
+		sub	ECX,ESI
+		mov	EDX,8[EBP]
+		mov	ECX,[ECX*4][EDX]
+		mov	EDX,8[EDI]
+		mov	[EBX*4][EDX],ECX
+		jmp short	L24D3
+L24C3:		mov	ECX,018h[ESP]
+		mov	EDX,8[ECX]
+		mov	ECX,[EBX*4][EDX]
+		mov	EDX,8[EDI]
+		mov	[EBX*4][EDX],ECX
+L24D3:		inc	EBX
+		cmp	4[EDI],EBX
+		ja	L24A4
+L24D9:		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret
+?spliceStringExp@@YAPAUStringExp@@PAU1@0I@Z:
+		sub	ESP,0Ch
+		mov	EDX,014h[ESP]
+		push	EBX
+		push	EBP
+		push	ESI
+		mov	ESI,01Ch[ESP]
+		mov	CL,020h[ESI]
+		push	EDI
+		cmp	CL,020h[EDX]
+		je	L250C
+		push	06F0h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[04F4h]
+		call	near ptr __assert
+L250C:		mov	EAX,01Ch[EDX]
+		and	ECX,0FFh
+		mov	018h[ESP],EAX
+		mov	EBP,ECX
+		push	ECX
+		mov	ECX,01Ch[ESI]
+		lea	EDX,1[ECX]
+		mov	018h[ESP],ECX
+		mov	ECX,offset FLAT:?mem@@3UMem@@A
+		push	EDX
+		call	near ptr ?calloc@Mem@@QAEPAXII@Z
+		mov	EDI,EAX
+		mov	EDX,014h[ESP]
+		imul	EDX,EBP
+		push	EDX
+		push	dword ptr 018h[ESI]
+		push	EDI
+		call	near ptr _memcpy
+		mov	ECX,024h[ESP]
+		imul	ECX,EBP
+		push	ECX
+		mov	EDX,034h[ESP]
+		push	dword ptr 018h[EDX]
+		mov	ECX,03Ch[ESP]
+		imul	ECX,EBP
+		add	ECX,EDI
+		push	ECX
+		call	near ptr _memcpy
+		push	024h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L2586
+		mov	ECX,EBX
+		push	dword ptr 02Ch[ESP]
+		push	EDI
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0StringExp@@QAE@ULoc@@PAXI@Z
+		mov	EBX,EAX
+L2586:		mov	DL,021h[ESI]
+		mov	EAX,EBX
+		mov	021h[EBX],DL
+		mov	CL,022h[ESI]
+		mov	022h[EBX],CL
+		mov	EDX,010h[ESI]
+		mov	010h[EBX],EDX
+		add	ESP,018h
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+?createBlockDuplicatedArrayLiteral@@YAPAUArrayLiteralExp@@PAUType@@PAUExpression@@I@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		mov	EBP,01Ch[ESP]
+		push	ESI
+		push	EDI
+		mov	EDI,028h[ESP]
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L25D1
+		mov	ECX,ESI
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr [ESI],offset FLAT:??_7Expressions@@6B@
+L25D1:		mov	ECX,ESI
+		push	EDI
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	EBX,EBX
+		test	EDI,EDI
+		je	L25EA
+L25DF:		mov	EDX,8[ESI]
+		mov	[EBX*4][EDX],EBP
+		inc	EBX
+		cmp	EBX,EDI
+		jb	L25DF
+L25EA:		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L261E
+		mov	ECX,EBX
+		push	ESI
+		mov	dword ptr 01Ch[ESP],0
+		mov	dword ptr 018h[ESP],0
+		mov	EDX,01Ch[ESP]
+		mov	EAX,018h[ESP]
+		push	EDX
+		push	EAX
+		call	near ptr ??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L261E:		mov	EDX,020h[ESP]
+		mov	EAX,EBX
+		mov	010h[EBX],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+		nop
+?createBlockDuplicatedStringLiteral@@YAPAUStringExp@@PAUType@@IIH@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		mov	EBP,020h[ESP]
+		lea	ECX,1[EBP]
+		push	ESI
+		push	EDI
+		mov	EDI,02Ch[ESP]
+		push	EDI
+		push	ECX
+		mov	ECX,offset FLAT:?mem@@3UMem@@A
+		call	near ptr ?calloc@Mem@@QAEPAXII@Z
+		xor	EBX,EBX
+		mov	ESI,EAX
+		test	EBP,EBP
+		je	L269D
+L2656:		cmp	EDI,1
+		je	L2667
+		cmp	EDI,2
+		je	L2670
+		cmp	EDI,4
+		je	L267B
+		jmp short	L2684
+L2667:		mov	DL,024h[ESP]
+		mov	[ESI][EBX],DL
+		jmp short	L2698
+L2670:		mov	CX,024h[ESP]
+		mov	[EBX*2][ESI],CX
+		jmp short	L2698
+L267B:		mov	EDX,024h[ESP]
+		mov	[EBX*4][ESI],EDX
+		jmp short	L2698
+L2684:		push	071Dh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+L2698:		inc	EBX
+		cmp	EBX,EBP
+		jb	L2656
+L269D:		push	024h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L26D2
+		mov	ECX,EBX
+		push	EBP
+		push	ESI
+		mov	dword ptr 020h[ESP],0
+		mov	dword ptr 01Ch[ESP],0
+		mov	EDX,020h[ESP]
+		mov	EAX,01Ch[ESP]
+		push	EDX
+		push	EAX
+		call	near ptr ??0StringExp@@QAE@ULoc@@PAXI@Z
+		mov	EBX,EAX
+L26D2:		mov	EDX,020h[ESP]
+		mov	EAX,EBX
+		mov	010h[EBX],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+?addVarToInterstate@@YAXPAUInterState@@PAUVarDeclaration@@@Z:
+		push	EAX
+		mov	ECX,8[ESP]
+		push	EBX
+		mov	EBX,010h[ESP]
+		mov	EAX,030h[EBX]
+		push	ESI
+		mov	EDX,034h[EBX]
+		and	EAX,020h
+		xor	EDX,EDX
+		test	EAX,EAX
+		jne	L2729
+		xor	EDX,EDX
+		cmp	0Ch[ECX],EDX
+		jne	L2719
+L2706:		mov	010h[ESP],ECX
+		mov	ECX,010h[ESP]
+		add	ECX,8
+		push	EBX
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		jmp short	L2729
+L2719:		mov	ESI,010h[ECX]
+		cmp	[EDX*4][ESI],EBX
+		je	L2729
+		inc	EDX
+		cmp	0Ch[ECX],EDX
+		je	L2706
+		jmp short	L2719
+L2729:		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret
+		nop
+		nop
+		nop
+?modifyStructField@@YAPAUExpression@@PAUType@@PAUStructLiteralExp@@IPAU1@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		mov	EBX,018h[ESP]
+		mov	ECX,EBX
+		push	ESI
+		push	dword ptr 020h[ESP]
+		mov	EAX,028h[ESP]
+		push	dword ptr 010h[EAX]
+		call	near ptr ?getFieldIndex@StructLiteralExp@@QAEHPAUType@@I@Z
+		cmp	EAX,0FFFFFFFFh
+		mov	0Ch[ESP],EAX
+		jne	L275F
+		pop	ESI
+		mov	EAX,1
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L275F:		push	dword ptr 024h[ESP]
+		push	dword ptr 010h[ESP]
+		push	dword ptr 01Ch[EBX]
+		call	near ptr ?changeOneElement@@YAPAUExpressions@@PAU1@IPAX@Z
+		mov	01Ch[ESP],EAX
+		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L2799
+		mov	ECX,ESI
+		push	dword ptr 01Ch[ESP]
+		push	dword ptr 018h[EBX]
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ??0StructLiteralExp@@QAE@ULoc@@PAUStructDeclaration@@PAUExpressions@@@Z
+		mov	ESI,EAX
+L2799:		mov	EDX,010h[EBX]
+		mov	EAX,ESI
+		mov	010h[ESI],EDX
+		add	ESP,0Ch
+		pop	ESI
+		pop	EBX
+		add	ESP,0Ch
+		ret
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?assignArrayElement@@YAPAUExpression@@ULoc@@PAU1@11@Z:
+		sub	ESP,0Ch
+		push	EBX
+		xor	EBX,EBX
+		push	EBP
+		xor	EBP,EBP
+		push	ESI
+		mov	ESI,024h[ESP]
+		mov	ECX,0Ch[ESI]
+		push	EDI
+		xor	EDI,EDI
+		cmp	ECX,02Fh
+		jne	L27CD
+		mov	EBP,ESI
+		jmp short	L27F3
+L27CD:		cmp	ECX,030h
+		jne	L27D6
+		mov	EDI,ESI
+		jmp short	L27F3
+L27D6:		cmp	ECX,07Ah
+		jne	L27DF
+		mov	EBX,ESI
+		jmp short	L27F3
+L27DF:		push	0757h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+L27F3:		test	EBP,EBP
+		je	L287E
+		mov	ECX,02Ch[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 034h[EDX]
+		mov	ECX,018h[EBP]
+		mov	EDI,EAX
+		cmp	4[ECX],EDI
+		ja	L283F
+		mov	ECX,018h[EBP]
+		mov	EDX,[ESI]
+		push	dword ptr 4[ECX]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	EDI
+		push	offset FLAT:_DATA[050Ch]
+		push	dword ptr 034h[ESP]
+		push	dword ptr 034h[ESP]
+		call	near ptr ?error@@YAXULoc@@PBDZZ
+		add	ESP,018h
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L283F:		push	dword ptr 030h[ESP]
+		push	EDI
+		push	ECX
+		call	near ptr ?changeOneElement@@YAPAUExpressions@@PAU1@IPAX@Z
+		mov	ESI,EAX
+		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L286C
+		mov	ECX,EBX
+		push	ESI
+		push	dword ptr 8[EBP]
+		push	dword ptr 4[EBP]
+		call	near ptr ??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L286C:		mov	EDX,010h[EBP]
+		mov	010h[EBX],EDX
+		mov	03Ch[ESP],EBX
+		add	ESP,0Ch
+		jmp	near ptr L2A93
+L287E:		test	EBX,EBX
+		je	L2981
+		mov	ECX,02Ch[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 034h[EDX]
+		mov	EDI,EAX
+		mov	ECX,01Ch[EBX]
+		cmp	ECX,EDI
+		ja	L28C6
+		push	dword ptr 01Ch[EBX]
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	EDI
+		push	offset FLAT:_DATA[050Ch]
+		push	dword ptr 034h[ESP]
+		push	dword ptr 034h[ESP]
+		call	near ptr ?error@@YAXULoc@@PBDZZ
+		add	ESP,018h
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L28C6:		movzx	EDX,byte ptr 020h[EBX]
+		lea	ECX,1[ECX]
+		push	EDX
+		push	ECX
+		mov	ECX,offset FLAT:?mem@@3UMem@@A
+		call	near ptr ?calloc@Mem@@QAEPAXII@Z
+		mov	EBP,EAX
+		mov	EAX,01Ch[EBX]
+		movzx	ECX,byte ptr 020h[EBX]
+		mul	ECX
+		push	EAX
+		push	dword ptr 018h[EBX]
+		push	EBP
+		call	near ptr _memcpy
+		mov	ECX,03Ch[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 034h[EDX]
+		mov	01Ch[ESP],EAX
+		add	ESP,0Ch
+		movzx	ECX,byte ptr 020h[EBX]
+		cmp	ECX,1
+		je	L2913
+		cmp	ECX,2
+		je	L291D
+		cmp	ECX,4
+		je	L2929
+		jmp short	L292F
+L2913:		mov	CL,010h[ESP]
+		mov	0[EDI][EBP],CL
+		jmp short	L2943
+L291D:		mov	DX,010h[ESP]
+		mov	0[EDI*2][EBP],DX
+		jmp short	L2943
+L2929:		mov	0[EDI*4][EBP],EAX
+		jmp short	L2943
+L292F:		push	077Dh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+L2943:		push	024h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L2966
+		mov	ECX,ESI
+		push	dword ptr 01Ch[EBX]
+		push	EBP
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ??0StringExp@@QAE@ULoc@@PAXI@Z
+		mov	ESI,EAX
+L2966:		mov	DL,021h[EBX]
+		mov	021h[ESI],DL
+		mov	CL,022h[EBX]
+		mov	022h[ESI],CL
+		mov	EDX,010h[EBX]
+		mov	010h[ESI],EDX
+		mov	030h[ESP],ESI
+		jmp	near ptr L2A93
+L2981:		test	EDI,EDI
+		je	L2A93
+		mov	EDX,018h[EDI]
+		mov	014h[ESP],EDX
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L29AE
+		mov	ECX,EBP
+		call	near ptr ??0Array@@QAE@XZ
+		mov	dword ptr 0[EBP],offset FLAT:??_7Expressions@@6B@
+L29AE:		mov	EDX,01Ch[EDI]
+		mov	ECX,EBP
+		push	dword ptr 4[EDX]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		mov	dword ptr 018h[ESP],0
+		mov	EBX,4[EBP]
+		test	EBX,EBX
+		je	L2A35
+L29CA:		push	dword ptr 02Ch[ESP]
+		mov	EDX,018h[EDI]
+		dec	EBX
+		mov	ECX,8[EDX]
+		push	[EBX*4][ECX]
+		push	dword ptr ?basic@Type@@2QAPAU1@A[080h]
+		push	036h
+		call	near ptr ?Equal@@YAPAUExpression@@W4TOK@@PAUType@@PAU1@2@Z
+		add	ESP,010h
+		mov	ESI,EAX
+		cmp	EAX,1
+		jne	L29FC
+		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L29FC:		push	1
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L2A24
+		mov	EDX,8[EBP]
+		mov	ECX,030h[ESP]
+		mov	[EBX*4][EDX],ECX
+		mov	dword ptr 018h[ESP],1
+L2A1E:		test	EBX,EBX
+		jne	L29CA
+		jmp short	L2A35
+L2A24:		mov	ECX,01Ch[EDI]
+		mov	EDX,8[ECX]
+		mov	ECX,[EBX*4][EDX]
+		mov	EDX,8[EBP]
+		mov	[EBX*4][EDX],ECX
+		jmp short	L2A1E
+L2A35:		cmp	dword ptr 018h[ESP],0
+		jne	L2A5F
+		push	dword ptr 030h[ESP]
+		mov	ECX,EBP
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		push	dword ptr 02Ch[ESP]
+		mov	ECX,018h[ESP]
+		call	near ptr ?copy@Array@@QAEPAU1@XZ
+		mov	ECX,EAX
+		mov	018h[ESP],EAX
+		call	near ptr ?push@Array@@QAEXPAX@Z
+L2A5F:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L2A83
+		mov	ECX,EBX
+		push	EBP
+		push	dword ptr 018h[ESP]
+		push	dword ptr 8[EDI]
+		push	dword ptr 4[EDI]
+		call	near ptr ??0AssocArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@1@Z
+		mov	EBX,EAX
+L2A83:		mov	EDX,010h[EDI]
+		mov	EAX,EBX
+		mov	010h[EBX],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L2A93:		mov	EAX,030h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+		nop
+?isUnaExp@@YAPAUUnaExp@@PAUExpression@@@Z:
+		mov	EAX,4[ESP]
+		mov	EAX,0Ch[EAX]
+		cmp	EAX,01Bh
+		je	L2AD1
+		cmp	EAX,03Ah
+		je	L2AD1
+		cmp	EAX,01Fh
+		je	L2AD1
+		cmp	EAX,012h
+		je	L2AD1
+		cmp	EAX,064h
+		je	L2AD1
+		cmp	EAX,01Ch
+		je	L2AD1
+		cmp	EAX,01Eh
+		je	L2AD1
+		cmp	EAX,0Ch
+		je	L2AD1
+		jmp short	L2AD6
+L2AD1:		mov	EAX,4[ESP]
+		ret
+L2AD6:		xor	EAX,EAX
+		ret
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?findExpressionDepth@ExpressionReverseIterator@@QAEHPAUExpression@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	EBP
+		mov	EBP,ECX
+		push	ESI
+		xor	ESI,ESI
+		push	EDI
+		push	ESI
+		push	dword ptr 4[EBP]
+		push	EBX
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBX],01Ah
+		je	L2B30
+L2B02:		cmp	dword ptr 0Ch[EBX],012h
+		je	L2B30
+		push	EBX
+		inc	ESI
+		call	near ptr ?isUnaExp@@YAPAUUnaExp@@PAUExpression@@@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L2B30
+		push	0
+		push	dword ptr 4[EBP]
+		push	dword ptr 018h[EDI]
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBX],01Ah
+		jne	L2B02
+L2B30:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?getExpressionAtDepth@ExpressionReverseIterator@@QAEPAUExpression@@H@Z:
+		push	ECX
+		push	EBX
+		push	EBP
+		mov	EBP,ECX
+		push	ESI
+		xor	ESI,ESI
+		push	EDI
+		push	ESI
+		push	dword ptr 4[EBP]
+		push	dword ptr 0[EBP]
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		add	ESP,0Ch
+		mov	EBX,EAX
+		cmp	018h[ESP],ESI
+		je	L2BA2
+L2B60:		inc	ESI
+		cmp	dword ptr 0Ch[EBX],01Ah
+		jne	L2B7B
+		push	07F1h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0538h]
+		call	near ptr __assert
+L2B7B:		push	EBX
+		call	near ptr ?isUnaExp@@YAPAUUnaExp@@PAUExpression@@@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L2BA2
+		push	0
+		push	dword ptr 4[EBP]
+		push	dword ptr 018h[EDI]
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		add	ESP,0Ch
+		mov	EBX,EAX
+		cmp	ESI,018h[ESP]
+		jne	L2B60
+L2BA2:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+?findParentVar@@YAPAUVarDeclaration@@PAUExpression@@0@Z:
+		push	EAX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	ESI
+		mov	ESI,014h[ESP]
+		push	0
+		push	ESI
+		push	EBX
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBX],01Ah
+		je	L2C04
+L2BCF:		mov	ECX,0Ch[EBX]
+		cmp	ECX,03Ah
+		je	L2BE6
+		cmp	ECX,01Bh
+		je	L2BE6
+		cmp	ECX,01Ch
+		je	L2BE6
+		cmp	ECX,01Fh
+		jne	L2BFE
+L2BE6:		push	0
+		push	ESI
+		push	dword ptr 018h[EBX]
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBX],01Ah
+		je	L2C04
+		jmp short	L2BCF
+L2BFE:		pop	ESI
+		xor	EAX,EAX
+		pop	EBX
+		pop	ECX
+		ret
+L2C04:		mov	ECX,018h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	ESI,EAX
+		test	EAX,EAX
+		jne	L2C29
+		push	080Fh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0548h]
+		call	near ptr __assert
+L2C29:		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret
+		nop
+?assignDotVar@@YAPAUExpression@@UExpressionReverseIterator@@HPAU1@1@Z:
+		sub	ESP,010h
+		push	EBX
+		push	ESI
+		push	EDI
+		cmp	dword ptr 02Ch[ESP],0
+		jne	L2C48
+		mov	EAX,034h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,010h
+		ret
+L2C48:		cmp	dword ptr 030h[ESP],0
+		je	L2C56
+		cmp	dword ptr 030h[ESP],1
+		jne	L2C6A
+L2C56:		push	0818h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[054Ch]
+		call	near ptr __assert
+L2C6A:		mov	ECX,02Ch[ESP]
+		dec	ECX
+		push	ECX
+		lea	ECX,024h[ESP]
+		call	near ptr ?getExpressionAtDepth@ExpressionReverseIterator@@QAEPAUExpression@@H@Z
+		mov	EBX,EAX
+		cmp	dword ptr 0Ch[EAX],01Bh
+		jne	L2DC7
+		mov	ECX,01Ch[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		test	EAX,EAX
+		jne	L2CA8
+		push	081Dh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0578h]
+		call	near ptr __assert
+L2CA8:		cmp	dword ptr 030h[ESP],0
+		jne	L2CC3
+		push	081Eh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0580h]
+		call	near ptr __assert
+L2CC3:		cmp	dword ptr 030h[ESP],1
+		jne	L2CDE
+		push	081Fh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[058Ch]
+		call	near ptr __assert
+L2CDE:		mov	ESI,030h[ESP]
+		mov	EDI,0Ch[ESI]
+		mov	ECX,031h
+		cmp	EDI,ECX
+		je	L2D02
+		push	0820h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[05ACh]
+		call	near ptr __assert
+L2D02:		cmp	EDI,ECX
+		jne	L2D1E
+		push	dword ptr 04Ch[EAX]
+		mov	EBX,ESI
+		mov	ECX,ESI
+		push	dword ptr 028h[EAX]
+		call	near ptr ?getFieldIndex@StructLiteralExp@@QAEHPAUType@@I@Z
+		cmp	EAX,0FFFFFFFFh
+		mov	010h[ESP],EAX
+		jne	L2D2A
+L2D1E:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,010h
+		ret
+L2D2A:		test	EAX,EAX
+		js	L2D3A
+		mov	EDX,01Ch[EBX]
+		mov	ESI,4[EDX]
+		cmp	ESI,010h[ESP]
+		ja	L2D4E
+L2D3A:		push	0828h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[05D0h]
+		call	near ptr __assert
+L2D4E:		mov	EDI,01Ch[EBX]
+		mov	ECX,8[EDI]
+		push	dword ptr 034h[ESP]
+		push	[EAX*4][ECX]
+		mov	EAX,034h[ESP]
+		dec	EAX
+		push	EAX
+		push	dword ptr 034h[ESP]
+		push	dword ptr 034h[ESP]
+		push	dword ptr 034h[ESP]
+		call	near ptr ?assignDotVar@@YAPAUExpression@@UExpressionReverseIterator@@HPAU1@1@Z
+		mov	04Ch[ESP],EAX
+		push	EAX
+		push	dword ptr 02Ch[ESP]
+		push	dword ptr 01Ch[EBX]
+		call	near ptr ?changeOneElement@@YAPAUExpressions@@PAU1@IPAX@Z
+		mov	038h[ESP],EAX
+		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	03Ch[ESP],EAX
+		je	L2DB1
+		mov	ECX,EAX
+		push	dword ptr 038h[ESP]
+		push	dword ptr 018h[EBX]
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ??0StructLiteralExp@@QAE@ULoc@@PAUStructDeclaration@@PAUExpressions@@@Z
+		mov	03Ch[ESP],EAX
+L2DB1:		mov	ESI,03Ch[ESP]
+		mov	EDX,010h[EBX]
+		mov	010h[ESI],EDX
+		add	ESP,024h
+		mov	EAX,ESI
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,010h
+		ret
+L2DC7:		push	0831h
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[01B0h]
+		call	near ptr __assert
+		xor	EAX,EAX
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,010h
+		ret
+?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z:
+		sub	ESP,0D4h
+		mov	EAX,1
+		push	EBX
+		push	EBP
+		push	ESI
+		push	EDI
+		mov	ESI,0E8h[ESP]
+		test	ESI,ESI
+		mov	0E0h[ESP],ECX
+		mov	EBP,018h[ECX]
+		mov	048h[ESP],EAX
+		jne	L2E37
+		mov	ESI,ECX
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[05F8h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L2E37:		cmp	dword ptr 0ECh[ESP],0
+		je	L2E4A
+		cmp	dword ptr 0Ch[EBP],0Ch
+		jne	L2E4A
+		mov	EBP,018h[EBP]
+L2E4A:		cmp	EBP,EAX
+		je	L347E
+		test	ESI,ESI
+		jne	L2E6A
+		push	084Dh
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0624h]
+		call	near ptr __assert
+L2E6A:		mov	ECX,01Ch[ECX]
+		mov	EDX,[ECX]
+		push	ESI
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L3AA7
+		cmp	dword ptr 0ECh[ESP],0
+		jne	L2E92
+		cmp	dword ptr 0Ch[EBP],020h
+		jne	L3121
+L2E92:		push	ESI
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L3CB6
+L2EA6:		cmp	dword ptr 0Ch[EBX],01Ah
+		jne	L2EDA
+		push	ESI
+		push	0
+		push	dword ptr 024h[ESI]
+		push	EBX
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		mov	EDX,[EBX]
+		mov	ECX,EAX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		jne	L2EA6
+		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L2EDA:		cmp	dword ptr 0ECh[ESP],0
+		je	L2F68
+		push	EDI
+		push	EBX
+		mov	ECX,0E8h[ESP]
+		push	dword ptr 010h[ECX]
+		call	dword ptr 0F8h[ESP]
+		add	ESP,0Ch
+		mov	EDI,EAX
+		cmp	EAX,1
+		jne	L2F34
+		mov	ESI,0E0h[ESP]
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[062Ch]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L2F34:		cmp	dword ptr 0F0h[ESP],0
+		je	L2F42
+		mov	EDX,EBX
+		jmp short	L2F44
+L2F42:		mov	EDX,EDI
+L2F44:		push	EDX
+		mov	ECX,0E4h[ESP]
+		mov	EDX,010h[ECX]
+		push	EDX
+		push	EDX
+		call	near ptr ?Cast@@YAPAUExpression@@PAUType@@0PAU1@@Z
+		add	ESP,0Ch
+		cmp	EAX,1
+		mov	048h[ESP],EAX
+		je	L3D11
+		jmp short	L2F6C
+L2F68:		mov	048h[ESP],EDI
+L2F6C:		cmp	dword ptr 0Ch[EBP],020h
+		jne	L3181
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 034h[EDX]
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		mov	050h[ESP],EAX
+		call	dword ptr 034h[EDX]
+		mov	054h[ESP],EAX
+		cmp	EAX,050h[ESP]
+		je	L3D11
+		cmp	dword ptr 050h[ESP],0
+		mov	EBP,018h[EBP]
+		je	L2FD1
+		push	ESI
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	dword ptr 0Ch[EAX],01Ah
+		jne	L2FD1
+L2FB1:		push	ESI
+		push	0
+		push	dword ptr 024h[ESI]
+		push	EBX
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		mov	EDX,[EBX]
+		mov	ECX,EAX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	dword ptr 0Ch[EAX],01Ah
+		je	L2FB1
+L2FD1:		mov	ECX,010h[EBP]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		mov	058h[ESP],EAX
+		cmp	dword ptr 4[EAX],0
+		jne	L30F2
+		mov	ECX,024h[EAX]
+		test	ECX,ECX
+		jne	L3002
+		push	088Ch
+		push	offset FLAT:_DATA[050h]
+		push	offset FLAT:_DATA[0650h]
+		call	near ptr __assert
+L3002:		xor	EDX,EDX
+		mov	064h[ESP],EDX
+		mov	060h[ESP],EDX
+		mov	EDX,064h[ESP]
+		mov	EAX,060h[ESP]
+		push	EDX
+		mov	EDX,[ECX]
+		push	EAX
+		call	dword ptr 090h[EDX]
+		mov	05Ch[ESP],EAX
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	068h[ESP],EAX
+		je	L3045
+		mov	ECX,EAX
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EDX,068h[ESP]
+		mov	dword ptr [EDX],offset FLAT:??_7Expressions@@6B@
+L3045:		push	dword ptr 054h[ESP]
+		mov	ECX,06Ch[ESP]
+		call	near ptr ?setDim@Array@@QAEXI@Z
+		xor	EDI,EDI
+		mov	EDX,050h[ESP]
+		cmp	EDX,054h[ESP]
+		jae	L3062
+		test	EDX,EDX
+		jmp short	L3068
+L3062:		mov	EDX,054h[ESP]
+		test	EDX,EDX
+L3068:		mov	06Ch[ESP],EDX
+		je	L3088
+L306E:		mov	ECX,018h[EBX]
+		mov	EDX,8[ECX]
+		mov	ECX,[EDI*4][EDX]
+		mov	EDX,068h[ESP]
+		mov	EDX,8[EDX]
+		mov	[EDI*4][EDX],ECX
+		inc	EDI
+		cmp	EDI,06Ch[ESP]
+		jb	L306E
+L3088:		mov	ECX,06Ch[ESP]
+		mov	EAX,054h[ESP]
+		mov	EDI,05Ch[ESP]
+		mov	EDX,068h[ESP]
+		mov	EBX,ECX
+		cmp	ECX,EAX
+		jae	L30A9
+L309E:		mov	ECX,8[EDX]
+		mov	[EBX*4][ECX],EDI
+		inc	EBX
+		cmp	EBX,EAX
+		jb	L309E
+L30A9:		mov	068h[ESP],EDX
+		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L30E4
+		mov	ECX,EBX
+		push	dword ptr 068h[ESP]
+		mov	dword ptr 078h[ESP],0
+		mov	dword ptr 074h[ESP],0
+		mov	EDX,078h[ESP]
+		mov	EAX,074h[ESP]
+		push	EDX
+		push	EAX
+		call	near ptr ??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EBX,EAX
+L30E4:		mov	EDX,058h[ESP]
+		mov	EDI,EBX
+		mov	010h[EBX],EDX
+		jmp	near ptr L3181
+L30F2:		mov	ESI,0E0h[ESP]
+		mov	EBX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EBX]
+		push	EAX
+		push	offset FLAT:_DATA[065Ch]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3121:		cmp	dword ptr 0Ch[EBP],01Fh
+		je	L3181
+		mov	ECX,0E0h[ESP]
+		mov	ECX,010h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		cmp	dword ptr 4[EAX],8
+		jne	L3166
+		cmp	dword ptr 0Ch[EDI],087h
+		jne	L3166
+		mov	ECX,0E0h[ESP]
+		push	dword ptr 8[ECX]
+		push	dword ptr 4[ECX]
+		mov	EDX,0E8h[ESP]
+		mov	ECX,010h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 090h[EDX]
+		mov	EDI,EAX
+L3166:		push	EDI
+		mov	ECX,0E4h[ESP]
+		mov	EDX,010h[ECX]
+		push	EDX
+		push	EDX
+		call	near ptr ?Cast@@YAPAUExpression@@PAUType@@0PAU1@@Z
+		mov	EDI,EAX
+		mov	054h[ESP],EAX
+		add	ESP,0Ch
+L3181:		cmp	EDI,1
+		je	L3AA7
+		push	dword ptr 024h[ESI]
+		push	EBP
+		call	near ptr ?findParentVar@@YAPAUVarDeclaration@@PAUExpression@@0@Z
+		add	ESP,8
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L31E4
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 0168h[EDX]
+		test	EAX,EAX
+		je	L31E4
+		mov	ECX,EBX
+		call	near ptr ?isCTFE@VarDeclaration@@QAEHXZ
+		test	EAX,EAX
+		jne	L31E4
+		mov	EDX,[EBX]
+		mov	ESI,0E0h[ESP]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0684h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L31E4:		mov	EDX,0E0h[ESP]
+		cmp	dword ptr 0Ch[EDX],062h
+		jne	L3238
+		mov	ECX,018h[EDX]
+		cmp	dword ptr 0Ch[ECX],01Ah
+		jne	L3238
+		mov	EDX,018h[ECX]
+		mov	EAX,030h[EDX]
+		mov	EDX,034h[EDX]
+		and	EAX,0200000h
+		xor	EDX,EDX
+		or	EDX,EAX
+		je	L3238
+		mov	ECX,018h[EBP]
+		mov	EDX,[ECX]
+		mov	ESI,0E0h[ESP]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		mov	ECX,01Ch[ESI]
+		mov	068h[EBX],ECX
+		mov	EAX,01Ch[ESI]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3238:		mov	byte ptr 078h[ESP],0
+		lea	ECX,078h[ESP]
+		push	ECX
+		push	dword ptr 024h[ESI]
+		push	EBP
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBP,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBP],01Ah
+		je	L3294
+		test	EBX,EBX
+		je	L3294
+		cmp	dword ptr 068h[EBX],0
+		jne	L3294
+		mov	dword ptr 084h[ESP],0
+		mov	dword ptr 080h[ESP],0
+		mov	EDX,084h[ESP]
+		mov	EAX,080h[ESP]
+		push	EDX
+		mov	ECX,028h[EBX]
+		mov	EDX,[ECX]
+		push	EAX
+		call	dword ptr 090h[EDX]
+		mov	068h[EBX],EAX
+L3294:		mov	ECX,0Ch[EBP]
+		cmp	ECX,01Bh
+		je	L32A5
+		cmp	ECX,012h
+		jne	L34D3
+L32A5:		mov	EDX,024h[ESI]
+		mov	088h[ESP],EBP
+		mov	08Ch[ESP],EDX
+		push	dword ptr 088h[ESP]
+		lea	ECX,08Ch[ESP]
+		call	near ptr ?findExpressionDepth@ExpressionReverseIterator@@QAEHPAUExpression@@@Z
+		mov	EBX,EBP
+		mov	090h[ESP],EAX
+		cmp	dword ptr 0Ch[EBP],01Bh
+		jne	L33DD
+		mov	04Ch[ESP],EDI
+		xor	EDI,EDI
+		cmp	dword ptr 0Ch[EBP],01Bh
+		jne	L3320
+L32E8:		inc	EDI
+		cmp	dword ptr 0Ch[EBX],01Bh
+		jne	L32F2
+		mov	EBX,018h[EBX]
+L32F2:		push	0
+		push	dword ptr 024h[ESI]
+		push	EBX
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		add	ESP,0Ch
+		mov	EBX,EAX
+		test	EAX,EAX
+		jne	L331A
+		push	08E4h
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06B8h]
+		call	near ptr __assert
+L331A:		cmp	dword ptr 0Ch[EBX],01Bh
+		je	L32E8
+L3320:		push	ESI
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EBP,EAX
+		cmp	EAX,1
+		jne	L333E
+		pop	EDI
+		mov	EAX,EBP
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L333E:		mov	094h[ESP],EBP
+		mov	ECX,04Ch[ESP]
+		cmp	ECX,1
+		jne	L3362
+		push	08EBh
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06C8h]
+		call	near ptr __assert
+L3362:		push	ECX
+		push	dword ptr 098h[ESP]
+		push	EDI
+		push	dword ptr 09Ch[ESP]
+		push	dword ptr 09Ch[ESP]
+		push	dword ptr 09Ch[ESP]
+		call	near ptr ?assignDotVar@@YAPAUExpression@@UExpressionReverseIterator@@HPAU1@1@Z
+		mov	EBP,EBX
+		mov	064h[ESP],EAX
+		add	ESP,018h
+		cmp	dword ptr 0Ch[EBX],01Ah
+		jne	L33B7
+		mov	ECX,018h[EBX]
+		mov	EDX,[ECX]
+		mov	EDI,04Ch[ESP]
+		call	dword ptr 0124h[EDX]
+		mov	068h[EAX],EDI
+		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L33B7:		mov	EDI,04Ch[ESP]
+		cmp	EDI,1
+		jne	L3460
+		push	08F5h
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06C8h]
+		call	near ptr __assert
+		jmp	near ptr L3460
+L33DD:		push	ESI
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L33FC
+		push	ESI
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		jne	L340B
+L33FC:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L340B:		cmp	EDI,1
+		jne	L3424
+		push	0901h
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06C8h]
+		call	near ptr __assert
+L3424:		push	EDI
+		push	EBX
+		push	0
+		push	dword ptr 09Ch[ESP]
+		push	dword ptr 09Ch[ESP]
+		push	dword ptr 09Ch[ESP]
+		call	near ptr ?assignDotVar@@YAPAUExpression@@UExpressionReverseIterator@@HPAU1@1@Z
+		add	ESP,018h
+		mov	EDI,EAX
+		cmp	EAX,1
+		jne	L3460
+		push	0903h
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06C8h]
+		call	near ptr __assert
+L3460:		cmp	dword ptr 0Ch[EBP],012h
+		jne	L34BE
+		mov	byte ptr 028h[ESI],1
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		push	ESI
+		call	dword ptr 078h[EDX]
+		mov	EBP,EAX
+		cmp	EBP,1
+		mov	byte ptr 028h[ESI],0
+		jne	L348D
+L347E:		pop	EDI
+		mov	EAX,EBP
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L348D:		test	EDI,EDI
+		jne	L34A5
+		push	090Ch
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06E4h]
+		call	near ptr __assert
+L34A5:		cmp	EDI,1
+		jne	L34BE
+		push	090Dh
+		push	offset FLAT:_DATA[06ACh]
+		push	offset FLAT:_DATA[06C8h]
+		call	near ptr __assert
+L34BE:		mov	ECX,0Ch[EBP]
+		cmp	ECX,01Bh
+		je	L32A5
+		cmp	ECX,012h
+		je	L32A5
+L34D3:		mov	EDX,0Ch[EBP]
+		cmp	EDX,01Ah
+		jne	L3501
+		mov	ECX,018h[EBP]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		cmp	byte ptr 078h[ESP],0
+		jne	L34F9
+		push	EBX
+		push	ESI
+		call	near ptr ?addVarToInterstate@@YAXPAUInterState@@PAUVarDeclaration@@@Z
+		add	ESP,8
+L34F9:		mov	068h[EBX],EDI
+		jmp	near ptr L3D11
+L3501:		cmp	EDX,03Ah
+		jne	L372F
+		push	0
+		push	dword ptr 024h[ESI]
+		push	dword ptr 018h[EBP]
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBX],01Ah
+		jne	L370D
+		mov	098h[ESP],EBX
+		mov	ECX,098h[ESP]
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	ECX,068h[EAX]
+		mov	EDX,0Ch[ECX]
+		mov	EBX,EAX
+		cmp	EDX,0Dh
+		jne	L3665
+		mov	ECX,028h[EBX]
+		cmp	dword ptr 4[ECX],2
+		jne	L3636
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	09Ch[ESP],EAX
+		je	L3586
+		mov	ECX,EAX
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EDX,09Ch[ESP]
+		mov	dword ptr [EDX],offset FLAT:??_7Expressions@@6B@
+L3586:		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	0A0h[ESP],EAX
+		je	L35AF
+		mov	ECX,EAX
+		call	near ptr ??0Array@@QAE@XZ
+		mov	EDX,0A0h[ESP]
+		mov	dword ptr [EDX],offset FLAT:??_7Expressions@@6B@
+L35AF:		mov	ECX,01Ch[EBP]
+		mov	EDX,[ECX]
+		push	ESI
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		mov	0A4h[ESP],EAX
+		je	L3CB6
+		mov	ESI,0E0h[ESP]
+		push	EDI
+		mov	ECX,0A0h[ESP]
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		push	dword ptr 0A4h[ESP]
+		mov	ECX,0A4h[ESP]
+		call	near ptr ?push@Array@@QAEXPAX@Z
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L361C
+		mov	ECX,EBP
+		push	dword ptr 09Ch[ESP]
+		push	dword ptr 0A4h[ESP]
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0AssocArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@1@Z
+		mov	EBP,EAX
+L361C:		mov	EDX,028h[EBX]
+		mov	010h[EBP],EDX
+		mov	EAX,048h[ESP]
+		mov	068h[EBX],EBP
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3636:		mov	EDX,[EBX]
+		mov	ESI,0E0h[ESP]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[06ECh]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3665:		cmp	EDX,02Fh
+		je	L369B
+		cmp	EDX,030h
+		je	L369B
+		cmp	EDX,07Ah
+		je	L369B
+		mov	ESI,0E0h[ESP]
+		push	offset FLAT:_DATA[0708h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,8
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L369B:		push	ECX
+		mov	ECX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[ECX*4]
+		call	near ptr ?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+		add	ESP,8
+		cmp	EAX,1
+		je	L36C2
+		cmp	dword ptr 020h[EBP],0
+		je	L36C2
+		mov	EDX,020h[EBP]
+		mov	068h[EDX],EAX
+L36C2:		push	ESI
+		mov	ECX,01Ch[EBP]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		je	L3CB6
+		mov	ESI,0E0h[ESP]
+		push	EDI
+		push	EAX
+		push	dword ptr 068h[EBX]
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ?assignArrayElement@@YAPAUExpression@@ULoc@@PAU1@11@Z
+		add	ESP,014h
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L3CB6
+		mov	068h[EBX],EDI
+		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L370D:		mov	ESI,0E0h[ESP]
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0728h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		jmp	near ptr L3D11
+L372F:		cmp	EDX,01Fh
+		jne	L3BCD
+		push	0
+		push	dword ptr 024h[ESI]
+		push	dword ptr 018h[EBP]
+		call	near ptr ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z
+		mov	EBX,EAX
+		add	ESP,0Ch
+		cmp	dword ptr 0Ch[EBX],01Ah
+		jne	L3BAB
+		mov	0A8h[ESP],EBX
+		mov	EDX,0A8h[ESP]
+		mov	ECX,018h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		cmp	dword ptr 068h[EAX],0
+		je	L378F
+		mov	ECX,?Tsize_t@@3HA
+		push	dword ptr 068h[EBX]
+		push	dword ptr ?basic@Type@@2QAPAU1@A[ECX*4]
+		call	near ptr ?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+		add	ESP,8
+		jmp short	L3794
+L378F:		mov	EAX,1
+L3794:		cmp	EAX,1
+		je	L37A5
+		cmp	dword ptr 024h[EBP],0
+		je	L37A5
+		mov	EDX,024h[EBP]
+		mov	068h[EDX],EAX
+L37A5:		xor	ECX,ECX
+		mov	0ACh[ESP],ECX
+		mov	0B0h[ESP],ECX
+		mov	EDX,01Ch[EBP]
+		test	EDX,EDX
+		je	L37D4
+		push	ESI
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		mov	0ACh[ESP],EAX
+		je	L3CB6
+L37D4:		mov	ECX,020h[EBP]
+		test	ECX,ECX
+		je	L37F1
+		push	ESI
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		mov	0B0h[ESP],EAX
+		je	L3CB6
+L37F1:		mov	ECX,028h[EBX]
+		mov	EDX,[ECX]
+		mov	ESI,0E0h[ESP]
+		call	dword ptr 070h[EDX]
+		mov	ECX,4[EAX]
+		cmp	ECX,1
+		mov	0B4h[ESP],EAX
+		jne	L382A
+		mov	EDX,0B4h[ESP]
+		mov	ECX,028h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 034h[EDX]
+		mov	0B8h[ESP],EAX
+		jmp	near ptr L38B6
+L382A:		test	ECX,ECX
+		jne	L388E
+		mov	EDX,068h[EBX]
+		test	EDX,EDX
+		je	L383B
+		cmp	dword ptr 0Ch[EDX],0Dh
+		jne	L3863
+L383B:		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[075Ch]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3863:		mov	ECX,0Ch[EDX]
+		cmp	ECX,02Fh
+		jne	L387D
+		mov	ECX,068h[EBX]
+		mov	EDX,018h[ECX]
+		mov	ECX,4[EDX]
+		mov	0B8h[ESP],ECX
+		jmp short	L38B6
+L387D:		cmp	ECX,07Ah
+		jne	L38B6
+		mov	EDX,01Ch[EDX]
+		mov	0B8h[ESP],EDX
+		jmp short	L38B6
+L388E:		mov	EBX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EBX]
+		push	EAX
+		push	offset FLAT:_DATA[077Ch]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L38B6:		cmp	dword ptr 0ACh[ESP],0
+		je	L38CE
+		mov	ECX,0ACh[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 034h[EDX]
+		jmp short	L38D7
+L38CE:		mov	EAX,0B8h[ESP]
+		xor	EDX,EDX
+L38D7:		mov	0BCh[ESP],EAX
+		cmp	dword ptr 0B0h[ESP],0
+		je	L38F6
+		mov	ECX,0B0h[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 034h[EDX]
+		jmp short	L38FA
+L38F6:		xor	EAX,EAX
+		xor	EDX,EDX
+L38FA:		mov	EBP,EAX
+		test	EAX,EAX
+		js	L3910
+		mov	ECX,0BCh[ESP]
+		cmp	ECX,0B8h[ESP]
+		jbe	L393F
+L3910:		push	dword ptr 0BCh[ESP]
+		push	EBP
+		push	dword ptr 0C0h[ESP]
+		push	offset FLAT:_DATA[07A4h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,014h
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L393F:		mov	EDX,0Ch[EDI]
+		cmp	EDX,02Fh
+		je	L3950
+		cmp	EDX,07Ah
+		je	L3950
+		xor	ECX,ECX
+		jmp short	L3955
+L3950:		mov	ECX,1
+L3955:		xor	EAX,EAX
+		cmp	EDX,02Fh
+		mov	0C0h[ESP],CL
+		jne	L396B
+		mov	EDX,018h[EDI]
+		mov	EAX,4[EDX]
+		jmp short	L3973
+L396B:		cmp	EDX,07Ah
+		jne	L3973
+		mov	EAX,01Ch[EDI]
+L3973:		cmp	byte ptr 0C0h[ESP],0
+		je	L39BF
+		mov	ECX,0BCh[ESP]
+		sub	ECX,EBP
+		cmp	ECX,EAX
+		je	L39BF
+		mov	0C4h[ESP],EAX
+		push	dword ptr 0BCh[ESP]
+		push	EBP
+		push	dword ptr 0CCh[ESP]
+		push	offset FLAT:_DATA[07D4h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,014h
+		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L39BF:		mov	EDX,0Ch[EDI]
+		cmp	EDX,02Fh
+		jne	L3A02
+		mov	EDX,0BCh[ESP]
+		sub	EDX,EBP
+		cmp	EDX,0B8h[ESP]
+		je	L39F0
+		push	EBP
+		mov	ESI,068h[EBX]
+		push	dword ptr 018h[EDI]
+		push	dword ptr 018h[ESI]
+		call	near ptr ?spliceElements@@YAPAUExpressions@@PAU1@0I@Z
+		mov	EDI,ESI
+		mov	018h[ESI],EAX
+		add	ESP,0Ch
+L39F0:		mov	068h[EBX],EDI
+		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3A02:		cmp	EDX,07Ah
+		jne	L3AB6
+		mov	EDX,0BCh[ESP]
+		sub	EDX,EBP
+		cmp	EDX,0B8h[ESP]
+		jne	L3A25
+		mov	068h[EBX],EDI
+		jmp	near ptr L3AA7
+L3A25:		cmp	dword ptr 068h[EBX],0
+		jne	L3A7E
+		movzx	ECX,byte ptr 020h[EDI]
+		push	ECX
+		mov	ECX,010h[EDI]
+		push	dword ptr 0BCh[ESP]
+		mov	dword ptr 0D4h[ESP],0
+		mov	dword ptr 0D0h[ESP],0
+		mov	EDX,0D4h[ESP]
+		mov	EAX,0D0h[ESP]
+		push	EDX
+		mov	EDX,[ECX]
+		push	EAX
+		call	dword ptr 08Ch[EDX]
+		mov	EDX,[EAX]
+		mov	ECX,EAX
+		call	dword ptr 034h[EDX]
+		push	EAX
+		push	dword ptr 010h[EDI]
+		call	near ptr ?createBlockDuplicatedStringLiteral@@YAPAUStringExp@@PAUType@@IIH@Z
+		mov	068h[EBX],EAX
+		add	ESP,010h
+L3A7E:		mov	ECX,068h[EBX]
+		cmp	dword ptr 0Ch[ECX],07Ah
+		jne	L3A99
+		push	EBP
+		push	EDI
+		push	dword ptr 068h[EBX]
+		call	near ptr ?spliceStringExp@@YAPAUStringExp@@PAU1@0I@Z
+		mov	068h[EBX],EAX
+		add	ESP,0Ch
+		jmp short	L3AA7
+L3A99:		push	offset FLAT:_DATA[0808h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,8
+L3AA7:		mov	EAX,EDI
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3AB6:		mov	ECX,0B4h[ESP]
+		mov	EDX,024h[ECX]
+		mov	ECX,4[EDX]
+		mov	EDX,010h[EDI]
+		cmp	ECX,4[EDX]
+		jne	L3B84
+		mov	EDX,0BCh[ESP]
+		sub	EDX,EBP
+		push	EDX
+		push	EDI
+		push	dword ptr 028h[EBX]
+		mov	050h[ESP],EDX
+		call	near ptr ?createBlockDuplicatedArrayLiteral@@YAPAUArrayLiteralExp@@PAUType@@PAUExpression@@I@Z
+		mov	054h[ESP],EAX
+		add	ESP,0Ch
+		mov	ECX,044h[ESP]
+		cmp	ECX,0B8h[ESP]
+		jne	L3B00
+		mov	EDI,048h[ESP]
+		jmp short	L3B70
+L3B00:		mov	ESI,068h[EBX]
+		test	ESI,ESI
+		je	L3B12
+		cmp	dword ptr 0Ch[ESI],02Fh
+		jne	L3B12
+		mov	ESI,068h[EBX]
+		jmp short	L3B58
+L3B12:		push	dword ptr 0B8h[ESP]
+		mov	ECX,028h[EBX]
+		mov	dword ptr 0D8h[ESP],0
+		mov	dword ptr 0D4h[ESP],0
+		mov	EDX,0D8h[ESP]
+		mov	EAX,0D4h[ESP]
+		push	EDX
+		mov	EDX,[ECX]
+		push	EAX
+		call	dword ptr 08Ch[EDX]
+		push	EAX
+		push	dword ptr 028h[EBX]
+		call	near ptr ?createBlockDuplicatedArrayLiteral@@YAPAUArrayLiteralExp@@PAUType@@PAUExpression@@I@Z
+		mov	ESI,EAX
+		add	ESP,0Ch
+L3B58:		push	EBP
+		mov	ECX,04Ch[ESP]
+		push	dword ptr 018h[ECX]
+		push	dword ptr 018h[ESI]
+		call	near ptr ?spliceElements@@YAPAUExpressions@@PAU1@0I@Z
+		mov	EDI,ESI
+		mov	018h[ESI],EAX
+		add	ESP,0Ch
+L3B70:		mov	068h[EBX],EDI
+		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3B84:		mov	EAX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:_DATA[0840h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3BAB:		mov	ESI,0E0h[ESP]
+		mov	EBX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EBX]
+		push	EAX
+		push	offset FLAT:_DATA[0840h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		jmp	near ptr L3D11
+L3BCD:		cmp	EDX,018h
+		jne	L3CF4
+		mov	EDX,018h[EBP]
+		cmp	dword ptr 0Ch[EDX],019h
+		jne	L3D11
+		mov	0D8h[ESP],EDX
+		mov	ECX,018h[EDX]
+		mov	EDX,018h[EDX]
+		mov	EDX,[EDX]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		mov	EDX,[EBX]
+		mov	ECX,EAX
+		call	dword ptr 0168h[EDX]
+		test	EAX,EAX
+		je	L3C42
+		mov	ECX,EBX
+		call	near ptr ?isCTFE@VarDeclaration@@QAEHXZ
+		test	EAX,EAX
+		jne	L3C42
+		mov	EDX,[EBX]
+		mov	ESI,0E0h[ESP]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0684h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3C42:		cmp	dword ptr 0ECh[ESP],0
+		je	L3C80
+		cmp	dword ptr 068h[EBX],0
+		jne	L3C80
+		mov	EDX,[EBX]
+		mov	ESI,0E0h[ESP]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0878h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3C80:		mov	EDX,068h[EBX]
+		mov	0DCh[ESP],EDX
+		cmp	dword ptr 0Ch[EDX],01Ah
+		jne	L3CA9
+		push	dword ptr 018h[EDX]
+		push	ESI
+		push	dword ptr 8[EBP]
+		push	dword ptr 4[EBP]
+		call	near ptr ?getVarExp@@YAPAUExpression@@ULoc@@PAUInterState@@PAUDeclaration@@@Z
+		mov	0ECh[ESP],EAX
+		add	ESP,010h
+L3CA9:		mov	EBP,0DCh[ESP]
+		cmp	dword ptr 0Ch[EBP],031h
+		je	L3CC8
+L3CB6:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+L3CC8:		push	EDI
+		mov	ECX,0DCh[ESP]
+		push	dword ptr 01Ch[ECX]
+		push	EBP
+		mov	EDX,0ECh[ESP]
+		push	dword ptr 010h[EDX]
+		call	near ptr ?modifyStructField@@YAPAUExpression@@PAUType@@PAUStructLiteralExp@@IPAU1@@Z
+		mov	EDI,EAX
+		push	EBX
+		push	ESI
+		call	near ptr ?addVarToInterstate@@YAXPAUInterState@@PAUVarDeclaration@@@Z
+		mov	068h[EBX],EDI
+		add	ESP,018h
+		jmp short	L3D11
+L3CF4:		mov	ESI,0E0h[ESP]
+		mov	EAX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EAX]
+		push	EAX
+		push	offset FLAT:_DATA[077Ch]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+L3D11:		mov	EAX,048h[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0D4h
+		ret	0Ch
+?interpret@AssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	0
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@AddAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Add@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@MinAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Min@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@CatAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Cat@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@MulAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Mul@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@DivAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Div@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@ModAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Mod@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@ShlAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Shl@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@ShrAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Shr@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@UshrAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Ushr@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@AndAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?And@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@OrAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Or@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@XorAssignExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	0
+		push	offset FLAT:?Xor@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 010h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		pop	ECX
+		ret	4
+?interpret@PostExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		push	ESI
+		cmp	dword ptr 0Ch[ECX],060h
+		jne	L3E74
+		push	1
+		push	offset FLAT:?Add@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 018h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		mov	ESI,EAX
+		jmp short	L3E86
+L3E74:		push	1
+		push	offset FLAT:?Min@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		push	dword ptr 018h[ESP]
+		call	near ptr ?interpretAssignCommon@BinExp@@QAEPAUExpression@@PAUInterState@@P6APAU2@PAUType@@PAU2@2@ZH@Z
+		mov	ESI,EAX
+L3E86:		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+?interpret@AndAndExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		mov	ECX,018h[ESI]
+		push	EDI
+		mov	EDX,[ECX]
+		push	dword ptr 010h[ESP]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L3F92
+		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L3EEC
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L3EE5
+		mov	EDX,018h[ESI]
+		push	dword ptr 010h[ESI]
+		mov	ECX,EDI
+		push	0
+		push	0
+		push	dword ptr 8[EDX]
+		push	dword ptr 4[EDX]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+L3EE5:		mov	EBX,EDI
+		jmp	near ptr L3F92
+L3EEC:		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L3F8D
+		push	dword ptr 010h[ESP]
+		mov	ECX,01Ch[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L3F92
+		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L3F50
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L3F4C
+		mov	EDX,018h[ESI]
+		push	dword ptr 010h[ESI]
+		mov	ECX,EDI
+		push	0
+		push	0
+		push	dword ptr 8[EDX]
+		push	dword ptr 4[EDX]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+L3F4C:		mov	EBX,EDI
+		jmp short	L3F92
+L3F50:		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L3F8D
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L3F89
+		mov	ECX,018h[ESI]
+		push	dword ptr 010h[ESI]
+		push	0
+		push	1
+		push	dword ptr 8[ECX]
+		push	dword ptr 4[ECX]
+		mov	ECX,EDI
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+L3F89:		mov	EBX,EDI
+		jmp short	L3F92
+L3F8D:		mov	EBX,1
+L3F92:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@OrOrExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		mov	ECX,018h[ESI]
+		push	EDI
+		mov	EDX,[ECX]
+		push	dword ptr 010h[ESP]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L40A2
+		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L3FFC
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L3FF5
+		mov	EDX,018h[ESI]
+		push	dword ptr 010h[ESI]
+		mov	ECX,EDI
+		push	0
+		push	1
+		push	dword ptr 8[EDX]
+		push	dword ptr 4[EDX]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+L3FF5:		mov	EBX,EDI
+		jmp	near ptr L40A2
+L3FFC:		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L409D
+		push	dword ptr 010h[ESP]
+		mov	ECX,01Ch[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L40A2
+		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L4060
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L405C
+		mov	EDX,018h[ESI]
+		push	dword ptr 010h[ESI]
+		mov	ECX,EDI
+		push	0
+		push	0
+		push	dword ptr 8[EDX]
+		push	dword ptr 4[EDX]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+L405C:		mov	EBX,EDI
+		jmp short	L40A2
+L4060:		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L409D
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L4099
+		mov	ECX,018h[ESI]
+		push	dword ptr 010h[ESI]
+		push	0
+		push	1
+		push	dword ptr 8[ECX]
+		push	dword ptr 4[ECX]
+		mov	ECX,EDI
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EDI,EAX
+L4099:		mov	EBX,EDI
+		jmp short	L40A2
+L409D:		mov	EBX,1
+L40A2:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@CallExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,01Ch
+		mov	EDX,1
+		push	EBX
+		xor	EBX,EBX
+		push	EBP
+		xor	EBP,EBP
+		push	ESI
+		push	EDI
+		mov	EDI,030h[ESP]
+		mov	028h[ESP],ECX
+		mov	ESI,018h[ECX]
+		mov	018h[ESP],EDX
+		mov	014h[ESP],ESI
+		cmp	dword ptr 0Ch[ESI],012h
+		jne	L40F6
+		push	EDI
+		mov	ECX,018h[ESP]
+		mov	EAX,[ECX]
+		call	dword ptr 078h[EAX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		jne	L40F6
+		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+L40F6:		mov	EDX,018h
+		cmp	0Ch[ESI],EDX
+		jne	L416A
+		mov	ECX,018h[ESI]
+		cmp	dword ptr 0Ch[ECX],01Ah
+		jne	L4162
+		mov	ECX,018h[ESI]
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		test	EAX,EAX
+		mov	01Ch[ESP],EAX
+		je	L4142
+		mov	ECX,068h[EAX]
+		test	ECX,ECX
+		je	L4142
+		cmp	dword ptr 0Ch[ECX],019h
+		jne	L4142
+		mov	ECX,01Ch[ESP]
+		mov	EDX,068h[ECX]
+		mov	ECX,018h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 0F8h[EDX]
+		mov	EBX,EAX
+		jmp short	L416A
+L4142:		push	EDI
+		mov	ECX,068h[EAX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	dword ptr 0Ch[EAX],019h
+		jne	L416A
+		mov	ECX,018h[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 0F8h[EDX]
+		mov	EBX,EAX
+		jmp short	L416A
+L4162:		push	EDI
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+L416A:		cmp	dword ptr 0Ch[ESI],03Ah
+		jne	L417F
+		push	EDI
+		mov	ECX,02Ch[ESP]
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+L417F:		cmp	dword ptr 0Ch[ESI],01Bh
+		jne	L41A3
+		mov	ECX,01Ch[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 0F8h[EDX]
+		test	EAX,EAX
+		jne	L41A3
+		push	EDI
+		mov	ECX,02Ch[ESP]
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+L41A3:		mov	ECX,0Ch[ESI]
+		cmp	ECX,01Bh
+		jne	L41C4
+		mov	EDX,028h[ESP]
+		mov	ECX,018h[EDX]
+		mov	EBP,018h[ECX]
+		mov	ECX,01Ch[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 0F8h[EDX]
+		mov	EBX,EAX
+		jmp short	L41FF
+L41C4:		cmp	ECX,01Ah
+		jne	L41FF
+		mov	ECX,018h[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		test	EAX,EAX
+		mov	020h[ESP],EAX
+		je	L41EB
+		cmp	dword ptr 068h[EAX],0
+		je	L41EB
+		mov	ECX,020h[ESP]
+		mov	ESI,068h[ECX]
+		jmp short	L41FF
+L41EB:		mov	ECX,028h[ESP]
+		mov	EDX,018h[ECX]
+		mov	ECX,018h[EDX]
+		mov	EDX,[ECX]
+		call	dword ptr 0F8h[EDX]
+		mov	EBX,EAX
+L41FF:		mov	ECX,0Ch[ESI]
+		cmp	ECX,0A2h
+		jne	L4212
+		mov	EBX,01Ch[ESI]
+		mov	EBP,018h[ESI]
+		jmp short	L4237
+L4212:		mov	EDX,0A3h
+		cmp	ECX,EDX
+		jne	L4220
+		mov	EBX,018h[ESI]
+		jmp short	L4237
+L4220:		mov	EAX,018h
+		cmp	ECX,EAX
+		jne	L4237
+		mov	ECX,018h[ESI]
+		cmp	0Ch[ECX],EDX
+		jne	L4237
+		mov	EDX,018h[ESI]
+		mov	EBX,018h[EDX]
+L4237:		mov	ESI,028h[ESP]
+		test	EBX,EBX
+		je	L424B
+		cmp	dword ptr 028h[EBX],0
+		je	L440A
+		jmp short	L4253
+L424B:		cmp	ESP,ESP
+		je	L440A
+L4253:		test	EBP,EBP
+		je	L42D4
+		test	EBX,EBX
+		je	L42D4
+		mov	ECX,0Ch[EBP]
+		cmp	ECX,07Bh
+		jne	L4270
+		test	EDI,EDI
+		je	L426C
+		mov	EBP,024h[EDI]
+		jmp short	L4280
+L426C:		xor	EBP,EBP
+		jmp short	L4280
+L4270:		cmp	ECX,066h
+		jne	L4280
+		push	EDI
+		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		call	dword ptr 078h[EDX]
+		mov	EBP,EAX
+L4280:		cmp	dword ptr 054h[EBX],0
+		je	L4387
+		push	EBP
+		mov	ECX,EBX
+		push	dword ptr 01Ch[ESI]
+		push	EDI
+		call	near ptr ?interpret@FuncDeclaration@@QAEPAUExpression@@PAUInterState@@PAUExpressions@@PAU2@@Z
+		test	EAX,EAX
+		mov	024h[ESP],EAX
+		je	L42AB
+		mov	EBX,018h[ESP]
+		mov	EBX,024h[ESP]
+		jmp	near ptr L442F
+L42AB:		mov	ECX,028h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		mov	ECX,024h[EAX]
+		mov	EDI,EAX
+		cmp	dword ptr 4[ECX],0Dh
+		jne	L43EE
+		cmp	dword ptr ?global@@3UGlobal@@A[0F8h],0
+		je	L43E3
+		jmp	near ptr L43EE
+L42D4:		test	EBX,EBX
+		je	L440A
+		mov	EDX,4[EBX]
+		cmp	EDX,?aaLen@Id@@2PAUIdentifier@@A
+		jne	L42FD
+		push	dword ptr 01Ch[ESI]
+		push	EDI
+		call	near ptr ?interpret_aaLen@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+L42FD:		cmp	EDX,?aaKeys@Id@@2PAUIdentifier@@A
+		jne	L431B
+		push	dword ptr 01Ch[ESI]
+		push	EDI
+		call	near ptr ?interpret_aaKeys@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+L431B:		cmp	EDX,?aaValues@Id@@2PAUIdentifier@@A
+		jne	L4339
+		push	dword ptr 01Ch[ESI]
+		push	EDI
+		call	near ptr ?interpret_aaValues@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+L4339:		cmp	EDX,?adDup@Id@@2PAUIdentifier@@A
+		jne	L4381
+		mov	ECX,01Ch[ESI]
+		test	ECX,ECX
+		je	L4381
+		cmp	dword ptr 4[ECX],2
+		jne	L4381
+		mov	EBX,018h[ESP]
+		mov	EDX,01Ch[ESI]
+		mov	ECX,8[EDX]
+		push	EDI
+		mov	EBX,4[ECX]
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L442F
+		push	EBX
+		push	dword ptr 010h[ESI]
+		call	near ptr ?expType@@YAPAUExpression@@PAUType@@PAU1@@Z
+		mov	EBX,EAX
+		add	ESP,8
+		jmp	near ptr L442F
+L4381:		cmp	dword ptr 054h[EBX],0
+		jne	L43AC
+L4387:		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[08A4h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+L43AC:		push	0
+		mov	ECX,EBX
+		push	dword ptr 01Ch[ESI]
+		push	EDI
+		call	near ptr ?interpret@FuncDeclaration@@QAEPAUExpression@@PAUInterState@@PAUExpressions@@PAU2@@Z
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L43C7
+		mov	EBX,018h[ESP]
+		mov	EBX,EBP
+		jmp short	L442F
+L43C7:		mov	ECX,028h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 070h[EDX]
+		mov	ECX,024h[EAX]
+		mov	EDI,EAX
+		cmp	dword ptr 4[ECX],0Dh
+		jne	L43EE
+		cmp	dword ptr ?global@@3UGlobal@@A[0F8h],0
+		jne	L43EE
+L43E3:		mov	EBX,018h[ESP]
+		mov	EBX,5
+		jmp short	L442F
+L43EE:		mov	EDX,[ESI]
+		mov	EBX,018h[ESP]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[08F8h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		jmp short	L442F
+L440A:		mov	EBX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EBX]
+		push	EAX
+		push	offset FLAT:_DATA[08F8h]
+		push	ESI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		mov	EAX,1
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+L442F:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,01Ch
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@CommaExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,03Ch
+		mov	EDX,ECX
+		push	EBX
+		mov	EBX,044h[ESP]
+		push	ESI
+		mov	ESI,ECX
+		mov	EAX,018h[ESI]
+		cmp	dword ptr 0Ch[EAX],066h
+		jne	L4462
+L4456:		mov	EDX,018h[EDX]
+		mov	ECX,018h[EDX]
+		cmp	dword ptr 0Ch[ECX],066h
+		je	L4456
+L4462:		mov	8[ESP],EDX
+		lea	ECX,0Ch[ESP]
+		call	near ptr ??0InterState@@QAE@XZ
+		test	EBX,EBX
+		jne	L4484
+		mov	EDX,8[ESP]
+		mov	ECX,018h[EDX]
+		cmp	dword ptr 0Ch[ECX],026h
+		jne	L4484
+		lea	EBX,0Ch[ESP]
+L4484:		mov	EDX,018h[ESI]
+		cmp	dword ptr 0Ch[EDX],026h
+		jne	L4538
+		mov	ECX,01Ch[ESI]
+		cmp	dword ptr 0Ch[ECX],01Ah
+		jne	L4538
+		mov	EAX,018h[EDX]
+		cmp	EAX,018h[ECX]
+		jne	L4538
+		mov	EDX,01Ch[ESI]
+		mov	ECX,018h[EDX]
+		mov	EDX,018h[EDX]
+		mov	048h[ESP],EBX
+		mov	EDX,[EDX]
+		call	dword ptr 0124h[EDX]
+		mov	EBX,EAX
+		cmp	dword ptr 048h[EAX],0
+		jne	L44F5
+		cmp	dword ptr 068h[EBX],0
+		jne	L44F5
+		mov	dword ptr 03Ch[ESP],0
+		mov	dword ptr 038h[ESP],0
+		mov	EDX,03Ch[ESP]
+		mov	EAX,038h[ESP]
+		mov	ECX,028h[EBX]
+		push	EDX
+		mov	EDX,[ECX]
+		push	EAX
+		call	dword ptr 090h[EDX]
+		mov	068h[EBX],EAX
+L44F5:		cmp	dword ptr 068h[EBX],0
+		jne	L4506
+		mov	ECX,048h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 030h[EDX]
+		mov	068h[EBX],EAX
+L4506:		push	dword ptr 048h[ESP]
+		mov	ECX,068h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,5
+		je	L451A
+		mov	068h[EBX],EAX
+L451A:		mov	EBX,01Ch[ESI]
+		lea	ECX,014h[ESP]
+		mov	dword ptr 014h[ESP],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBX
+		add	ESP,03Ch
+		ret	4
+L4538:		push	EBX
+		mov	ECX,EDX
+		mov	EDX,[EDX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		mov	040h[ESP],EAX
+		je	L4556
+		push	EBX
+		mov	ECX,01Ch[ESI]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	040h[ESP],EAX
+L4556:		mov	dword ptr 014h[ESP],offset FLAT:??_7Dsymbols@@6B@
+		lea	ECX,014h[ESP]
+		call	near ptr ??1Array@@UAE@XZ
+		mov	EAX,040h[ESP]
+		pop	ESI
+		pop	EBX
+		add	ESP,03Ch
+		ret	4
+?interpret@CondExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	ECX,020h[ECX]
+		mov	EDX,[ECX]
+		push	EBX
+		push	ESI
+		mov	ESI,010h[ESP]
+		push	ESI
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L45D1
+		push	1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L45AB
+		push	ESI
+		mov	ECX,0Ch[ESP]
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		jmp short	L45D1
+L45AB:		push	0
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L45CC
+		push	ESI
+		mov	ECX,0Ch[ESP]
+		mov	ECX,01Ch[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		jmp short	L45D1
+L45CC:		mov	EBX,1
+L45D1:		pop	ESI
+		mov	EAX,EBX
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@ArrayLengthExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		push	ESI
+		push	EDI
+		push	dword ptr 018h[ESP]
+		call	dword ptr 078h[EAX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L4660
+		mov	EDX,0Ch[EBX]
+		cmp	EDX,07Ah
+		je	L460A
+		cmp	EDX,02Fh
+		je	L460A
+		cmp	EDX,030h
+		jne	L4620
+L460A:		push	EBX
+		mov	EDI,014h[ESP]
+		push	dword ptr 010h[EDI]
+		call	near ptr ?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+		mov	014h[ESP],EAX
+		add	ESP,8
+		jmp short	L4653
+L4620:		cmp	EDX,0Dh
+		jne	L4660
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBX,EAX
+		test	EAX,EAX
+		je	L464F
+		mov	ESI,010h[ESP]
+		push	dword ptr 010h[ESI]
+		mov	ECX,EBX
+		push	0
+		push	0
+		push	dword ptr 8[ESI]
+		push	dword ptr 4[ESI]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	EBX,EAX
+L464F:		mov	0Ch[ESP],EBX
+L4653:		mov	EAX,0Ch[ESP]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L4660:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+?interpret@IndexExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		mov	ECX,018h[EBX]
+		push	ESI
+		mov	EAX,[ECX]
+		push	dword ptr 010h[ESP]
+		call	dword ptr 078h[EAX]
+		cmp	EAX,1
+		mov	8[ESP],EAX
+		je	L4704
+		mov	EDX,0Ch[EAX]
+		cmp	EDX,07Ah
+		je	L4697
+		cmp	EDX,02Fh
+		jne	L46BE
+L4697:		push	EAX
+		mov	ECX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[ECX*4]
+		call	near ptr ?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+		add	ESP,8
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L4704
+		mov	EDX,020h[EBX]
+		test	EDX,EDX
+		je	L46BE
+		mov	068h[EDX],ESI
+L46BE:		push	dword ptr 010h[ESP]
+		mov	ECX,01Ch[EBX]
+		mov	EAX,[ECX]
+		call	dword ptr 078h[EAX]
+		cmp	EAX,1
+		je	L4704
+		push	EAX
+		push	dword ptr 0Ch[ESP]
+		push	dword ptr 010h[EBX]
+		call	near ptr ?Index@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		add	ESP,0Ch
+		mov	ESI,EAX
+		cmp	EAX,1
+		jne	L46FC
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[091Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+L46FC:		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	4
+L4704:		pop	ESI
+		mov	EAX,1
+		pop	EBX
+		pop	ECX
+		ret	4
+		nop
+?interpret@SliceExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		mov	ECX,018h[EBX]
+		push	ESI
+		mov	EDX,[ECX]
+		push	EDI
+		push	dword ptr 018h[ESP]
+		call	dword ptr 078h[EDX]
+		mov	EDI,EAX
+		cmp	EAX,1
+		je	L47DC
+		cmp	dword ptr 020h[EBX],0
+		jne	L4756
+		push	dword ptr 018h[ESP]
+		mov	EDX,[EDI]
+		mov	ECX,EDI
+		push	dword ptr 010h[EBX]
+		push	0
+		call	dword ptr 060h[EDX]
+		mov	ESI,EAX
+		mov	EDX,[ESI]
+		mov	ECX,EAX
+		call	dword ptr 078h[EDX]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L4756:		push	EDI
+		mov	ECX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[ECX*4]
+		call	near ptr ?ArrayLength@@YAPAUExpression@@PAUType@@PAU1@@Z
+		add	ESP,8
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L47DC
+		mov	EDX,024h[EBX]
+		test	EDX,EDX
+		je	L477D
+		mov	068h[EDX],ESI
+L477D:		push	dword ptr 018h[ESP]
+		mov	ECX,020h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		mov	010h[ESP],EAX
+		je	L47DC
+		push	dword ptr 018h[ESP]
+		mov	ECX,01Ch[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		je	L47DC
+		push	EAX
+		push	dword ptr 014h[ESP]
+		push	EDI
+		push	dword ptr 010h[EBX]
+		call	near ptr ?Slice@@YAPAUExpression@@PAUType@@PAU1@11@Z
+		add	ESP,010h
+		mov	ESI,EAX
+		cmp	EAX,1
+		jne	L47D1
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[091Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+L47D1:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L47DC:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@CatExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		mov	EBX,ECX
+		mov	ECX,018h[EBX]
+		push	ESI
+		mov	EAX,[ECX]
+		push	dword ptr 018h[ESP]
+		call	dword ptr 078h[EAX]
+		cmp	EAX,1
+		mov	010h[ESP],EAX
+		je	L4858
+		push	dword ptr 018h[ESP]
+		mov	ECX,01Ch[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		cmp	EAX,1
+		je	L4858
+		push	EAX
+		push	dword ptr 014h[ESP]
+		push	dword ptr 010h[EBX]
+		call	near ptr ?Cat@@YAPAUExpression@@PAUType@@PAU1@1@Z
+		add	ESP,0Ch
+		cmp	EAX,1
+		mov	0Ch[ESP],EAX
+		jne	L484C
+		mov	ESI,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[ESI]
+		push	EAX
+		push	offset FLAT:_DATA[091Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+L484C:		mov	EAX,0Ch[ESP]
+		pop	ESI
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+L4858:		pop	ESI
+		mov	EAX,1
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+?interpret@CastExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		mov	ECX,018h[EBX]
+		push	dword ptr 010h[ESP]
+		mov	EAX,[ECX]
+		call	dword ptr 078h[EAX]
+		cmp	EAX,1
+		je	L48B4
+		push	EAX
+		push	dword ptr 01Ch[EBX]
+		push	dword ptr 010h[EBX]
+		call	near ptr ?Cast@@YAPAUExpression@@PAUType@@0PAU1@@Z
+		add	ESP,0Ch
+		cmp	EAX,1
+		mov	8[ESP],EAX
+		jne	L48A9
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[091Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+L48A9:		mov	EAX,8[ESP]
+		pop	EBX
+		add	ESP,8
+		ret	4
+L48B4:		pop	EBX
+		add	ESP,8
+		mov	EAX,1
+		ret	4
+?interpret@AssertExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		mov	EAX,018h[ECX]
+		push	ECX
+		push	EBX
+		mov	EBX,010h[ESP]
+		push	ESI
+		push	EDI
+		cmp	dword ptr 0Ch[EAX],013h
+		jne	L4916
+		mov	ESI,018h[EAX]
+		mov	EDX,EAX
+		cmp	dword ptr 0Ch[ESI],07Bh
+		jne	L4916
+		cmp	dword ptr 024h[EBX],0
+		je	L4916
+		mov	ESI,018h[EDX]
+		cmp	dword ptr 0Ch[ESI],01Bh
+		jne	L4925
+		mov	EDI,024h[EBX]
+		mov	EAX,018h[EDI]
+		cmp	dword ptr 0Ch[EAX],07Bh
+		jne	L4925
+		mov	ESI,024h[EBX]
+		push	dword ptr 01Ch[ESI]
+		push	EBX
+		push	dword ptr 8[ECX]
+		push	dword ptr 4[ECX]
+		call	near ptr ?getVarExp@@YAPAUExpression@@ULoc@@PAUInterState@@PAUDeclaration@@@Z
+		add	ESP,010h
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L4916:		mov	EDX,018h[ECX]
+		cmp	dword ptr 0Ch[EDX],07Bh
+		jne	L4937
+		cmp	dword ptr 024h[EBX],0
+		je	L4937
+L4925:		push	EBX
+		mov	ECX,024h[EBX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L4937:		push	EBX
+		mov	ECX,018h[ECX]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L49CC
+		push	1
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		jne	L49C1
+		push	0
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 080h[EDX]
+		test	EAX,EAX
+		je	L49CC
+		mov	EAX,010h[ESP]
+		cmp	dword ptr 01Ch[EAX],0
+		je	L49A5
+		push	EBX
+		mov	EDX,014h[ESP]
+		mov	ECX,01Ch[EDX]
+		mov	EAX,[ECX]
+		call	dword ptr 078h[EAX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L49CC
+		mov	EDX,[ESI]
+		mov	EBX,010h[ESP]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0948h]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		jmp short	L49CC
+L49A5:		mov	EBX,010h[ESP]
+		mov	ESI,[EBX]
+		mov	ECX,EAX
+		call	dword ptr 014h[ESI]
+		push	EAX
+		push	offset FLAT:_DATA[094Ch]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+		jmp short	L49CC
+L49C1:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+L49CC:		pop	EDI
+		mov	EAX,1
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?interpret@PtrExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		sub	ESP,010h
+		push	EBX
+		mov	EBX,ECX
+		mov	EDX,018h[EBX]
+		push	ESI
+		mov	EDX,0Ch[EDX]
+		mov	ESI,1
+		push	EDI
+		cmp	EDX,04Dh
+		jne	L4A74
+		mov	ESI,018h[EBX]
+		mov	EDX,018h[ESI]
+		cmp	dword ptr 0Ch[EDX],013h
+		jne	L4A5F
+		mov	EDX,01Ch[ESI]
+		cmp	dword ptr 0Ch[EDX],087h
+		jne	L4A5F
+		mov	010h[ESP],ESI
+		push	dword ptr 020h[ESP]
+		mov	EDX,014h[ESP]
+		mov	EDX,018h[EDX]
+		mov	ESI,018h[EDX]
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	EAX,1
+		je	L4A5F
+		cmp	dword ptr 0Ch[ESI],031h
+		jne	L4A5F
+		mov	ECX,010h[ESP]
+		mov	ECX,01Ch[ECX]
+		mov	EDX,[ECX]
+		mov	014h[ESP],ESI
+		call	dword ptr 034h[EDX]
+		push	EAX
+		push	dword ptr 010h[EBX]
+		mov	ECX,01Ch[ESP]
+		call	near ptr ?getField@StructLiteralExp@@QAEPAUExpression@@PAUType@@I@Z
+		mov	ESI,EAX
+		test	EAX,EAX
+		jne	L4B02
+		jmp short	L4AC6
+L4A5F:		push	dword ptr 018h[EBX]
+		push	dword ptr 010h[EBX]
+		call	near ptr ?Ptr@@YAPAUExpression@@PAUType@@PAU1@@Z
+		mov	ESI,EAX
+		add	ESP,8
+		jmp	near ptr L4B02
+L4A74:		cmp	EDX,019h
+		jne	L4ACD
+		mov	EDX,018h[EBX]
+		mov	EAX,018h[EDX]
+		mov	EDI,[EAX]
+		mov	018h[ESP],EDX
+		mov	ECX,018h[EDX]
+		call	dword ptr 0124h[EDI]
+		test	EAX,EAX
+		je	L4B02
+		push	EAX
+		push	dword ptr 024h[ESP]
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ?getVarExp@@YAPAUExpression@@ULoc@@PAUInterState@@PAUDeclaration@@@Z
+		add	ESP,010h
+		cmp	EAX,ESI
+		je	L4B02
+		cmp	dword ptr 0Ch[EAX],031h
+		jne	L4B02
+		mov	EDX,018h[ESP]
+		mov	ECX,EAX
+		push	dword ptr 01Ch[EDX]
+		push	dword ptr 010h[EBX]
+		call	near ptr ?getField@StructLiteralExp@@QAEPAUExpression@@PAUType@@I@Z
+		mov	ESI,EAX
+		test	EAX,EAX
+		jne	L4B02
+L4AC6:		mov	ESI,1
+		jmp short	L4B02
+L4ACD:		cmp	EDX,07Bh
+		jne	L4AEE
+		mov	EAX,020h[ESP]
+		mov	EBX,024h[EAX]
+		test	EBX,EBX
+		je	L4B02
+		push	EAX
+		mov	ESI,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[ESI]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,010h
+		ret	4
+L4AEE:		mov	EDX,[EBX]
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[0958h]
+		push	EBX
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,0Ch
+L4B02:		pop	EDI
+		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		add	ESP,010h
+		ret	4
+		nop
+		nop
+		nop
+?interpret@DotVarExp@@UAEPAUExpression@@PAUInterState@@@Z:
+		push	ECX
+		push	ECX
+		push	EBX
+		mov	EBX,1
+		push	ESI
+		push	EDI
+		mov	EDI,ECX
+		mov	ECX,018h[EDI]
+		push	dword ptr 018h[ESP]
+		mov	EDX,[ECX]
+		call	dword ptr 078h[EDX]
+		mov	ESI,EAX
+		cmp	ESI,EBX
+		je	L4BA4
+		cmp	dword ptr 0Ch[ESI],031h
+		jne	L4B84
+		mov	010h[ESP],ESI
+		mov	ECX,01Ch[EDI]
+		mov	EDX,[ECX]
+		call	dword ptr 0124h[EDX]
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L4BA4
+		push	dword ptr 04Ch[ESI]
+		push	dword ptr 010h[EDI]
+		mov	ECX,018h[ESP]
+		call	near ptr ?getField@StructLiteralExp@@QAEPAUExpression@@PAUType@@I@Z
+		mov	EBX,EAX
+		test	EAX,EAX
+		jne	L4BA4
+		mov	ECX,010h[EDI]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		push	EAX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[097Ch]
+		push	EDI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		mov	EBX,1
+		add	ESP,010h
+		jmp short	L4BA4
+L4B84:		mov	ECX,01Ch[EDI]
+		mov	EDX,[ECX]
+		call	dword ptr 014h[EDX]
+		mov	ECX,018h[EDI]
+		mov	EDX,[ECX]
+		push	EAX
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	offset FLAT:_DATA[099Ch]
+		push	EDI
+		call	near ptr ?error@Expression@@QAAXPBDZZ
+		add	ESP,010h
+L4BA4:		pop	EDI
+		mov	EAX,EBX
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+?interpret_aaLen@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z:
+		push	EAX
+		mov	ECX,0Ch[ESP]
+		test	ECX,ECX
+		push	EBX
+		push	ESI
+		je	L4BE6
+		cmp	dword ptr 4[ECX],1
+		jne	L4BE6
+		mov	014h[ESP],ECX
+		push	dword ptr 010h[ESP]
+		mov	EAX,018h[ESP]
+		mov	ECX,8[EAX]
+		mov	EBX,[ECX]
+		mov	EDX,[EBX]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L4BE6
+		cmp	dword ptr 0Ch[EBX],030h
+		je	L4BEC
+L4BE6:		pop	ESI
+		xor	EAX,EAX
+		pop	EBX
+		pop	ECX
+		ret
+L4BEC:		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L4C22
+		mov	ECX,?Tsize_t@@3HA
+		push	dword ptr ?basic@Type@@2QAPAU1@A[ECX*4]
+		mov	EDX,018h[EBX]
+		xor	ECX,ECX
+		push	ECX
+		mov	EAX,4[EDX]
+		mov	ECX,ESI
+		push	EAX
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ??0IntegerExp@@QAE@ULoc@@_KPAUType@@@Z
+		mov	ESI,EAX
+L4C22:		mov	EAX,ESI
+		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret
+?interpret_aaKeys@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		push	ESI
+		mov	ESI,020h[ESP]
+		test	ESI,ESI
+		push	EDI
+		je	L4C5A
+		cmp	dword ptr 4[ESI],2
+		jne	L4C5A
+		mov	ECX,8[ESI]
+		mov	EBX,[ECX]
+		mov	EDX,[EBX]
+		push	dword ptr 020h[ESP]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L4C5A
+		cmp	dword ptr 0Ch[EBX],030h
+		je	L4C64
+L4C5A:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L4C64:		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L4C86
+		mov	ECX,EDI
+		push	dword ptr 018h[EBX]
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EDI,EAX
+L4C86:		mov	EDX,010h[EBX]
+		mov	ECX,028h[EDX]
+		mov	014h[ESP],ECX
+		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	018h[ESP],EAX
+		je	L4CDE
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L4CCA
+		test	ESI,ESI
+		je	L4CBB
+		mov	EAX,4[ESI]
+		jmp short	L4CBD
+L4CBB:		xor	EAX,EAX
+L4CBD:		xor	EDX,EDX
+		mov	ECX,EBP
+		push	EDX
+		push	EAX
+		call	near ptr ??0IntegerExp@@QAE@_K@Z
+		mov	EBP,EAX
+L4CCA:		mov	EDX,EBP
+		push	EBP
+		push	dword ptr 018h[ESP]
+		mov	ECX,020h[ESP]
+		call	near ptr ??0TypeSArray@@QAE@PAUType@@PAUExpression@@@Z
+		mov	018h[ESP],EAX
+L4CDE:		mov	EDX,018h[ESP]
+		mov	EAX,EDI
+		mov	010h[EDI],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+		nop
+?interpret_aaValues@@YAPAUExpression@@PAUInterState@@PAUExpressions@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		push	EBP
+		push	ESI
+		mov	ESI,020h[ESP]
+		test	ESI,ESI
+		push	EDI
+		je	L4D22
+		cmp	dword ptr 4[ESI],3
+		jne	L4D22
+		mov	ECX,8[ESI]
+		mov	EBX,[ECX]
+		mov	EDX,[EBX]
+		push	dword ptr 020h[ESP]
+		mov	ECX,EBX
+		call	dword ptr 078h[EDX]
+		mov	EBX,EAX
+		cmp	EAX,1
+		je	L4D22
+		cmp	dword ptr 0Ch[EBX],030h
+		je	L4D2C
+L4D22:		pop	EDI
+		xor	EAX,EAX
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+L4D2C:		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EDI,EAX
+		test	EAX,EAX
+		je	L4D4E
+		mov	ECX,EDI
+		push	dword ptr 01Ch[EBX]
+		push	dword ptr 8[EBX]
+		push	dword ptr 4[EBX]
+		call	near ptr ??0ArrayLiteralExp@@QAE@ULoc@@PAUExpressions@@@Z
+		mov	EDI,EAX
+L4D4E:		mov	EDX,010h[EBX]
+		mov	ECX,024h[EDX]
+		mov	014h[ESP],ECX
+		push	02Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	018h[ESP],EAX
+		je	L4DA6
+		push	020h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	L4D92
+		test	ESI,ESI
+		je	L4D83
+		mov	EAX,4[ESI]
+		jmp short	L4D85
+L4D83:		xor	EAX,EAX
+L4D85:		xor	EDX,EDX
+		mov	ECX,EBP
+		push	EDX
+		push	EAX
+		call	near ptr ??0IntegerExp@@QAE@_K@Z
+		mov	EBP,EAX
+L4D92:		mov	EDX,EBP
+		push	EBP
+		push	dword ptr 018h[ESP]
+		mov	ECX,020h[ESP]
+		call	near ptr ??0TypeSArray@@QAE@PAUType@@PAUExpression@@@Z
+		mov	018h[ESP],EAX
+L4DA6:		mov	EDX,018h[ESP]
+		mov	EAX,EDI
+		mov	010h[EDI],EDX
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret
+_TEXT	ends
+_DATA	segment
+D0	db	063h,061h,06eh,06eh,06fh,074h,020h,062h
+	db	065h,020h,069h,06eh,074h,065h,072h,070h
+	db	072h,065h,074h,065h,064h,020h,061h,074h
+	db	020h,063h,06fh,06dh,070h,069h,06ch,065h
+	db	020h,074h,069h,06dh,065h,02ch,020h,062h
+	db	065h,063h,061h,075h,073h,065h,020h,069h
+	db	074h,020h,068h,061h,073h,020h,06eh,06fh
+	db	020h,061h,076h,061h,069h,06ch,061h,062h
+	db	06ch,065h,020h,073h,06fh,075h,072h,063h
+	db	065h,020h,063h,06fh,064h,065h,000h,000h
+D50	db	069h,06eh,074h,065h,072h,070h,072h,065h
+	db	074h,02eh,063h,000h
+D5C	db	074h,062h,02dh,03eh
+	db	074h,079h,020h,03dh,03dh,020h,054h,066h
+	db	075h,06eh,063h,074h,069h,06fh,06eh,000h
+D70	db	043h,02dh,073h,074h,079h,06ch,065h,020h
+	db	076h,061h,072h,069h,061h,064h,069h,063h
+	db	020h,066h,075h,06eh,063h,074h,069h,06fh
+	db	06eh,073h,020h,061h,072h,065h,020h,06eh
+	db	06fh,074h,020h,079h,065h,074h,020h,069h
+	db	06dh,070h,06ch,065h,06dh,065h,06eh,074h
+	db	065h,064h,020h,069h,06eh,020h,043h,054h
+	db	046h,045h,000h,000h
+DAC	db	06eh,065h,065h,064h
+	db	020h,027h,074h,068h,069h,073h,027h,020h
+	db	074h,06fh,020h,061h,063h,063h,065h,073h
+	db	073h,020h,06dh,065h,06dh,062h,065h,072h
+	db	020h,025h,073h,000h
+DCC	db	021h,064h,069h,06dh
+	db	020h,07ch,07ch,020h,028h,070h,061h,072h
+	db	061h,06dh,065h,074h,065h,072h,073h,020h
+	db	026h,026h,020h,028h,070h,061h,072h,061h
+	db	06dh,065h,074h,065h,072h,073h,02dh,03eh
+	db	064h,069h,06dh,020h,03dh,03dh,020h,064h
+	db	069h,06dh,029h,029h,000h,000h,000h,000h
+D100	db	025h,073h,020h,063h,061h,06eh,06eh,06fh
+	db	074h,020h,062h,065h,020h,070h,061h,073h
+	db	073h,065h,064h,020h,062h,079h,020h,072h
+	db	065h,066h,065h,072h,065h,06eh,063h,065h
+	db	020h,061h,074h,020h,063h,06fh,06dh,070h
+	db	069h,06ch,065h,020h,074h,069h,06dh,065h
+	db	000h,000h,000h,000h
+D134	db	069h,073h,074h,061h
+	db	074h,065h,000h,000h
+D13C	db	053h,074h,061h,074h
+	db	065h,06dh,065h,06eh,074h,020h,025h,073h
+	db	020h,063h,061h,06eh,06eh,06fh,074h,020h
+	db	062h,065h,020h,069h,06eh,074h,065h,072h
+	db	070h,072h,065h,074h,065h,064h,020h,061h
+	db	074h,020h,063h,06fh,06dh,070h,069h,06ch
+	db	065h,020h,074h,069h,06dh,065h,000h,000h
+D170	db	065h,000h,000h,000h
+D174	db	076h,020h,026h,026h
+	db	020h,076h,02dh,03eh,076h,061h,06ch,075h
+	db	065h,000h,000h,000h
+D184	db	069h,073h,074h,061h
+	db	074h,065h,020h,026h,026h,020h,069h,073h
+	db	074h,061h,074h,065h,02dh,03eh,066h,064h
+	db	020h,026h,026h,020h,069h,073h,074h,061h
+	db	074h,065h,02dh,03eh,066h,064h,02dh,03eh
+	db	074h,079h,070h,065h,000h,000h,000h,000h
+D1B0	db	030h,000h,000h,000h
+D1B4	db	021h,065h,000h,000h
+D1B8	db	06eh,06fh,020h,064h,065h,066h,061h,075h
+	db	06ch,074h,020h,06fh,072h,020h,063h,061h
+	db	073h,065h,020h,066h,06fh,072h,020h,025h
+	db	073h,020h,069h,06eh,020h,073h,077h,069h
+	db	074h,063h,068h,020h,073h,074h,061h,074h
+	db	065h,06dh,065h,06eh,074h,000h,000h,000h
+D1E8	db	073h,000h,000h,000h
+D1EC	db	021h,069h,073h,074h
+	db	061h,074h,065h,02dh,03eh,073h,074h,061h
+	db	072h,074h,000h,000h
+D1FC	db	06ch,061h,062h,065h
+	db	06ch,020h,026h,026h,020h,06ch,061h,062h
+	db	065h,06ch,02dh,03eh,073h,074h,061h,074h
+	db	065h,06dh,065h,06eh,074h,000h,000h,000h
+D218	db	063h,073h,000h,000h
+D21C	db	073h,077h,020h,026h
+	db	026h,020h,073h,077h,02dh,03eh,073h,064h
+	db	065h,066h,061h,075h,06ch,074h,000h,000h
+D230	db	074h,072h,079h,02dh,063h,061h,074h,063h
+	db	068h,020h,073h,074h,061h,074h,065h,06dh
+	db	065h,06eh,074h,073h,020h,061h,072h,065h
+	db	020h,06eh,06fh,074h,020h,079h,065h,074h
+	db	020h,073h,075h,070h,070h,06fh,072h,074h
+	db	065h,064h,020h,069h,06eh,020h,043h,054h
+	db	046h,045h,000h,000h
+D264	db	074h,072h,079h,02dh
+	db	066h,069h,06eh,061h,06ch,06ch,079h,020h
+	db	073h,074h,061h,074h,065h,06dh,065h,06eh
+	db	074h,073h,020h,061h,072h,065h,020h,06eh
+	db	06fh,074h,020h,079h,065h,074h,020h,073h
+	db	075h,070h,070h,06fh,072h,074h,065h,064h
+	db	020h,069h,06eh,020h,043h,054h,046h,045h
+	db	000h,000h,000h,000h
+D29C	db	074h,068h,072h,06fh
+	db	077h,020h,073h,074h,061h,074h,065h,06dh
+	db	065h,06eh,074h,073h,020h,061h,072h,065h
+	db	020h,06eh,06fh,074h,020h,079h,065h,074h
+	db	020h,073h,075h,070h,070h,06fh,072h,074h
+	db	065h,064h,020h,069h,06eh,020h,043h,054h
+	db	046h,045h,000h,000h
+D2CC	db	073h,063h,06fh,070h
+	db	065h,020h,067h,075h,061h,072h,064h,020h
+	db	073h,074h,061h,074h,065h,06dh,065h,06eh
+	db	074h,073h,020h,061h,072h,065h,020h,06eh
+	db	06fh,074h,020h,079h,065h,074h,020h,073h
+	db	075h,070h,070h,06fh,072h,074h,065h,064h
+	db	020h,069h,06eh,020h,043h,054h,046h,045h
+	db	000h,000h,000h,000h
+D304	db	077h,069h,074h,068h
+	db	020h,073h,074h,061h,074h,065h,06dh,065h
+	db	06eh,074h,073h,020h,061h,072h,065h,020h
+	db	06eh,06fh,074h,020h,079h,065h,074h,020h
+	db	073h,075h,070h,070h,06fh,072h,074h,065h
+	db	064h,020h,069h,06eh,020h,043h,054h,046h
+	db	045h,000h,000h,000h
+D334	db	061h,073h,06dh,020h
+	db	073h,074h,061h,074h,065h,06dh,065h,06eh
+	db	074h,073h,020h,063h,061h,06eh,06eh,06fh
+	db	074h,020h,062h,065h,020h,069h,06eh,074h
+	db	065h,072h,070h,072h,065h,074h,065h,064h
+	db	020h,061h,074h,020h,063h,06fh,06dh,070h
+	db	069h,06ch,065h,020h,074h,069h,06dh,065h
+	db	000h,000h,000h,000h
+D36C	db	043h,061h,06eh,06eh
+	db	06fh,074h,020h,069h,06eh,074h,065h,072h
+	db	070h,072h,065h,074h,020h,025h,073h,020h
+	db	061h,074h,020h,063h,06fh,06dh,070h,069h
+	db	06ch,065h,020h,074h,069h,06dh,065h,000h
+D390	db	076h,061h,06ch,075h,065h,020h,06fh,066h
+	db	020h,027h,074h,068h,069h,073h,027h,020h
+	db	069h,073h,020h,06eh,06fh,074h,020h,06bh
+	db	06eh,06fh,077h,06eh,020h,061h,074h,020h
+	db	063h,06fh,06dh,070h,069h,06ch,065h,020h
+	db	074h,069h,06dh,065h,000h,000h,000h,000h
+D3C0	db	074h,068h,069h,073h,076h,061h,06ch,000h
+D3C8	db	065h,020h,021h,03dh,020h,074h,068h,069h
+	db	073h,076h,061h,06ch,000h,000h,000h,000h
+D3D8	db	076h,061h,072h,069h,061h,062h,06ch,065h
+	db	020h,025h,073h,020h,069h,073h,020h,075h
+	db	073h,065h,064h,020h,062h,065h,066h,06fh
+	db	072h,065h,020h,069h,06eh,069h,074h,069h
+	db	061h,06ch,069h,07ah,061h,074h,069h,06fh
+	db	06eh,000h,000h,000h
+D404	db	076h,061h,072h,069h
+	db	061h,062h,06ch,065h,020h,025h,073h,020h
+	db	063h,061h,06eh,06eh,06fh,074h,020h,062h
+	db	065h,020h,072h,065h,061h,064h,020h,061h
+	db	074h,020h,063h,06fh,06dh,070h,069h,06ch
+	db	065h,020h,074h,069h,06dh,065h,000h,000h
+D430	db	073h,074h,061h,074h,069h,063h,020h,076h
+	db	061h,072h,069h,061h,062h,06ch,065h,020h
+	db	025h,073h,020h,063h,061h,06eh,06eh,06fh
+	db	074h,020h,062h,065h,020h,072h,065h,061h
+	db	064h,020h,061h,074h,020h,063h,06fh,06dh
+	db	070h,069h,06ch,065h,020h,074h,069h,06dh
+	db	065h,000h,000h,000h
+D464	db	044h,065h,063h,06ch
+	db	061h,072h,061h,074h,069h,06fh,06eh,020h
+	db	025h,073h,020h,069h,073h,020h,06eh,06fh
+	db	074h,020h,079h,065h,074h,020h,069h,06dh
+	db	070h,06ch,065h,06dh,065h,06eh,074h,065h
+	db	064h,020h,069h,06eh,020h,043h,054h,046h
+	db	045h,000h,000h,000h
+D494	db	063h,061h,06eh,06eh
+	db	06fh,074h,020h,069h,06eh,074h,065h,072h
+	db	070h,072h,065h,074h,020h,061h,072h,072h
+	db	061h,079h,020h,06ch,069h,074h,065h,072h
+	db	061h,06ch,000h,000h
+D4B4	db	055h,06eh,069h,06fh
+	db	06eh,073h,020h,077h,069h,074h,068h,020h
+	db	06fh,076h,065h,072h,06ch,061h,070h,070h
+	db	069h,06eh,067h,020h,066h,069h,065h,06ch
+	db	064h,073h,020h,061h,072h,065h,020h,06eh
+	db	06fh,074h,020h,079h,065h,074h,020h,073h
+	db	075h,070h,070h,06fh,072h,074h,065h,064h
+	db	020h,069h,06eh,020h,043h,054h,046h,045h
+	db	000h,000h,000h,000h
+D4F4	db	06fh,06ch,064h,073h
+	db	074h,072h,02dh,03eh,073h,07ah,03dh,03dh
+	db	06eh,065h,077h,073h,074h,072h,02dh,03eh
+	db	073h,07ah,000h,000h
+D50C	db	061h,072h,072h,061h
+	db	079h,020h,069h,06eh,064h,065h,078h,020h
+	db	025h,064h,020h,069h,073h,020h,06fh,075h
+	db	074h,020h,06fh,066h,020h,062h,06fh,075h
+	db	06eh,064h,073h,020h,025h,073h,05bh,030h
+	db	02eh,02eh,025h,064h,05dh,000h,000h,000h
+D538	db	065h,02dh,03eh,06fh,070h,020h,021h,03dh
+	db	020h,054h,04fh,04bh,076h,061h,072h,000h
+D548	db	076h,000h,000h,000h
+D54C	db	065h,078h,069h,073h
+	db	074h,069h,06eh,067h,020h,026h,026h,020h
+	db	065h,078h,069h,073h,074h,069h,06eh,067h
+	db	020h,021h,03dh,020h,045h,058h,050h,05fh
+	db	043h,041h,04eh,054h,05fh,049h,04eh,054h
+	db	045h,052h,050h,052h,045h,054h,000h,000h
+D578	db	06dh,065h,06dh,062h,065h,072h,000h,000h
+D580	db	065h,078h,069h,073h,074h,069h,06eh,067h
+	db	000h,000h,000h,000h
+D58C	db	065h,078h,069h,073h
+	db	074h,069h,06eh,067h,020h,021h,03dh,020h
+	db	045h,058h,050h,05fh,043h,041h,04eh,054h
+	db	05fh,049h,04eh,054h,045h,052h,050h,052h
+	db	045h,054h,000h,000h
+D5AC	db	065h,078h,069h,073h
+	db	074h,069h,06eh,067h,02dh,03eh,06fh,070h
+	db	020h,03dh,03dh,020h,054h,04fh,04bh,073h
+	db	074h,072h,075h,063h,074h,06ch,069h,074h
+	db	065h,072h,061h,06ch,000h,000h,000h,000h
+D5D0	db	066h,069h,065h,06ch,064h,069h,03eh,03dh
+	db	030h,020h,026h,026h,020h,066h,069h,065h
+	db	06ch,064h,069h,020h,03ch,020h,073h,065h
+	db	02dh,03eh,065h,06ch,065h,06dh,065h,06eh
+	db	074h,073h,02dh,03eh,064h,069h,06dh,000h
+D5F8	db	076h,061h,06ch,075h,065h,020h,06fh,066h
+	db	020h,025h,073h,020h,069h,073h,020h,06eh
+	db	06fh,074h,020h,06bh,06eh,06fh,077h,06eh
+	db	020h,061h,074h,020h,063h,06fh,06dh,070h
+	db	069h,06ch,065h,020h,074h,069h,06dh,065h
+	db	000h,000h,000h,000h
+D624	db	069h,073h,074h,061h
+	db	074h,065h,000h,000h
+D62C	db	043h,061h,06eh,06eh
+	db	06fh,074h,020h,069h,06eh,074h,065h,072h
+	db	070h,072h,065h,074h,020h,025h,073h,020h
+	db	061h,074h,020h,063h,06fh,06dh,070h,069h
+	db	06ch,065h,020h,074h,069h,06dh,065h,000h
+D650	db	065h,06ch,065h,06dh,054h,079h,070h,065h
+	db	000h,000h,000h,000h
+D65C	db	025h,073h,020h,069h
+	db	073h,020h,06eh,06fh,074h,020h,079h,065h
+	db	074h,020h,073h,075h,070h,070h,06fh,072h
+	db	074h,065h,064h,020h,061h,074h,020h,063h
+	db	06fh,06dh,070h,069h,06ch,065h,020h,074h
+	db	069h,06dh,065h,000h
+D684	db	025h,073h,020h,063h
+	db	061h,06eh,06eh,06fh,074h,020h,062h,065h
+	db	020h,06dh,06fh,064h,069h,066h,069h,065h
+	db	064h,020h,061h,074h,020h,063h,06fh,06dh
+	db	070h,069h,06ch,065h,020h,074h,069h,06dh
+	db	065h,000h,000h,000h
+D6AC	db	069h,06eh,074h,065h
+	db	072h,070h,072h,065h,074h,02eh,063h,000h
+D6B8	db	06ch,061h,073h,074h,04eh,06fh,06eh,044h
+	db	06fh,074h,056h,061h,072h,000h,000h,000h
+D6C8	db	06eh,065h,077h,076h,061h,06ch,020h,021h
+	db	03dh,045h,058h,050h,05fh,043h,041h,04eh
+	db	054h,05fh,049h,04eh,054h,045h,052h,050h
+	db	052h,045h,054h,000h
+D6E4	db	06eh,065h,077h,076h
+	db	061h,06ch,000h,000h
+D6EC	db	043h,061h,06eh,06eh
+	db	06fh,074h,020h,069h,06eh,064h,065h,078h
+	db	020h,06eh,075h,06ch,06ch,020h,061h,072h
+	db	072h,061h,079h,020h,025h,073h,000h,000h
+D708	db	043h,054h,046h,045h,020h,069h,06eh,074h
+	db	065h,072h,06eh,061h,06ch,020h,063h,06fh
+	db	06dh,070h,069h,06ch,065h,072h,020h,065h
+	db	072h,072h,06fh,072h,000h,000h,000h,000h
+D728	db	049h,06eh,064h,065h,078h,020h,061h,073h
+	db	073h,069h,067h,06eh,06dh,065h,06eh,074h
+	db	020h,025h,073h,020h,069h,073h,020h,06eh
+	db	06fh,074h,020h,079h,065h,074h,020h,073h
+	db	075h,070h,070h,06fh,072h,074h,065h,064h
+	db	020h,069h,06eh,020h,043h,054h,046h,045h
+	db	020h,000h,000h,000h
+D75C	db	063h,061h,06eh,06eh
+	db	06fh,074h,020h,061h,073h,073h,069h,067h
+	db	06eh,020h,074h,06fh,020h,06eh,075h,06ch
+	db	06ch,020h,061h,072h,072h,061h,079h,020h
+	db	025h,073h,000h,000h
+D77C	db	025h,073h,020h,063h
+	db	061h,06eh,06eh,06fh,074h,020h,062h,065h
+	db	020h,065h,076h,061h,06ch,075h,061h,074h
+	db	065h,064h,020h,061h,074h,020h,063h,06fh
+	db	06dh,070h,069h,06ch,065h,020h,074h,069h
+	db	06dh,065h,000h,000h
+D7A4	db	041h,072h,072h,061h
+	db	079h,020h,062h,06fh,075h,06eh,064h,073h
+	db	020h,05bh,030h,02eh,02eh,025h,064h,05dh
+	db	020h,065h,078h,063h,065h,065h,064h,065h
+	db	064h,020h,069h,06eh,020h,073h,06ch,069h
+	db	063h,065h,020h,05bh,025h,064h,02eh,02eh
+	db	025h,064h,05dh,000h
+D7D4	db	041h,072h,072h,061h
+	db	079h,020h,06ch,065h,06eh,067h,074h,068h
+	db	020h,06dh,069h,073h,06dh,061h,074h,063h
+	db	068h,020h,061h,073h,073h,069h,067h,06eh
+	db	069h,06eh,067h,020h,05bh,030h,02eh,02eh
+	db	025h,064h,05dh,020h,074h,06fh,020h,05bh
+	db	025h,064h,02eh,02eh,025h,064h,05dh,000h
+D808	db	053h,074h,072h,069h,06eh,067h,020h,073h
+	db	06ch,069h,063h,065h,020h,061h,073h,073h
+	db	069h,067h,06eh,06dh,065h,06eh,074h,020h
+	db	069h,073h,020h,06eh,06fh,074h,020h,079h
+	db	065h,074h,020h,073h,075h,070h,070h,06fh
+	db	072h,074h,065h,064h,020h,069h,06eh,020h
+	db	043h,054h,046h,045h,000h,000h,000h,000h
+D840	db	053h,06ch,069h,063h,065h,020h,06fh,070h
+	db	065h,072h,061h,074h,069h,06fh,06eh,020h
+	db	025h,073h,020h,063h,061h,06eh,06eh,06fh
+	db	074h,020h,062h,065h,020h,065h,076h,061h
+	db	06ch,075h,061h,074h,065h,064h,020h,061h
+	db	074h,020h,063h,06fh,06dh,070h,069h,06ch
+	db	065h,020h,074h,069h,06dh,065h,000h,000h
+D878	db	076h,061h,072h,069h,061h,062h,06ch,065h
+	db	020h,025h,073h,020h,069h,073h,020h,075h
+	db	073h,065h,064h,020h,062h,065h,066h,06fh
+	db	072h,065h,020h,069h,06eh,069h,074h,069h
+	db	061h,06ch,069h,07ah,061h,074h,069h,06fh
+	db	06eh,000h,000h,000h
+D8A4	db	025h,073h,020h,063h
+	db	061h,06eh,06eh,06fh,074h,020h,062h,065h
+	db	020h,069h,06eh,074h,065h,072h,070h,072h
+	db	065h,074h,065h,064h,020h,061h,074h,020h
+	db	063h,06fh,06dh,070h,069h,06ch,065h,020h
+	db	074h,069h,06dh,065h,02ch,020h,062h,065h
+	db	063h,061h,075h,073h,065h,020h,069h,074h
+	db	020h,068h,061h,073h,020h,06eh,06fh,020h
+	db	061h,076h,061h,069h,06ch,061h,062h,06ch
+	db	065h,020h,073h,06fh,075h,072h,063h,065h
+	db	020h,063h,06fh,064h,065h,000h,000h,000h
+D8F8	db	063h,061h,06eh,06eh,06fh,074h,020h,065h
+	db	076h,061h,06ch,075h,061h,074h,065h,020h
+	db	025h,073h,020h,061h,074h,020h,063h,06fh
+	db	06dh,070h,069h,06ch,065h,020h,074h,069h
+	db	06dh,065h,000h,000h
+D91C	db	025h,073h,020h,063h
+	db	061h,06eh,06eh,06fh,074h,020h,062h,065h
+	db	020h,069h,06eh,074h,065h,072h,070h,072h
+	db	065h,074h,065h,064h,020h,061h,074h,020h
+	db	063h,06fh,06dh,070h,069h,06ch,065h,020h
+	db	074h,069h,06dh,065h,000h,000h,000h,000h
+D948	db	025h,073h,000h,000h
+D94C	db	025h,073h,020h,066h
+	db	061h,069h,06ch,065h,064h,000h,000h,000h
+D958	db	043h,061h,06eh,06eh,06fh,074h,020h,069h
+	db	06eh,074h,065h,072h,070h,072h,065h,074h
+	db	020h,025h,073h,020h,061h,074h,020h,063h
+	db	06fh,06dh,070h,069h,06ch,065h,020h,074h
+	db	069h,06dh,065h,000h
+D97C	db	063h,06fh,075h,06ch
+	db	064h,06eh,027h,074h,020h,066h,069h,06eh
+	db	064h,020h,066h,069h,065h,06ch,064h,020h
+	db	025h,073h,020h,069h,06eh,020h,025h,073h
+	db	000h,000h,000h,000h
+D99C	db	025h,073h,02eh,025h
+	db	073h,020h,069h,073h,020h,06eh,06fh,074h
+	db	020h,079h,065h,074h,020h,069h,06dh,070h
+	db	06ch,065h,06dh,065h,06eh,074h,065h,064h
+	db	020h,061h,074h,020h,063h,06fh,06dh,070h
+	db	069h,06ch,065h,020h,074h,069h,06dh,065h
+	db	000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+??_7Dsymbols@@6B@	comdat
+	dd	offset FLAT:??_GDsymbols@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Array@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Object@@UAEHXZ
+??_7Dsymbols@@6B@	ends
+??_GDsymbols@@UAEPAXI@Z	comdat
+	assume	CS:??_GDsymbols@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L25
+		mov	dword ptr [EBX],offset FLAT:??_7Dsymbols@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		test	dword ptr 8[ESP],1
+		je	L25
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L25:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GDsymbols@@UAEPAXI@Z	ends
+??_7Expressions@@6B@	comdat
+	dd	offset FLAT:??_GExpressions@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Array@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Object@@UAEHXZ
+??_7Expressions@@6B@	ends
+??_GExpressions@@UAEPAXI@Z	comdat
+	assume	CS:??_GExpressions@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L25
+		mov	dword ptr [EBX],offset FLAT:??_7Expressions@@6B@
+		call	near ptr ??1Array@@UAE@XZ
+		test	dword ptr 8[ESP],1
+		je	L25
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L25:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GExpressions@@UAEPAXI@Z	ends
+	end

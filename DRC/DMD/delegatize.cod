@@ -1,0 +1,494 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 1029
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 20
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 0
+_BSS	ends
+FLAT	group	
+
+	public	?toDelegate@Expression@@QAEPAU1@PAUScope@@PAUType@@@Z
+	public	?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+	public	?scanForNestedRef@Expression@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@SymOffExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@VarExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@ThisExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@SuperExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@FuncExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@DeclarationExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@NewExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@UnaExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@BinExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@CallExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@IndexExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@SliceExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@ArrayLiteralExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@AssocArrayLiteralExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@StructLiteralExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@TupleExp@@UAEXPAUScope@@@Z
+	public	?scanForNestedRef@ArrayExp@@UAEXPAUScope@@@Z
+includelib SNN.lib
+	extrn	?checkNestedReference@VarDeclaration@@QAEXPAUScope@@ULoc@@@Z
+	extrn	__assert
+	extrn	??0FuncExp@@QAE@ULoc@@PAUFuncLiteralDeclaration@@@Z
+	extrn	??2@YAPAXI@Z
+	extrn	??0ReturnStatement@@QAE@ULoc@@PAUExpression@@@Z
+	extrn	?pop@Scope@@QAEPAU1@XZ
+	extrn	?push@Scope@@QAEPAU1@XZ
+	extrn	??0FuncLiteralDeclaration@@QAE@ULoc@@0PAUType@@W4TOK@@PAUForeachStatement@@@Z
+	extrn	??0TypeFunction@@QAE@PAUParameters@@PAUType@@HW4LINK@@@Z
+
+	public	?scanForNestedRef@CondExp@@UAEXPAUScope@@@Z
+_TEXT	segment
+	assume	CS:_TEXT
+?toDelegate@Expression@@QAEPAU1@PAUScope@@PAUType@@@Z:
+		sub	ESP,0Ch
+		push	EBX
+		mov	EBX,014h[ESP]
+		push	EBP
+		push	ESI
+		push	EDI
+		mov	EDI,ECX
+		push	038h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	014h[ESP],EAX
+		je	L34
+		mov	ECX,EAX
+		push	1
+		push	0
+		push	dword ptr 02Ch[ESP]
+		push	0
+		call	near ptr ??0TypeFunction@@QAE@PAUParameters@@PAUType@@HW4LINK@@@Z
+		mov	014h[ESP],EAX
+L34:		push	0E8h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	ESI,EAX
+		test	EAX,EAX
+		je	L65
+		mov	EDX,8[EDI]
+		push	0
+		mov	EAX,4[EDI]
+		mov	ECX,ESI
+		push	0A2h
+		push	dword ptr 01Ch[ESP]
+		push	EDX
+		push	EAX
+		push	EDX
+		push	EAX
+		call	near ptr ??0FuncLiteralDeclaration@@QAE@ULoc@@0PAUType@@W4TOK@@PAUForeachStatement@@@Z
+		mov	ESI,EAX
+L65:		mov	ECX,EBX
+		call	near ptr ?push@Scope@@QAEPAU1@XZ
+		mov	EBX,EAX
+		mov	ECX,EDI
+		mov	014h[EAX],ESI
+		mov	EDX,[EDI]
+		push	EBX
+		call	dword ptr 070h[EDX]
+		mov	ECX,EBX
+		call	near ptr ?pop@Scope@@QAEPAU1@XZ
+		mov	EBX,EAX
+		push	014h
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		test	EAX,EAX
+		mov	018h[ESP],EAX
+		je	LA6
+		mov	ECX,EAX
+		push	EDI
+		push	dword ptr 8[EDI]
+		push	dword ptr 4[EDI]
+		call	near ptr ??0ReturnStatement@@QAE@ULoc@@PAUExpression@@@Z
+		mov	018h[ESP],EAX
+LA6:		mov	EDX,018h[ESP]
+		mov	054h[ESI],EDX
+		push	01Ch
+		call	near ptr ??2@YAPAXI@Z
+		add	ESP,4
+		mov	EBP,EAX
+		test	EAX,EAX
+		je	LCD
+		mov	ECX,EBP
+		push	ESI
+		push	dword ptr 8[EDI]
+		push	dword ptr 4[EDI]
+		call	near ptr ??0FuncExp@@QAE@ULoc@@PAUFuncLiteralDeclaration@@@Z
+		mov	EBP,EAX
+LCD:		mov	EDX,0[EBP]
+		mov	ECX,EBP
+		push	EBX
+		call	dword ptr 028h[EDX]
+		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		add	ESP,0Ch
+		ret	8
+?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z:
+		push	EAX
+		push	EBX
+		push	EBP
+		mov	EBP,010h[ESP]
+		push	ESI
+		push	EDI
+		mov	EDI,01Ch[ESP]
+		test	EDI,EDI
+		je	L110
+		xor	EBX,EBX
+		cmp	4[EDI],EBX
+		je	L110
+LF8:		mov	ECX,8[EDI]
+		mov	ESI,[EBX*4][ECX]
+		test	ESI,ESI
+		je	L10A
+		push	EBP
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 070h[EDX]
+L10A:		inc	EBX
+		cmp	4[EDI],EBX
+		ja	LF8
+L110:		pop	EDI
+		pop	ESI
+		pop	EBP
+		pop	EBX
+		pop	EAX
+		ret
+?scanForNestedRef@Expression@@UAEXPAUScope@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?scanForNestedRef@SymOffExp@@UAEXPAUScope@@@Z:
+		sub	ESP,010h
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		call	dword ptr 0124h[EAX]
+		test	EAX,EAX
+		je	L158
+		mov	dword ptr 0Ch[ESP],0
+		mov	dword ptr 8[ESP],0
+		mov	EDX,0Ch[ESP]
+		mov	EBX,8[ESP]
+		mov	ECX,EAX
+		push	EDX
+		push	EBX
+		push	dword ptr 020h[ESP]
+		call	near ptr ?checkNestedReference@VarDeclaration@@QAEXPAUScope@@ULoc@@@Z
+L158:		pop	EBX
+		add	ESP,010h
+		ret	4
+		nop
+?scanForNestedRef@VarExp@@UAEXPAUScope@@@Z:
+		sub	ESP,010h
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		call	dword ptr 0124h[EAX]
+		test	EAX,EAX
+		je	L198
+		mov	dword ptr 0Ch[ESP],0
+		mov	dword ptr 8[ESP],0
+		mov	EDX,0Ch[ESP]
+		mov	EBX,8[ESP]
+		mov	ECX,EAX
+		push	EDX
+		push	EBX
+		push	dword ptr 020h[ESP]
+		call	near ptr ?checkNestedReference@VarDeclaration@@QAEXPAUScope@@ULoc@@@Z
+L198:		pop	EBX
+		add	ESP,010h
+		ret	4
+		nop
+?scanForNestedRef@ThisExp@@UAEXPAUScope@@@Z:
+		sub	ESP,0Ch
+		mov	EAX,018h[ECX]
+		test	EAX,EAX
+		push	EBX
+		push	ESI
+		jne	L1BD
+		push	061h
+		push	offset FLAT:_DATA
+		push	offset FLAT:_DATA[010h]
+		call	near ptr __assert
+L1BD:		mov	ESI,[EAX]
+		mov	ECX,EAX
+		mov	dword ptr 0Ch[ESP],0
+		mov	dword ptr 8[ESP],0
+		mov	EDX,0Ch[ESP]
+		mov	EBX,8[ESP]
+		push	EDX
+		push	EBX
+		push	dword ptr 020h[ESP]
+		call	dword ptr 0124h[ESI]
+		mov	ECX,EAX
+		call	near ptr ?checkNestedReference@VarDeclaration@@QAEXPAUScope@@ULoc@@@Z
+		pop	ESI
+		pop	EBX
+		add	ESP,0Ch
+		ret	4
+?scanForNestedRef@SuperExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	dword ptr 8[ESP]
+		call	near ptr ?scanForNestedRef@ThisExp@@UAEXPAUScope@@@Z
+		pop	EAX
+		ret	4
+?scanForNestedRef@FuncExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		pop	EAX
+		ret	4
+?scanForNestedRef@DeclarationExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		mov	EAX,8[ESP]
+		mov	EDX,014h[EAX]
+		push	EBX
+		mov	EBX,018h[ECX]
+		mov	0Ch[EBX],EDX
+		pop	EBX
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?scanForNestedRef@NewExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		mov	EAX,018h[ECX]
+		test	EAX,EAX
+		push	EBX
+		mov	EBX,0Ch[ESP]
+		push	ESI
+		je	L236
+		push	EBX
+		mov	EDX,[EAX]
+		mov	ECX,EAX
+		call	dword ptr 070h[EDX]
+L236:		mov	ESI,8[ESP]
+		push	dword ptr 01Ch[ESI]
+		push	EBX
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		push	dword ptr 024h[ESI]
+		push	EBX
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,010h
+		pop	ESI
+		pop	EBX
+		pop	EAX
+		ret	4
+?scanForNestedRef@UnaExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	dword ptr 8[ESP]
+		call	dword ptr 070h[EAX]
+		pop	EAX
+		ret	4
+?scanForNestedRef@BinExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		push	dword ptr 010h[ESP]
+		call	dword ptr 070h[EAX]
+		push	dword ptr 010h[ESP]
+		mov	EDX,0Ch[ESP]
+		mov	ECX,01Ch[EDX]
+		mov	EBX,[ECX]
+		call	dword ptr 070h[EBX]
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+		nop
+		nop
+?scanForNestedRef@CallExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	dword ptr 8[ESP]
+		call	dword ptr 070h[EAX]
+		mov	EDX,[ESP]
+		push	dword ptr 01Ch[EDX]
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EAX
+		ret	4
+?scanForNestedRef@IndexExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		mov	EBX,010h[ESP]
+		push	ESI
+		push	EDI
+		push	EBX
+		call	dword ptr 070h[EAX]
+		mov	EDX,010h[ESP]
+		mov	ESI,020h[EDX]
+		test	ESI,ESI
+		je	L2D6
+		mov	EDI,014h[EBX]
+		mov	0Ch[ESI],EDI
+L2D6:		push	EBX
+		mov	ECX,014h[ESP]
+		mov	ECX,01Ch[ECX]
+		mov	EAX,[ECX]
+		call	dword ptr 070h[EAX]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+		nop
+		nop
+		nop
+		nop
+?scanForNestedRef@SliceExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		mov	EBX,010h[ESP]
+		push	ESI
+		push	EDI
+		push	EBX
+		call	dword ptr 070h[EAX]
+		mov	EDX,010h[ESP]
+		mov	ESI,024h[EDX]
+		test	ESI,ESI
+		je	L313
+		mov	EDI,014h[EBX]
+		mov	0Ch[ESI],EDI
+L313:		mov	ECX,010h[ESP]
+		mov	EAX,020h[ECX]
+		test	EAX,EAX
+		je	L326
+		push	EBX
+		mov	EDX,[EAX]
+		mov	ECX,EAX
+		call	dword ptr 070h[EDX]
+L326:		mov	ESI,010h[ESP]
+		mov	EDI,01Ch[ESI]
+		test	EDI,EDI
+		je	L339
+		push	EBX
+		mov	EAX,[EDI]
+		mov	ECX,EDI
+		call	dword ptr 070h[EAX]
+L339:		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+?scanForNestedRef@ArrayLiteralExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	dword ptr 018h[ECX]
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EAX
+		ret	4
+?scanForNestedRef@AssocArrayLiteralExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	dword ptr 018h[ECX]
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		mov	EAX,8[ESP]
+		push	dword ptr 01Ch[EAX]
+		push	dword ptr 014h[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,010h
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?scanForNestedRef@StructLiteralExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	dword ptr 01Ch[ECX]
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EAX
+		ret	4
+?scanForNestedRef@TupleExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	dword ptr 018h[ECX]
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EAX
+		ret	4
+?scanForNestedRef@ArrayExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		mov	ECX,018h[ECX]
+		mov	EAX,[ECX]
+		push	dword ptr 8[ESP]
+		call	dword ptr 070h[EAX]
+		mov	EDX,[ESP]
+		push	dword ptr 01Ch[EDX]
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?arrayExpressionScanForNestedRef@@YAXPAUScope@@PAUExpressions@@@Z
+		add	ESP,8
+		pop	EAX
+		ret	4
+		nop
+		nop
+		nop
+		nop
+		nop
+?scanForNestedRef@CondExp@@UAEXPAUScope@@@Z:
+		push	ECX
+		push	ECX
+		mov	ECX,020h[ECX]
+		mov	EAX,[ECX]
+		push	EBX
+		mov	EBX,010h[ESP]
+		push	ESI
+		push	EDI
+		push	EBX
+		call	dword ptr 070h[EAX]
+		mov	EDX,010h[ESP]
+		mov	ECX,018h[EDX]
+		push	EBX
+		mov	ESI,[ECX]
+		call	dword ptr 070h[ESI]
+		mov	EDI,010h[ESP]
+		mov	ECX,01Ch[EDI]
+		push	EBX
+		mov	EAX,[ECX]
+		call	dword ptr 070h[EAX]
+		pop	EDI
+		pop	ESI
+		pop	EBX
+		add	ESP,8
+		ret	4
+_TEXT	ends
+_DATA	segment
+D0	db	064h,065h,06ch,065h,067h,061h,074h,069h
+	db	07ah,065h,02eh,063h,000h,000h,000h,000h
+D10	db	076h,061h,072h,000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+	end

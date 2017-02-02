@@ -1,0 +1,341 @@
+_TEXT	segment dword use32 public 'CODE'	;size is 525
+_TEXT	ends
+_DATA	segment dword use32 public 'DATA'	;size is 128
+_DATA	ends
+CONST	segment dword use32 public 'CONST'	;size is 0
+CONST	ends
+_BSS	segment dword use32 public 'BSS'	;size is 4
+_BSS	ends
+FLAT	group	
+	extrn	??_7Object@@6B@
+	extrn	??_7Identifier@@6B@
+	extrn	??_GObject@@UAEPAXI@Z
+	extrn	??_GIdentifier@@UAEPAXI@Z
+
+	public	??0Identifier@@QAE@PBDH@Z
+	public	?hashCode@Identifier@@UAEIXZ
+	public	?equals@Identifier@@UAEHPAUObject@@@Z
+	public	?compare@Identifier@@UAEHPAUObject@@@Z
+	public	?toChars@Identifier@@UAEPADXZ
+	public	?toHChars2@Identifier@@QAEPBDXZ
+	public	?print@Identifier@@UAEXXZ
+	public	?dyncast@Identifier@@UAEHXZ
+	public	?generateId@Identifier@@SAPAU1@PBD@Z
+includelib SNN.lib
+	extrn	??1OutBuffer@@UAE@XZ
+	extrn	?idPool@Lexer@@SAPAUIdentifier@@PBD@Z
+	extrn	?toChars@OutBuffer@@UAEPADXZ
+	extrn	?printf@OutBuffer@@QAAXPBDZZ
+	extrn	?writestring@OutBuffer@@QAEXPBD@Z
+	extrn	??0OutBuffer@@QAE@XZ
+	extrn	_fprintf
+	extrn	__iob
+	extrn	_memcmp
+	extrn	?returnLabel@Id@@2PAUIdentifier@@A
+	extrn	?result@Id@@2PAUIdentifier@@A
+	extrn	?withSym@Id@@2PAUIdentifier@@A
+	extrn	?dollar@Id@@2PAUIdentifier@@A
+	extrn	?unitTest@Id@@2PAUIdentifier@@A
+	extrn	?classInvariant@Id@@2PAUIdentifier@@A
+	extrn	?dtor@Id@@2PAUIdentifier@@A
+	extrn	?ctor@Id@@2PAUIdentifier@@A
+	extrn	?calcHash@String@@SAIPBD@Z
+	extrn	??3@YAXPAX@Z
+	extrn	_strlen
+	extrn	?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	extrn	?toDchars@Object@@UAEPADXZ
+	extrn	?dyncast@Object@@UAEHXZ
+	extrn	?toChars@Object@@UAEPADXZ
+	extrn	?print@Object@@UAEXXZ
+	extrn	?compare@Object@@UAEHPAU1@@Z
+	extrn	?hashCode@Object@@UAEIXZ
+	extrn	?equals@Object@@UAEHPAU1@@Z
+
+	public	?generateId@Identifier@@SAPAU1@PBDI@Z
+??_7Object@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_7Identifier@@6B@	COMDAT flags=x0 attr=x10 align=x0 
+??_GObject@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+??_GIdentifier@@UAEPAXI@Z	COMDAT flags=x0 attr=x10 align=x0 
+
+_TEXT	segment
+	assume	CS:_TEXT
+??0Identifier@@QAE@PBDH@Z:
+		push	EBX
+		mov	EBX,ECX
+		mov	EAX,8[ESP]
+		mov	dword ptr [ECX],offset FLAT:??_7Object@@6B@
+		mov	EDX,0Ch[ESP]
+		mov	dword ptr [EBX],offset FLAT:??_7Identifier@@6B@
+		mov	8[EBX],EAX
+		mov	4[EBX],EDX
+		push	EAX
+		call	near ptr _strlen
+		mov	0Ch[EBX],EAX
+		add	ESP,4
+		mov	EAX,EBX
+		pop	EBX
+		ret	8
+		nop
+?hashCode@Identifier@@UAEIXZ:
+		push	ECX
+		push	dword ptr 8[ECX]
+		call	near ptr ?calcHash@String@@SAIPBD@Z
+		add	ESP,4
+		pop	ECX
+		ret
+		nop
+		nop
+?equals@Identifier@@UAEHPAUObject@@@Z:
+		push	ECX
+		push	EBX
+		mov	EBX,ECX
+		push	ESI
+		mov	ESI,010h[ESP]
+		cmp	EBX,ESI
+		je	L6D
+		mov	EDX,0Ch[EBX]
+		inc	EDX
+		push	EDX
+		mov	EDX,[ESI]
+		mov	ECX,ESI
+		call	dword ptr 014h[EDX]
+		push	EAX
+		push	dword ptr 8[EBX]
+		call	near ptr _memcmp
+		add	ESP,0Ch
+		test	EAX,EAX
+		je	L6D
+		xor	EAX,EAX
+		jmp short	L72
+L6D:		mov	EAX,1
+L72:		pop	ESI
+		pop	EBX
+		pop	ECX
+		ret	4
+?compare@Identifier@@UAEHPAUObject@@@Z:
+		push	ECX
+		mov	EAX,0Ch[ECX]
+		inc	EAX
+		push	ECX
+		mov	ECX,0Ch[ESP]
+		mov	EDX,[ECX]
+		push	EBX
+		push	EAX
+		call	dword ptr 014h[EDX]
+		mov	EBX,0Ch[ESP]
+		push	EAX
+		push	dword ptr 8[EBX]
+		call	near ptr _memcmp
+		add	ESP,0Ch
+		pop	EBX
+		add	ESP,8
+		ret	4
+?toChars@Identifier@@UAEPADXZ:
+		push	ECX
+		mov	EAX,8[ECX]
+		pop	ECX
+		ret
+?toHChars2@Identifier@@QAEPBDXZ:
+		push	ECX
+		push	EBX
+		push	ESI
+		mov	ESI,ECX
+		cmp	ESI,?ctor@Id@@2PAUIdentifier@@A
+		jne	LBD
+		mov	EBX,offset FLAT:_DATA
+		jmp	near ptr L16C
+LBD:		cmp	ESI,?dtor@Id@@2PAUIdentifier@@A
+		jne	LCF
+		mov	EBX,offset FLAT:_DATA[8]
+		jmp	near ptr L16C
+LCF:		cmp	ESI,?classInvariant@Id@@2PAUIdentifier@@A
+		jne	LE1
+		mov	EBX,offset FLAT:_DATA[010h]
+		jmp	near ptr L16C
+LE1:		cmp	ESI,?unitTest@Id@@2PAUIdentifier@@A
+		jne	LF0
+		mov	EBX,offset FLAT:_DATA[01Ch]
+		jmp short	L16C
+LF0:		cmp	ESI,?dollar@Id@@2PAUIdentifier@@A
+		jne	LFF
+		mov	EBX,offset FLAT:_DATA[028h]
+		jmp short	L16C
+LFF:		cmp	ESI,?withSym@Id@@2PAUIdentifier@@A
+		jne	L10E
+		mov	EBX,offset FLAT:_DATA[02Ch]
+		jmp short	L16C
+L10E:		cmp	ESI,?result@Id@@2PAUIdentifier@@A
+		jne	L11D
+		mov	EBX,offset FLAT:_DATA[034h]
+		jmp short	L16C
+L11D:		cmp	ESI,?returnLabel@Id@@2PAUIdentifier@@A
+		jne	L12C
+		mov	EBX,offset FLAT:_DATA[03Ch]
+		jmp short	L16C
+L12C:		mov	EDX,[ESI]
+		call	dword ptr 014h[EDX]
+		mov	EBX,EAX
+		cmp	byte ptr [EAX],05Fh
+		jne	L16C
+		push	0Bh
+		push	offset FLAT:_DATA[044h]
+		push	EBX
+		call	near ptr _memcmp
+		add	ESP,0Ch
+		test	EAX,EAX
+		jne	L153
+		mov	EBX,offset FLAT:_DATA[050h]
+		jmp short	L16C
+L153:		push	0Bh
+		push	offset FLAT:_DATA[05Ch]
+		push	EBX
+		call	near ptr _memcmp
+		add	ESP,0Ch
+		test	EAX,EAX
+		jne	L16C
+		mov	EBX,offset FLAT:_DATA[068h]
+L16C:		pop	ESI
+		mov	EAX,EBX
+		pop	EBX
+		pop	ECX
+		ret
+?print@Identifier@@UAEXXZ:
+		push	ECX
+		push	dword ptr 8[ECX]
+		push	offset FLAT:_DATA[078h]
+		push	offset FLAT:__iob[040h]
+		call	near ptr _fprintf
+		add	ESP,0Ch
+		pop	EAX
+		ret
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+?dyncast@Identifier@@UAEHXZ:
+		push	ECX
+		mov	EAX,4
+		pop	ECX
+		ret
+?generateId@Identifier@@SAPAU1@PBD@Z:
+		push	EAX
+		inc	dword ptr FLAT:_BSS[00h]
+		mov	EAX,FLAT:_BSS[00h]
+		push	EAX
+		push	dword ptr 0Ch[ESP]
+		call	near ptr ?generateId@Identifier@@SAPAU1@PBDI@Z
+		add	ESP,8
+		pop	ECX
+		ret
+?generateId@Identifier@@SAPAU1@PBDI@Z:
+		sub	ESP,014h
+		lea	ECX,[ESP]
+		call	near ptr ??0OutBuffer@@QAE@XZ
+		push	dword ptr 018h[ESP]
+		lea	ECX,4[ESP]
+		call	near ptr ?writestring@OutBuffer@@QAEXPBD@Z
+		push	dword ptr 01Ch[ESP]
+		push	offset FLAT:_DATA[07Ch]
+		lea	EAX,8[ESP]
+		push	EAX
+		call	near ptr ?printf@OutBuffer@@QAAXPBDZZ
+		lea	ECX,0Ch[ESP]
+		call	near ptr ?toChars@OutBuffer@@UAEPADXZ
+		mov	dword ptr 010h[ESP],0
+		push	EAX
+		call	near ptr ?idPool@Lexer@@SAPAUIdentifier@@PBD@Z
+		lea	ECX,010h[ESP]
+		mov	020h[ESP],EAX
+		call	near ptr ??1OutBuffer@@UAE@XZ
+		add	ESP,010h
+		mov	EAX,010h[ESP]
+		add	ESP,014h
+		ret
+_TEXT	ends
+_DATA	segment
+D0	db	074h,068h,069h,073h,000h,000h,000h,000h
+D8	db	07eh,074h,068h,069h,073h,000h,000h,000h
+D10	db	069h,06eh,076h,061h,072h,069h,061h,06eh
+	db	074h,000h,000h,000h
+D1C	db	075h,06eh,069h,074h
+	db	074h,065h,073h,074h,000h,000h,000h,000h
+D28	db	024h,000h,000h,000h
+D2C	db	077h,069h,074h,068h
+	db	000h,000h,000h,000h
+D34	db	072h,065h,073h,075h
+	db	06ch,074h,000h,000h
+D3C	db	072h,065h,074h,075h
+	db	072h,06eh,000h,000h
+D44	db	05fh,073h,074h,061h
+	db	074h,069h,063h,043h,074h,06fh,072h,000h
+D50	db	073h,074h,061h,074h,069h,063h,020h,074h
+	db	068h,069h,073h,000h
+D5C	db	05fh,073h,074h,061h
+	db	074h,069h,063h,044h,074h,06fh,072h,000h
+D68	db	073h,074h,061h,074h,069h,063h,020h,07eh
+	db	074h,068h,069h,073h,000h,000h,000h,000h
+D78	db	025h,073h,000h,000h
+D7C	db	025h,07ah,075h,000h
+_DATA	ends
+CONST	segment
+CONST	ends
+_BSS	segment
+_BSS	ends
+??_7Object@@6B@	comdat
+	dd	offset FLAT:??_GObject@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?hashCode@Object@@UAEIXZ
+	dd	offset FLAT:?compare@Object@@UAEHPAU1@@Z
+	dd	offset FLAT:?print@Object@@UAEXXZ
+	dd	offset FLAT:?toChars@Object@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Object@@UAEHXZ
+??_7Object@@6B@	ends
+??_7Identifier@@6B@	comdat
+	dd	offset FLAT:??_GIdentifier@@UAEPAXI@Z
+	dd	offset FLAT:?equals@Identifier@@UAEHPAUObject@@@Z
+	dd	offset FLAT:?hashCode@Identifier@@UAEIXZ
+	dd	offset FLAT:?compare@Identifier@@UAEHPAUObject@@@Z
+	dd	offset FLAT:?print@Identifier@@UAEXXZ
+	dd	offset FLAT:?toChars@Identifier@@UAEPADXZ
+	dd	offset FLAT:?toDchars@Object@@UAEPADXZ
+	dd	offset FLAT:?toBuffer@Object@@UAEXPAUOutBuffer@@@Z
+	dd	offset FLAT:?dyncast@Identifier@@UAEHXZ
+??_7Identifier@@6B@	ends
+??_GObject@@UAEPAXI@Z	comdat
+	assume	CS:??_GObject@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L20
+		mov	dword ptr [EBX],offset FLAT:??_7Object@@6B@
+		test	dword ptr 8[ESP],1
+		je	L20
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L20:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GObject@@UAEPAXI@Z	ends
+??_GIdentifier@@UAEPAXI@Z	comdat
+	assume	CS:??_GIdentifier@@UAEPAXI@Z
+L0:		push	EBX
+		mov	EBX,ECX
+		test	ECX,ECX
+		je	L26
+		mov	dword ptr [EBX],offset FLAT:??_7Identifier@@6B@
+		mov	dword ptr [EBX],offset FLAT:??_7Object@@6B@
+		test	dword ptr 8[ESP],1
+		je	L26
+		push	EBX
+		call	near ptr ??3@YAXPAX@Z
+		add	ESP,4
+L26:		mov	EAX,EBX
+		pop	EBX
+		ret	4
+??_GIdentifier@@UAEPAXI@Z	ends
+	end
