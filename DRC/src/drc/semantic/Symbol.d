@@ -45,7 +45,7 @@ class Символ
   /// Useful for source код положение инфо and retriоцени of doc comments.
   Узел узел;
 
-  /// Constructs a Символ объект.
+  /// Строит Символ объект.
   /// Параметры:
   ///   сид = the символ's ID.
   ///   имя = the символ's имя.

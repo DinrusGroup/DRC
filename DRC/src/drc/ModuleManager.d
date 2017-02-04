@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+﻿/// Author: Aziz Köksal
 /// License: GPL3
 /// $(Maturity high)
 module drc.ModuleManager;
@@ -9,29 +9,29 @@ import drc.Diagnostics;
 import drc.Messages;
 import common;
 
-import tango.io.FilePath,
-       tango.io.FileSystem,
-       tango.io.model.IFile;
-import tango.util.PathUtil : pathNormalize = normalize;
+import io.FilePath,
+       io.FileSystem,
+       io.model;
+import util.PathUtil : нормализуйПуть = нормализуй;
 
-alias FileConst.PathSeparatorChar папРазд;
+alias ФайлКонст.СимПутьРазд папРазд;
 
 /// Manages loaded модули in a таблица.
 class МодульМенеджер
 {
   /// Корневой пакет. Содержит все прочие модули и пакеты.
   Пакет корневойПакет;
-  /// Maps full package имена в пакеты. E.g.: drc.ast
+  /// Maps полные имена пакетов в пакеты. E.g.: drc.ast
   Пакет[ткст] таблицаПакетов;
   /// Maps ПКИ пути в модули. E.g.: dil/ast/Узел
   Модуль[ткст] таблицаПКИПутейКМодулям;
   /// Карта абсолютных путей к файлам модулей. Напр.: /home/user/dil/src/main.d
   Модуль[ткст] таблицаАбсФПутей;
-  Модуль[] загруженныеМодули; /// Loaded модули in sequential order.
-  ткст[] путиИмпорта; /// Where в look for module files.
+  Модуль[] загруженныеМодули; /// Загруженные модули в последовательном порядке.
+  ткст[] путиИмпорта; /// Где искаль файлы модулей.
   Диагностика диаг;
 
-  /// Constructs a МодульМенеджер object.
+  /// Строит МодульМенеджер объект.
   this(ткст[] путиИмпорта, Диагностика диаг)
   {
     this.корневойПакет = new Пакет(null);
@@ -40,87 +40,87 @@ class МодульМенеджер
     this.диаг = диаг;
   }
 
-  /// Loads a module given a file путь.
+  /// Загружает модуль по заданному файловому пути.
   Модуль загрузиФайлМодуля(ткст путьКФайлуМодуля)
   {
-    auto absFilePath = FileSystem.toAbsolute(путьКФайлуМодуля);
-    // FIXME: normalize() doesn't simplify //. Handle the exception it throws.
-    absFilePath = pathNormalize(absFilePath); // Remove ./ /. ../ and /..
-    if (auto existingModule = absFilePath in таблицаАбсФПутей)
-      return *existingModule;
+    auto абсФПуть = ФСистема.вАбсолют(путьКФайлуМодуля);
+    // FIXME: нормализуй() doesn't simplify //. Handle the exception it throws.
+    абсФПуть = нормализуйПуть(абсФПуть); // Remove ./ /. ../ and /..
+    if (auto сущМодуль = абсФПуть in таблицаАбсФПутей)
+      return *сущМодуль;
 
     // Create a new module.
-    auto newModule = new Модуль(путьКФайлуМодуля, диаг);
-    newModule.разбор();
+    auto новМодуль = new Модуль(путьКФайлуМодуля, диаг);
+    новМодуль.разбор();
 
-    auto путьПоПКНМодуля = newModule.дайПутьПКН();
-    if (auto existingModule = путьПоПКНМодуля in таблицаПКИПутейКМодулям)
+    auto путьПоПКНМодуля = новМодуль.дайПутьПКН();
+    if (auto сущМодуль = путьПоПКНМодуля in таблицаПКИПутейКМодулям)
     { // Ошибка: two module files have the same f.q. module имя.
-      auto положение = newModule.дайСемуДеклМодуля().дайПоложениеОшибки();
-      auto сооб = Формат(сооб.КонфликтующиеФайлыМодулей, newModule.путьКФайлу());
+      auto положение = новМодуль.дайСемуДеклМодуля().дайПоложениеОшибки();
+      auto сооб = Формат(сооб.КонфликтующиеФайлыМодулей, новМодуль.путьКФайлу());
       диаг ~= new ОшибкаСемантики(положение, сооб);
-      return *existingModule;
+      return *сущМодуль;
     }
 
     // Insert new module.
-    таблицаПКИПутейКМодулям[путьПоПКНМодуля] = newModule;
-    таблицаАбсФПутей[absFilePath] = newModule;
-    загруженныеМодули ~= newModule;
+    таблицаПКИПутейКМодулям[путьПоПКНМодуля] = новМодуль;
+    таблицаАбсФПутей[абсФПуть] = новМодуль;
+    загруженныеМодули ~= новМодуль;
     // Add the module в its package.
-    auto пкт = дайПакет(newModule.имяПакета);
-    пкт.добавь(newModule);
+    auto пкт = дайПакет(новМодуль.имяПакета);
+    пкт.добавь(новМодуль);
 
-    if (auto p = newModule.дайПКН() in таблицаПакетов)
+    if (auto p = новМодуль.дайПКН() in таблицаПакетов)
     { // Ошибка: module and package share the same имя.
-      auto положение = newModule.дайСемуДеклМодуля().дайПоложениеОшибки();
-      auto сооб = Формат(сооб.КонфликтующиеМодульИПакет, newModule.дайПКН());
+      auto положение = новМодуль.дайСемуДеклМодуля().дайПоложениеОшибки();
+      auto сооб = Формат(сооб.КонфликтующиеМодульИПакет, новМодуль.дайПКН());
       диаг ~= new ОшибкаСемантики(положение, сооб);
     }
 
-    return newModule;
+    return новМодуль;
   }
 
-  /// Returns the package given a f.q. package имя.
-  /// Returns the корень package for an empty ткст.
-  Пакет дайПакет(ткст pckgFQN)
+  /// Возвращает package given a f.q. package имя.
+  /// Возвращает корень package for an empty ткст.
+  Пакет дайПакет(ткст пКНПкта)
   {
-    auto pPckg = pckgFQN in таблицаПакетов;
+    auto pPckg = пКНПкта in таблицаПакетов;
     if (pPckg)
       return *pPckg;
 
-    ткст предшFQN, lastPckgName;
-    // E.g.: pckgFQN = 'drc.ast', предшFQN = 'dil', lastPckgName = 'ast'
-    разбейПКНПакета(pckgFQN, предшFQN, lastPckgName);
+    ткст предшПКН, последнИмяПкта;
+    // E.g.: пКНПкта = 'drc.ast', предшПКН = 'dil', последнИмяПкта = 'ast'
+    разбейПКНПакета(пКНПкта, предшПКН, последнИмяПкта);
     // Recursively build package hierarchy.
-    auto parentPckg = дайПакет(предшFQN); // E.g.: 'dil'
+    auto родПкт = дайПакет(предшПКН); // E.g.: 'dil'
 
     // Create a new package.
-    auto пкт = new Пакет(lastPckgName); // E.g.: 'ast'
-    parentPckg.добавь(пкт); // 'dil'.добавь('ast')
+    auto пкт = new Пакет(последнИмяПкта); // E.g.: 'ast'
+    родПкт.добавь(пкт); // 'dil'.добавь('ast')
 
     // Insert the package into the таблица.
-    таблицаПакетов[pckgFQN] = пкт;
+    таблицаПакетов[пКНПкта] = пкт;
 
     return пкт;
   }
 
   /// Splits в.g. 'drc.ast.xyz' into 'drc.ast' and 'xyz'.
   /// Параметры:
-  ///   pckgFQN = the full package имя в be split.
-  ///   предшFQN = установи в 'drc.ast' in the example.
-  ///   lastName = the last package имя; установи в 'xyz' in the example.
-  проц  разбейПКНПакета(ткст pckgFQN, ref ткст предшFQN, ref ткст lastName)
+  ///   пКНПкта = the full package имя в be split.
+  ///   предшПКН = установи в 'drc.ast' in the example.
+  ///   последнИмя = the last package имя; установи в 'xyz' in the example.
+  проц  разбейПКНПакета(ткст пКНПкта, ref ткст предшПКН, ref ткст последнИмя)
   {
-    бцел lastDotIndex;
-    foreach_reverse (i, c; pckgFQN)
+    бцел последнИндксТчки;
+    foreach_reverse (i, c; пКНПкта)
       if (c == '.')
-      { lastDotIndex = i; break; } // Found last dot.
-    if (lastDotIndex == 0)
-      lastName = pckgFQN; // Special case - no dot found.
+      { последнИндксТчки = i; break; } // Found last dot.
+    if (последнИндксТчки == 0)
+      последнИмя = пКНПкта; // Special case - no dot found.
     else
     {
-      предшFQN = pckgFQN[0..lastDotIndex];
-      lastName = pckgFQN[lastDotIndex+1..$];
+      предшПКН = пКНПкта[0..последнИндксТчки];
+      последнИмя = пКНПкта[последнИндксТчки+1..$];
     }
   }
 
@@ -128,9 +128,9 @@ class МодульМенеджер
   Модуль загрузиМодуль(ткст путьПоПКНМодуля)
   {
     // Look up in таблица if the module is already loaded.
-    Модуль* pModul = путьПоПКНМодуля in таблицаПКИПутейКМодулям;
-    if (pModul)
-      return *pModul;
+    Модуль* уМодуль = путьПоПКНМодуля in таблицаПКИПутейКМодулям;
+    if (уМодуль)
+      return *уМодуль;
 
     // Locate the module in the file system.
     auto путьКФайлуМодуля = найдиПутьКФайлуМодуля(путьПоПКНМодуля, путиИмпорта);
@@ -153,26 +153,26 @@ class МодульМенеджер
   static ткст дайПКНПакета(ткст путьПоПКНМодуля)
   {
     ткст пкт = путьПоПКНМодуля.dup;
-    бцел lastDirSep;
+    бцел последнПапРазд;
     foreach (i, c; пкт)
       if (c == папРазд)
-        (пкт[i] = '.'), (lastDirSep = i);
-    return пкт[0..lastDirSep];
+        (пкт[i] = '.'), (последнПапРазд = i);
+    return пкт[0..последнПапРазд];
   }
 
   /// Searches for a module in the file system looking in путиИмпорта.
   /// Возвращает: the file путь в the module, or null if it wasn't found.
   static ткст найдиПутьКФайлуМодуля(ткст путьПоПКНМодуля, ткст[] путиИмпорта)
   {
-    auto путьКФайлу = new FilePath();
+    auto путьКФайлу = new ФПуть();
     foreach (путьИмпорта; путиИмпорта)
     {
-      путьКФайлу.set(путьИмпорта); // E.g.: ист/
-      путьКФайлу.append(путьПоПКНМодуля); // E.g.: dil/ast/Узел
+      путьКФайлу.установи(путьИмпорта); // E.g.: ист/
+      путьКФайлу.добавь(путьПоПКНМодуля); // E.g.: dil/ast/Узел
       foreach (суффиксМодуля; [".d", ".di"/*interface file*/])
       {
-        путьКФайлу.suffix(суффиксМодуля);
-        if (путьКФайлу.exists()) // E.g.: ист/dil/ast/Узел.d
+        путьКФайлу.суффикс(суффиксМодуля);
+        if (путьКФайлу.есть_ли()) // E.g.: ист/dil/ast/Узел.d
           return путьКФайлу.вТкст();
       }
     }

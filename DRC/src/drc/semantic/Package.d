@@ -16,7 +16,7 @@ class Пакет : СимволМасштаба
   Пакет[] пакеты; /// The sub-пакеты contained in this package.
   Модуль[] модули;   /// The модули contained in this package.
 
-  /// Constructs a Пакет объект.
+  /// Строит Пакет объект.
   this(ткст имяПкт)
   {
     auto идент = ТаблицаИд.сыщи(имяПкт);
@@ -30,7 +30,7 @@ class Пакет : СимволМасштаба
     return родитель is null;
   }
 
-  /// Returns the родитель package or null if this is the корень.
+  /// Возвращает родитель package or null if this is the корень.
   Пакет пакетРодитель()
   {
     if (корень_ли())
@@ -39,7 +39,7 @@ class Пакет : СимволМасштаба
     return родитель.в!(Пакет);
   }
 
-  /// Adds a module в this package.
+  /// Добавляет module в this package.
   проц  добавь(Модуль модуль)
   {
     модуль.родитель = this;
@@ -47,7 +47,7 @@ class Пакет : СимволМасштаба
     вставь(модуль, модуль.имя);
   }
 
-  /// Adds a package в this package.
+  /// Добавляет package в this package.
   проц  добавь(Пакет пкт)
   {
     пкт.родитель = this;

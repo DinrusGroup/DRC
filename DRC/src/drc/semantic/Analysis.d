@@ -72,7 +72,7 @@ import common;
 
 /// Returns да if the first branch (of a debug declaration/statement) or
 /// нет if the else-branch should be compiled in.
-бул debugBranchChoice(Сема* услов, КонтекстКомпиляции контекст)
+бул выборОтладВетви(Сема* услов, КонтекстКомпиляции контекст)
 {
   if (услов)
   {
@@ -91,7 +91,7 @@ import common;
 
 /// Returns да if the first branch (of a version declaration/statement) or
 /// нет if the else-branch should be compiled in.
-бул versionBranchChoice(Сема* услов, КонтекстКомпиляции контекст)
+бул выборВерсионВетви(Сема* услов, КонтекстКомпиляции контекст)
 {
   assert(услов);
   if (услов.вид == TOK.Идентификатор || услов.вид == TOK.Юниттест)

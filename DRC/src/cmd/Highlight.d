@@ -124,7 +124,7 @@ class КартаТегов
         tokenTable[i] = *pStr;
   }
 
-  /// Returns the значение for ткт, or 'fallback' if ткт is not in the таблица.
+  /// Возвращает значение for ткт, or 'fallback' if ткт is not in the таблица.
   ткст opIndex(ткст ткт, ткст fallback = "")
   {
     auto p = ткт in таблица;
@@ -133,7 +133,7 @@ class КартаТегов
     return fallback;
   }
 
-  /// Returns the значение for лекс in O(1) время.
+  /// Возвращает значение for лекс in O(1) время.
   ткст opIndex(TOK лекс)
   {
     return tokenTable[лекс];
@@ -144,7 +144,7 @@ class КартаТегов
          NestedC, Шебанг, HLine, Filespec, Нелегал, Новстр, ОсобаяСема,
          Декларация, Инструкция, Выражение, Тип, Иное, КФ;
 
-  /// Returns the тэг for the категория 'nc'.
+  /// Возвращает тэг for the категория 'nc'.
   ткст дайТэг(КатегорияУзла nc)
   {
     ткст тэг;
@@ -171,7 +171,7 @@ class КартаТегов
   return -1;
 }
 
-/// Returns the крат class имя of a class descending из Узел.$(BR)
+/// Возвращает крат class имя of a class descending из Узел.$(BR)
 /// E.g.: drc.ast.Declarations.ДекларацияКласса -> Класс
 ткст дайКраткоеИмяКласса(Узел узел)
 {

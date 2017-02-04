@@ -147,7 +147,7 @@ struct Статистика
 
 }
 
-/// Returns the statistics for a D source file.
+/// Возвращает statistics for a D source file.
 Статистика дайСтатистику(ткст путьКФайлу, бул выводитьТаблицуТокенов, бул выводитьТаблицуУзлов)
 {
   // Create a new record.

@@ -76,7 +76,7 @@ struct КомандаДДок
         // No documentation for erroneous source files.
         if (мод.естьОшибки)
           continue;
-        // Start semantic analysis.
+        // Начало семантического анализа.
         auto проходка1 = new СемантическаяПроходка1(мод, контекст);
         проходка1.пуск();
 

@@ -29,10 +29,10 @@ enum ИДС
   ExpectedIdentifierSTLine,
   ExpectedIntegerAfterSTLine,
 //   ExpectedFilespec,
-  UnterminatedFilespec,
-  UnterminatedSpecialToken,
+  НеоконченоеУказаниеФайла,
+  НеоконченыйОсобыйТокен,
   // ""
-  UnterminatedString,
+  НеоконченыйТкст,
   // x""
   NonHexCharInHexString,
   OddNumberOfDigitsInHexString,
@@ -71,7 +71,7 @@ enum ИДС
   ПараметрКортежШаблона,
   КонтрактИн,
   КонтрактАут,
-  MissingLinkageType,
+  ОтсутствуетТипКомпоновки,
   НеопознанныйТипКомпоновки,
   ExpectedBaseClasses,
   BaseClassInForwardDeclaration,

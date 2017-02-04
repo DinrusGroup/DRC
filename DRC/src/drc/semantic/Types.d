@@ -19,7 +19,7 @@ abstract class Тип/* : Символ*/
 
   this(){}
 
-  /// Constructs a Тип объект.
+  /// Строит Тип объект.
   /// Параметры:
   ///   следщ = the тип's следщ тип.
   ///   тид = the тип's ID.
@@ -58,7 +58,7 @@ abstract class Тип/* : Символ*/
     return new АМассивТип(this, key);
   }
 
-  /// Returns the байт размер of this тип.
+  /// Возвращает байт размер of this тип.
   final т_мера размера()
   {
     return МИТаблица.дайРазмер(this);
@@ -76,7 +76,7 @@ abstract class Тип/* : Символ*/
     return символ !is null;
   }
 
-  /// Returns the тип as a ткст.
+  /// Возвращает тип as a ткст.
   abstract ткст вТкст();
 
   /// Returns да if this тип is a бул тип.
@@ -486,7 +486,7 @@ static:
   ];
   static assert(метаИнфоТаблица.length == ТИП.max+1);
 
-  /// Returns the размер of a тип.
+  /// Возвращает размер of a тип.
   т_мера дайРазмер(Тип тип)
   {
     auto размер = метаИнфоТаблица[тип.тид].размер;

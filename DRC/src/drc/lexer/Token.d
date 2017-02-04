@@ -66,14 +66,14 @@ struct Сема
     реал   реал_;    /// A реал значение.
   }
 
-  /// Returns the текст of the сема.
+  /// Возвращает текст of the сема.
   ткст исхТекст()
   {
     assert(старт && конец);
     return старт[0 .. конец - старт];
   }
 
-  /// Returns the preceding whitespace of the сема.
+  /// Возвращает preceding whitespace of the сема.
   ткст пробСимволы()
   {
     assert(пп && старт);
@@ -197,7 +197,7 @@ version(D2)
     return старт < пв.старт;
   }
 
-  /// Returns the Положение of this сема.
+  /// Возвращает Положение of this сема.
   Положение дайПоложение(бул реальноеПоложение)()
   {
     auto search_t = this.предш;

@@ -16,7 +16,7 @@ class Макрос
   ткст имя; /// The имя of the macro.
   ткст текст; /// The substitution текст.
   бцел callLevel;  /// Recursive call уровень.
-  /// Constructs a Макрос объект.
+  /// Строит Макрос объект.
   this (ткст имя, ткст текст)
   {
     this.имя = имя;
@@ -34,7 +34,7 @@ class ТаблицаМакросов
   ТаблицаМакросов родитель;
   Макрос[ткст] таблица; /// The associative массив that holds the macro definitions.
 
-  /// Constructs a ТаблицаМакросов instance.
+  /// Строит ТаблицаМакросов instance.
   this(ТаблицаМакросов родитель = null)
   {
     this.родитель = родитель;

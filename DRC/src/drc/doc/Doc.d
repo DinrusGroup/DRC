@@ -83,7 +83,7 @@ static:
     return сема.вид == TOK.Комментарий && сема.старт[1] == сема.старт[2];
   }
 
-  /// Returns the surrounding documentation comment семы.
+  /// Возвращает surrounding documentation comment семы.
   /// Параметры:
   ///   узел = the узел в find doc comments for.
   ///   isDocComment = a function predicate that checks for doc comment семы.
@@ -430,7 +430,7 @@ class Раздел
     return сравнилюб(имя, name2) == 0;
   }
 
-  /// Returns the раздел's текст including its имя.
+  /// Возвращает раздел's текст including its имя.
   ткст весьТекст()
   {
     if (имя.length == 0)

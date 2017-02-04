@@ -49,7 +49,7 @@ class Модуль : СимволМасштаба
     super(СИМ.Модуль, null, null);
   }
 
-  /// Constructs a Модуль объект.
+  /// Строит Модуль объект.
   /// Параметры:
   ///   путьКФайлу = file путь в the source текст; loaded in the constructor.
   ///   диаг = used for collecting ошибка сообщения.
@@ -61,13 +61,13 @@ class Модуль : СимволМасштаба
     this.исходныйТекст.загрузи(диаг);
   }
 
-  /// Returns the file путь of the source текст.
+  /// Возвращает file путь of the source текст.
   ткст путьКФайлу()
   {
     return исходныйТекст.путьКФайлу;
   }
 
-  /// Returns the file extension: "d" or "di".
+  /// Возвращает file extension: "d" or "di".
   ткст расширениеФайла()
   {
     foreach_reverse(i, c; путьКФайлу)
@@ -120,13 +120,13 @@ class Модуль : СимволМасштаба
     this.имя = ТаблицаИд.сыщи(this.имяМодуля);
   }
 
-  /// Returns the first сема of the module's source текст.
+  /// Возвращает first сема of the module's source текст.
   Сема* перваяСема()
   {
     return парсер.лексер.перваяСема();
   }
 
-  /// Returns the начало сема of the module declaration
+  /// Возвращает начало сема of the module declaration
   /// or, if it doesn't exist, the first сема in the source текст.
   Сема* дайСемуДеклМодуля()
   {
@@ -149,7 +149,7 @@ class Модуль : СимволМасштаба
     return результат;
   }
 
-  /// Returns the fully qualified имя of this module.
+  /// Возвращает fully qualified имя of this module.
   /// E.g.: drc.ast.Node
   ткст дайПКН()
   {
@@ -175,7 +175,7 @@ class Модуль : СимволМасштаба
     }
   }
 
-  /// Returns the module's ПКИ with slashes instead of dots.
+  /// Возвращает module's ПКИ with slashes instead of dots.
   /// E.g.: dil/ast/Узел
   ткст дайПутьПКН()
   {

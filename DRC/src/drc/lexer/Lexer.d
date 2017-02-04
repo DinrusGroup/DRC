@@ -1278,7 +1278,7 @@ class Лексер
         установиНачалоСтроки(p+1);
         break;
       case 0, _Z_:
-        ошибка(tokenLineNum, tokenLineBegin, t.старт, ИДС.UnterminatedString);
+        ошибка(tokenLineNum, tokenLineBegin, t.старт, ИДС.НеоконченыйТкст);
         goto Lreturn;
       default:
         if (!аски_ли(c))
@@ -2410,7 +2410,7 @@ version(D2)
           if (конецСтроки_ли(p))
           {
             errorAtColumn = t.tokLineFilespec.старт;
-            идс = ИДС.UnterminatedFilespec;
+            идс = ИДС.НеоконченоеУказаниеФайла;
             t.tokLineFilespec.конец = p;
             tokenEnd = p;
             goto Lerr;
@@ -2425,7 +2425,7 @@ version(D2)
       }
       else/+ if (state == State.End)+/
       {
-        идс = ИДС.UnterminatedSpecialToken;
+        идс = ИДС.НеоконченыйОсобыйТокен;
         goto Lerr;
       }
     }
@@ -2477,7 +2477,7 @@ version(D2)
     return т_нов;
   }
 
-  /// Returns the ошибка line число.
+  /// Возвращает ошибка line число.
   бцел номерСтрокиОшиб(бцел номСтр)
   {
     return номСтр - this.lineNum_hline;
@@ -2527,7 +2527,7 @@ version(D2)
     {}
   }
 
-  /// Returns the first сема of the source текст.
+  /// Возвращает first сема of the source текст.
   /// Этот can be the КФ сема.
   /// Structure: ГОЛОВА -> Новстр -> First Сема
   Сема* перваяСема()

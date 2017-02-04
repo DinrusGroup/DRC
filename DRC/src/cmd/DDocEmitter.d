@@ -92,7 +92,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     return нет;
   }
 
-  /// Returns the DDoc текст of this module.
+  /// Возвращает DDoc текст of this module.
   static ткст дайТекстДДок(Модуль мод)
   {
     auto данные = мод.исходныйТекст.данные;
