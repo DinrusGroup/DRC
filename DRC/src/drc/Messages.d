@@ -34,36 +34,36 @@ enum ИДС
   // ""
   НеоконченыйТкст,
   // x""
-  NonHexCharInHexString,
-  OddNumberOfDigitsInHexString,
-  UnterminatedHexString,
+  НеГексСимВГексСтроке,
+  НечётноеЧислоЦифрВГексСтроке,
+  НеоконченнаяГексСтрока,
   // /* */ /+ +/
   UnterminatedBlockComment,
   UnterminatedNestedComment,
   // `` r""
-  UnterminatedRawString,
+  НеоконченнаяСыраяСтрока,
   UnterminatedBackQuoteString,
   // \x \u \U
-  UndefinedEscapeSequence,
-  InvalidUnicodeEscapeSequence,
-  InsufficientHexDigits,
+  НеопределённаяИскейпПоследовательность,
+  НевернаяИскейпПоследовательностьЮникод,
+  НедостатокГексЦифр,
   // \&[a-zA-Z][a-zA-Z0-9]+;
-  UndefinedHTMLEntity,
-  UnterminatedHTMLEntity,
-  InvalidBeginHTMLEntity,
+  НеопределённаяСущностьГТЯР,
+  НеоконченнаяСущностьГТЯР,
+  НеверноеНачалоСущностиГТЯР,
   // integer overflows
   OverflowDecimalSign,
   OverflowDecimalNumber,
-  OverflowHexNumber,
-  OverflowBinaryNumber,
-  OverflowOctalNumber,
-  OverflowПлавNumber,
-  OctalNumberHasDecimals,
-  NoDigitsInHexNumber,
-  NoDigitsInBinNumber,
-  HexПлавExponentRequired,
-  HexПлавExpMustStartWithDigit,
-  ПлавExpMustStartWithDigit,
+  ПереполнениеГексЧисла,
+  ПереполнениеБинЧисла,
+  ПереполнениеОктЧисла,
+  ПереполнениеПлавЧисла,
+  ВОктЧислеЕстьДесятичные,
+  НетЦифрВГексЧисле,
+  НетЦифрВБинЧисле,
+  ГексПлавЭкспТребуется,
+  ГексПлавЭкспДлжнНачСЦифры,
+  ПлавЭкспДлжнНачСЦифры,
 
   // Сообщения Парсера:
   НайденоИноеЧемОжидалось,
@@ -120,7 +120,7 @@ static:
   // Лексер сообщения:
   auto ФайлНеЧитается = "файл модуля не читается";
   auto ФайлОтсутствует = "файл модуля не существует";
-  auto НевернаяВосмеричнаяПоследовательностьУклонения = "значение восмеричной последовательности уклонения больше 0xFF: '{}'";
+  auto НевернаяВосмеричнаяИскейпПоследовательность = "значение восмеричной последовательности уклонения больше 0xFF: '{}'";
   auto НеверноеИмяМодуля = "имя файла '{}' не может использоваться в качестве имени модуля; из_ неверный или зарезервированный идентификатор Ди.";
   // Парсер сообщения:
   auto НедействительнаяПоследовательностьУТФ8ВТексте = "неверная цепочка UTF-8 в текстовом литерале: '{0}'";

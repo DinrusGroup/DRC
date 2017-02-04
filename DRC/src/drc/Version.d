@@ -27,10 +27,10 @@ else
   const бцел VERSION_MAJOR_DEFAULT = 1;
 
 /// The major version число of this compiler.
-const бцел VERSION_MAJOR = VERSION_MAJOR_DEFAULT;
+const бцел ВЕРСИЯ_МАЖОР = VERSION_MAJOR_DEFAULT;
 /// The minor version число of this compiler.
-const бцел VERSION_MINOR = 0;
+const бцел ВЕРСИЯ_МИНОР = 0;
 /// The compiler version formatted as a ткст.
-const ткст ВЕРСИЯ = вТкст(VERSION_MAJOR)~"."~вТкст(VERSION_MINOR, 3);
+const ткст ВЕРСИЯ = вТкст(ВЕРСИЯ_МАЖОР)~"."~вТкст(ВЕРСИЯ_МИНОР, 3);
 /// The имя of the compiler.
 const ткст ПОСТАВЩИК = "Dinrus Group";
