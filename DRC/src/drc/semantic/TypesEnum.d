@@ -3,7 +3,7 @@
 /// $(Maturity high)
 module drc.semantic.TypesEnum;
 
-/// Enumeration of Тип IDs.
+/// Перечень идентификаторов типов.
 enum ТИП
 {
   Ошибка,
@@ -35,9 +35,9 @@ enum ТИП
 
   Нет,   /// TypeNone in the specs. Why?
 
-  ДМассив, /// Dynamic массив.
+  ДМассив, /// Динамический массив.
   СМассив, /// Статический массив.
-  АМассив, /// Associative массив.
+  АМассив, /// Ассоциативный массив.
 
   Перечень,       /// An enum.
   Структура,     /// A struct.
