@@ -126,7 +126,7 @@ class Лексер
   }
 
   /// Sets the значение of the special сема.
-  проц  finalizeSpecialToken(ref Сема t)
+  проц  закончиОсобуюСему(ref Сема t)
   {
     assert(t.исхТекст[0..2] == "__");
     switch (t.вид)
@@ -312,7 +312,7 @@ class Лексер
         if (t.вид == TOK.Идентификатор || t.кслово_ли)
           return;
         else if (t.спецСема_ли)
-          finalizeSpecialToken(t);
+          закончиОсобуюСему(t);
         else if (t.вид == TOK.КФ)
         {
           хвост = &t;
@@ -357,7 +357,7 @@ class Лексер
       switch (c)
       {
       case '\'':
-        return scanCharacterLiteral(t);
+        return сканируйСимвольныйЛитерал(t);
       case '`':
         return scanRawStringLiteral(t);
       case '"':
@@ -937,7 +937,7 @@ class Лексер
     switch (c)
     {
     case '\'':
-      return scanCharacterLiteral(t);
+      return сканируйСимвольныйЛитерал(t);
     case '`':
       return scanRawStringLiteral(t);
     case '"':
@@ -1075,7 +1075,7 @@ class Лексер
       if (t.вид == TOK.Идентификатор || t.кслово_ли)
         return;
       else if (t.спецСема_ли)
-        finalizeSpecialToken(t);
+        закончиОсобуюСему(t);
       else if (t.вид == TOK.КФ)
       {
         хвост = &t;
@@ -1299,7 +1299,7 @@ class Лексер
   /// Scans a символ literal.
   ///
   /// СимЛитерал := "'" Сим "'"
-  проц  scanCharacterLiteral(ref Сема t)
+  проц  сканируйСимвольныйЛитерал(ref Сема t)
   {
     assert(*p == '\'');
     ++p;
@@ -2486,19 +2486,19 @@ version(D2)
   /// Forwards ошибка параметры.
   проц  ошибка(сим* columnPos, ткст сооб, ...)
   {
-    error_(this.номСтр, this.началоСтроки, columnPos, сооб, _arguments, _argptr);
+    ошибка_(this.номСтр, this.началоСтроки, columnPos, сооб, _arguments, _argptr);
   }
 
   /// определено
   проц  ошибка(сим* columnPos, ИДС идс, ...)
   {
-    error_(this.номСтр, this.началоСтроки, columnPos, ДайСооб(идс), _arguments, _argptr);
+    ошибка_(this.номСтр, this.началоСтроки, columnPos, ДайСооб(идс), _arguments, _argptr);
   }
 
   /// определено
   проц  ошибка(бцел номСтр, сим* началоСтроки, сим* columnPos, ИДС идс, ...)
   {
-    error_(номСтр, началоСтроки, columnPos, ДайСооб(идс), _arguments, _argptr);
+    ошибка_(номСтр, началоСтроки, columnPos, ДайСооб(идс), _arguments, _argptr);
   }
 
   /// Creates an ошибка report and appends it в a список.
@@ -2507,8 +2507,8 @@ version(D2)
   ///   началоСтроки = points в the first символ of the current line.
   ///   columnPos = points в the символ where the ошибка is located.
   ///   сооб = the сообщение.
-  проц  error_(бцел номСтр, сим* началоСтроки, сим* columnPos, ткст сооб,
-              TypeInfo[] _arguments, base.спис_ва _argptr)
+  проц  ошибка_(бцел номСтр, сим* началоСтроки, сим* columnPos, ткст сооб,
+              ИнфОТипе[] _arguments, base.спис_ва _argptr)
   {
     номСтр = this.номерСтрокиОшиб(номСтр);
     auto errorPath = this.путиКФайлам.устПуть;

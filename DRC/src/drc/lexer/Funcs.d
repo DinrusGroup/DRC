@@ -134,9 +134,9 @@ in { assert(ref_p && ref_p < конец); }
 body
 {
   auto p = ref_p;
-  if (начсим_ли(*p) || юАльфа_ли(p, конец)) // IdStart
+  if (начсим_ли(*p) || юАльфа_ли(p, конец)) // НачалоИд
   {
-    do // IdChar*
+    do // СимвИд*
       p++;
     while (p < конец && (идент_ли(*p) || юАльфа_ли(p, конец)))
     auto identifier = ref_p[0 .. p-ref_p];

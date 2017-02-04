@@ -866,7 +866,7 @@ override
   /// Параметры:
   ///   в = the binary выражение в be checked.
   ///   ид = the имя of the overload function.
-  Выражение findOverload(УнарноеВыражение в, Идентификатор* ид)
+  Выражение найдиПерегрузку(УнарноеВыражение в, Идентификатор* ид)
   {
     // TODO:
     // check в for struct or class
@@ -881,7 +881,7 @@ override
   ///   в = the binary выражение в be checked.
   ///   ид = the имя of the overload function.
   ///   id_r = the имя of the reverse overload function.
-  Выражение findOverload(БинарноеВыражение в, Идентификатор* ид, Идентификатор* id_r)
+  Выражение найдиПерегрузку(БинарноеВыражение в, Идентификатор* ид, Идентификатор* id_r)
   {
     // TODO:
     return null;
@@ -920,28 +920,28 @@ override
 
   В посети(ВыражениеИли в)
   {
-    if (auto o = findOverload(в, Идент.opOr, Идент.opOr_r))
+    if (auto o = найдиПерегрузку(в, Идент.opOr, Идент.opOr_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеИИли в)
   {
-    if (auto o = findOverload(в, Идент.opXor, Идент.opXor_r))
+    if (auto o = найдиПерегрузку(в, Идент.opXor, Идент.opXor_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеИ в)
   {
-    if (auto o = findOverload(в, Идент.opAnd, Идент.opAnd_r))
+    if (auto o = найдиПерегрузку(в, Идент.opAnd, Идент.opAnd_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеРавно в)
   {
-    if (auto o = findOverload(в, Идент.opEquals, null))
+    if (auto o = найдиПерегрузку(в, Идент.opEquals, null))
       return o;
     return в;
   }
@@ -953,84 +953,84 @@ override
 
   В посети(ВыражениеОтнош в)
   {
-    if (auto o = findOverload(в, Идент.opCmp, null))
+    if (auto o = найдиПерегрузку(в, Идент.opCmp, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеВхо в)
   {
-    if (auto o = findOverload(в, Идент.opIn, Идент.opIn_r))
+    if (auto o = найдиПерегрузку(в, Идент.opIn, Идент.opIn_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеЛСдвиг в)
   {
-    if (auto o = findOverload(в, Идент.opShl, Идент.opShl_r))
+    if (auto o = найдиПерегрузку(в, Идент.opShl, Идент.opShl_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеПСдвиг в)
   {
-    if (auto o = findOverload(в, Идент.opShr, Идент.opShr_r))
+    if (auto o = найдиПерегрузку(в, Идент.opShr, Идент.opShr_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеБПСдвиг в)
   {
-    if (auto o = findOverload(в, Идент.opUShr, Идент.opUShr_r))
+    if (auto o = найдиПерегрузку(в, Идент.opUShr, Идент.opUShr_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеПлюс в)
   {
-    if (auto o = findOverload(в, Идент.opAdd, Идент.opAdd_r))
+    if (auto o = найдиПерегрузку(в, Идент.opAdd, Идент.opAdd_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеМинус в)
   {
-    if (auto o = findOverload(в, Идент.opSub, Идент.opSub_r))
+    if (auto o = найдиПерегрузку(в, Идент.opSub, Идент.opSub_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеСоедини в)
   {
-    if (auto o = findOverload(в, Идент.opCat, Идент.opCat_r))
+    if (auto o = найдиПерегрузку(в, Идент.opCat, Идент.opCat_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеУмножь в)
   {
-    if (auto o = findOverload(в, Идент.opMul, Идент.opMul_r))
+    if (auto o = найдиПерегрузку(в, Идент.opMul, Идент.opMul_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеДели в)
   {
-    if (auto o = findOverload(в, Идент.opDiv, Идент.opDiv_r))
+    if (auto o = найдиПерегрузку(в, Идент.opDiv, Идент.opDiv_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеМод в)
   {
-    if (auto o = findOverload(в, Идент.opMod, Идент.opMod_r))
+    if (auto o = найдиПерегрузку(в, Идент.opMod, Идент.opMod_r))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвой в)
   {
-    if (auto o = findOverload(в, Идент.opAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opAssign, null))
       return o;
     // TODO: also check for opIndexAssign and opSliceAssign.
     return в;
@@ -1038,56 +1038,56 @@ override
 
   В посети(ВыражениеПрисвойЛСдвиг в)
   {
-    if (auto o = findOverload(в, Идент.opShlAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opShlAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойПСдвиг в)
   {
-    if (auto o = findOverload(в, Идент.opShrAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opShrAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойБПСдвиг в)
   {
-    if (auto o = findOverload(в, Идент.opUShrAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opUShrAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойИли в)
   {
-    if (auto o = findOverload(в, Идент.opOrAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opOrAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойИ в)
   {
-    if (auto o = findOverload(в, Идент.opAndAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opAndAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойПлюс в)
   {
-    if (auto o = findOverload(в, Идент.opAddAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opAddAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойМинус в)
   {
-    if (auto o = findOverload(в, Идент.opSubAssign, null))
+    if (auto o = найдиПерегрузку(в, Идент.opSubAssign, null))
       return o;
     return в;
   }
 
   В посети(ВыражениеПрисвойДел в)
   {
-    auto o = findOverload(в, Идент.opDivAssign, null);
+    auto o = найдиПерегрузку(в, Идент.opDivAssign, null);
     if (o)
       return o;
     return в;
@@ -1095,7 +1095,7 @@ override
 
   В посети(ВыражениеПрисвойУмн в)
   {
-    auto o = findOverload(в, Идент.opMulAssign, null);
+    auto o = найдиПерегрузку(в, Идент.opMulAssign, null);
     if (o)
       return o;
     return в;
@@ -1103,7 +1103,7 @@ override
 
   В посети(ВыражениеПрисвойМод в)
   {
-    auto o = findOverload(в, Идент.opModAssign, null);
+    auto o = найдиПерегрузку(в, Идент.opModAssign, null);
     if (o)
       return o;
     return в;
@@ -1111,7 +1111,7 @@ override
 
   В посети(ВыражениеПрисвойИИли в)
   {
-    auto o = findOverload(в, Идент.opXorAssign, null);
+    auto o = найдиПерегрузку(в, Идент.opXorAssign, null);
     if (o)
       return o;
     return в;
@@ -1119,7 +1119,7 @@ override
 
   В посети(ВыражениеПрисвойСоед в)
   {
-    auto o = findOverload(в, Идент.opCatAssign, null);
+    auto o = найдиПерегрузку(в, Идент.opCatAssign, null);
     if (o)
       return o;
     return в;
@@ -1160,7 +1160,7 @@ override
   {
     if (в.естьТип)
       return в;
-    if (auto o = findOverload(в, Идент.opPostInc))
+    if (auto o = найдиПерегрузку(в, Идент.opPostInc))
       return o;
     в.в = посетиВ(в.в);
     в.тип = в.в.тип;
@@ -1172,7 +1172,7 @@ override
   {
     if (в.естьТип)
       return в;
-    if (auto o = findOverload(в, Идент.opPostDec))
+    if (auto o = найдиПерегрузку(в, Идент.opPostDec))
       return o;
     в.в = посетиВ(в.в);
     в.тип = в.в.тип;
@@ -1185,7 +1185,7 @@ override
     if (в.естьТип)
       return в;
   version(D2)
-    if (auto o = findOverload(в, Идент.opStar))
+    if (auto o = найдиПерегрузку(в, Идент.opStar))
       return o;
     в.в = посетиВ(в.в);
     в.тип = в.в.тип.следщ;
@@ -1206,7 +1206,7 @@ override
   {
     if (в.естьТип)
       return в;
-    if (auto o = findOverload(в, в.отриц_ли ? Идент.opNeg : Идент.opPos))
+    if (auto o = найдиПерегрузку(в, в.отриц_ли ? Идент.opNeg : Идент.opPos))
       return o;
     в.в = посетиВ(в.в);
     в.тип = в.в.тип;
@@ -1228,7 +1228,7 @@ override
   {
     if (в.естьТип)
       return в;
-    if (auto o = findOverload(в, Идент.opCom))
+    if (auto o = найдиПерегрузку(в, Идент.opCom))
       return o;
     в.в = посетиВ(в.в);
     в.тип = в.в.тип;
@@ -1242,7 +1242,7 @@ override
 
   В посети(ВыражениеВызов в)
   {
-    if (auto o = findOverload(в, Идент.opCall))
+    if (auto o = найдиПерегрузку(в, Идент.opCall))
       return o;
     return в;
   }
@@ -1264,21 +1264,21 @@ override
 
   В посети(ВыражениеКаст в)
   {
-    if (auto o = findOverload(в, Идент.opCast))
+    if (auto o = найдиПерегрузку(в, Идент.opCast))
       return o;
     return в;
   }
 
   В посети(ВыражениеИндекс в)
   {
-    if (auto o = findOverload(в, Идент.opIndex))
+    if (auto o = найдиПерегрузку(в, Идент.opIndex))
       return o;
     return в;
   }
 
   В посети(ВыражениеСрез в)
   {
-    if (auto o = findOverload(в, Идент.opSlice))
+    if (auto o = найдиПерегрузку(в, Идент.opSlice))
       return o;
     return в;
   }

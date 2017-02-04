@@ -7,22 +7,22 @@ import drc.lexer.TokensEnum,
        drc.lexer.IdentsEnum;
 import common;
 
-/// Represents an identifier as defined in the D specs.
+/// Представляет идентификатор по определению в спецификации D.
 ///
 /// $(PRE
-///  Идентификатор := IdStart IdChar*
-///  IdStart := "_" | Letter
-///  IdChar := IdStart | "0"-"9"
-///  Letter := UniAlpha
+///  Идентификатор := НачалоИд СимвИд*
+///  НачалоИд := "_" | Буква
+///  СимвИд := НачалоИд | "0"-"9"
+///  Буква := ЮАльфа
 /// )
 /// See_Also:
-///  Unicode alphas are defined in Unicode 5.0.0.
+///  Алфавитные символы Unicode определены в Unicode 5.0.0.
 align(1)
 struct Идентификатор
 {
-  ткст ткт; /// The UTF-8 ткст of the identifier.
-  TOK вид;   /// The сема вид.
-  ВИД видИд; /// Only for predefined identifiers.
+  ткст ткт; /// Идентификатор в ткст UTF-8.
+  TOK вид;   /// Вид семы.
+  ВИД видИд; /// Только для предопределённых идентификаторов.
 
   static Идентификатор* opCall(ткст ткт, TOK вид)
   {

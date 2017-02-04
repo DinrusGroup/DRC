@@ -130,7 +130,7 @@ static:
   ///
   /// Concatenates prefix with anonCount.
   /// The identifier is not inserted into the таблица.
-  Идентификатор* genAnonymousID(ткст prefix)
+  Идентификатор* генБезымянныйИД(ткст prefix)
   {
     ++anonCount;
     auto x = anonCount;
@@ -145,31 +145,31 @@ static:
   /// Generates an identifier for an anonymous enum.
   Идентификатор* генИДАнонПеречня()
   {
-    return genAnonymousID("__anonenum");
+    return генБезымянныйИД("__anonenum");
   }
 
   /// Generates an identifier for an anonymous class.
   Идентификатор* genAnonClassID()
   {
-    return genAnonymousID("__anonclass");
+    return генБезымянныйИД("__anonclass");
   }
 
   /// Generates an identifier for an anonymous struct.
   Идентификатор* genAnonStructID()
   {
-    return genAnonymousID("__anonstruct");
+    return генБезымянныйИД("__anonstruct");
   }
 
   /// Generates an identifier for an anonymous union.
   Идентификатор* genAnonUnionID()
   {
-    return genAnonymousID("__anonunion");
+    return генБезымянныйИД("__anonunion");
   }
 
   /// Generates an identifier for a module which has got no valid имя.
   Идентификатор* генИдМодуля()
   {
-    return genAnonymousID("__module");
+    return генБезымянныйИД("__module");
   }
 }
 
