@@ -1,0 +1,57 @@
+DCC =$(DINRUS)\dmd
+CC = $(DINRUS)\dmc
+LIB =$(DINRUS)\lib
+OBJS = kong/internal/mine.obj kong/internal/image_interface.obj kong/process.obj kong/win32/DSO.obj kong/PE/PE.obj kong/hooking.obj kong/internal/memory_region.obj kong/internal/stdlib.obj kong/internal/dynamic_object.obj kong/PE/hook_api.obj kong/ELF/ELF.obj kong/internal/hook_interface.obj kong/win32/DSO.obj kong/win32/memory_layout.obj kong/win32/memory_protect.obj kong/IA32/X86IL.obj kong/IA32/hook_code.obj kong/internal/image_reflect.obj kong/PE/dummy.obj kong/ELF/dummy.obj 
+
+RELEASE_LIB = kong.lib
+DEBUG_LIB   = kong_debug.lib
+THIS = makefile.win32.dmd
+
+all: release
+
+obj:
+	$(DCC) $(FLAGS) -c kong/process.d -ofkong/process.obj
+	$(DCC) $(FLAGS) -c kong/hooking.d -ofkong/hooking.obj
+	$(DCC) $(FLAGS) -c kong/internal/image_reflect.d -ofkong/internal/image_reflect.obj
+	$(DCC) $(FLAGS) -c kong/internal/stdlib.d -ofkong/internal/stdlib.obj
+	$(DCC) $(FLAGS) -c kong/internal/memory_region.d -ofkong/internal/memory_region.obj
+	$(DCC) $(FLAGS) -c kong/internal/hook_interface.d -ofkong/internal/hook_interface.obj
+	$(DCC) $(FLAGS) -c kong/internal/dynamic_object.d -ofkong/internal/dynamic_object.obj
+	$(DCC) $(FLAGS) -c kong/internal/image_interface.d -ofkong/internal/image_interface.obj
+	$(DCC) $(FLAGS) -c kong/PE/hook_api.d -ofkong/PE/hook_api.obj
+	$(DCC) $(FLAGS) -c kong/ELF/ELF.d -ofkong/ELF/ELF.obj
+	$(DCC) $(FLAGS) -c kong/ELF/types.d -ofkong/ELF/types.obj
+	$(DCC) $(FLAGS) -c kong/PE/PE.d -ofkong/PE/PE.obj
+		$(DCC) $(FLAGS) -c kong/PE/types.d -ofkong/PE/types.obj
+	$(DCC) $(FLAGS) -c kong/win32/memory_layout.d  -ofkong/win32/memory_layout.obj
+	$(DCC) $(FLAGS) -c kong/win32/memory_protect.d -ofkong/win32/memory_protect.obj
+	$(DCC) $(FLAGS) -c kong/win32/DSO.d -ofkong/win32/DSO.obj
+	$(DCC) $(FLAGS) -c kong/IA32/hook_code.d -ofkong/IA32/hook_code.obj
+	$(DCC) $(FLAGS) -c kong/IA32/X86IL.d -ofkong/IA32/X86IL.obj
+	$(DCC) $(FLAGS) -c kong/internal/mine.d -ofkong/internal/mine.obj
+	$(DCC) $(FLAGS) -c kong/ELF/dummy.d -ofkong/ELF/dummy.obj
+	$(DCC) $(FLAGS) -c kong/PE/dummy.d -ofkong/PE/dummy.obj
+
+unit:
+    $(DINRUS)\dmmake FLAGS=-g -f $(THIS) obj
+    $(DCC) -g kong/unit_test.d $(OBJS)
+	
+release:
+    $(DINRUS)\dmmake FLAGS=-release -f $(THIS) obj 
+	$(LIB) -c -n $(RELEASE_LIB) $(OBJS)
+    dir $(RELEASE_LIB)
+     
+clean:
+    del $(OBJS)
+    del $(RELEASE_LIB)
+
+$(RELEASE_LIB): release
+$(DEBUG_LIB): debug
+
+example: $(RELEASE_LIB)
+	$(DCC) -release kong/examples/import_dephook.d $(RELEASE_LIB) -ofimport_dephook.exe
+	$(DCC) -release kong/examples/import_dump.d $(RELEASE_LIB) -ofimport_dump.exe
+	$(DCC) -release kong/examples/elf_dump.d $(RELEASE_LIB) -ofelf_dump.exe
+
+clean:
+	rm -f elf_dump import_dump import_dephook unit_test $(RELEASE_LIB) $(DEBUG_LIB)
