@@ -55,6 +55,7 @@ Expression *interpret_values(InterState *istate, Expression *earg, FuncDeclarati
 ArrayLiteralExp *createBlockDuplicatedArrayLiteral(Type *type, Expression *elem, size_t dim);
 Expression * resolveReferences(Expression *e, Expression *thisval, bool *isReference = NULL);
 Expression *getVarExp(Loc loc, InterState *istate, Declaration *d);
+VarDeclaration *findParentVar(Expression *e, Expression *thisval);
 
 /*************************************
  * Attempt to interpret a function given the arguments.
@@ -220,9 +221,11 @@ Expression *FuncDeclaration::interpret(InterState *istate, Expressions *argument
         }
     }
     // Don't restore the value of 'this' upon function return
-    if (needThis() && thisarg->op == TOKvar && istate)
+    if (needThis() && istate)
     {
-        VarDeclaration *thisvar = ((VarExp *)(thisarg))->var->isVarDeclaration();
+        VarDeclaration *thisvar = findParentVar(thisarg, istate->localThis);
+        if (!thisvar) // it's a reference. Find which variable it refers to.
+            thisvar = findParentVar(thisarg->interpret(istate), istate->localThis);
         for (size_t i = 0; i < istate->vars.dim; i++)
         {   VarDeclaration *v = (VarDeclaration *)istate->vars.data[i];
             if (v == thisvar)
@@ -564,13 +567,13 @@ Expression *ReturnStatement::interpret(InterState *istate)
     }
 #endif
 
-#if LOG
     Expression *e = exp->interpret(istate);
-    printf("e = %p\n", e);
+    if (e == EXP_CANT_INTERPRET)
+        return e;
+    // Convert lvalues into rvalues (See Bugzilla 4825 for rationale)
+    if (e->op == TOKvar)
+        e = e->interpret(istate);
     return e;
-#else
-    return exp->interpret(istate);
-#endif
 }
 
 Expression *BreakStatement::interpret(InterState *istate)
@@ -738,6 +741,10 @@ Expression *ForStatement::interpret(InterState *istate)
 
 Expression *ForeachStatement::interpret(InterState *istate)
 {
+#if 1
+    assert(0);                  // rewritten to ForStatement
+    return NULL;
+#else
 #if LOG
     printf("ForeachStatement::interpret()\n");
 #endif
@@ -820,11 +827,16 @@ Expression *ForeachStatement::interpret(InterState *istate)
     if (key)
         key->value = keysave;
     return e;
+#endif
 }
 
 #if DMDV2
 Expression *ForeachRangeStatement::interpret(InterState *istate)
 {
+#if 1
+    assert(0);                  // rewritten to ForStatement
+    return NULL;
+#else
 #if LOG
     printf("ForeachRangeStatement::interpret()\n");
 #endif
@@ -905,6 +917,7 @@ Expression *ForeachRangeStatement::interpret(InterState *istate)
     }
     key->value = keysave;
     return e;
+#endif
 }
 #endif
 
@@ -1320,6 +1333,11 @@ Expression *DeclarationExp::interpret(InterState *istate)
                 e = ie->exp->interpret(istate);
             else if (v->init->isVoidInitializer())
                 e = NULL;
+            else
+            {
+                error("Declaration %s is not yet implemented in CTFE", toChars());
+                e = EXP_CANT_INTERPRET;
+            }
         }
 #if DMDV2
         else if (s == v && (v->isConst() || v->isImmutable()) && v->init)
@@ -1332,13 +1350,19 @@ Expression *DeclarationExp::interpret(InterState *istate)
             else if (!e->type)
                 e->type = v->type;
         }
+        else if (s->isTupleDeclaration() && !v->init)
+            e = NULL;
+        else
+        {
+            error("Declaration %s is not yet implemented in CTFE", toChars());
+            e = EXP_CANT_INTERPRET;
+        }
     }
     else if (declaration->isAttribDeclaration() ||
              declaration->isTemplateMixin() ||
              declaration->isTupleDeclaration())
     {   // These can be made to work, too lazy now
-    error("Declaration %s is not yet implemented in CTFE", toChars());
-
+        error("Declaration %s is not yet implemented in CTFE", toChars());
         e = EXP_CANT_INTERPRET;
     }
     else
@@ -2695,21 +2719,36 @@ Expression *CallExp::interpret(InterState *istate)
         Expression * pe = ((PtrExp*)ecall)->e1;
         if (pe->op == TOKvar) {
             VarDeclaration *vd = ((VarExp *)((PtrExp*)ecall)->e1)->var->isVarDeclaration();
-            if (vd && vd->value && vd->value->op==TOKsymoff)
+            if (vd && vd->value && vd->value->op == TOKsymoff)
                 fd = ((SymOffExp *)vd->value)->var->isFuncDeclaration();
-            else {
-                ecall = vd->value->interpret(istate);
-                if (ecall->op==TOKsymoff)
-                        fd = ((SymOffExp *)ecall)->var->isFuncDeclaration();
-                }
+            else
+            {
+                ecall = getVarExp(loc, istate, vd);
+                if (ecall == EXP_CANT_INTERPRET)
+                    return ecall;
+
+                if (ecall->op == TOKsymoff)
+                    fd = ((SymOffExp *)ecall)->var->isFuncDeclaration();
+            }
         }
         else
             ecall = ((PtrExp*)ecall)->e1->interpret(istate);
+
     }
+    if (ecall == EXP_CANT_INTERPRET)
+        return ecall;
+
     if (ecall->op == TOKindex)
-        ecall = e1->interpret(istate);
+    {   ecall = e1->interpret(istate);
+        if (ecall == EXP_CANT_INTERPRET)
+            return ecall;
+    }
+
     if (ecall->op == TOKdotvar && !((DotVarExp*)ecall)->var->isFuncDeclaration())
-        ecall = e1->interpret(istate);
+    {   ecall = e1->interpret(istate);
+        if (ecall == EXP_CANT_INTERPRET)
+            return ecall;
+    }
 
     if (ecall->op == TOKdotvar)
     {   // Calling a member function
@@ -3061,7 +3100,7 @@ Expression *AssertExp::interpret(InterState *istate)
     {   // Special case: deal with compiler-inserted assert(&this, "null this")
         AddrExp *ade = (AddrExp *)this->e1;
         if (ade->e1->op == TOKthis && istate->localThis)
-            if (ade->e1->op == TOKdotvar
+            if (istate->localThis->op == TOKdotvar
                 && ((DotVarExp *)(istate->localThis))->e1->op == TOKthis)
                 return getVarExp(loc, istate, ((DotVarExp*)(istate->localThis))->var);
             else
@@ -3070,7 +3109,13 @@ Expression *AssertExp::interpret(InterState *istate)
     if (this->e1->op == TOKthis)
     {
         if (istate->localThis)
-            return istate->localThis->interpret(istate);
+        {
+            if (istate->localThis->op == TOKdotvar
+                && ((DotVarExp *)(istate->localThis))->e1->op == TOKthis)
+                return getVarExp(loc, istate, ((DotVarExp*)(istate->localThis))->var);
+            else
+                return istate->localThis->interpret(istate);
+        }
     }
     e1 = this->e1->interpret(istate);
     if (e1 == EXP_CANT_INTERPRET)

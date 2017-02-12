@@ -80,14 +80,14 @@ void Module::genmoduleinfo()
         dtxoff(&dt, moduleinfo->toVtblSymbol(), 0, TYnptr); // vtbl for ModuleInfo
     else
     {   //printf("moduleinfo is null\n");
-        dtdword(&dt, 0);                // BUG: should be an assert()
+        dtsize_t(&dt, 0);                // BUG: should be an assert()
     }
-    dtdword(&dt, 0);                    // monitor
+    dtsize_t(&dt, 0);                    // monitor
 
     // name[]
     const char *name = toPrettyChars();
     size_t namelen = strlen(name);
-    dtdword(&dt, namelen);
+    dtsize_t(&dt, namelen);
     dtabytes(&dt, TYnptr, 0, namelen + 1, name);
 
     ClassDeclarations aclasses;
@@ -104,41 +104,41 @@ void Module::genmoduleinfo()
     int aimports_dim = aimports.dim;
     for (int i = 0; i < aimports.dim; i++)
     {   Module *m = (Module *)aimports.data[i];
-        if (!m->needModuleInfo())
+        if (!m->needmoduleinfo)
             aimports_dim--;
     }
-    dtdword(&dt, aimports_dim);
+    dtsize_t(&dt, aimports_dim);
     if (aimports_dim)
         dtxoff(&dt, csym, sizeof_ModuleInfo, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     // localClasses[]
-    dtdword(&dt, aclasses.dim);
+    dtsize_t(&dt, aclasses.dim);
     if (aclasses.dim)
         dtxoff(&dt, csym, sizeof_ModuleInfo + aimports_dim * PTRSIZE, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     if (needmoduleinfo)
-        dtdword(&dt, 8|0);              // flags (4 means MIstandalone)
+        dtsize_t(&dt, 8|0);              // flags (4 means MIstandalone)
     else
-        dtdword(&dt, 8|4);              // flags (4 means MIstandalone)
+        dtsize_t(&dt, 8|4);              // flags (4 means MIstandalone)
 
     if (sctor)
         dtxoff(&dt, sctor, 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     if (sdtor)
         dtxoff(&dt, sdtor, 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     if (stest)
         dtxoff(&dt, stest, 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
 #if DMDV2
     FuncDeclaration *sgetmembers = findGetMembers();
@@ -146,26 +146,26 @@ void Module::genmoduleinfo()
         dtxoff(&dt, sgetmembers->toSymbol(), 0, TYnptr);
     else
 #endif
-        dtdword(&dt, 0);                        // xgetMembers
+        dtsize_t(&dt, 0);                        // xgetMembers
 
     if (sictor)
         dtxoff(&dt, sictor, 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
 #if DMDV2
     // void*[4] reserved;
-    dtdword(&dt, 0);
-    dtdword(&dt, 0);
-    dtdword(&dt, 0);
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
+    dtsize_t(&dt, 0);
+    dtsize_t(&dt, 0);
+    dtsize_t(&dt, 0);
 #endif
     //////////////////////////////////////////////
 
     for (int i = 0; i < aimports.dim; i++)
     {   Module *m = (Module *)aimports.data[i];
 
-        if (m->needModuleInfo())
+        if (m->needmoduleinfo)
         {   Symbol *s = m->toSymbol();
 
             /* Weak references don't pull objects in from the library,
@@ -351,11 +351,15 @@ void ClassDeclaration::toObjFile(int multiobj)
        }
      */
     dt_t *dt = NULL;
-    offset = CLASSINFO_SIZE;                    // must be ClassInfo.size
+    unsigned classinfo_size = global.params.isX86_64 ? CLASSINFO_SIZE_64 : CLASSINFO_SIZE;    // must be ClassInfo.size
+    offset = classinfo_size;
     if (classinfo)
     {
-        if (classinfo->structsize != CLASSINFO_SIZE)
+        if (classinfo->structsize != classinfo_size)
         {
+#ifdef DEBUG
+            printf("CLASSINFO_SIZE = x%x, classinfo->structsize = x%x\n", offset, classinfo->structsize);
+#endif
             error("mismatch between dmd and object.d or object.di found. Check installation and import paths with -v compiler switch.");
             fatal();
         }
@@ -364,12 +368,12 @@ void ClassDeclaration::toObjFile(int multiobj)
     if (classinfo)
         dtxoff(&dt, classinfo->toVtblSymbol(), 0, TYnptr); // vtbl for ClassInfo
     else
-        dtdword(&dt, 0);                // BUG: should be an assert()
-    dtdword(&dt, 0);                    // monitor
+        dtsize_t(&dt, 0);                // BUG: should be an assert()
+    dtsize_t(&dt, 0);                    // monitor
 
     // initializer[]
     assert(structsize >= 8);
-    dtdword(&dt, structsize);           // size
+    dtsize_t(&dt, structsize);           // size
     dtxoff(&dt, sinit, 0, TYnptr);      // initializer
 
     // name[]
@@ -379,37 +383,37 @@ void ClassDeclaration::toObjFile(int multiobj)
     {   name = toPrettyChars();
         namelen = strlen(name);
     }
-    dtdword(&dt, namelen);
+    dtsize_t(&dt, namelen);
     dtabytes(&dt, TYnptr, 0, namelen + 1, name);
 
     // vtbl[]
-    dtdword(&dt, vtbl.dim);
+    dtsize_t(&dt, vtbl.dim);
     dtxoff(&dt, vtblsym, 0, TYnptr);
 
     // interfaces[]
-    dtdword(&dt, vtblInterfaces->dim);
+    dtsize_t(&dt, vtblInterfaces->dim);
     if (vtblInterfaces->dim)
         dtxoff(&dt, csym, offset, TYnptr);      // (*)
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     // base
     if (baseClass)
         dtxoff(&dt, baseClass->toSymbol(), 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     // destructor
     if (dtor)
         dtxoff(&dt, dtor->toSymbol(), 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     // invariant
     if (inv)
         dtxoff(&dt, inv->toSymbol(), 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     // flags
     int flags = 4 | isCOMclass();
@@ -434,35 +438,35 @@ void ClassDeclaration::toObjFile(int multiobj)
     }
     flags |= 2;                 // no pointers
   L2:
-    dtdword(&dt, flags);
+    dtsize_t(&dt, flags);
 
 
     // deallocator
     if (aggDelete)
         dtxoff(&dt, aggDelete->toSymbol(), 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
     // offTi[]
-    dtdword(&dt, 0);
-    dtdword(&dt, 0);            // null for now, fix later
+    dtsize_t(&dt, 0);
+    dtsize_t(&dt, 0);            // null for now, fix later
 
     // defaultConstructor
     if (defaultCtor)
         dtxoff(&dt, defaultCtor->toSymbol(), 0, TYnptr);
     else
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
 
 #if DMDV2
     FuncDeclaration *sgetmembers = findGetMembers();
     if (sgetmembers)
         dtxoff(&dt, sgetmembers->toSymbol(), 0, TYnptr);
     else
-        dtdword(&dt, 0);        // module getMembers() function
+        dtsize_t(&dt, 0);        // module getMembers() function
 #endif
 
     dtxoff(&dt, type->vtinfo->toSymbol(), 0, TYnptr);   // typeinfo
-    //dtdword(&dt, 0);
+    //dtsize_t(&dt, 0);
 
     //////////////////////////////////////////////
 
@@ -488,10 +492,10 @@ void ClassDeclaration::toObjFile(int multiobj)
         dtxoff(&dt, id->toSymbol(), 0, TYnptr);         // ClassInfo
 
         // vtbl[]
-        dtdword(&dt, id->vtbl.dim);
+        dtsize_t(&dt, id->vtbl.dim);
         dtxoff(&dt, csym, offset, TYnptr);
 
-        dtdword(&dt, b->offset);                        // this offset
+        dtsize_t(&dt, b->offset);                        // this offset
 
         offset += id->vtbl.dim * PTRSIZE;
     }
@@ -502,24 +506,21 @@ void ClassDeclaration::toObjFile(int multiobj)
     for (i = 0; i < vtblInterfaces->dim; i++)
     {   BaseClass *b = (BaseClass *)vtblInterfaces->data[i];
         ClassDeclaration *id = b->base;
-        int j;
 
         //printf("    interface[%d] is '%s'\n", i, id->toChars());
-        j = 0;
+        int j = 0;
         if (id->vtblOffset())
         {
             // First entry is ClassInfo reference
             //dtxoff(&dt, id->toSymbol(), 0, TYnptr);
 
             // First entry is struct Interface reference
-            dtxoff(&dt, csym, CLASSINFO_SIZE + i * (4 * PTRSIZE), TYnptr);
+            dtxoff(&dt, csym, classinfo_size + i * (4 * PTRSIZE), TYnptr);
             j = 1;
         }
         assert(id->vtbl.dim == b->vtbl.dim);
         for (; j < id->vtbl.dim; j++)
         {
-            FuncDeclaration *fd;
-
             assert(j < b->vtbl.dim);
 #if 0
             Object *o = (Object *)b->vtbl.data[j];
@@ -531,11 +532,11 @@ void ClassDeclaration::toObjFile(int multiobj)
                 printf("s->kind() = '%s'\n", s->kind());
             }
 #endif
-            fd = (FuncDeclaration *)b->vtbl.data[j];
+            FuncDeclaration *fd = (FuncDeclaration *)b->vtbl.data[j];
             if (fd)
                 dtxoff(&dt, fd->toThunkSymbol(b->offset), 0, TYnptr);
             else
-                dtdword(&dt, 0);
+                dtsize_t(&dt, 0);
         }
     }
 
@@ -564,7 +565,7 @@ void ClassDeclaration::toObjFile(int multiobj)
                     //dtxoff(&dt, id->toSymbol(), 0, TYnptr);
 
                     // First entry is struct Interface reference
-                    dtxoff(&dt, cd->toSymbol(), CLASSINFO_SIZE + k * (4 * PTRSIZE), TYnptr);
+                    dtxoff(&dt, cd->toSymbol(), classinfo_size + k * (4 * PTRSIZE), TYnptr);
                     j = 1;
                 }
 
@@ -577,7 +578,7 @@ void ClassDeclaration::toObjFile(int multiobj)
                     if (fd)
                         dtxoff(&dt, fd->toThunkSymbol(bs->offset), 0, TYnptr);
                     else
-                        dtdword(&dt, 0);
+                        dtsize_t(&dt, 0);
                 }
             }
         }
@@ -609,7 +610,7 @@ void ClassDeclaration::toObjFile(int multiobj)
                         //dtxoff(&dt, id->toSymbol(), 0, TYnptr);
 
                         // First entry is struct Interface reference
-                        dtxoff(&dt, cd->toSymbol(), CLASSINFO_SIZE + k * (4 * PTRSIZE), TYnptr);
+                        dtxoff(&dt, cd->toSymbol(), classinfo_size + k * (4 * PTRSIZE), TYnptr);
                         j = 1;
                     }
 
@@ -622,7 +623,7 @@ void ClassDeclaration::toObjFile(int multiobj)
                         if (fd)
                             dtxoff(&dt, fd->toThunkSymbol(bs->offset), 0, TYnptr);
                         else
-                            dtdword(&dt, 0);
+                            dtsize_t(&dt, 0);
                     }
                 }
             }
@@ -690,7 +691,7 @@ void ClassDeclaration::toObjFile(int multiobj)
             dtxoff(&dt, s, 0, TYnptr);
         }
         else
-            dtdword(&dt, 0);
+            dtsize_t(&dt, 0);
     }
     vtblsym->Sdt = dt;
     vtblsym->Sclass = scclass;
@@ -717,7 +718,7 @@ unsigned ClassDeclaration::baseVtblOffset(BaseClass *bc)
     int i;
 
     //printf("ClassDeclaration::baseVtblOffset('%s', bc = %p)\n", toChars(), bc);
-    csymoffset = CLASSINFO_SIZE;
+    csymoffset = global.params.isX86_64 ? CLASSINFO_SIZE_64 : CLASSINFO_SIZE;    // must be ClassInfo.size
     csymoffset += vtblInterfaces->dim * (4 * PTRSIZE);
 
     for (i = 0; i < vtblInterfaces->dim; i++)
@@ -781,7 +782,6 @@ unsigned ClassDeclaration::baseVtblOffset(BaseClass *bc)
 
 void InterfaceDeclaration::toObjFile(int multiobj)
 {   unsigned i;
-    unsigned offset;
     Symbol *sinit;
     enum_SC scclass;
 
@@ -799,10 +799,7 @@ void InterfaceDeclaration::toObjFile(int multiobj)
 
     // Put out the members
     for (i = 0; i < members->dim; i++)
-    {
-        Dsymbol *member;
-
-        member = (Dsymbol *)members->data[i];
+    {   Dsymbol *member = (Dsymbol *)members->data[i];
         if (!member->isFuncDeclaration())
             member->toObjFile(0);
     }
@@ -848,67 +845,70 @@ void InterfaceDeclaration::toObjFile(int multiobj)
     if (classinfo)
         dtxoff(&dt, classinfo->toVtblSymbol(), 0, TYnptr); // vtbl for ClassInfo
     else
-        dtdword(&dt, 0);                // BUG: should be an assert()
-    dtdword(&dt, 0);                    // monitor
+        dtsize_t(&dt, 0);                // BUG: should be an assert()
+    dtsize_t(&dt, 0);                    // monitor
 
     // initializer[]
-    dtdword(&dt, 0);                    // size
-    dtdword(&dt, 0);                    // initializer
+    dtsize_t(&dt, 0);                    // size
+    dtsize_t(&dt, 0);                    // initializer
 
     // name[]
     const char *name = toPrettyChars();
     size_t namelen = strlen(name);
-    dtdword(&dt, namelen);
+    dtsize_t(&dt, namelen);
     dtabytes(&dt, TYnptr, 0, namelen + 1, name);
 
     // vtbl[]
-    dtdword(&dt, 0);
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
+    dtsize_t(&dt, 0);
 
     // vtblInterfaces->data[]
-    dtdword(&dt, vtblInterfaces->dim);
+    unsigned offset;
+    dtsize_t(&dt, vtblInterfaces->dim);
     if (vtblInterfaces->dim)
     {
+        offset = global.params.isX86_64 ? CLASSINFO_SIZE_64 : CLASSINFO_SIZE;    // must be ClassInfo.size
         if (classinfo)
         {
-            if (classinfo->structsize != CLASSINFO_SIZE)
+            if (classinfo->structsize != offset)
             {
                 error("mismatch between dmd and object.d or object.di found. Check installation and import paths with -v compiler switch.");
                 fatal();
             }
         }
-        offset = CLASSINFO_SIZE;
         dtxoff(&dt, csym, offset, TYnptr);      // (*)
     }
     else
-        dtdword(&dt, 0);
+    {   offset = 0;
+        dtsize_t(&dt, 0);
+    }
 
     // base
     assert(!baseClass);
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
 
     // dtor
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
 
     // invariant
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
 
     // flags
-    dtdword(&dt, 4 | isCOMinterface() | 32);
+    dtsize_t(&dt, 4 | isCOMinterface() | 32);
 
     // deallocator
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
 
     // offTi[]
-    dtdword(&dt, 0);
-    dtdword(&dt, 0);            // null for now, fix later
+    dtsize_t(&dt, 0);
+    dtsize_t(&dt, 0);            // null for now, fix later
 
     // defaultConstructor
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
 
 #if DMDV2
     // xgetMembers
-    dtdword(&dt, 0);
+    dtsize_t(&dt, 0);
 #endif
 
     dtxoff(&dt, type->vtinfo->toSymbol(), 0, TYnptr);   // typeinfo
@@ -927,11 +927,11 @@ void InterfaceDeclaration::toObjFile(int multiobj)
         dtxoff(&dt, id->toSymbol(), 0, TYnptr);
 
         // vtbl[]
-        dtdword(&dt, 0);
-        dtdword(&dt, 0);
+        dtsize_t(&dt, 0);
+        dtsize_t(&dt, 0);
 
         // this offset
-        dtdword(&dt, b->offset);
+        dtsize_t(&dt, b->offset);
     }
 
     csym->Sdt = dt;

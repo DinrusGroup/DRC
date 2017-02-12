@@ -82,6 +82,8 @@ enum STC
 #define STCtrusted      0x400000000LL
 #define STCsystem       0x800000000LL
 #define STCctfe         0x1000000000LL  // can be used in CTFE, even if it is static
+#define STCdisable      0x2000000000LL  // for functions that are not callable
+#define STCresult       0x4000000000LL  // for result variables passed to out contracts
 
 struct Match
 {
@@ -97,6 +99,14 @@ void overloadResolveX(Match *m, FuncDeclaration *f,
 int overloadApply(FuncDeclaration *fstart,
         int (*fp)(void *, FuncDeclaration *),
         void *param);
+
+enum Semantic
+{
+    SemanticStart,      // semantic has not been run
+    SemanticIn,         // semantic() is in progress
+    SemanticDone,       // semantic() has been run
+    Semantic2Done,      // semantic2() has been run
+};
 
 /**************************************************************/
 
@@ -133,7 +143,7 @@ struct Declaration : Dsymbol
     int isConst()        { return storage_class & STCconst; }
     int isImmutable()    { return storage_class & STCimmutable; }
     int isAuto()         { return storage_class & STCauto; }
-    int isScope()        { return storage_class & (STCscope | STCauto); }
+    int isScope()        { return storage_class & STCscope; }
     int isSynchronized() { return storage_class & STCsynchronized; }
     int isParameter()    { return storage_class & STCparameter; }
     int isDeprecated()   { return storage_class & STCdeprecated; }
@@ -235,7 +245,7 @@ struct VarDeclaration : Declaration
 {
     Initializer *init;
     unsigned offset;
-    int noauto;                 // no auto semantics
+    int noscope;                 // no auto semantics
 #if DMDV2
     FuncDeclarations nestedrefs; // referenced by these lexically nested functions
     bool isargptr;              // if parameter that _argptr points to
@@ -265,6 +275,7 @@ struct VarDeclaration : Declaration
     Type *htype;
     Initializer *hinit;
 #endif
+    AggregateDeclaration *isThis();
     int needThis();
     int isImportedSymbol();
     int isDataseg();
@@ -275,7 +286,7 @@ struct VarDeclaration : Declaration
     int canTakeAddressOf();
     int needsAutoDtor();
 #endif
-    Expression *callAutoDtor(Scope *sc);
+    Expression *callScopeDtor(Scope *sc);
     ExpInitializer *getExpInitializer();
     Expression *getConstInitializer();
     void checkCtorConstInit();
@@ -456,6 +467,13 @@ struct TypeInfoSharedDeclaration : TypeInfoDeclaration
 
     void toDt(dt_t **pdt);
 };
+
+struct TypeInfoWildDeclaration : TypeInfoDeclaration
+{
+    TypeInfoWildDeclaration(Type *tinfo);
+
+    void toDt(dt_t **pdt);
+};
 #endif
 
 /**************************************************************/
@@ -516,6 +534,7 @@ struct FuncDeclaration : Declaration
 #if IN_GCC
     VarDeclaration *v_argptr;           // '_argptr' variable
 #endif
+    VarDeclaration *v_argsave;          // save area for args passed in registers for variadic functions
     Dsymbols *parameters;               // Array of VarDeclaration's for parameters
     DsymbolTable *labtab;               // statement label symbol table
     Declaration *overnext;              // next in overload list
@@ -526,6 +545,7 @@ struct FuncDeclaration : Declaration
     ILS inlineStatus;
     int inlineNest;                     // !=0 if nested inline
     int cantInterpret;                  // !=0 if cannot interpret function
+    int isArrayOp;                                              // !=0 if array operation
     int semanticRun;                    // 1 semantic() run
                                         // 2 semantic2() run
                                         // 3 semantic3() started
@@ -598,6 +618,8 @@ struct FuncDeclaration : Declaration
     int isCodeseg();
     int isOverloadable();
     int isPure();
+    int isSafe();
+    int isTrusted();
     virtual int isNested();
     int needThis();
     virtual int isVirtual();
@@ -735,6 +757,17 @@ struct StaticCtorDeclaration : FuncDeclaration
     StaticCtorDeclaration *isStaticCtorDeclaration() { return this; }
 };
 
+#if DMDV2
+struct SharedStaticCtorDeclaration : StaticCtorDeclaration
+{
+    SharedStaticCtorDeclaration(Loc loc, Loc endloc);
+    Dsymbol *syntaxCopy(Dsymbol *);
+    void toCBuffer(OutBuffer *buf, HdrGenState *hgs);
+
+    SharedStaticCtorDeclaration *isSharedStaticCtorDeclaration() { return this; }
+};
+#endif
+
 struct StaticDtorDeclaration : FuncDeclaration
 {   VarDeclaration *vgate;      // 'gate' variable
 
@@ -753,6 +786,17 @@ struct StaticDtorDeclaration : FuncDeclaration
     StaticDtorDeclaration *isStaticDtorDeclaration() { return this; }
 };
 
+#if DMDV2
+struct SharedStaticDtorDeclaration : StaticDtorDeclaration
+{
+    SharedStaticDtorDeclaration(Loc loc, Loc endloc);
+    Dsymbol *syntaxCopy(Dsymbol *);
+    void toCBuffer(OutBuffer *buf, HdrGenState *hgs);
+
+    SharedStaticDtorDeclaration *isSharedStaticDtorDeclaration() { return this; }
+};
+#endif
+
 struct InvariantDeclaration : FuncDeclaration
 {
     InvariantDeclaration(Loc loc, Loc endloc);
@@ -767,7 +811,6 @@ struct InvariantDeclaration : FuncDeclaration
 
     InvariantDeclaration *isInvariantDeclaration() { return this; }
 };
-
 
 struct UnitTestDeclaration : FuncDeclaration
 {

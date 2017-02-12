@@ -55,6 +55,7 @@ int _unary[] =
          OPd_ld, OPld_d,OPc_r,OPc_i,
          OPu32_64,OPlngllng,OP64_32,OPmsw,
          OPd_s64,OPs64_d,OPd_u64,OPu64_d,OPld_u64,
+         OP128_64,OPs64_128,OPu64_128,
 #if TARGET_MAC
          OPsfltdbl,OPdblsflt,
 #endif
@@ -128,6 +129,7 @@ int _ae[] = {OPvar,OPconst,OPrelconst,OPneg,
                 OPd_ld,OPld_d,OPc_r,OPc_i,
                 OPu32_64,OPlngllng,OP64_32,OPmsw,
                 OPd_s64,OPs64_d,OPd_u64,OPu64_d,OPld_u64,
+                OP128_64,OPs64_128,OPu64_128,
 #if TARGET_MAC
                 OPsfltdbl,OPdblsflt,
 #endif
@@ -151,6 +153,7 @@ int _exp[] = {OPvar,OPconst,OPrelconst,OPneg,OPabs,OPsqrt,OPrndtol,OPrint,
                 OPd_ld, OPld_d,OPc_r,OPc_i,
                 OPu32_64,OPlngllng,OP64_32,OPmsw,
                 OPd_s64,OPs64_d,OPd_u64,OPu64_d,OPld_u64,
+                OP128_64,OPs64_128,OPu64_128,
 #if TARGET_MAC
                 OPsfltdbl,OPdblsflt,
 #endif
@@ -167,6 +170,7 @@ int _boolnop[] = {OPuadd,OPbool,OPs16_32,OPu16_32,
                 OPf_d,OPvptrfptr,OPcvptrfptr,OPu8int,OPs8_16,
                 OPd_ld, OPld_d,
                 OPu32_64,OPlngllng,/*OP64_32,OPmsw,*/
+                OPs64_128,OPu64_128,
 #if TARGET_MAC
                 OPsfltdbl,OPdblsflt,
 #endif
@@ -562,6 +566,9 @@ void dotab()
         case OPu32_64:  X("u32_64",     evalu8, cdshtlng);
         case OPs32_64:  X("s32_64",     evalu8, cdshtlng);
         case OP64_32:   X("64_32",      el64_32, cdlngsht);
+        case OPu64_128: X("u64_128",    evalu8, cdshtlng);
+        case OPs64_128: X("s64_128",    evalu8, cdshtlng);
+        case OP128_64:  X("128_64",     el64_32, cdlngsht);
         case OPmsw:     X("msw",        evalu8, cdmsw);
 
         case OPd_s64:   X("d_s64",      evalu8, cdcnvt);
@@ -645,10 +652,10 @@ void fltables()
         static char indatafl[] =        /* is FLxxxx a data type?       */
         { FLdata,FLudata,FLreg,FLpseudo,FLauto,FLpara,FLextern,FLtmp,
           FLcs,FLfltreg,FLallocatmp,FLdatseg,FLndp,FLfardata,FLtlsdata,FLbprel,
-          FLstack };
+          FLstack,FLregsave };
 
         static char instackfl[] =       /* is FLxxxx a stack data type? */
-        { FLauto,FLpara,FLtmp,FLcs,FLfltreg,FLallocatmp,FLndp,FLbprel,FLstack };
+        { FLauto,FLpara,FLtmp,FLcs,FLfltreg,FLallocatmp,FLndp,FLbprel,FLstack,FLregsave };
 
         static char inflinsymtab[] =    /* is FLxxxx in the symbol table? */
         { FLdata,FLudata,FLreg,FLpseudo,FLauto,FLpara,FLextern,FLtmp,FLfunc,
@@ -693,6 +700,7 @@ void fltables()
                 case FLblock:   segfl[i] = CS;  break;
                 case FLblockoff: segfl[i] = CS; break;
                 case FLcs:      segfl[i] = SS;  break;
+                case FLregsave: segfl[i] = SS;  break;
                 case FLcsdata:  segfl[i] = CS;  break;
                 case FLndp:     segfl[i] = SS;  break;
                 case FLswitch:  segfl[i] = -1;  break;
@@ -973,6 +981,40 @@ void dotytab()
         /*printf("tysize[%d] = %d\n",typetab[i].ty,typetab[i].size);*/
     }
     fprintf(f,"signed char tysize[] =\n{ ");
+    for (i = 0; i < arraysize(tysize); i++)
+    {   fprintf(f,"%d,",tysize[i]);
+        if ((i & 7) == 7 && i < arraysize(tysize) - 1)
+            fprintf(f,"\n  ");
+    }
+    fprintf(f,"\n};\n");
+
+    for (i = 0; i < arraysize(tysize); i++)
+        tysize[i] = 0;
+    for (i = 0; i < arraysize(typetab); i++)
+    {   signed char sz = typetab[i].size;
+        switch (typetab[i].ty)
+        {
+            case TYldouble:
+            case TYildouble:
+            case TYcldouble:
+#if TARGET_OSX
+                sz = 16;
+#elif TARGET_LINUX || TARGET_FREEBSD || TARGET_SOLARIS
+                sz = 4;
+#elif TARGET_WINDOS
+                sz = 2;
+#else
+#error "fix this"
+#endif
+                break;
+        }
+        tysize[typetab[i].ty | 0x00] = sz;
+        tysize[typetab[i].ty | 0x40] = sz;
+        tysize[typetab[i].ty | 0x80] = sz;
+        tysize[typetab[i].ty | 0xC0] = sz;
+        /*printf("tyalignsize[%d] = %d\n",typetab[i].ty,typetab[i].size);*/
+    }
+    fprintf(f,"signed char tyalignsize[] =\n{ ");
     for (i = 0; i < arraysize(tysize); i++)
     {   fprintf(f,"%d,",tysize[i]);
         if ((i & 7) == 7 && i < arraysize(tysize) - 1)

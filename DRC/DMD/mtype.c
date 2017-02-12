@@ -4,6 +4,7 @@
 // All Rights Reserved
 // written by Walter Bright
 // http://www.digitalmars.com
+// http://www.dsource.org/projects/dmd/browser/branches/dmd-1.x/src/mtype.c
 // License for redistribution is by either the Artistic License
 // in artistic.txt, or the GNU General Public License in gnu.txt.
 // See the included readme.txt for details.
@@ -47,6 +48,7 @@
 #include "import.h"
 #include "aggregate.h"
 #include "hdrgen.h"
+#include "doc.h"
 
 FuncDeclaration *hasThis(Scope *sc);
 
@@ -224,7 +226,7 @@ void Type::init()
           Tfloat32, Tfloat64, Tfloat80,
           Timaginary32, Timaginary64, Timaginary80,
           Tcomplex32, Tcomplex64, Tcomplex80,
-          Tbit, Tbool,
+          Tbool,
           Tascii, Twchar, Tdchar };
 
     for (i = 0; i < sizeof(basetab) / sizeof(basetab[0]); i++)
@@ -504,7 +506,7 @@ ClassDeclaration *Type::isClassHandle()
     return NULL;
 }
 
-int Type::isauto()
+int Type::isscope()
 {
     return FALSE;
 }
@@ -640,10 +642,13 @@ Expression *Type::getProperty(Loc loc, Identifier *ident)
             s = toDsymbol(NULL);
         if (s)
             s = s->search_correct(ident);
-        if (s)
-            error(loc, "no property '%s' for type '%s', did you mean '%s'?", ident->toChars(), toChars(), s->toChars());
-        else
-            error(loc, "no property '%s' for type '%s'", ident->toChars(), toChars());
+        if (this != Type::terror)
+        {
+            if (s)
+                error(loc, "no property '%s' for type '%s', did you mean '%s'?", ident->toChars(), toChars(), s->toChars());
+            else
+                error(loc, "no property '%s' for type '%s'", ident->toChars(), toChars());
+        }
         e = new ErrorExp();
     }
     return e;
@@ -965,6 +970,7 @@ TypeBasic::TypeBasic(TY ty)
         case Tbit:      d = Token::toChars(TOKbit);
                         c = "bit";
                         flags |= TFLAGSintegral | TFLAGSunsigned;
+assert(0);
                         break;
 
         case Tbool:     d = "bool";
@@ -1080,11 +1086,20 @@ unsigned TypeBasic::alignsize()
 #if TARGET_LINUX || TARGET_OSX || TARGET_FREEBSD || TARGET_SOLARIS
         case Tint64:
         case Tuns64:
+            sz = global.params.isX86_64 ? 8 : 4;
+            break;
+
         case Tfloat64:
         case Timaginary64:
+            sz = global.params.isX86_64 ? 8 : 4;
+            break;
+
         case Tcomplex32:
-        case Tcomplex64:
             sz = 4;
+            break;
+
+        case Tcomplex64:
+            sz = global.params.isX86_64 ? 8 : 4;
             break;
 #endif
 
@@ -1874,7 +1889,7 @@ Type *TypeSArray::semantic(Loc loc, Scope *sc)
             return this;
         }
         dinteger_t d1 = dim->toInteger();
-        dim = dim->castTo(sc, tsize_t);
+        dim = dim->implicitCastTo(sc, tsize_t);
         dim = dim->optimize(WANTvalue);
         dinteger_t d2 = dim->toInteger();
 
@@ -1927,7 +1942,7 @@ Type *TypeSArray::semantic(Loc loc, Scope *sc)
             tbn = next = tint32;
             break;
     }
-    if (tbn->isauto())
+    if (tbn->isscope())
         error(loc, "cannot have array of auto %s", tbn->toChars());
     return merge();
 }
@@ -2105,8 +2120,8 @@ Type *TypeDArray::semantic(Loc loc, Scope *sc)
             tn = next = tint32;
             break;
     }
-    if (tn->isauto())
-        error(loc, "cannot have array of auto %s", tn->toChars());
+    if (tn->isscope())
+        error(loc, "cannot have array of scope %s", tn->toChars());
     if (next != tn)
         //deco = NULL;                  // redo
         return tn->arrayOf();
@@ -2298,11 +2313,12 @@ Type *TypeAArray::semantic(Loc loc, Scope *sc)
     switch (next->toBasetype()->ty)
     {
         case Tfunction:
+        case Tvoid:
         case Tnone:
             error(loc, "can't have associative array of %s", next->toChars());
             break;
     }
-    if (next->isauto())
+    if (next->isscope())
         error(loc, "cannot have array of auto %s", next->toChars());
 
     return merge();
@@ -2382,7 +2398,10 @@ Expression *TypeAArray::dotExp(Scope *sc, Expression *e, Identifier *ident)
         arguments = new Expressions();
         arguments->push(e);
         size_t keysize = key->size(e->loc);
-        keysize = (keysize + PTRSIZE - 1) & ~(PTRSIZE - 1);
+        if (global.params.isX86_64)
+            keysize = (keysize + 15) & ~15;
+        else
+            keysize = (keysize + PTRSIZE - 1) & ~(PTRSIZE - 1);
         arguments->push(new IntegerExp(0, keysize, Type::tsize_t));
         arguments->push(new IntegerExp(0, next->size(e->loc), Type::tsize_t));
         e = new CallExp(e->loc, ec, arguments);
@@ -2704,18 +2723,26 @@ int Type::covariant(Type *t)
 
     if (t1n->equals(t2n))
         goto Lcovariant;
-    if (t1n->ty != Tclass || t2n->ty != Tclass)
-        goto Lnotcovariant;
-
-    // If t1n is forward referenced:
-    ClassDeclaration *cd = ((TypeClass *)t1n)->sym;
-    if (!cd->baseClass && cd->baseclasses->dim && !cd->isInterfaceDeclaration())
+    if (t1n->ty == Tclass && t2n->ty == Tclass)
     {
-        return 3;
-    }
+        ClassDeclaration *cd = ((TypeClass *)t1n)->sym;
+        ClassDeclaration *cd2 = ((TypeClass *)t2n)->sym;
+        if (cd == cd2)
+            goto Lcovariant;
 
+        // If t1n is forward referenced:
+#if 0
+        if (!cd->baseClass && cd->baseclasses->dim && !cd->isInterfaceDeclaration())
+#else
+        if (!cd->isBaseInfoComplete())
+#endif
+        {
+            return 3;
+        }
+    }
     if (t1n->implicitConvTo(t2n))
         goto Lcovariant;
+
     goto Lnotcovariant;
     }
 
@@ -2872,8 +2899,8 @@ Type *TypeFunction::semantic(Loc loc, Scope *sc)
         {   error(loc, "functions cannot return a tuple");
             tf->next = Type::terror;
         }
-        if (tf->next->isauto() && !(sc->flags & SCOPEctor))
-            error(loc, "functions cannot return auto %s", tf->next->toChars());
+        if (tf->next->isscope() && !(sc->flags & SCOPEctor))
+            error(loc, "functions cannot return scope %s", tf->next->toChars());
     }
 
     if (tf->parameters)
@@ -3122,6 +3149,16 @@ Type *TypeDelegate::semantic(Loc loc, Scope *sc)
 d_uns64 TypeDelegate::size(Loc loc)
 {
     return PTRSIZE * 2;
+}
+
+unsigned TypeDelegate::alignsize()
+{
+#if DMDV1
+    // See Bugzilla 942 for discussion
+    if (!global.params.isX86_64)
+        return PTRSIZE * 2;
+#endif
+    return PTRSIZE;
 }
 
 void TypeDelegate::toCBuffer2(OutBuffer *buf, HdrGenState *hgs, int mod)
@@ -3441,9 +3478,22 @@ L1:
         else
             *pt = t->merge();
     }
+
     if (!s)
     {
-        error(loc, "identifier '%s' is not defined", toChars());
+        const char *p = toChars();
+        const char *n = importHint(p);
+        if (n)
+            error(loc, "'%s' is not defined, perhaps you need to import %s; ?", p, n);
+        else
+        {
+            Identifier *id = new Identifier(p, TOKidentifier);
+            s = sc->search_correct(id);
+            if (s)
+                error(loc, "undefined identifier %s, did you mean %s %s?", p, s->kind(), s->toChars());
+            else
+                error(loc, "undefined identifier %s", p);
+        }
     }
 }
 
@@ -3667,7 +3717,7 @@ Type *TypeInstance::semantic(Loc loc, Scope *sc)
 
     if (!t)
     {
-#ifdef DEBUG
+#if 0
         if (s) printf("s = %s\n", s->kind());
         printf("2: e:%p s:%p ", e, s);
 #endif
@@ -3712,6 +3762,7 @@ TypeTypeof::TypeTypeof(Loc loc, Expression *exp)
         : TypeQualified(Ttypeof, loc)
 {
     this->exp = exp;
+    inuse = 0;
 }
 
 Type *TypeTypeof::syntaxCopy()
@@ -3758,6 +3809,13 @@ Type *TypeTypeof::semantic(Loc loc, Scope *sc)
     //printf("TypeTypeof::semantic() %p\n", this);
 
     //static int nest; if (++nest == 50) *(char*)0=0;
+    if (inuse)
+    {
+        inuse = 2;
+        error(loc, "circular typeof definition");
+        return Type::terror;
+    }
+    inuse++;
 
 #if 0
     /* Special case for typeof(this) and typeof(super) since both
@@ -3854,9 +3912,11 @@ Type *TypeTypeof::semantic(Loc loc, Scope *sc)
             goto Lerr;
         }
     }
+    inuse--;
     return t;
 
 Lerr:
+    inuse--;
     return terror;
 }
 
@@ -4090,6 +4150,19 @@ Expression *TypeEnum::defaultInit(Loc loc)
 
 int TypeEnum::isZeroInit(Loc loc)
 {
+    //printf("TypeEnum::isZeroInit() '%s'\n", toChars());
+    if (!sym->isdone && sym->scope)
+    {   // Enum is forward referenced. We need to resolve the whole thing.
+        sym->semantic(NULL);
+    }
+    if (!sym->isdone)
+    {
+#ifdef DEBUG
+        printf("3: ");
+#endif
+        error(loc, "enum %s is forward referenced", sym->toChars());
+        return 0;
+    }
     return (sym->defaultval == 0);
 }
 
@@ -4743,6 +4816,9 @@ Expression *TypeClass::dotExp(Scope *sc, Expression *e, Identifier *ident)
         exps->reserve(sym->fields.dim);
         for (size_t i = 0; i < sym->fields.dim; i++)
         {   VarDeclaration *v = (VarDeclaration *)sym->fields.data[i];
+            // Don't include hidden 'this' pointer
+            if (v->isThisDeclaration())
+                continue;
             Expression *fe = new DotVarExp(e->loc, e, v);
             exps->push(fe);
         }
@@ -4999,9 +5075,9 @@ ClassDeclaration *TypeClass::isClassHandle()
     return sym;
 }
 
-int TypeClass::isauto()
+int TypeClass::isscope()
 {
-    return sym->isauto;
+    return sym->isscope;
 }
 
 int TypeClass::isBaseOf(Type *t, int *poffset)
@@ -5104,6 +5180,29 @@ TypeTuple::TypeTuple(Expressions *exps)
     this->arguments = arguments;
 }
 
+/*******************************************
+ * Type tuple with 0, 1 or 2 types in it.
+ */
+TypeTuple::TypeTuple()
+    : Type(Ttuple, NULL)
+{
+    arguments = new Parameters();
+}
+
+TypeTuple::TypeTuple(Type *t1)
+    : Type(Ttuple, NULL)
+{
+    arguments = new Parameters();
+    arguments->push(new Parameter(0, t1, NULL, NULL));
+}
+
+TypeTuple::TypeTuple(Type *t1, Type *t2)
+    : Type(Ttuple, NULL)
+{
+    arguments = new Parameters();
+    arguments->push(new Parameter(0, t1, NULL, NULL));
+    arguments->push(new Parameter(0, t2, NULL, NULL));
+}
 Type *TypeTuple::syntaxCopy()
 {
     Parameters *args = Parameter::arraySyntaxCopy(arguments);
@@ -5230,11 +5329,11 @@ Type *TypeSlice::semantic(Loc loc, Scope *sc)
     TypeTuple *tt = (TypeTuple *)tbn;
 
     lwr = semanticLength(sc, tbn, lwr);
-    lwr = lwr->optimize(WANTvalue);
+    lwr = lwr->optimize(WANTvalue | WANTinterpret);
     uinteger_t i1 = lwr->toUInteger();
 
     upr = semanticLength(sc, tbn, upr);
-    upr = upr->optimize(WANTvalue);
+    upr = upr->optimize(WANTvalue | WANTinterpret);
     uinteger_t i2 = upr->toUInteger();
 
     if (!(i1 <= i2 && i2 <= tt->arguments->dim))
@@ -5274,11 +5373,11 @@ void TypeSlice::resolve(Loc loc, Scope *sc, Expression **pe, Type **pt, Dsymbol 
             sc = sc->push(sym);
 
             lwr = lwr->semantic(sc);
-            lwr = lwr->optimize(WANTvalue);
+            lwr = lwr->optimize(WANTvalue | WANTinterpret);
             uinteger_t i1 = lwr->toUInteger();
 
             upr = upr->semantic(sc);
-            upr = upr->optimize(WANTvalue);
+            upr = upr->optimize(WANTvalue | WANTinterpret);
             uinteger_t i2 = upr->toUInteger();
 
             sc = sc->pop();
@@ -5423,7 +5522,12 @@ void Parameter::argsToCBuffer(OutBuffer *buf, HdrGenState *hgs, Parameters *argu
             if (arg->defaultArg)
             {
                 argbuf.writestring(" = ");
+                unsigned o = argbuf.offset;
                 arg->defaultArg->toCBuffer(&argbuf, hgs);
+                if(hgs->ddoc)
+                {
+                    escapeDdocString(&argbuf, o);
+                }
             }
             buf->write(&argbuf);
         }

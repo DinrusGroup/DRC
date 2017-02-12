@@ -163,6 +163,7 @@ void Declaration::checkModify(Loc loc, Scope *sc, Type *t)
 TupleDeclaration::TupleDeclaration(Loc loc, Identifier *id, Objects *objects)
     : Declaration(id)
 {
+    this->loc = loc;
     this->type = NULL;
     this->objects = objects;
     this->isexp = 0;
@@ -615,7 +616,10 @@ Dsymbol *AliasDeclaration::toAlias()
     if (inSemantic)
     {   error("recursive alias declaration");
         aliassym = new TypedefDeclaration(loc, ident, Type::terror, NULL);
+        type = Type::terror;
     }
+    else if (!aliassym && scope)
+        semantic(scope);
     Dsymbol *s = aliassym ? aliassym->toAlias() : this;
     return s;
 }
@@ -672,7 +676,7 @@ VarDeclaration::VarDeclaration(Loc loc, Type *type, Identifier *id, Initializer 
 #endif
     this->loc = loc;
     offset = 0;
-    noauto = 0;
+    noscope = 0;
 #if DMDV2
     isargptr = FALSE;
 #endif
@@ -743,6 +747,10 @@ void VarDeclaration::semantic(Scope *sc)
     if (storage_class & STCextern && init)
         error("extern symbols cannot have initializers");
 
+    AggregateDeclaration *ad = isThis();
+    if (ad)
+        storage_class |= ad->storage_class & STC_TYPECTOR;
+
     /* If auto type inference, do the inference
      */
     int inferred = 0;
@@ -802,6 +810,8 @@ void VarDeclaration::semantic(Scope *sc)
             error("no definition of struct %s", ts->toChars());
         }
     }
+    if ((storage_class & STCauto) && !inferred)
+       error("storage class 'auto' has no effect if type is not inferred, did you mean 'scope'?");
 
     if (tb->ty == Ttuple)
     {   /* Instead, declare variables for each of the tuple elements
@@ -935,14 +945,14 @@ void VarDeclaration::semantic(Scope *sc)
     }
 #endif
 
-    if (type->isauto() && !noauto)
+    if (type->isscope() && !noscope)
     {
         if (storage_class & (STCfield | STCout | STCref | STCstatic) || !fd)
         {
             error("globals, statics, fields, ref and out parameters cannot be auto");
         }
 
-        if (!(storage_class & (STCauto | STCscope)))
+        if (!(storage_class & STCscope))
         {
             if (!(storage_class & STCparameter) && ident != Id::withSym)
                 error("reference to scope class must be scope");
@@ -1182,20 +1192,31 @@ void VarDeclaration::semantic(Scope *sc)
                 }
                 else if (ei)
                 {
-                    e = e->optimize(WANTvalue | WANTinterpret);
-                    if (e->op == TOKint64 || e->op == TOKstring || e->op == TOKfloat64)
-                    {
-                        ei->exp = e;            // no errors, keep result
-                    }
-#if DMDV2
+                    if (isDataseg() || (storage_class & STCmanifest))
+                        e = e->optimize(WANTvalue | WANTinterpret);
                     else
+                        e = e->optimize(WANTvalue);
+                    switch (e->op)
                     {
-                        /* Save scope for later use, to try again
-                         */
-                        scope = new Scope(*sc);
-                        scope->setNoFree();
-                    }
+                        case TOKint64:
+                        case TOKfloat64:
+                        case TOKstring:
+                        case TOKarrayliteral:
+                        case TOKassocarrayliteral:
+                        case TOKstructliteral:
+                        case TOKnull:
+                            ei->exp = e;            // no errors, keep result
+                            break;
+
+                        default:
+#if DMDV2
+                            /* Save scope for later use, to try again
+                             */
+                            scope = new Scope(*sc);
+                            scope->setNoFree();
 #endif
+                            break;
+                    }
                 }
                 else
                     init = i2;          // no errors, keep result
@@ -1278,6 +1299,27 @@ void VarDeclaration::toCBuffer(OutBuffer *buf, HdrGenState *hgs)
     buf->writenl();
 }
 
+AggregateDeclaration *VarDeclaration::isThis()
+{
+    AggregateDeclaration *ad = NULL;
+
+    if (!(storage_class & (STCstatic | STCextern | STCmanifest | STCtemplateparameter |
+                           STCtls | STCgshared | STCctfe)))
+    {
+        if ((storage_class & (STCconst | STCimmutable)) && init)
+            return NULL;
+
+        for (Dsymbol *s = this; s; s = s->parent)
+        {
+            ad = s->isMember();
+            if (ad)
+                break;
+            if (!s->parent || !s->parent->isTemplateMixin()) break;
+        }
+    }
+    return ad;
+}
+
 int VarDeclaration::needThis()
 {
     //printf("VarDeclaration::needThis(%s, x%x)\n", toChars(), storage_class);
@@ -1319,6 +1361,9 @@ void VarDeclaration::checkNestedReference(Scope *sc, Loc loc)
             nestedref = 1;
             fdv->nestedFrameRef = 1;
             //printf("var %s in function %s is nested ref\n", toChars(), fdv->toChars());
+            // __dollar creates problems because it isn't a real variable Bugzilla 3326
+            if (ident == Id::dollar)
+                ::error(loc, "cannnot use $ inside a function literal");
         }
     }
 }
@@ -1373,15 +1418,15 @@ int VarDeclaration::hasPointers()
 }
 
 /******************************************
- * If a variable has an auto destructor call, return call for it.
+ * If a variable has a scope destructor call, return call for it.
  * Otherwise, return NULL.
  */
 
-Expression *VarDeclaration::callAutoDtor(Scope *sc)
+Expression *VarDeclaration::callScopeDtor(Scope *sc)
 {   Expression *e = NULL;
 
-    //printf("VarDeclaration::callAutoDtor() %s\n", toChars());
-    if (storage_class & (STCauto | STCscope) && !noauto)
+    //printf("VarDeclaration::callScopeDtor() %s\n", toChars());
+    if (storage_class & (STCauto | STCscope) && !noscope)
     {
         for (ClassDeclaration *cd = type->isClassHandle();
              cd;
@@ -1587,7 +1632,7 @@ TypeInfoTupleDeclaration::TypeInfoTupleDeclaration(Type *tinfo)
 ThisDeclaration::ThisDeclaration(Loc loc, Type *t)
    : VarDeclaration(loc, t, Id::This, NULL)
 {
-    noauto = 1;
+    noscope = 1;
 }
 
 Dsymbol *ThisDeclaration::syntaxCopy(Dsymbol *s)

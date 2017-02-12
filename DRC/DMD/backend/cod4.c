@@ -317,30 +317,25 @@ STATIC code * opnegassdbl(elem *e,regm_t *pretregs)
  */
 
 code *cdeq(elem *e,regm_t *pretregs)
-{ regm_t retregs;
-  tym_t tyml;
+{
   tym_t tymll;
   unsigned reg;
   int i;
   code *cl,*cr,*c,cs;
-  elem *e2,*e1;
   elem *e11;
   bool widen;                   /* TRUE means byte widen                */
   int nwords;                   /* # of words to transfer               */
-  unsigned sz;                  // # of bytes to transfer
   bool regvar;                  /* TRUE means evaluate into register variable */
   regm_t varregm;
   unsigned varreg;
   targ_int postinc;
-  int e2oper;
 
   //printf("cdeq(e = %p, *pretregs = %s)\n", e, regm_str(*pretregs));
-  //elem_print(e);
-  e1 = e->E1;
-  e2 = e->E2;
-  e2oper = e2->Eoper;
-  tyml = tybasic(e1->Ety);              /* type of lvalue               */
-  retregs = *pretregs;
+  elem *e1 = e->E1;
+  elem *e2 = e->E2;
+  int e2oper = e2->Eoper;
+  tym_t tyml = tybasic(e1->Ety);              /* type of lvalue               */
+  regm_t retregs = *pretregs;
 
   if (tyfloating(tyml) && config.inline8087)
   {
@@ -359,7 +354,7 @@ code *cdeq(elem *e,regm_t *pretregs)
             return eq87(e,pretregs);
   }
 
-  sz = tysize[tyml];
+  unsigned sz = tysize[tyml];           // # of bytes to transfer
   assert((int)sz > 0);
 
   if (retregs == 0)                     /* if no return value           */
@@ -367,6 +362,7 @@ code *cdeq(elem *e,regm_t *pretregs)
 
         if ((e2oper == OPconst ||       /* if rvalue is a constant      */
              e2oper == OPrelconst &&
+             !(I64 && config.flags3 & CFG3pic) &&
              ((fl = el_fl(e2)) == FLdata ||
               fl==FLudata || fl == FLextern) &&
              !(e2->EV.sp.Vsym->ty() & mTYcs)
@@ -405,7 +401,7 @@ code *cdeq(elem *e,regm_t *pretregs)
                         // MOV EA,reg
                         regm_t rregm = allregs & ~idxregm(&cs);
                         unsigned reg;
-                        cl = regwithvalue(cl,rregm,e2->EV.Vpointer,&reg,CFoffset64);
+                        cl = regwithvalue(cl,rregm,e2->EV.Vpointer,&reg,64);
                         cs.Iop = 0x89;
                         cs.Irm |= modregrm(0,reg & 7,0);
                         if (reg & 8)
@@ -489,13 +485,28 @@ code *cdeq(elem *e,regm_t *pretregs)
                     if (cs.Irex & REX_B)
                         reg |= 8;
                     if (I64 && sz == 8)
-                        cl = movregconst(cl,reg,*p,CFoffset64);
+                        cl = movregconst(cl,reg,*p,64);
                     else
                         cl = movregconst(cl,reg,*p,1 ^ (cs.Iop & 1));
                     if (sz == 2 * REGSIZE)
                     {   getlvalue_msw(&cs);
                         cl = movregconst(cl,cs.Irm & 7,p[1],0);
                     }
+                }
+                else if (I64 && sz == 8 && *p != *(unsigned *)p)
+                {
+                    // MOV reg,imm64
+                    // MOV EA,reg
+                    regm_t rregm = allregs & ~idxregm(&cs);
+                    unsigned reg;
+                    cl = regwithvalue(cl,rregm,e2->EV.Vpointer,&reg,64);
+                    cs.Iop = 0x89;
+                    cs.Irm |= modregrm(0,reg & 7,0);
+                    if (reg & 8)
+                        cs.Irex |= REX_R;
+                    c = gen(cl,&cs);
+                    freenode(e2);
+                    goto Lp;
                 }
                 else
                 {   int regsize;
@@ -517,11 +528,13 @@ code *cdeq(elem *e,regm_t *pretregs)
                                 cs.Irm |= modregrm(0,reg & 7,0); // MOV EA,reg
                                 if (reg & 8)
                                     cs.Irex |= REX_R;
+                                if (I64 && sz == 1 && reg >= 4)
+                                    cs.Irex |= REX;
                             }
                             if (!I16 && i == 2)      // if 16 bit operand
                                 cs.Iflags |= CFopsize;
                             if (I64 && sz == 8)
-                                assert(cs.Irex & REX_W);
+                                cs.Irex |= REX_W;
                         }
                         cl = gen(cl,&cs);           /* MOV EA,const */
 
@@ -540,9 +553,14 @@ code *cdeq(elem *e,regm_t *pretregs)
             goto Lp;
         }
         retregs = allregs;              /* pick a reg, any reg          */
+        if (sz == 2 * REGSIZE)
+            retregs &= ~mBP;            // BP cannot be used for register pair
   }
   if (retregs == mPSW)
-        retregs = allregs;
+  {     retregs = allregs;
+        if (sz == 2 * REGSIZE)
+            retregs &= ~mBP;            // BP cannot be used for register pair
+  }
   cs.Iop = 0x89;
   if (sz == 1)                  // must have byte regs
   {     cs.Iop = 0x88;
@@ -605,6 +623,8 @@ code *cdeq(elem *e,regm_t *pretregs)
             postinc = -postinc;
         cl = getlvalue(&cs,e11,RMstore | retregs);
         freenode(e11->E2);
+        if (I64 && sz < 8)
+            cs.Irex &= ~REX_W;                  // incorrectly set by getlvalue()
     }
     else
     {   postinc = 0;
@@ -640,6 +660,8 @@ code *cdeq(elem *e,regm_t *pretregs)
                     break;
                 if (sz == 2)            // if 16 bit operand
                     cs.Iflags |= CFopsize;
+                else if (sz == 1 && reg >= 4)
+                    cs.Irex |= REX;
                 c = gen(c,&cs);         // MOV EA+offset,reg
                 if (sz <= REGSIZE)
                     break;
@@ -692,14 +714,14 @@ Lp:
             unsigned rm = cs.Irm & 7;
             if (cs.Irex & REX_B)
                 rm |= 8;
-            c = genc1(c,0x8D,modregxrmx(2,reg,rm),FLconst,postinc);
+            c = genc1(c,0x8D,buildModregrm(2,reg,rm),FLconst,postinc);
             if (sz == 8)
                 code_orrex(c, REX_W);
         }
         else if (I64)
         {
             c = genc2(c,0x81,modregrmx(3,0,reg),postinc);
-            if (sz == 8)
+            if (tysize(e11->E1->Ety) == 8)
                 code_orrex(c, REX_W);
         }
         else
@@ -727,7 +749,6 @@ code *cdaddass(elem *e,regm_t *pretregs)
 { regm_t retregs,forccs,forregs;
   tym_t tyml;
   unsigned reg,op,op1,op2,mode,wantres;
-  targ_long val;
   int byte;
   code *cl,*cr,*c,*ce,cs;
   elem *e1;
@@ -841,10 +862,11 @@ code *cdaddass(elem *e,regm_t *pretregs)
         *pretregs &= ~mPSW;
   }
   else if ((e2 = e->E2)->Eoper == OPconst &&    // if rvalue is a const
+      el_signx32(e2) &&
        // Don't evaluate e2 in register if we can use an INC or DEC
       (((sz <= REGSIZE || tyfv(tyml)) &&
         (op == OPaddass || op == OPminass) &&
-        ((val = el_tolong(e2)) == 1 || val == -1)
+        (el_allbits(e2, 1) || el_allbits(e2, -1))
        ) ||
        (!evalinregister(e2) && tyml != TYhptr)
       )
@@ -856,7 +878,7 @@ code *cdaddass(elem *e,regm_t *pretregs)
         cs.IEV2.Vint = e2->EV.Vint;
         if (sz <= REGSIZE || tyfv(tyml) || opsize)
         {
-            targ_size_t i = cs.IEV2.Vsize_t;
+            targ_int i = cs.IEV2.Vint;
 
             /* Handle shortcuts. Watch out for if result has    */
             /* to be in flags.                                  */
@@ -1005,6 +1027,8 @@ code *cdaddass(elem *e,regm_t *pretregs)
         freenode(e2);
         cl = getregs(varregm);
         code_newreg(&cs, varreg);
+        if (I64 && sz == 1 && varreg >= 4)
+            cs.Irex |= REX;
         cs.Iop = op1 ^ 2;                       // toggle direction bit
         if (forccs)
             cs.Iflags |= CFpsw;
@@ -1025,6 +1049,8 @@ code *cdaddass(elem *e,regm_t *pretregs)
         if (sz <= REGSIZE || tyfv(tyml))
         {   reg = findreg(retregs);
             code_newreg(&cs, reg);              // OP1 EA,reg
+            if (sz == 1 && reg >= 4 && I64)
+                cs.Irex |= REX;
         }
         else if (tyml == TYhptr)
         {   unsigned mreg,lreg;
@@ -1105,6 +1131,8 @@ code *cdaddass(elem *e,regm_t *pretregs)
                 ce = allocreg(&retregs,&reg,tyml);
                 cs.Iop = 0x8B ^ byte ^ reverse;
                 code_newreg(&cs, reg);
+                if (I64 && byte && reg >= 4)
+                    cs.Irex |= REX_W;
                 ce = gen(ce,&cs);               // MOV reg,EA
             }
         }
@@ -1178,6 +1206,7 @@ code *cdmulass(elem *e,regm_t *pretregs)
   unsigned op,resreg,reg,opr,lib,byte;
   unsigned sz;
 
+  //printf("cdmulass(e=%p, *pretregs = %s)\n",e,regm_str(*pretregs));
   e1 = e->E1;
   e2 = e->E2;
   op = e->Eoper;                        /* OPxxxx                       */
@@ -1240,8 +1269,7 @@ code *cdmulass(elem *e,regm_t *pretregs)
                 cr = codelem(e2,&retregs,FALSE); /* load rvalue in reg  */
                 cl = getlvalue(&cs,e1,retregs); /* get EA               */
                 cg = getregs(retregs);          /* destroy these regs   */
-                cs.Iop = 0x0F;                  /* IMUL resreg,EA       */
-                cs.Iop2 = 0xAF;
+                cs.Iop = 0x0FAF;                // IMUL resreg,EA
                 resreg = findreg(retregs);
                 opr = resreg;
             }
@@ -1253,7 +1281,7 @@ code *cdmulass(elem *e,regm_t *pretregs)
                 cg = getregs(byte ? mAX : mAX | mDX); // destroy these regs
                 cs.Iop = 0xF7 ^ byte;           // [I]MUL EA
             }
-            cs.Irm |= modregrm(0,opr,0);
+            code_newreg(&cs,opr);
             c = gen(CNIL,&cs);
         }
         else // /= or %=
@@ -1340,7 +1368,7 @@ code *cdmulass(elem *e,regm_t *pretregs)
             }
         }
         cs.Iop = 0x89 ^ byte;
-        NEWREG(cs.Irm,resreg);
+        code_newreg(&cs,resreg);
         c = gen(c,&cs);                         // MOV EA,resreg
         if (e1->Ecount)                         // if we gen a CSE
                 cssave(e1,mask[resreg],EOP(e1));
@@ -1657,7 +1685,7 @@ code *cdcmp(elem *e,regm_t *pretregs)
   int fl;
   int flag;
 
-  //printf("cdcmp(e = %p, retregs = x%x\n",e,*pretregs);
+  //printf("cdcmp(e = %p, retregs = %s)\n",e,regm_str(*pretregs));
   // Collect extra parameter. This is pretty ugly...
   flag = cdcmp_flag;
   cdcmp_flag = 0;
@@ -1743,8 +1771,40 @@ code *cdcmp(elem *e,regm_t *pretregs)
         cl = codelem(e1,&retregs,FALSE);
         retregs = mCX | mBX;
         cr = scodelem(e2,&retregs,mDX | mAX,FALSE);
-        retregs = 0;
-        c = callclib(e,CLIBlcmp,&retregs,0);    /* gross, but it works  */
+
+        if (I16)
+        {
+            retregs = 0;
+            c = callclib(e,CLIBlcmp,&retregs,0);    /* gross, but it works  */
+        }
+        else
+        {
+            /* Generate:
+             *      CMP  EDX,ECX
+             *      JNE  C1
+             *      XOR  EDX,EDX
+             *      CMP  EAX,EBX
+             *      JZ   C1
+             *      JA   C3
+             *      DEC  EDX
+             *      JMP  C1
+             * C3:  INC  EDX
+             * C1:
+             */
+             c = getregs(mDX);
+             c = genregs(c,0x39,CX,DX);         // CMP EDX,ECX
+             code *c1 = gennop(CNIL);
+             genjmp(c,JNE,FLcode,(block *)c1);  // JNE C1
+             movregconst(c,DX,0,0);             // XOR EDX,EDX
+             genregs(c,0x39,BX,AX);             // CMP EAX,EBX
+             genjmp(c,JE,FLcode,(block *)c1);   // JZ C1
+             code *c3 = gen1(CNIL,0x40 + DX);   // INC EDX
+             genjmp(c,JA,FLcode,(block *)c3);   // JA C3
+             gen1(c,0x48 + DX);                 // DEC EDX
+             genjmp(c,JMPS,FLcode,(block *)c1); // JMP C1
+             c = cat4(c,c3,c1,getregs(mDX));
+             retregs = mPSW;
+        }
         goto L3;
   }
 
@@ -1783,6 +1843,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
             code_orrex(c, rex);
             if (!I16 && sz == SHORTSIZE)
                 c->Iflags |= CFopsize;          /* compare only 16 bits */
+            if (I64 && byte && (reg >= 4 || rreg >= 4))
+                c->Irex |= REX;                 // address byte registers
         }
         else
         {   assert(sz <= 2 * REGSIZE);
@@ -1801,6 +1863,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
         }
         break;
       case OPrelconst:
+        if (I64 && config.flags3 & CFG3pic)
+            goto L2;
         fl = el_fl(e2);
         switch (fl)
         {   case FLfunc:
@@ -1839,6 +1903,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
             c = genregs(NULL,0x85 ^ byte,reg,reg);      // TEST reg,reg
             c->Iflags |= (cs.Iflags & CFopsize) | CFpsw;
             code_orrex(c, rex);
+            if (I64 && byte && reg >= 4)
+                c->Irex |= REX;                 // address byte registers
             retregs = mPSW;
             break;
         }
@@ -1847,8 +1913,7 @@ code *cdcmp(elem *e,regm_t *pretregs)
             !boolres(e2) && !(*pretregs & mPSW) &&
             (sz == REGSIZE || (I64 && sz == 4)) &&
             (!I16 || op == OPlt || op == OPge))
-        {   unsigned regi;
-
+        {
             assert(*pretregs & (allregs));
             cl = codelem(e1,pretregs,FALSE);
             reg = findreg(*pretregs);
@@ -1864,18 +1929,19 @@ code *cdcmp(elem *e,regm_t *pretregs)
                     // What does the Windows platform do?
                     //  lower INT_MIN by 1?   See test exe9.c
                     // BUG: fix later
-                    genc2(c,0x81,grex | modregrmx(3,3,reg & 7),0);  // SBB reg,0
+                    genc2(c,0x81,grex | modregrmx(3,3,reg),0);  // SBB reg,0
 #endif
                     goto oplt;
                 case OPlt:
                 oplt:
                     if (!I16)
-                        c = genc2(c,0xC1,grex | modregrmx(3,5,reg & 7),sz * 8 - 1); // SHR reg,31
+                        c = genc2(c,0xC1,grex | modregrmx(3,5,reg),sz * 8 - 1); // SHR reg,31
                     else
                     {   /* 8088-286 do not have a barrel shifter, so use this
                            faster sequence
                          */
                         c = genregs(c,0xD1,0,reg);              /* ROL reg,1    */
+                        unsigned regi;
                         if (reghasvalue(allregs,1,&regi))
                             c = genregs(c,0x23,reg,regi);       /* AND reg,regi */
                         else
@@ -1903,11 +1969,17 @@ code *cdcmp(elem *e,regm_t *pretregs)
             goto ret;
         }
 
-        if (sz > REGSIZE)
+        cs.IFL2 = FLconst;
+        if (sz == 16)
+            cs.IEV2.Vsize_t = e2->EV.Vcent.msw;
+        else if (sz > REGSIZE)
             cs.IEV2.Vint = MSREG(e2->EV.Vllong);
         else
-            cs.IEV2.Vint = e2->EV.Vint;
-        cs.IFL2 = FLconst;
+            cs.IEV2.Vsize_t = e2->EV.Vllong;
+
+        // The cmp immediate relies on sign extension of the 32 bit immediate value
+        if (I64 && sz >= REGSIZE && cs.IEV2.Vsize_t != (int)cs.IEV2.Vint)
+            goto L2;
       L4:
         cs.Iop = 0x81 ^ byte;
 
@@ -1938,6 +2010,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
                         c = gen(CNIL,&cs);              /* CMP EA+2,rreg */
                         if (I32 && sz == 6)
                             c->Iflags |= CFopsize;      /* seg is only 16 bits  */
+                        if (I64 && byte && rreg >= 4)
+                            c->Irex |= REX;
                         genjmp(c,JNE,FLcode,(block *) ce); /* JNE nop   */
                         rreg = findreglsw(rretregs);
                         NEWREG(cs.Irm,rreg);
@@ -1947,6 +2021,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
                     {
                         rreg = findreg(rretregs);
                         code_newreg(&cs, rreg);
+                        if (I64 && byte && rreg >= 4)
+                            cs.Irex |= REX;
                     }
                 }
                 else
@@ -2018,6 +2094,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
             {   assert(reg < 4);
                 cs.Irm |= 4;                    // use upper register half
             }
+            if (I64 && reg >= 4)
+                cs.Irex |= REX;                 // address byte registers
         }
         else if (sz <= REGSIZE)
         {                                       /* CMP reg,const        */
@@ -2084,6 +2162,8 @@ code *cdcmp(elem *e,regm_t *pretregs)
             freenode(e1);
             cs.Iop = 0x39 ^ byte ^ reverse;
             code_newreg(&cs,reg);
+            if (I64 && byte && reg >= 4)
+                cs.Irex |= REX;                 // address byte registers
             c = gen(c,&cs);
             freenode(e2);
             break;
@@ -2327,8 +2407,8 @@ code *longcmp(elem *e,bool jcond,unsigned fltarg,code *targ)
 }
 
 /*****************************
- * Do conversions. DEPENDS on OPd_s32 and CLIBdbllng being
- * in SEQUENCE.
+ * Do conversions.
+ * Depends on OPd_s32 and CLIBdbllng being in sequence.
  */
 
 code *cdcnvt(elem *e, regm_t *pretregs)
@@ -2356,8 +2436,8 @@ code *cdcnvt(elem *e, regm_t *pretregs)
         OPcvptrfptr,    CLIBcvptrfptr,
   };
 
+//printf("cdcnvt: *pretregs = %s\n", regm_str(*pretregs));
 //elem_print(e);
-//printf("*pretregs = x%x\n", *pretregs);
 
   if (!*pretregs)
         return codelem(e->E1,pretregs,FALSE);
@@ -2381,12 +2461,32 @@ code *cdcnvt(elem *e, regm_t *pretregs)
 
             case OPf_d:
             case OPd_f:
+                if (I64 && *pretregs & XMMREGS)
+                {
+                    c1 = codelem(e->E1,pretregs,FALSE);
+                    unsigned reg = findreg(*pretregs) - XMM0;
+                    if (e->Eoper == OPf_d)
+                    {   /*  0F 14 C0   UNPCKLPS     XMM0,XMM0
+                         *  0F 5A C0   CVTPS2PD     XMM0,XMM0
+                         */
+                        c1 = gen2(c1, 0x0F14, modregrm(3,reg,reg));
+                        c1 = gen2(c1, 0x0F5A, modregrm(3,reg,reg));
+                    }
+                    else // OPd_f
+                    {   /*  66 0F 14 C0   UPPCKLPD     XMM0,XMM0
+                         *  66 0F 5A C0   CVTPD2PS     XMM0,XMM0
+                         */
+                        c1 = gen2(c1, 0x660F14, modregrm(3,reg,reg));
+                        c1 = gen2(c1, 0x660F5A, modregrm(3,reg,reg));
+                    }
+                    return c1;
+                }
                 /* if won't do us much good to transfer back and        */
                 /* forth between 8088 registers and 8087 registers      */
                 if (OTcall(e->E1->Eoper) && !(*pretregs & allregs))
                 {
                     retregs = regmask(e->E1->Ety, e->E1->E1->Ety);
-                    if (retregs & (mST01 | mST0))       // if return in ST0
+                    if (retregs & (mXMM1 | mXMM0 |mST01 | mST0))       // if return in ST0
                     {
                         c1 = codelem(e->E1,pretregs,FALSE);
                         if (*pretregs & mST0)
@@ -2411,13 +2511,19 @@ code *cdcnvt(elem *e, regm_t *pretregs)
                     c1 = codelem(e->E1, &retregs, FALSE);
                     unsigned reg = findreg(retregs);
                     c1 = genfltreg(c1, 0x89, reg, 0);
-                    regwithvalue(c1,ALLREGS,0,&reg,0);
-                    genfltreg(c1, 0x89, reg, REGSIZE);
+                    if (I64)
+                    {
+                        code_orrex(c1, REX_W);
+                    }
+                    else
+                    {   regwithvalue(c1,ALLREGS,0,&reg,0);
+                        genfltreg(c1, 0x89, reg, REGSIZE);
+                    }
 
                     cat(c1, push87());
                     genfltreg(c1,0xDF,5,0);     // FILD m64int
 
-                    retregs = mST0 | (*pretregs & mPSW);
+                    retregs = mST0 /*| (*pretregs & mPSW)*/;
                     c2 = fixresult87(e, retregs, pretregs);
                     return cat(c1, c2);
                 }
@@ -2441,7 +2547,7 @@ code *cdcnvt(elem *e, regm_t *pretregs)
             case OPu64_d:
                 if (*pretregs & mST0)
                 {
-                    retregs = mAX|mDX;
+                    retregs = I64 ? mAX : mAX|mDX;
                     c1 = codelem(e->E1,&retregs,FALSE);
                     c2 = callclib(e,CLIBu64_ldbl,pretregs,0);
                     return cat(c1,c2);
@@ -2478,9 +2584,9 @@ code *cdshtlng(elem *e,regm_t *pretregs)
   unsigned reg;
   unsigned char op;
   regm_t retregs;
-  int e1comsub;
 
-  e1comsub = e->E1->Ecount;
+  //printf("cdshtlng(e = %p, *pretregs = %s)\n", e, regm_str(*pretregs));
+  int e1comsub = e->E1->Ecount;
   if ((*pretregs & (ALLREGS | mBP)) == 0)       // if don't need result in regs
     c = codelem(e->E1,pretregs,FALSE);  /* then conversion isn't necessary */
 
@@ -2521,7 +2627,31 @@ code *cdshtlng(elem *e,regm_t *pretregs)
 
         c = cat3(c,ce,fixresult(e,retregs | regm,pretregs));
   }
-  else if (!I16 && (op == OPs16_32 || op == OPu16_32))
+  else if (I64 && op == OPu32_64)
+  {
+        elem *e1 = e->E1;
+        retregs = *pretregs;
+        if (e1->Eoper == OPvar || (e1->Eoper == OPind && !e1->Ecount))
+        {   code cs;
+
+            c1 = allocreg(&retregs,&reg,TYint);
+            c2 = NULL;
+            c3 = loadea(e1,&cs,0x8B,reg,0,retregs,retregs);        //  MOV Ereg,EA
+            freenode(e1);
+        }
+        else
+        {
+            *pretregs &= ~mPSW;                 // flags are set by eval of e1
+            c1 = codelem(e1,&retregs,FALSE);
+            c2 = getregs(retregs);
+            reg = findreg(retregs);
+            c3 = genregs(NULL,0x89,reg,reg);    // MOV Ereg,Ereg
+        }
+        c4 = fixresult(e,retregs,pretregs);
+        c = cat4(c1,c2,c3,c4);
+  }
+  else if (!I16 && (op == OPs16_32 || op == OPu16_32) ||
+            I64 && op == OPs32_64)
   {
     elem *e11;
 
@@ -2551,7 +2681,15 @@ code *cdshtlng(elem *e,regm_t *pretregs)
         retregs = *pretregs;
         c1 = allocreg(&retregs,&reg,TYint);
         opcode = (op == OPu16_32) ? 0x0FB7 : 0x0FBF; /* MOVZX/MOVSX reg,EA */
-        c2 = loadea(e1,&cs,opcode,reg,0,0,retregs);
+        if (op == OPs32_64)
+        {
+            assert(I64);
+            // MOVSXD reg,e1
+            c2 = loadea(e1,&cs,0x63,reg,0,0,retregs);
+            code_orrex(c2, REX_W);
+        }
+        else
+            c2 = loadea(e1,&cs,opcode,reg,0,0,retregs);
         c3 = CNIL;
         freenode(e1);
     }
@@ -2559,17 +2697,20 @@ code *cdshtlng(elem *e,regm_t *pretregs)
     {
     L2:
         retregs = *pretregs;
+        if (op == OPs32_64)
+            retregs = mAX | (*pretregs & mPSW);
         *pretregs &= ~mPSW;             /* flags are already set        */
         c1 = codelem(e1,&retregs,FALSE);
         c2 = getregs(retregs);
         if (op == OPu16_32 && c1)
-        {   code *cx;
-
-            cx = code_last(c1);
+        {
+            code *cx = code_last(c1);
             if (cx->Iop == 0x81 && (cx->Irm & modregrm(3,7,0)) == modregrm(3,4,0))
             {
                 // Convert AND of a word to AND of a dword, zeroing upper word
                 retregs = mask[cx->Irm & 7];
+                if (cx->Irex & REX_B)
+                    retregs = mask[8 | (cx->Irm & 7)];
                 cx->Iflags &= ~CFopsize;
                 cx->IEV2.Vint &= 0xFFFF;
                 goto L1;
@@ -2577,17 +2718,21 @@ code *cdshtlng(elem *e,regm_t *pretregs)
         }
         if (op == OPs16_32 && retregs == mAX)
             c2 = gen1(c2,0x98);         /* CWDE                         */
+        else if (op == OPs32_64 && retregs == mAX)
+        {   c2 = gen1(c2,0x98);         /* CDQE                         */
+            code_orrex(c2, REX_W);
+        }
         else
         {
             reg = findreg(retregs);
             if (config.flags4 & CFG4speed && op == OPu16_32)
             {   // AND reg,0xFFFF
-                c3 = genc2(NULL,0x81,modregrm(3,4,reg),0xFFFFu);
+                c3 = genc2(NULL,0x81,modregrmx(3,4,reg),0xFFFFu);
             }
             else
             {
-                c3 = genregs(CNIL,0x0F,reg,reg);
-                c3->Iop2 = (op == OPu16_32) ? 0xB7 : 0xBF; /* MOVZX/MOVSX reg,reg */
+                unsigned iop = (op == OPu16_32) ? 0x0FB7 : 0x0FBF; /* MOVZX/MOVSX reg,reg */
+                c3 = genregs(CNIL,iop,reg,reg);
             }
             c2 = cat(c2,c3);
         }
@@ -2650,6 +2795,7 @@ code *cdbyteint(elem *e,regm_t *pretregs)
     if ((*pretregs & (ALLREGS | mBP)) == 0)     // if don't need result in regs
         return codelem(e->E1,pretregs,FALSE); /* then conversion isn't necessary */
 
+    //printf("cdbyteint(e = %p, *pretregs = %s\n", e, regm_str(*pretregs));
     op = e->Eoper;
     e1 = e->E1;
     c0 = NULL;
@@ -2737,11 +2883,14 @@ code *cdbyteint(elem *e,regm_t *pretregs)
 
                 if (config.flags4 & CFG4speed && op == OPu8_16)
                 {   // AND reg,0xFF
-                    c3 = genc2(c3,0x81,modregrm(3,4,reg),0xFF);
+                    c3 = genc2(c3,0x81,modregrmx(3,4,reg),0xFF);
                 }
                 else
-                {   c3 = genregs(c3,0x0F,reg,reg);
-                    c3->Iop2 = (op == OPu8int) ? 0xB6 : 0xBE; /* MOVZX/MOVSX reg,reg */
+                {
+                    unsigned iop = (op == OPu8int) ? 0x0FB6 : 0x0FBE; // MOVZX/MOVSX reg,reg
+                    c3 = genregs(c3,iop,reg,reg);
+                    if (I64 && reg >= 4)
+                        code_orrex(c3, REX);
                 }
             }
         }
@@ -2768,6 +2917,7 @@ L2:
  * Get offset of far pointer (OPoffset).
  * Convert int to byte (OP16_8).
  * Convert long long to long (OP64_32).
+ * OP128_64
  */
 
 code *cdlngsht(elem *e,regm_t *pretregs)
@@ -2781,6 +2931,7 @@ code *cdlngsht(elem *e,regm_t *pretregs)
         case OPoffset:
         case OP16_8:
         case OP64_32:
+        case OP128_64:
             break;
 
         default:
@@ -2798,7 +2949,9 @@ code *cdlngsht(elem *e,regm_t *pretregs)
         else
         {   retregs = *pretregs ? ALLREGS : 0;
             c = codelem(e->E1,&retregs,FALSE);
-            if (I16 || I32 && (e->Eoper == OPoffset || e->Eoper == OP64_32))
+            if (I16 ||
+                I32 && (e->Eoper == OPoffset || e->Eoper == OP64_32) ||
+                I64 && (e->Eoper == OPoffset || e->Eoper == OP128_64))
                 retregs &= mLSW;                /* want LSW only        */
         }
   }
@@ -2822,7 +2975,8 @@ code *cdlngsht(elem *e,regm_t *pretregs)
 
 /**********************************************
  * Get top 32 bits of 64 bit value (I32)
- * or top 16 bits of 32 bit value (16 bit code).
+ * or top 16 bits of 32 bit value (I16)
+ * or top 64 bits of 128 bit value (I64).
  * OPmsw
  */
 
@@ -2835,7 +2989,7 @@ code *cdmsw(elem *e,regm_t *pretregs)
 
     retregs = *pretregs ? ALLREGS : 0;
     c = codelem(e->E1,&retregs,FALSE);
-    retregs &= mMSW;                    // want LSW only
+    retregs &= mMSW;                    // want MSW only
 
     // We "destroy" a reg by assigning it the result of a new e, even
     // though the values are the same. Weakness of our CSE strategy that
@@ -2848,7 +3002,8 @@ code *cdmsw(elem *e,regm_t *pretregs)
 #ifdef DEBUG
     if (!(!*pretregs || retregs))
     {   WROP(e->Eoper);
-        printf(" *pretregs = x%x, retregs = x%x\n",*pretregs,retregs);
+        printf(" *pretregs = %s, retregs = %s\n",regm_str(*pretregs),regm_str(retregs));
+        elem_print(e);
     }
 #endif
     assert(!*pretregs || retregs);
@@ -2883,6 +3038,8 @@ code *cdport(elem *e,regm_t *pretregs)
     {   retregs = mDX;                  /* port number is always DX     */
         c1 = codelem(e1,&retregs,FALSE);
         op |= 0x08;                     /* DX version of opcode         */
+        port = 0;                       // not logically needed, but
+                                        // quiets "uninitialized var" complaints
     }
 
     if (e->Eoper == OPoutp)
@@ -3049,8 +3206,7 @@ code *cdbt(elem *e, regm_t *pretregs)
 //    if (e2->Eoper == OPconst && e2->EV.Vuns < 0x100)  // should do this instead?
     if (e2->Eoper == OPconst)
     {
-        cs.Iop = 0x0F;
-        cs.Iop2 = 0xBA;                         // BT rm,imm8
+        cs.Iop = 0x0FBA;                         // BT rm,imm8
         cs.Irm |= modregrm(0,mode,0);
         cs.Iflags |= CFpsw | word;
         cs.IFL2 = FLconst;
@@ -3068,6 +3224,8 @@ code *cdbt(elem *e, regm_t *pretregs)
         {
             cs.IEVoffset1 += (e2->EV.Vuns & ~63) >> 3;
             cs.IEV2.Vint = e2->EV.Vint & 63;
+            if (I64)
+                cs.Irex |= REX_W;
         }
         c2 = gen(CNIL,&cs);
     }
@@ -3077,8 +3235,7 @@ code *cdbt(elem *e, regm_t *pretregs)
         c2 = scodelem(e2,&retregs,idxregs,TRUE);
         reg = findreg(retregs);
 
-        cs.Iop = 0x0F;
-        cs.Iop2 = op;                           // BT rm,reg
+        cs.Iop = 0x0F00 | op;                     // BT rm,reg
         code_newreg(&cs,reg);
         cs.Iflags |= CFpsw | word;
         c2 = gen(c2,&cs);
@@ -3130,7 +3287,7 @@ code *cdbscan(elem *e, regm_t *pretregs)
         return codelem(e->E1,pretregs,FALSE);
     tyml = tybasic(e->E1->Ety);
     sz = tysize[tyml];
-    assert(sz == 2 || sz == 4);
+    assert(sz == 2 || sz == 4 || sz == 8);
 
     if ((e->E1->Eoper == OPind && !e->E1->Ecount) || e->E1->Eoper == OPvar)
     {
@@ -3153,12 +3310,13 @@ code *cdbscan(elem *e, regm_t *pretregs)
         retregs = allregs;
     cg = allocreg(&retregs, &reg, e->Ety);
 
-    cs.Iop = 0x0F;
-    cs.Iop2 = (e->Eoper == OPbsf) ? 0xBC : 0xBD;        // BSF/BSR reg,EA
+    cs.Iop = (e->Eoper == OPbsf) ? 0x0FBC : 0x0FBD;        // BSF/BSR reg,EA
     code_newreg(&cs, reg);
     if (!I16 && sz == SHORTSIZE)
         cs.Iflags |= CFopsize;
     cg = gen(cg,&cs);
+    if (sz == 8)
+        code_orrex(cg, REX_W);
 
     return cat3(cl,cg,fixresult(e,retregs,pretregs));
 }

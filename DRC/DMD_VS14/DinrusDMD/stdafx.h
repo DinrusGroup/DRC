@@ -23,8 +23,8 @@
 
 	
 	
-//#include ".\DMD\aa.h"
-//#include ".\DMD\aav.h"
+#include ".\DMD\aa.h"
+#include ".\DMD\aav.h"
 #include ".\DMD\aggregate.h"
 #include ".\DMD\aliasthis.h"
 #include ".\DMD\arraytypes.h"
@@ -92,10 +92,9 @@
 #include ".\DMD\stringtable.h"
 #include ".\DMD\tassert.h"
 #include ".\DMD\template.h"
-//#include ".\DMD\tinfo.h"
+#include ".\DMD\tinfo.h"
 #include ".\DMD\toir.h"
 #include ".\DMD\token.h"
-#include ".\DMD\total.h"
 #include ".\DMD\ty.h"
 #include ".\DMD\type.h"
 #include ".\DMD\utf.h"

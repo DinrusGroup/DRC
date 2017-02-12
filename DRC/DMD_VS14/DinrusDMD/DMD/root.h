@@ -294,7 +294,7 @@ struct OutBuffer : Object
     void align(unsigned size);
     void vprintf(const char *format, va_list args);
     void printf(const char *format, ...);
-#if M_UNICODE
+#ifdef M_UNICODE
     void vprintf(const unsigned short *format, va_list args);
     void printf(const unsigned short *format, ...);
 #endif

@@ -1,6 +1,6 @@
 
 // Compiler implementation of the D programming language
-// Copyright (c) 1999-2009 by Digital Mars
+// Copyright (c) 1999-2010 by Digital Mars
 // All Rights Reserved
 // written by Walter Bright
 // http://www.digitalmars.com
@@ -53,10 +53,16 @@ void clearStringTab();
 elem *eictor;
 symbol *ictorlocalgot;
 elem *ector;
+Array ectorgates;
 elem *edtor;
 elem *etest;
 
+elem *esharedctor;
+Array esharedctorgates;
+elem *eshareddtor;
+
 int dtorcount;
+int shareddtorcount;
 
 char *lastmname;
 
@@ -104,7 +110,7 @@ void obj_write_deferred(Library *library)
         Identifier *id = new Identifier(idstr, TOKidentifier);
 
         Module *md = new Module(mname, id, 0, 0);
-        md->members = new Array();
+        md->members = new Dsymbols();
         md->members->push(s);   // its only 'member' is s
         if (m)
         {
@@ -112,6 +118,7 @@ void obj_write_deferred(Library *library)
             md->md = m->md;
             md->aimports.push(m);       // it only 'imports' m
             md->massert = m->massert;
+            md->munittest = m->munittest;
             md->marray = m->marray;
         }
 
@@ -206,9 +213,14 @@ void Module::genobjfile(int multiobj)
     eictor = NULL;
     ictorlocalgot = NULL;
     ector = NULL;
+    ectorgates.setDim(0);
     edtor = NULL;
+    esharedctor = NULL;
+    esharedctorgates.setDim(0);
+    eshareddtor = NULL;
     etest = NULL;
     dtorcount = 0;
+    shareddtorcount = 0;
 
     if (doppelganger)
     {
@@ -305,8 +317,8 @@ void Module::genobjfile(int multiobj)
         localgot = ictorlocalgot;
         elem *e;
 
-        e = el_params(el_ptr(cov), el_long(TYuint, numlines),
-                      el_ptr(bcov), el_long(TYuint, numlines),
+        e = el_params(el_pair(TYdarray, el_long(TYsize_t, numlines), el_ptr(cov)),
+                      el_pair(TYdarray, el_long(TYsize_t, numlines), el_ptr(bcov)),
                       toEfilename(),
                       NULL);
         e = el_bin(OPcall, TYvoid, el_var(rtlsym[RTLSYM_DCOVER]), e);
@@ -343,6 +355,18 @@ void Module::genobjfile(int multiobj)
         {
             localgot = NULL;
             sctor = toSymbolX("__modctor", SCglobal, t, moddeco);
+#if DMDV2
+            cstate.CSpsymtab = &sctor->Sfunc->Flocsym;
+
+            for (int i = 0; i < ectorgates.dim; i++)
+            {   StaticDtorDeclaration *f = (StaticDtorDeclaration *)ectorgates.data[i];
+
+                Symbol *s = f->vgate->toSymbol();
+                elem *e = el_var(s);
+                e = el_bin(OPaddass, TYint, e, el_long(TYint, 1));
+                ector = el_combine(ector, e);
+            }
+#endif
 
             block *b = block_calloc();
             b->BC = BCret;
@@ -365,6 +389,45 @@ void Module::genobjfile(int multiobj)
             sdtor->Sfunc->Fstartblock = b;
             writefunc(sdtor);
         }
+
+#if DMDV2
+        if (esharedctor || esharedctorgates.dim)
+        {
+            localgot = NULL;
+            ssharedctor = toSymbolX("__modsharedctor", SCglobal, t, moddeco);
+            cstate.CSpsymtab = &ssharedctor->Sfunc->Flocsym;
+
+            for (int i = 0; i < esharedctorgates.dim; i++)
+            {   SharedStaticDtorDeclaration *f = (SharedStaticDtorDeclaration *)esharedctorgates.data[i];
+
+                Symbol *s = f->vgate->toSymbol();
+                elem *e = el_var(s);
+                e = el_bin(OPaddass, TYint, e, el_long(TYint, 1));
+                esharedctor = el_combine(esharedctor, e);
+            }
+
+            block *b = block_calloc();
+            b->BC = BCret;
+            b->Belem = esharedctor;
+            ssharedctor->Sfunc->Fstartblock = b;
+            writefunc(ssharedctor);
+#if STATICCTOR
+            obj_staticctor(ssharedctor, shareddtorcount, 1);
+#endif
+        }
+
+        if (eshareddtor)
+        {
+            localgot = NULL;
+            sshareddtor = toSymbolX("__modshareddtor", SCglobal, t, moddeco);
+
+            block *b = block_calloc();
+            b->BC = BCret;
+            b->Belem = eshareddtor;
+            sshareddtor->Sfunc->Fstartblock = b;
+            writefunc(sshareddtor);
+        }
+#endif
 
         if (etest)
         {
@@ -390,7 +453,7 @@ void Module::genobjfile(int multiobj)
 
     if (global.params.multiobj)
     {   /* This is necessary because the main .obj for this module is written
-         * first, but determining whether marray or massert are needed is done
+         * first, but determining whether marray or massert or munittest are needed is done
          * possibly later in the doppelganger modules.
          * Another way to fix it is do the main one last.
          */
@@ -402,25 +465,30 @@ void Module::genobjfile(int multiobj)
     // If module assert
     for (int i = 0; i < 2; i++)
     {
-        Symbol *ma = i ? marray : massert;
+        Symbol *ma;
+        unsigned rt;
+        switch (i)
+        {
+            case 0:     ma = marray;    rt = RTLSYM_DARRAY;     break;
+            case 1:     ma = massert;   rt = RTLSYM_DASSERT;   break;
+            case 2:     ma = munittest; rt = RTLSYM_DUNITTESTM; break;
+            default:    assert(0);
+        }
 
         if (ma)
         {
             elem *elinnum;
-            elem *efilename;
 
             localgot = NULL;
 
             // Call dassert(filename, line)
             // Get sole parameter, linnum
             {
-                Symbol *sp;
-
-                sp = symbol_calloc("linnum");
+                Symbol *sp = symbol_calloc("linnum");
                 sp->Stype = type_fake(TYint);
                 sp->Stype->Tcount++;
                 sp->Sclass = SCfastpar;
-                sp->Spreg = AX;
+                sp->Spreg = I64 ? DI : AX;
                 sp->Sflags &= ~SFLspill;
                 sp->Sfl = FLpara;       // FLauto?
                 cstate.CSpsymtab = &ma->Sfunc->Flocsym;
@@ -429,9 +497,9 @@ void Module::genobjfile(int multiobj)
                 elinnum = el_var(sp);
             }
 
-            efilename = toEmodulename();
+            elem *efilename = toEmodulename();
 
-            elem *e = el_var(rtlsym[i ? RTLSYM_DARRAY : RTLSYM_DASSERT]);
+            elem *e = el_var(rtlsym[rt]);
             e = el_bin(OPcall, TYvoid, e, el_param(elinnum, efilename));
 
             block *b = block_calloc();
@@ -459,8 +527,6 @@ void Module::genobjfile(int multiobj)
 
 void FuncDeclaration::toObjFile(int multiobj)
 {
-    Symbol *s;
-    func_t *f;
     Symbol *senter;
     Symbol *sexit;
     FuncDeclaration *func = this;
@@ -469,7 +535,7 @@ void FuncDeclaration::toObjFile(int multiobj)
     int i;
     int has_arguments;
 
-    //printf("FuncDeclaration::toObjFile(%p, %s)\n", func, func->toChars());
+    //printf("FuncDeclaration::toObjFile(%p, %s.%s)\n", func, parent->toChars(), func->toChars());
 #if 0
     //printf("line = %d\n",func->getWhere() / LINEINC);
     EEcontext *ee = env->getEEcontext();
@@ -502,8 +568,8 @@ void FuncDeclaration::toObjFile(int multiobj)
     if (global.params.verbose)
         printf("function  %s\n",func->toChars());
 
-    s = func->toSymbol();
-    f = s->Sfunc;
+    Symbol *s = func->toSymbol();
+    func_t *f = s->Sfunc;
 
 #if TARGET_WINDOS
     /* This is done so that the 'this' pointer on the stack is the same
@@ -528,6 +594,11 @@ void FuncDeclaration::toObjFile(int multiobj)
             break;
         }
     }
+
+    /* Vector operations should be comdat's
+     */
+    if (isArrayOp)
+        s->Sclass = SCcomdat;
 
     if (isNested())
     {
@@ -670,9 +741,8 @@ void FuncDeclaration::toObjFile(int multiobj)
     if (reverse)
     {   // Reverse params[] entries
         for (i = 0; i < pi/2; i++)
-        {   Symbol *sptmp;
-
-            sptmp = params[i];
+        {
+            Symbol *sptmp = params[i];
             params[i] = params[pi - 1 - i];
             params[pi - 1 - i] = sptmp;
         }
@@ -723,16 +793,53 @@ void FuncDeclaration::toObjFile(int multiobj)
         symbol_add(sp);
     }
 
-    // First parameter goes in register
+    // Determine register assignments
     if (pi)
     {
-        Symbol *sp = params[0];
-        if ((tyf == TYjfunc || tyf == TYmfunc) &&
-            type_jparam(sp->Stype))
-        {   sp->Sclass = SCfastpar;
-            sp->Spreg = (tyf == TYjfunc) ? AX : CX;
-            sp->Sfl = FLauto;
-            //printf("'%s' is SCfastpar\n",sp->Sident);
+        if (global.params.isX86_64)
+        {
+            // Order of assignment of pointer or integer parameters
+            static const unsigned char argregs[6] = { DI,SI,DX,CX,R8,R9 };
+            int r = 0;
+            int xmmcnt = XMM0;
+
+            for (int i = 0; i < pi; i++)
+            {   Symbol *sp = params[i];
+                tym_t ty = tybasic(sp->Stype->Tty);
+                // BUG: doesn't work for structs
+                if (r < sizeof(argregs)/sizeof(argregs[0]))
+                {
+                    if (type_jparam(sp->Stype))
+                    {
+                        sp->Sclass = SCfastpar;
+                        sp->Spreg = argregs[r];
+                        sp->Sfl = FLauto;
+                        ++r;
+                    }
+                }
+                if (xmmcnt < XMM7)
+                {
+                    if (tyfloating(ty) && tysize(ty) <= 8)
+                    {
+                        sp->Sclass = SCfastpar;
+                        sp->Spreg = xmmcnt;
+                        sp->Sfl = FLauto;
+                        ++xmmcnt;
+                    }
+                }
+            }
+        }
+        else
+        {
+            // First parameter goes in register
+            Symbol *sp = params[0];
+            if ((tyf == TYjfunc || tyf == TYmfunc) &&
+                type_jparam(sp->Stype))
+            {   sp->Sclass = SCfastpar;
+                sp->Spreg = (tyf == TYjfunc) ? AX : CX;
+                sp->Sfl = FLauto;
+                //printf("'%s' is SCfastpar\n",sp->Sident);
+            }
         }
     }
 
@@ -753,6 +860,9 @@ void FuncDeclaration::toObjFile(int multiobj)
         bx.member = func;
         bx.module = getModule();
         irs.blx = &bx;
+#if DMDV2
+        buildClosure(&irs);
+#endif
 
 #if 0
         if (func->isSynchronized())
@@ -826,14 +936,46 @@ void FuncDeclaration::toObjFile(int multiobj)
     }
 
     // If static constructor
-    if (isStaticConstructor())
+#if DMDV2
+    if (isSharedStaticCtorDeclaration())        // must come first because it derives from StaticCtorDeclaration
+    {
+        elem *e = el_una(OPucall, TYvoid, el_var(s));
+        esharedctor = el_combine(esharedctor, e);
+    }
+    else
+#endif
+    if (isStaticCtorDeclaration())
     {
         elem *e = el_una(OPucall, TYvoid, el_var(s));
         ector = el_combine(ector, e);
     }
 
     // If static destructor
-    if (isStaticDestructor())
+#if DMDV2
+    if (isSharedStaticDtorDeclaration())        // must come first because it derives from StaticDtorDeclaration
+    {
+        elem *e;
+
+#if STATICCTOR
+        e = el_bin(OPcall, TYvoid, el_var(rtlsym[RTLSYM_FATEXIT]), el_ptr(s));
+        esharedctor = el_combine(esharedctor, e);
+        shareddtorcount++;
+#else
+        SharedStaticDtorDeclaration *f = isSharedStaticDtorDeclaration();
+        assert(f);
+        if (f->vgate)
+        {   /* Increment destructor's vgate at construction time
+             */
+            esharedctorgates.push(f);
+        }
+
+        e = el_una(OPucall, TYvoid, el_var(s));
+        eshareddtor = el_combine(e, eshareddtor);
+#endif
+    }
+    else
+#endif
+    if (isStaticDtorDeclaration())
     {
         elem *e;
 
@@ -845,7 +987,7 @@ void FuncDeclaration::toObjFile(int multiobj)
         StaticDtorDeclaration *f = isStaticDtorDeclaration();
         assert(f);
         if (f->vgate)
-        {   /* Increment vgate at construction time
+        {   /* Increment destructor's vgate at construction time
              */
             Symbol *s = f->vgate->toSymbol();
             e = el_var(s);
@@ -940,7 +1082,11 @@ unsigned Type::totym()
         case Tpointer:  t = TYnptr;     break;
         case Tdelegate: t = TYdelegate; break;
         case Tarray:    t = TYdarray;   break;
+#if SARRAYVALUE
+        case Tsarray:   t = TYstruct;   break;
+#else
         case Tsarray:   t = TYarray;    break;
+#endif
         case Tstruct:   t = TYstruct;   break;
 
         case Tenum:
@@ -972,6 +1118,7 @@ unsigned Type::totym()
         case 0:
             break;
         case MODconst:
+        case MODwild:
             t |= mTYconst;
             break;
         case MODimmutable:
@@ -980,6 +1127,7 @@ unsigned Type::totym()
         case MODshared:
             t |= mTYshared;
             break;
+        case MODshared | MODwild:
         case MODshared | MODconst:
             t |= mTYshared | mTYconst;
             break;
@@ -1009,7 +1157,7 @@ unsigned TypeFunction::totym()
         case LINKc:
             tyf = TYnfunc;
 #if TARGET_LINUX || TARGET_OSX || TARGET_FREEBSD || TARGET_SOLARIS
-            if (retStyle() == RETstack)
+            if (I32 && retStyle() == RETstack)
                 tyf = TYhfunc;
 #endif
             break;
@@ -1061,7 +1209,7 @@ Symbol *Module::gencritsec()
     s->Sfl = FLdata;
     /* Must match D_CRITICAL_SECTION in phobos/internal/critical.c
      */
-    dtnzeros(&s->Sdt, PTRSIZE + os_critsecsize());
+    dtnzeros(&s->Sdt, PTRSIZE + (I64 ? os_critsecsize64() : os_critsecsize32()));
 #if ELFOBJ || MACHOBJ // Burton
     s->Sseg = DATA;
 #endif
@@ -1116,7 +1264,7 @@ elem *Module::toEfilename()
 
         id = srcfile->toChars();
         len = strlen(id);
-        dtdword(&dt, len);
+        dtsize_t(&dt, len);
         dtabytes(&dt,TYnptr, 0, len + 1, id);
 
         sfilename = symbol_generate(SCstatic,type_fake(TYdarray));

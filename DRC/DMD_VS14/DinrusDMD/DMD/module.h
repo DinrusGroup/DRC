@@ -15,8 +15,8 @@
 #pragma once
 #endif /* __DMC__ */
 
-#include "../stdafx.h"
-
+#include "root.h"
+#include "dsymbol.h"
 
 struct ModuleInfoDeclaration;
 struct ClassDeclaration;
@@ -105,7 +105,7 @@ struct Module : Package
     Array *versionidsNot;       // forward referenced version identifiers
 
     Macro *macrotable;          // document comment macros
-//VK!	Escape *escapetable;        // document comment escapes
+    Escape *escapetable;        // document comment escapes
     bool safe;                  // TRUE if module is marked as 'safe'
 
     Module(char *arg, Identifier *ident, int doDocComment, int doHdrGen);

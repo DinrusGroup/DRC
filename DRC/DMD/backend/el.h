@@ -52,9 +52,6 @@ struct elem
         // PARSER
         struct
         {
-            struct TYPE *ET_;   // pointer to type of elem
-            #define ET _EU._EP.ET_
-
             unsigned PEFflags_;
             #define PEFflags _EU._EP.PEFflags_
                 #define PEFnotlvalue    1       // although elem may look like
@@ -100,6 +97,7 @@ struct elem
                                         // propagate this assignment into a paramter list
                                         // (see glocal.c)
 #endif
+                #define NFLtouns 0x80   // relational operator was changed from signed to unsigned
 #if MARS
             unsigned char Ejty_;                // original Jupiter/Mars type
             #define Ejty _EU._EO.Ejty_
@@ -128,7 +126,7 @@ struct elem
         }_EC;
     }_EU;
 
-    unsigned Enumbytes;         // number of bytes for type if TYstruct | TYarray
+    struct TYPE *ET;            // pointer to type of elem if TYstruct | TYarray
     TARGET_structELEM           // target specific additions
     Srcpos Esrcpos;             // source file position
 };
@@ -159,6 +157,8 @@ elem_p el_combine(elem_p ,elem_p);
 elem_p el_param(elem_p ,elem_p);
 elem_p el_params(elem_p , ...);
 elem *el_params(void **args, int length);
+elem *el_combines(void **args, int length);
+int el_nparams(elem *e);
 elem_p el_pair(tym_t, elem_p, elem_p);
 #if TX86 || DEBUG
 void el_copy(elem_p ,elem_p);
@@ -171,6 +171,7 @@ elem_p el_selecte2(elem_p);
 elem_p el_copytree(elem_p);
 void   el_replace_sym(elem *e,symbol *s1,symbol *s2);
 elem_p el_scancommas(elem_p);
+int el_countCommas(elem_p);
 int el_sideeffect(elem_p);
 #if TX86
 int el_depends(elem *ea,elem *eb);
@@ -183,6 +184,7 @@ targ_long el_tolongt(elem_p);
 targ_long el_tolong(elem_p);
 #endif
 int el_allbits(elem_p,int);
+int el_signx32(elem_p);
 targ_ldouble el_toldouble(elem_p);
 void el_toconst(elem_p);
 elem_p el_same(elem_p *);
@@ -237,7 +239,7 @@ elem *el_convfloat(elem *);
 elem *el_convstring(elem *);
 elem *el_convert(elem *e);
 int el_isdependent(elem *);
-
+unsigned el_alignsize(elem *);
 
 #if  (TARGET_POWERPC)
 // convert float | double constants to memory constants

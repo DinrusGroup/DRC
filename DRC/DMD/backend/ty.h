@@ -107,8 +107,8 @@ enum TYM
 
 #if MARS
 #define TYaarray        TYnptr
-#define TYdelegate      TYllong
-#define TYdarray        TYullong
+#define TYdelegate      (I64 ? TYcent : TYllong)
+#define TYdarray        (I64 ? TYucent : TYullong)
 #endif
 };
 
@@ -198,7 +198,7 @@ extern unsigned tytab[];
 #define tyreal(ty)      (tytab[(ty) & 0xFF] & TYFLreal)
 
 // Fits into 64 bit register
-#define ty64reg(ty)     (tytab[(ty) & 0xFF] & (TYFLintegral | TYFLptr))
+#define ty64reg(ty)     (tytab[(ty) & 0xFF] & (TYFLintegral | TYFLptr) && tysize(ty) <= NPTRSIZE)
 
 #ifndef tyshort
 /* Types that are chars or shorts       */
@@ -237,9 +237,11 @@ extern unsigned tytab[];
 
 /* Array to give the size in bytes of a type, -1 means error    */
 extern signed char tysize[];
+extern signed char tyalignsize[];
 
 // Give size of type
 #define tysize(ty)      tysize[(ty) & 0xFF]
+#define tyalignsize(ty) tyalignsize[(ty) & 0xFF]
 
 /* All data types that fit in exactly 8 bits    */
 #ifndef tybyte
@@ -256,7 +258,7 @@ extern signed char tysize[];
 #define tyfunc(ty)      (tytab[(ty) & 0xFF] & TYFLfunc)
 #endif
 
-/* Detect function type where parameters are pushed in reverse order    */
+/* Detect function type where parameters are pushed left to right    */
 #ifndef tyrevfunc
 #define tyrevfunc(ty)   (tytab[(ty) & 0xFF] & TYFLrevparam)
 #endif
@@ -293,7 +295,7 @@ extern const tym_t tytouns[];
 
 // Determine if parameter can go in register for TYjfunc
 #ifndef tyjparam
-#define tyjparam(ty)    (tysize(ty) <= intsize && !tyfloating(ty) && tybasic(ty) != TYstruct && tybasic(ty) != TYarray)
+#define tyjparam(ty)    (tysize(ty) <= NPTRSIZE && !tyfloating(ty) && tybasic(ty) != TYstruct && tybasic(ty) != TYarray)
 #endif
 
 /* Determine relaxed type       */

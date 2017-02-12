@@ -49,8 +49,9 @@ struct Declaration;
 #define XMM5    21
 #define XMM6    22
 #define XMM7    23
+/* There are also XMM8..XMM14 */
+#define XMM15   31
 
-/* There are also XMM8..XMM15 */
 
 #define ES      24
 #define PSW     25
@@ -97,13 +98,13 @@ struct Declaration;
 #define mXMM7   (1 << XMM7)
 #define XMMREGS  (mXMM0 |mXMM1 |mXMM2 |mXMM3 |mXMM4 |mXMM5 |mXMM6 |mXMM7)
 
-#define mES     (1 << ES)       // 0x10000
-#define mPSW    (1 << PSW)      // 0x20000
+#define mES     (1 << ES)       // 0x1000000
+#define mPSW    (1 << PSW)      // 0x2000000
 
-#define mSTACK  (1 << STACK)    // 0x40000
+#define mSTACK  (1 << STACK)    // 0x4000000
 
-#define mST0    (1 << ST0)      // 0x200000
-#define mST01   (1 << ST01)     // 0x400000
+#define mST0    (1 << ST0)      // 0x20000000
+#define mST01   (1 << ST01)     // 0x40000000
 
 // Flags for getlvalue (must fit in regm_t)
 #define RMload  (1 << 30)
@@ -230,16 +231,16 @@ extern regm_t BYTEREGS;
                         // (Iop2 is the type of special information)
                         // (Same as DS:, but we will never generate
                         // a separate DS: opcode anyway)
-    #define ESClinnum   1       // line number information
-    #define ESCctor     2       // object is constructed
-    #define ESCdtor     3       // object is destructed
-    #define ESCmark     4       // mark eh stack
-    #define ESCrelease  5       // release eh stack
-    #define ESCoffset   6       // set code offset for eh
-    #define ESCadjesp   7       // adjust ESP by IEV2.Vint
-    #define ESCmark2    8       // mark eh stack
-    #define ESCrelease2 9       // release eh stack
-    #define ESCframeptr 10      // replace with load of frame pointer
+    #define ESClinnum   (1 << 8)       // line number information
+    #define ESCctor     (2 << 8)       // object is constructed
+    #define ESCdtor     (3 << 8)       // object is destructed
+    #define ESCmark     (4 << 8)       // mark eh stack
+    #define ESCrelease  (5 << 8)       // release eh stack
+    #define ESCoffset   (6 << 8)       // set code offset for eh
+    #define ESCadjesp   (7 << 8)       // adjust ESP by IEV2.Vint
+    #define ESCmark2    (8 << 8)       // mark eh stack
+    #define ESCrelease2 (9 << 8)       // release eh stack
+    #define ESCframeptr (10 << 8)      // replace with load of frame pointer
 
 #define ASM     0x36    // string of asm bytes, actually an SS: opcode
 
@@ -395,11 +396,14 @@ struct code
 #define CFPREFIX (CFSEG | CFopsize | CFaddrsize)
 #define CFSEG   (CFes | CFss | CFds | CFcs | CFfs | CFgs)
 
+    /* The op code can be 1 to 3 bytes
+     */
+    unsigned Iop;
 
-    unsigned char Iop;
-    unsigned char Iop2;         // second opcode byte
-    unsigned char Iop3;         // third opcode byte
-
+    /* The _EA is the "effective address" for the instruction, and consists of the modregrm byte,
+     * the sib byte, and the REX prefix byte. The 16 bit code generator just used the modregrm,
+     * the 32 bit x86 added the sib, and the 64 bit one added the rex.
+     */
     union
     {   unsigned _Iea;
         struct
@@ -414,6 +418,12 @@ struct code
 #define Irm _EA._ea._Irm
 #define Isib _EA._ea._Isib
 #define Irex _EA._ea._Irex
+
+
+    /* IFL1 and IEV1 are the first operand, which usually winds up being the offset to the Effective
+     * Address. IFL1 is the tag saying which variant type is in IEV1. IFL2 and IEV2 is the second
+     * operand, usually for immediate instructions.
+     */
 
     unsigned char IFL1,IFL2;    // FLavors of 1st, 2nd operands
     union evc IEV1;             // 1st operand, if any
@@ -511,6 +521,27 @@ struct NDP
 };
 
 extern NDP _8087elems[8];
+
+/************************************
+ * Register save state.
+ */
+
+extern "C++"
+{
+struct REGSAVE
+{
+    targ_size_t off;            // offset on stack
+    unsigned top;               // high water mark
+    unsigned idx;               // current number in use
+    int alignment;              // 8 or 16
+
+    void reset();
+    code *save(code *c, int reg, unsigned *pidx);
+    code *restore(code *c, int reg, unsigned idx);
+};
+
+extern REGSAVE regsave;
+}
 
 /*******************************
  * As we generate code, collect information about
@@ -621,6 +652,7 @@ extern int clib_inited;
 int isscaledindex(elem *);
 int ssindex(int op,targ_uns product);
 void buildEA(code *c,int base,int index,int scale,targ_size_t disp);
+unsigned buildModregrm(int mod, int reg, int rm);
 void andregcon (con_t *pregconsave);
 code *docommas (elem **pe );
 code *gencodelem(code *c,elem *e,regm_t *pretregs,bool constflag);
@@ -811,6 +843,7 @@ code *nteh_monitor_epilog(regm_t retregs);
 code *code_last(code *c);
 void code_orflag(code *c,unsigned flag);
 void code_orrex(code *c,unsigned rex);
+code *setOpcode(code *c, code *cs, unsigned op);
 code * __pascal cat (code *c1 , code *c2 );
 code * cat3 (code *c1 , code *c2 , code *c3 );
 code * cat4 (code *c1 , code *c2 , code *c3 , code *c4 );

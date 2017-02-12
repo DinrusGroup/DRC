@@ -28,7 +28,7 @@ struct Lstring
     // No constructors because we want to be able to statically
     // initialize Lstring's, and Lstrings are of variable size.
 
-    #if M_UNICODE
+    #ifdef M_UNICODE
     #define LSTRING(p,length) { length, L##p }
     #else
     #define LSTRING(p,length) { length, p }

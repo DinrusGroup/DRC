@@ -178,34 +178,37 @@ unsigned type_alignsize(type *t)
 
 L1:
     type_debug(t);
-    switch (tybasic(t->Tty))
+
+    sz = tyalignsize(t->Tty);
+    if (sz == (targ_size_t)-1)
     {
-        case TYarray:
-            if (t->Tflags & TFsizeunknown)
-                goto err;
-            t = t->Tnext;
-            goto L1;
-        case TYstruct:
-            t = t->Ttag->Stype;         // find main instance
-                                        // (for const struct X)
-            if (t->Tflags & TFsizeunknown)
-                goto err;
-            sz = t->Ttag->Sstruct->Salignsize;
-            if (sz > t->Ttag->Sstruct->Sstructalign)
-                sz = t->Ttag->Sstruct->Sstructalign;
-            break;
+        switch (tybasic(t->Tty))
+        {
+            case TYarray:
+                if (t->Tflags & TFsizeunknown)
+                    goto err1;
+                t = t->Tnext;
+                goto L1;
+            case TYstruct:
+                t = t->Ttag->Stype;         // find main instance
+                                            // (for const struct X)
+                if (t->Tflags & TFsizeunknown)
+                    goto err1;
+                sz = t->Ttag->Sstruct->Salignsize;
+                if (sz > t->Ttag->Sstruct->Sstructalign)
+                    sz = t->Ttag->Sstruct->Sstructalign;
+                break;
 
-        case TYldouble:
-        case TYildouble:
-        case TYcldouble:
-            sz = 2;
-            break;
+            case TYldouble:
+                assert(0);
 
-        default:
-        err:                    // let type_size() handle error messages
-            sz = type_size(t);
-            break;
+            default:
+            err1:                   // let type_size() handle error messages
+                sz = type_size(t);
+                break;
+        }
     }
+
     //printf("type_alignsize() = %d\n", sz);
     return sz;
 }
@@ -217,16 +220,13 @@ L1:
  */
 
 targ_size_t type_paramsize(type *t)
-{   targ_size_t sz;
-
-    sz = 0;
+{
+    targ_size_t sz = 0;
     if (tyfunc(t->Tty))
-    {   param_t *p;
-
-        for (p = t->Tparamtypes; p; p = p->Pnext)
-        {   size_t n;
-
-            n = type_size(p->Ptype);
+    {
+        for (param_t *p = t->Tparamtypes; p; p = p->Pnext)
+        {
+            size_t n = type_size(p->Ptype);
             n = align(REGSIZE,n);       // align to REGSIZE boundary
             sz += n;
         }
@@ -912,10 +912,12 @@ int type_isvla(type *t)
 
 int type_jparam(type *t)
 {
+    targ_size_t sz;
     type_debug(t);
     return tyjparam(t->Tty) ||
-                ((tybasic(t->Tty) == TYstruct || tybasic(t->Tty) == TYarray) && type_size(t) <= intsize &&
-                 type_size(t) != 3 && type_size(t) != 0);
+                ((tybasic(t->Tty) == TYstruct || tybasic(t->Tty) == TYarray) &&
+                 (sz = type_size(t)) <= NPTRSIZE &&
+                 (sz == 1 || sz == 2 || sz == 4 || sz == 8));
 }
 
 

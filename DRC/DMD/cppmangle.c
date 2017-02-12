@@ -1,6 +1,6 @@
 
 // Compiler implementation of the D programming language
-// Copyright (c) 1999-2007 by Digital Mars
+// Copyright (c) 1999-2010 by Digital Mars
 // All Rights Reserved
 // written by Walter Bright
 // http://www.digitalmars.com
@@ -25,7 +25,7 @@
 #include "import.h"
 #include "aggregate.h"
 
-#if DMDV2
+#if CPP_MANGLE
 
 /* Do mangling for C++ linkage.
  * Follows Itanium C++ ABI 1.86
@@ -109,6 +109,11 @@ void cpp_mangle_name(OutBuffer *buf, CppMangleState *cms, Dsymbol *s)
         buf->writeByte('N');
 
         FuncDeclaration *fd = s->isFuncDeclaration();
+        if (!fd)
+        {
+            s->error("C++ static variables not supported");
+        }
+        else
         if (fd->isConst())
             buf->writeByte('K');
 
@@ -197,6 +202,9 @@ void TypeBasic::toCppMangle(OutBuffer *buf, CppMangleState *cms)
      * z        ellipsis
      * u <source-name>  # vendor extended type
      */
+
+    if (isConst())
+        buf->writeByte('K');
 
     switch (ty)
     {

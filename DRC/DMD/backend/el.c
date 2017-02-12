@@ -393,6 +393,35 @@ elem *el_params(void **args, int length)
                     el_params(args + mid, length - mid));
 }
 
+/*****************************************
+ * Do an array of parameters as a balanced
+ * binary tree.
+ */
+
+elem *el_combines(void **args, int length)
+{
+    if (length == 0)
+        return NULL;
+    if (length == 1)
+        return (elem *)args[0];
+    int mid = length >> 1;
+    return el_combine(el_combines(args, mid),
+                    el_combines(args + mid, length - mid));
+}
+
+/***************************************
+ * Return a list of the parameters.
+ */
+
+int el_nparams(elem *e)
+{
+    if (e->Eoper == OPparam)
+    {
+        return el_nparams(e->E1) + el_nparams(e->E2);
+    }
+    else
+        return 1;
+}
 
 /*************************************
  * Create a quad word out of two dwords.
@@ -782,7 +811,7 @@ elem * el_bin(unsigned op,tym_t ty,elem *e1,elem *e2)
     e->E1 = e1;
     e->E2 = e2;
     if (op == OPcomma && tyaggregate(ty))
-        e->Enumbytes = e2->Enumbytes;
+        e->ET = e2->ET;
     return e;
 }
 
@@ -1873,6 +1902,28 @@ elem *el_scancommas(elem *e)
     return e;
 }
 
+/***************************
+ * Count number of commas in the expression.
+ */
+
+int el_countCommas(elem *e)
+{   int ncommas = 0;
+    while (1)
+    {
+        if (EBIN(e))
+        {
+            ncommas += (e->Eoper == OPcomma) + el_countCommas(e->E2);
+        }
+        else if (EUNA(e))
+        {
+        }
+        else
+            break;
+        e = e->E1;
+    }
+    return ncommas;
+}
+
 #if (TARGET_POWERPC)
 void el_convconst(elem *e)
 {
@@ -2494,7 +2545,7 @@ L1:
         else if (OPTIMIZER)
         {
             if (op == OPstrpar || op == OPstrctor)
-            {   if (n1->Enumbytes != n2->Enumbytes)
+            {   if (/*n1->Enumbytes != n2->Enumbytes ||*/ n1->ET != n2->ET)
                     goto nomatch;
             }
             n1 = n1->E1;
@@ -2517,7 +2568,7 @@ L1:
         if (!PARSER)
         {
             if (op == OPstreq)
-            {   if (n1->Enumbytes != n2->Enumbytes)
+            {   if (/*n1->Enumbytes != n2->Enumbytes ||*/ n1->ET != n2->ET)
                     goto nomatch;
             }
         }
@@ -2561,6 +2612,12 @@ L1:
                     case TYullong:
                     case_llong:
                         if (n1->EV.Vllong != n2->EV.Vllong)
+                                goto nomatch;
+                        break;
+                    case TYcent:
+                    case TYucent:
+                        if (n1->EV.Vcent.lsw != n2->EV.Vcent.lsw ||
+                            n1->EV.Vcent.msw != n2->EV.Vcent.msw)
                                 goto nomatch;
                         break;
                     case TYenum:
@@ -2955,11 +3012,20 @@ L1:
             ty = tybasic(tym_conv(e->ET));
             goto L1;
 #endif
+
+        case TYcent:
+        case TYucent:
+            goto Ullong; // should do better than this when actually doing arithmetic on cents
+
         default:
 #if SCPP
             // Can happen as result of syntax errors
             assert(errcnt);
 #else
+#ifdef DEBUG
+            elem_print(e);
+            *(char*)0=0;
+#endif
             assert(0);
 #endif
     }
@@ -2999,6 +3065,22 @@ int el_allbits(elem *e,int bit)
     return value == 0;
 }
 
+/********************************************
+ * Determine if constant e is a 32 bit or less value, or is a 32 bit value sign extended to 64 bits.
+ */
+
+int el_signx32(elem *e)
+{
+    elem_debug(e);
+    assert(e->Eoper == OPconst);
+    if (tysize(e->Ety) == 8)
+    {
+        if (e->EV.Vullong != (int)e->EV.Vullong)
+            return FALSE;
+    }
+    return TRUE;
+}
+
 /******************************
  * Extract long double value from constant elem.
  * Silently ignore types which are not floating point values.
@@ -3010,15 +3092,19 @@ targ_ldouble el_toldouble(elem *e)
     elem_debug(e);
     assert(cnst(e));
 #if TX86
-    switch (tysize(typemask(e)))
+    switch (tybasic(typemask(e)))
     {
-        case FLOATSIZE:         // TYfloat
+        case TYfloat:
+        case TYifloat:
             result = e->EV.Vfloat;
             break;
-        case DOUBLESIZE:        // TYdouble
+        case TYdouble:
+        case TYidouble:
+        case TYdouble_alias:
             result = e->EV.Vdouble;
             break;
-        case LNGDBLSIZE:        // TYldouble
+        case TYldouble:
+        case TYildouble:
             result = e->EV.Vldouble;
             break;
     }
@@ -3098,6 +3184,22 @@ int el_isdependent(elem *e)
     return 0;
 }
 
+/****************************************
+ * Return alignment size of elem.
+ */
+
+unsigned el_alignsize(elem *e)
+{
+    tym_t tym = tybasic(e->Ety);
+    unsigned alignsize = tyalignsize(tym);
+    if (alignsize == (unsigned)-1)
+    {
+        assert(e->ET);
+        alignsize = type_alignsize(e->ET);
+    }
+    return alignsize;
+}
+
 /*******************************
  * Check for errors in a tree.
  */
@@ -3173,7 +3275,7 @@ void elem_print(elem *e)
  && (e->PEFflags & PEFstrsize)
 #endif
                )
-                dbg_printf("%d ",e->Enumbytes);
+                dbg_printf("%d ", (int)type_size(e->ET));
             WRTYxx(e->ET->Tty);
         }
   }
@@ -3181,7 +3283,8 @@ void elem_print(elem *e)
   {
         if ((e->Eoper == OPstrpar || e->Eoper == OPstrctor || e->Eoper == OPstreq) ||
             e->Ety == TYstruct)
-            dbg_printf("%d ",e->Enumbytes);
+            if (e->ET)
+                dbg_printf("%d ", (int)type_size(e->ET));
         WRTYxx(e->Ety);
   }
   if (OTunary(e->Eoper))
@@ -3195,7 +3298,7 @@ void elem_print(elem *e)
   else if (OTbinary(e->Eoper))
   {
         if (!PARSER && e->Eoper == OPstreq)
-                dbg_printf("bytes=%d ",e->Enumbytes);
+                dbg_printf("bytes=%d ", (int)type_size(e->ET));
         dbg_printf("%p %p\n",e->E1,e->E2);
         elem_print(e->E1);
         elem_print(e->E2);
@@ -3287,6 +3390,11 @@ void elem_print(elem *e)
                         dbg_printf("%lluLL ",e->EV.Vullong);
                         break;
 
+                    case TYcent:
+                    case TYucent:
+                        dbg_printf("%lluLL+%lluLL ", e->EV.Vcent.msw, e->EV.Vcent.lsw);
+                        break;
+
                     case TYfloat:
                         dbg_printf("%gf ",(double)e->EV.Vfloat);
                         break;
@@ -3315,7 +3423,7 @@ void elem_print(elem *e)
                         dbg_printf("%ldL ",e->EV.Vlong);
                         break;
 #else
-                        dbg_printf("%gL ",(double)e->EV.Vldouble);
+                        dbg_printf("%Lg ", e->EV.Vldouble);
 #endif
                         break;
 

@@ -1,5 +1,5 @@
 // Copyright (C) 1984-1998 by Symantec
-// Copyright (C) 2000-2010 by Digital Mars
+// Copyright (C) 2000-2011 by Digital Mars
 // All Rights Reserved
 // http://www.digitalmars.com
 // Written by Walter Bright
@@ -39,7 +39,7 @@ extern targ_size_t retsize;
 STATIC void pinholeopt_unittest();
 STATIC void do8bit (enum FL,union evc *);
 STATIC void do16bit (enum FL,union evc *,int);
-STATIC void do32bit (enum FL,union evc *,int);
+STATIC void do32bit (enum FL,union evc *,int,targ_size_t = 0);
 STATIC void do64bit (enum FL,union evc *,int);
 
 static int hasframe;            /* !=0 if this function has a stack frame */
@@ -218,17 +218,13 @@ static unsigned char inssize2[256] =
 int cod3_EA(code *c)
 {   unsigned ins;
 
-    switch (c->Iop)
-    {   case ESCAPE:
-            ins = 0;
-            break;
-        case 0x0F:
-            ins = inssize2[c->Iop2];
-            break;
-        default:
-            ins = inssize[c->Iop];
-            break;
-    }
+    unsigned op1 = c->Iop & 0xFF;
+    if (op1 == ESCAPE)
+        ins = 0;
+    else if ((c->Iop & 0xFF00) == 0x0F00)
+        ins = inssize2[op1];
+    else
+        ins = inssize[op1];
     return ins & M;
 }
 
@@ -283,11 +279,17 @@ void cod3_set64()
     inssize[0xA2] = T|5;                // MOV mem,AL
     inssize[0xA3] = T|5;                // MOV mem,RAX
     BPRM = 5;                           // [RBP] addressing mode
+
     fregsaved = mBP | mBX | mR12 | mR13 | mR14 | mR15 | mES;      // saved across function calls
     FLOATREGS = FLOATREGS_64;
     FLOATREGS2 = FLOATREGS2_64;
     DOUBLEREGS = DOUBLEREGS_64;
     STACKALIGN = 16;
+
+#if TARGET_LINUX || TARGET_OSX || TARGET_FREEBSD || TARGET_SOLARIS
+    ALLREGS = mAX|mBX|mCX|mDX|mSI|mDI|  mR8|mR9|mR10|mR11|mR12|mR13|mR14|mR15;
+    BYTEREGS = ALLREGS;
+#endif
 
     for (unsigned i = 0x80; i < 0x90; i++)
         inssize2[i] = W|T|6;
@@ -827,12 +829,38 @@ int jmpopcode(elem *e)
   {     i = 0;
         if (config.inline8087)
         {   i = 1;
+
+#if 1
+#define NOSAHF I64
+            if (rel_exception(op) || config.flags4 & CFG4fastfloat)
+            {
+                if (zero)
+                {
+                    if (NOSAHF)
+                        op = swaprel(op);
+                }
+                else if (NOSAHF)
+                    op = swaprel(op);
+                else if (cmporder87(e->E2))
+                    op = swaprel(op);
+                else
+                    ;
+            }
+            else
+            {
+                if (zero && config.target_cpu < TARGET_80386)
+                    ;
+                else
+                    op = swaprel(op);
+            }
+#else
             if (zero && !rel_exception(op) && config.target_cpu >= TARGET_80386)
                 op = swaprel(op);
             else if (!zero &&
                 (cmporder87(e->E2) || !(rel_exception(op) || config.flags4 & CFG4fastfloat)))
                 /* compare is reversed */
                 op = swaprel(op);
+#endif
         }
         jp = jfops[0][op - OPle];
         goto L1;
@@ -1066,8 +1094,7 @@ code *cdframeptr(elem *e, regm_t *pretregs)
         retregs = allregs;
     code *cg = allocreg(&retregs, &reg, TYint);
 
-    cs.Iop = ESCAPE;
-    cs.Iop2 = ESCframeptr;
+    cs.Iop = ESCAPE | ESCframeptr;
     cs.Iflags = 0;
     cs.Irex = 0;
     cs.Irm = reg;
@@ -1180,6 +1207,7 @@ code *prolog()
     unsigned xlocalsize;     // amount to subtract from ESP to make room for locals
     unsigned pushallocreg;
     char guessneedframe;
+    regm_t namedargs = 0;
 
     //printf("cod3.prolog(), needframe = %d, Aalign = %d\n", needframe, Aalign);
     debugx(debugw && printf("funcstart()\n"));
@@ -1211,6 +1239,7 @@ Lagain:
      *          DS                      (if Windows prolog/epilog)
      *          exception handling context symbol
      *  Aoff    autos and regs
+     *  regsave.off  any saved registers
      *  Foff    floating register
      *  AAoff   alloca temporary
      *  CSoff   common subs
@@ -1249,8 +1278,9 @@ Lagain:
             Aoff -= sz - (sz & (Aalign - 1));
     }
 
+    regsave.off = Aoff - align(0,regsave.top);
     Foffset = floatreg ? DOUBLESIZE : 0;
-    Foff = Aoff - align(0,Foffset);
+    Foff = regsave.off - align(0,Foffset);
     assert(usedalloca != 1);
     AAoff = usedalloca ? (Foff - REGSIZE) : Foff;
     CSoff = AAoff - align(0,cstop * REGSIZE);
@@ -1280,7 +1310,7 @@ Lagain:
     }
 
     //printf("Foff x%02x Aoff x%02x Toff x%02x NDPoff x%02x CSoff x%02x Poff x%02x localsize x%02x\n",
-        //Foff,Aoff,Toff,NDPoff,CSoff,Poff,localsize);
+        //(int)Foff,(int)Aoff,(int)Toff,(int)NDPoff,(int)CSoff,(int)Poff,(int)localsize);
 
     xlocalsize = localsize;
 
@@ -1465,6 +1495,7 @@ Lagain:
         if (xlocalsize)                 /* if any stack offset          */
         {
         Ladjstack:
+#if !TARGET_LINUX               // seems that Linux doesn't need to fault in stack pages
             if ((config.flags & CFGstack && !(I32 && xlocalsize < 0x1000)) // if stack overflow check
 #if TARGET_WINDOS
                 || (xlocalsize >= 0x1000 && config.exe & EX_flat)
@@ -1482,6 +1513,10 @@ Lagain:
                 }
                 else
                 {
+                    /* Watch out for 64 bit code where EDX is passed as a register parameter
+                     */
+                    int reg = I64 ? R11 : DX;  // scratch register
+
                     /*      MOV     EDX, xlocalsize/0x1000
                      *  L1: SUB     ESP, 0x1000
                      *      TEST    [ESP],ESP
@@ -1489,25 +1524,30 @@ Lagain:
                      *      JNE     L1
                      *      SUB     ESP, xlocalsize % 0x1000
                      */
-                    code *csub;
-
-                    c = movregconst(c, DX, xlocalsize / 0x1000, FALSE);
-                    csub = genc2(NULL,0x81,modregrm(3,5,SP),0x1000);
+                    c = movregconst(c, reg, xlocalsize / 0x1000, FALSE);
+                    code *csub = genc2(NULL,0x81,modregrm(3,5,SP),0x1000);
                     if (I64)
                         code_orrex(csub, REX_W);
                     code_orflag(csub, CFtarg2);
                     gen2sib(csub, 0x85, modregrm(0,SP,4),modregrm(0,4,SP));
-                    gen1(csub, 0x48 + DX);
-                    genc2(csub,JNE,0,(targ_uns)-12);
-                    regimmed_set(DX,0);             // EDX is now 0
+                    if (I64)
+                    {   gen2(csub, 0xFF, (REX_W << 16) | modregrmx(3,0,R11));   // DEC R11
+                        genc2(csub,JNE,0,(targ_uns)-14);
+                    }
+                    else
+                    {   gen1(csub, 0x48 + DX);                  // DEC EDX
+                        genc2(csub,JNE,0,(targ_uns)-12);
+                    }
+                    regimmed_set(reg,0);             // reg is now 0
                     genc2(csub,0x81,modregrm(3,5,SP),xlocalsize & 0xFFF);
                     if (I64)
                         code_orrex(csub, REX_W);
                     c = cat(c,csub);
-                    useregs(mDX);
+                    useregs(mask[reg]);
                 }
             }
             else
+#endif
             {
                 if (enter)
                 {   // ENTER xlocalsize,0
@@ -1698,7 +1738,7 @@ Lcont:
     for (si = 0; si < globsym.top; si++)
     {   symbol *s = globsym.tab[si];
         code *c2;
-        unsigned sz = tysize(s->ty());
+        unsigned sz = type_size(s->Stype);
 
         if ((s->Sclass == SCregpar || s->Sclass == SCparameter) &&
             s->Sfl == FLreg &&
@@ -1725,9 +1765,8 @@ Lcont:
                 c2->IEVpointer1 += EBPtoESP;
             }
             if (sz > REGSIZE)
-            {   code *c3;
-
-                c3 = genc1(CNIL,0x8B,
+            {
+                code *c3 = genc1(CNIL,0x8B,
                     modregxrm(2,s->Sregmsw,BPRM),FLconst,Poff + s->Soffset + REGSIZE);
                 if (I64)
                     c3->Irex |= REX_W;
@@ -1743,7 +1782,10 @@ Lcont:
             c = cat(c,c2);
         }
         else if (s->Sclass == SCfastpar)
-        {   unsigned preg = s->Spreg;
+        {   // Argument is passed in a register
+            unsigned preg = s->Spreg;
+
+            namedargs |= mask[preg];
 
             if (s->Sfl == FLreg)
             {   // MOV reg,preg
@@ -1759,52 +1801,216 @@ Lcont:
 #endif
                  (config.flags4 & CFG4optimized || !config.fulltypes)))
             {
+                // Ignore it, as it is never referenced
                 ;
             }
             else
             {
                 targ_size_t offset = Aoff + BPoff + s->Soffset;
+                int op = 0x89;                  // MOV x[EBP],preg
+                if (preg >= XMM0 && preg <= XMM15)
+                {
+                    if (sz == 8)
+                        op = 0xF20F11;          // MOVSD x[EBP],preg
+                    else
+                    {
+                        assert(sz == 4);
+                        op = 0xF30F11;          // MOVSS x[EBP],preg
+                    }
+                }
                 if (hasframe)
                 {
                     if (!(pushalloc && preg == pushallocreg))
-                    {   // MOV x[EBP],preg
-                        c2 = genc1(CNIL,0x89,
+                    {
+                        // MOV x[EBP],preg
+                        c2 = genc1(CNIL,op,
                             modregxrm(2,preg,BPRM),FLconst, offset);
-//printf("%s Aoff = %d, BPoff = %d, Soffset = %d\n", s->Sident, Aoff, BPoff, s->Soffset);
-//                      if (offset & 2)
-//                          c2->Iflags |= CFopsize;
-                        if (I64 && sz == 8)
-                            code_orrex(c2, REX_W);
+                        if (preg >= XMM0 && preg <= XMM15)
+                        {
+                        }
+                        else
+                        {
+//printf("%s Aoff = %d, BPoff = %d, Soffset = %d, sz = %d\n", s->Sident, (int)Aoff, (int)BPoff, (int)s->Soffset, (int)sz);
+//                          if (offset & 2)
+//                              c2->Iflags |= CFopsize;
+                            if (I64 && sz == 8)
+                                code_orrex(c2, REX_W);
+                        }
                         c = cat(c, c2);
                     }
                 }
                 else
                 {
-                    code *clast;
-
                     offset += EBPtoESP;
-#if 1
                     if (!(pushalloc && preg == pushallocreg))
-#else
-                    if (offset == 0 && (clast = code_last(c)) != NULL &&
-                        (clast->Iop & 0xF8) == 0x50)
                     {
-                        clast->Iop = 0x50 + preg;
-                    }
-                    else
-#endif
-                    {   // MOV offset[ESP],preg
+                        // MOV offset[ESP],preg
                         // BUG: byte size?
-                        c2 = genc1(CNIL,0x89,modregxrm(2,preg,4),FLconst,offset);
-                        c2->Isib = modregrm(0,4,SP);
-                        if (I64 && sz == 8)
-                            c2->Irex |= REX_W;
-//                      if (offset & 2)
-//                          c2->Iflags |= CFopsize;
+                        c2 = genc1(CNIL,op,
+                            (modregrm(0,4,SP) << 8) |
+                            modregxrm(2,preg,4),FLconst,offset);
+                        if (preg >= XMM0 && preg <= XMM15)
+                        {
+                        }
+                        else
+                        {
+                            if (I64 && sz == 8)
+                                c2->Irex |= REX_W;
+//                          if (offset & 2)
+//                              c2->Iflags |= CFopsize;
+                        }
                         c = cat(c,c2);
                     }
                 }
             }
+        }
+    }
+
+    /* Load arguments passed in registers into the varargs save area
+     * so they can be accessed by va_arg().
+     */
+    if (I64 && variadic(funcsym_p->Stype))
+    {
+        /* Look for __va_argsave
+         */
+        symbol *sv = NULL;
+        for (SYMIDX si = 0; si < globsym.top; si++)
+        {   symbol *s = globsym.tab[si];
+            if (s->Sident[0] == '_' && strcmp(s->Sident, "__va_argsave") == 0)
+            {   sv = s;
+                break;
+            }
+        }
+
+        if (sv && !(sv->Sflags & SFLdead))
+        {
+        /* Generate code to move any arguments passed in registers into
+         * the stack variable __va_argsave,
+         * so we can reference it via pointers through va_arg().
+         *   struct __va_argsave_t {
+         *     size_t[6] regs;
+         *     real[8] fpregs;
+         *     uint offset_regs;
+         *     uint offset_fpregs;
+         *     void* stack_args;
+         *     void* reg_args;
+         *   }
+         * The MOVAPS instructions seg fault if data is not aligned on
+         * 16 bytes, so this gives us a nice check to ensure no mistakes.
+            MOV     voff+0*8[RBP],EDI
+            MOV     voff+1*8[RBP],ESI
+            MOV     voff+2*8[RBP],RDX
+            MOV     voff+3*8[RBP],RCX
+            MOV     voff+4*8[RBP],R8
+            MOV     voff+5*8[RBP],R9
+            MOVZX   EAX,AL                      // AL = 0..8, # of XMM registers used
+            SHL     EAX,2                       // 4 bytes for each MOVAPS
+            LEA     RDX,offset L2[RIP]
+            SUB     RDX,RAX
+            LEA     RAX,voff+6*8+0x7F[RBP]
+            JMP     EDX
+            MOVAPS  -0x0F[RAX],XMM7             // only save XMM registers if actually used
+            MOVAPS  -0x1F[RAX],XMM6
+            MOVAPS  -0x2F[RAX],XMM5
+            MOVAPS  -0x3F[RAX],XMM4
+            MOVAPS  -0x4F[RAX],XMM3
+            MOVAPS  -0x5F[RAX],XMM2
+            MOVAPS  -0x6F[RAX],XMM1
+            MOVAPS  -0x7F[RAX],XMM0
+          L2:
+            MOV     1[RAX],offset_regs          // set __va_argsave.offset_regs
+            MOV     5[RAX],offset_fpregs        // set __va_argsave.offset_fpregs
+            LEA     RDX, Poff+Poffset[RBP]
+            MOV     9[RAX],RDX                  // set __va_argsave.stack_args
+            SUB     RAX,6*8+0x7F                // point to start of __va_argsave
+            MOV     6*8+8*16+4+4+8[RAX],RAX     // set __va_argsave.reg_args
+        */
+        targ_size_t voff = Aoff + BPoff + sv->Soffset;  // EBP offset of start of sv
+        const int vregnum = 6;
+        const unsigned vsize = vregnum * 8 + 8 * 16;
+        code *cv = CNIL;
+
+        static unsigned char regs[vregnum] = { DI,SI,DX,CX,R8,R9 };
+
+        if (!hasframe)
+            voff += EBPtoESP;
+        for (int i = 0; i < vregnum; i++)
+        {
+            unsigned r = regs[i];
+            if (!(mask[r] & namedargs))         // named args are already dealt with
+            {   unsigned ea = (REX_W << 16) | modregxrm(2,r,BPRM);
+                if (!hasframe)
+                    ea = (REX_W << 16) | (modregrm(0,4,SP) << 8) | modregxrm(2,r,4);
+                cv = genc1(cv,0x89,ea,FLconst,voff + i*8);
+            }
+        }
+
+        cv = genregs(cv,0x0FB6,AX,AX);                          // MOVZX EAX,AL
+        genc2(cv,0xC1,modregrm(3,4,AX),2);                      // SHL EAX,2
+        int raxoff = voff+6*8+0x7F;
+        unsigned L2offset = (raxoff < -0x7F) ? 0x2C : 0x29;
+        if (!hasframe)
+            L2offset += 1;                                      // +1 for sib byte
+        // LEA RDX,offset L2[RIP]
+        genc1(cv,0x8D,(REX_W << 16) | modregrm(0,DX,5),FLconst,L2offset);
+        genregs(cv,0x29,AX,DX);                                 // SUB RDX,RAX
+        code_orrex(cv, REX_W);
+        // LEA RAX,voff+vsize-6*8-16+0x7F[RBP]
+        unsigned ea = (REX_W << 16) | modregrm(2,AX,BPRM);
+        if (!hasframe)
+            // add sib byte for [RSP] addressing
+            ea = (REX_W << 16) | (modregrm(0,4,SP) << 8) | modregxrm(2,AX,4);
+        genc1(cv,0x8D,ea,FLconst,raxoff);
+        gen2(cv,0xFF,modregrm(3,4,DX));                         // JMP EDX
+        for (int i = 0; i < 8; i++)
+        {
+            // MOVAPS -15-16*i[RAX],XMM7-i
+            genc1(cv,0x0F29,modregrm(0,XMM7-i,0),FLconst,-15-16*i);
+        }
+
+        /* Compute offset_regs and offset_fpregs
+         */
+        unsigned offset_regs = 0;
+        unsigned offset_fpregs = vregnum * 8;
+        for (int i = AX; i <= XMM7; i++)
+        {   regm_t m = mask[i];
+            if (m & namedargs)
+            {
+                if (m & (mDI|mSI|mDX|mCX|mR8|mR9))
+                    offset_regs += 8;
+                else if (m & XMMREGS)
+                    offset_fpregs += 16;
+                namedargs &= ~m;
+                if (!namedargs)
+                    break;
+            }
+        }
+        // MOV 1[RAX],offset_regs
+        genc(cv,0xC7,modregrm(2,0,AX),FLconst,1,FLconst,offset_regs);
+
+        // MOV 5[RAX],offset_fpregs
+        genc(cv,0xC7,modregrm(2,0,AX),FLconst,5,FLconst,offset_fpregs);
+
+        // LEA RDX, Poff+Poffset[RBP]
+        ea = modregrm(2,DX,BPRM);
+        if (!hasframe)
+            ea = (modregrm(0,4,SP) << 8) | modregrm(2,DX,4);
+        Poffset = (Poffset + (REGSIZE - 1)) & ~(REGSIZE - 1);
+        genc1(cv,0x8D,(REX_W << 16) | ea,FLconst,Poff + Poffset);
+
+        // MOV 9[RAX],RDX
+        genc1(cv,0x89,(REX_W << 16) | modregrm(2,DX,AX),FLconst,9);
+
+        // SUB RAX,6*8+0x7F             // point to start of __va_argsave
+        genc2(cv,0x2D,0,6*8+0x7F);
+        code_orrex(cv, REX_W);
+
+        // MOV 6*8+8*16+4+4+8[RAX],RAX  // set __va_argsave.reg_args
+        genc1(cv,0x89,(REX_W << 16) | modregrm(2,AX,AX),FLconst,6*8+8*16+4+4+8);
+
+        pinholeopt(cv, NULL);
+        useregs(mDX|mAX);
+        c = cat(c,cv);
         }
     }
 
@@ -1913,7 +2119,7 @@ void epilog(block *b)
             if (reg & 8)
                 code_orrex(c, REX_B);
             topop &= ~regm;
-            spoff += intsize;
+            spoff += REGSIZE;
         }
         regm >>= 1;
         reg--;
@@ -2004,7 +2210,8 @@ Lret:
         {
             c = genc2(c,0xC2,0,4);                      // RET 4
         }
-        else if (!typfunc(tym) || Poffset == 0)
+        else if (!typfunc(tym) ||                       // if caller cleans the stack
+                 Poffset == 0)                          // or nothing pushed on the stack anyway
         {   op++;                                       // to a regular RET
             c = gen1(c,op);
         }
@@ -2124,21 +2331,27 @@ void cod3_thunk(symbol *sthunk,symbol *sfunc,unsigned p,tym_t thisty,
             MOV EAX, d2[EAX]                    EAX = this->vptr
             JMP i[EAX]                          jump to virtual function
          */
+        unsigned reg = 0;
+        if ((targ_ptrdiff_t)d < 0)
+        {
+            d = -d;
+            reg = 5;                            // switch from ADD to SUB
+        }
         if (thunkty == TYmfunc)
         {                                       // ADD ECX,d
             c = CNIL;
             if (d)
-                c = genc2(c,0x81,modregrm(3,0,CX),d);
+                c = genc2(c,0x81,modregrm(3,reg,CX),d);
         }
-        else if (thunkty == TYjfunc)
+        else if (thunkty == TYjfunc || (I64 && thunkty == TYnfunc))
         {                                       // ADD EAX,d
             c = CNIL;
             if (d)
-                c = genc2(c,0x81,modregrm(3,0,AX),d);
+                c = genc2(c,0x81,modregrm(3,reg,I64 ? DI : AX),d);
         }
         else
         {
-            c = genc(CNIL,0x81,modregrm(2,0,4),
+            c = genc(CNIL,0x81,modregrm(2,reg,4),
                 FLconst,p,                      // to this
                 FLconst,d);                     // ADD p[ESP],d
             c->Isib = modregrm(0,4,SP);
@@ -2299,7 +2512,7 @@ int branch(block *bl,int flag)
         csize = calccodsize(c);
         cn = code_next(c);
         op = c->Iop;
-        if ((op & 0xF0) == 0x70 && c->Iflags & CFjmp16 ||
+        if ((op & ~0x0F) == 0x70 && c->Iflags & CFjmp16 ||
             op == JMP)
         {
           L1:
@@ -2367,7 +2580,7 @@ int branch(block *bl,int flag)
                         /* Propagate branch forward past junk   */
                         while (1)
                         {   if (ct->Iop == NOP ||
-                                (ct->Iop == ESCAPE && ct->Iop2 == ESClinnum))
+                                ct->Iop == (ESCAPE | ESClinnum))
                             {   ct = code_next(ct);
                                 if (!ct)
                                     goto L2;
@@ -2428,8 +2641,7 @@ int branch(block *bl,int flag)
                         !(cn->Iflags & (CFtarg | CFtarg2))
                        )
                     {
-                        cn->Iop = 0x0F;
-                        cn->Iop2 = (c->Iop & 0x0F) ^ 0x81;
+                        cn->Iop = 0x0F00 | ((c->Iop & 0x0F) ^ 0x81);
                         c->Iop = NOP;
                         c->IEV2.Vcode = NULL;
                         bytesaved++;
@@ -2556,17 +2768,17 @@ void assignaddrc(code *c)
         if (code_next(c) && code_next(code_next(c)) == c)
             assert(0);
 #endif
-        if (c->Iop == 0x0F)
-            ins = inssize2[c->Iop2];
-        else if (c->Iop == ESCAPE)
+        if ((c->Iop & 0xFF00) == 0x0F00)
+            ins = inssize2[c->Iop & 0xFF];
+        else if ((c->Iop & 0xFF) == ESCAPE)
         {
-            if (c->Iop2 == ESCadjesp)
+            if (c->Iop == (ESCAPE | ESCadjesp))
             {
                 //printf("adjusting EBPtoESP (%d) by %ld\n",EBPtoESP,c->IEV2.Vint);
                 EBPtoESP += c->IEV2.Vint;
                 c->Iop = NOP;
             }
-            if (c->Iop2 == ESCframeptr)
+            if (c->Iop == (ESCAPE | ESCframeptr))
             {   // Convert to load of frame pointer
                 // c->Irm is the register to use
                 if (hasframe)
@@ -2593,7 +2805,7 @@ void assignaddrc(code *c)
             continue;
         }
         else
-            ins = inssize[c->Iop];
+            ins = inssize[c->Iop & 0xFF];
         if (!(ins & M) ||
             ((rm = c->Irm) & 0xC0) == 0xC0)
             goto do2;           /* if no first operand          */
@@ -2742,6 +2954,11 @@ void assignaddrc(code *c)
                 c->IEVpointer1 = sn * REGSIZE + CSoff + BPoff;
                 c->Iflags |= CFunambig;
                 goto L2;
+            case FLregsave:
+                sn = c->IEV1.Vuns;
+                c->IEVpointer1 = sn + regsave.off + BPoff;
+                c->Iflags |= CFunambig;
+                goto L2;
             case FLndp:
 #if MARS
                 assert(c->IEV1.Vuns < NDP::savetop);
@@ -2827,20 +3044,13 @@ void assignaddrc(code *c)
             case FLstack:
                 c->IEVpointer2 += s->Soffset + EBPtoESP - base;
                 break;
-#if 0
-            case FLcs:
-                sn = c->IEV2.Vuns;
-                c->IEVpointer2 = sn * 2 + CSoff + BPoff;
-                break;
-            case FLndp:
-                c->IEVpointer2 = c->IEV2.Vuns * NDPSAVESIZE + NDPoff + BPoff;
-                break;
-#else
+
             case FLcs:
             case FLndp:
+            case FLregsave:
                 assert(0);
                 /* NOTREACHED */
-#endif
+
             case FLconst:
                 break;
 
@@ -2937,10 +3147,10 @@ void pinholeopt(code *c,block *b)
   {
     L1:
         op = c->Iop;
-        if (op == 0x0F)
-            ins = inssize2[c->Iop2];
+        if ((op & 0xFF00) == 0x0F00)
+            ins = inssize2[op & 0xFF];
         else
-            ins = inssize[c->Iop];
+            ins = inssize[op & 0xFF];
         if (ins & M)            // if modregrm byte
         {   int shortop = (c->Iflags & CFopsize) ? !I16 : I16;
             int local_BPRM = BPRM;
@@ -3031,16 +3241,14 @@ void pinholeopt(code *c,block *b)
                             if (rm >= modregrm(3,4,AX))
                             {
                                 if (u == 0xFF && (rm <= modregrm(3,4,BX) || I64))
-                                {   c->Iop2 = 0xB6;     /* MOVZX        */
-                                    c->Iop = 0x0F;
+                                {   c->Iop = 0x0FB6;     // MOVZX
                                     c->Irm = modregrm(3,ereg,ereg);
                                     if (c->Irex & REX_B)
                                         c->Irex |= REX_R;
                                     goto L1;
                                 }
                                 if (u == 0xFFFF)
-                                {   c->Iop2 = 0xB7;     /* MOVZX        */
-                                    c->Iop = 0x0F;
+                                {   c->Iop = 0x0FB7;     // MOVZX
                                     c->Irm = modregrm(3,ereg,ereg);
                                     if (c->Irex & REX_B)
                                         c->Irex |= REX_R;
@@ -3240,7 +3448,7 @@ void pinholeopt(code *c,block *b)
             }
 
             // Look to replace SHL reg,1 with ADD reg,reg
-            if ((op & 0xFE) == 0xD0 &&
+            if ((op & ~1) == 0xD0 &&
                      (rm & modregrm(3,7,0)) == modregrm(3,4,0) &&
                      config.target_cpu >= TARGET_80486)
             {
@@ -3262,7 +3470,7 @@ void pinholeopt(code *c,block *b)
             {
                 a = c->IEVpointer1;
                 if (a == 0 && (rm & 7) != local_BPRM &&         // if 0[disp]
-                    !(local_BPRM == 5 && (rm & 7) == 4 && (c->Isib & 7) == BP && !(c->Irex & REX_B))
+                    !(local_BPRM == 5 && (rm & 7) == 4 && (c->Isib & 7) == BP)
                    )
                     c->Irm &= 0x3F;
                 else if (!I16)
@@ -3328,7 +3536,7 @@ void pinholeopt(code *c,block *b)
             switch (op)
             {
                 default:
-                    if ((op & 0xF0) != 0x70)
+                    if ((op & ~0x0F) != 0x70)
                         break;
                 case JMP:
                     switch (c->IFL2)
@@ -3473,9 +3681,9 @@ void jmpaddr(code *c)
   while (c)
   {
         op = c->Iop;
-        if (inssize[op] & T &&          /* if second operand            */
+        if (inssize[op & 0xFF] & T &&   // if second operand
             c->IFL2 == FLcode &&
-            ((op & 0xF0) == 0x70 || op == JMP || op == JMPS || op == JCXZ))
+            ((op & ~0x0F) == 0x70 || op == JMP || op == JMPS || op == JCXZ))
         {       ci = code_next(c);
                 ctarg = c->IEV2.Vcode;  /* target code                  */
                 ad = 0;                 /* IP displacement              */
@@ -3486,7 +3694,7 @@ void jmpaddr(code *c)
                 }
                 if (!ci)
                     goto Lbackjmp;      // couldn't find it
-                if (I32 || op == JMP || op == JMPS || op == JCXZ)
+                if (!I16 || op == JMP || op == JMPS || op == JCXZ)
                         c->IEVpointer2 = ad;
                 else                    /* else conditional             */
                 {       if (!(c->Iflags & CFjmp16))     /* if branch    */
@@ -3497,7 +3705,7 @@ void jmpaddr(code *c)
                                 code_next(code_next(c)) = cn;
                                 c->Iop = op ^ 1;        /* converse jmp */
                                 c->Iflags &= ~CFjmp16;
-                                c->IEVpointer2 = I32 ? 5 : 3;
+                                c->IEVpointer2 = I16 ? 3 : 5;
                                 cn = code_next(c);
                                 cn->Iop = JMP;          /* long jump    */
                                 cn->IFL2 = FLconst;
@@ -3534,7 +3742,11 @@ unsigned calcblksize(code *c)
 {   unsigned size;
 
     for (size = 0; c; c = code_next(c))
-        size += calccodsize(c);
+    {
+        unsigned sz = calccodsize(c);
+        //printf("off=%02x, sz = %d, code %p: op=%02x\n", size, sz, c, c->Iop);
+        size += sz;
+    }
 //printf("calcblksize(c = x%x) = %d\n", c, size);
     return size;
 }
@@ -3559,11 +3771,17 @@ unsigned calccodsize(code *c)
 #endif
     iflags = c->Iflags;
     op = c->Iop;
+    if ((op & 0xFF00) == 0x0F00)
+        op = 0x0F;
+    else
+        op &= 0xFF;
     switch (op)
     {
         case 0x0F:
-            ins = inssize2[c->Iop2];
+            ins = inssize2[c->Iop & 0xFF];
             size = ins & 7;
+            if (c->Iop & 0xFF0000)
+                size++;
             break;
 
         case NOP:
@@ -3640,10 +3858,10 @@ unsigned calccodsize(code *c)
                     }
                 }
                 else if (iflags & CFopsize)
-                {   if (I32)
-                        size -= 2;
-                    else
+                {   if (I16)
                         size += 2;
+                    else
+                        size -= 2;
                 }
             }
             if (iflags & CFaddrsize)
@@ -3656,7 +3874,7 @@ unsigned calccodsize(code *c)
         }
     }
 
-    if ((op & 0xF0) == 0x70)
+    if ((op & ~0x0F) == 0x70)
     {   if (iflags & CFjmp16)           // if long branch
             size += I16 ? 3 : 4;        // + 3(4) bytes for JMP
     }
@@ -3700,7 +3918,7 @@ unsigned calccodsize(code *c)
 Lret:
     if (c->Irex)
     {   size++;
-        if (c->Irex & REX_W && (op & 0xF8) == 0xB8)
+        if (c->Irex & REX_W && (op & ~7) == 0xB8)
             size += 4;
     }
 Lret2:
@@ -3725,38 +3943,33 @@ int code_match(code *c1,code *c2)
     if (cs1.Iop != cs2.Iop)
         goto nomatch;
     switch (cs1.Iop)
-    {   case ESCAPE:
-            switch (c->Iop2)
-            {
-                case ESCctor:
-                    goto nomatch;
-                case ESCdtor:
-                    goto nomatch;
-            }
-            goto match;
+    {
+        case ESCAPE | ESCctor:
+        case ESCAPE | ESCdtor:
+            goto nomatch;
+
         case NOP:
             goto match;
+
         case ASM:
             if (cs1.IEV1.as.len == cs2.IEV1.as.len &&
                 memcmp(cs1.IEV1.as.bytes,cs2.IEV1.as.bytes,cs1.EV1.as.len) == 0)
                 goto match;
             else
                 goto nomatch;
+
+        default:
+            if ((cs1.Iop & 0xFF) == ESCAPE)
+                goto match;
+            break;
     }
     if (cs1.Iflags != cs2.Iflags)
         goto nomatch;
 
-    ins = inssize[cs1.Iop];
-    if (cs1.Iop == 0x0F)
+    ins = inssize[cs1.Iop & 0xFF];
+    if ((cs1.Iop & 0xFF00) == 0x0F00)
     {
-        if (cs1.Iop2 != cs2.Iop2)
-            goto nomatch;
-        if (cs1.Iop2 == 0x38 || cs1.Iop2 == 0x3A)
-        {
-            if (cs1.Iop3 != cs2.Iop3)
-                goto nomatch;
-        }
-        ins = inssize2[cs1.Iop2];
+        ins = inssize2[cs1.Iop & 0xFF];
     }
 
     if (ins & M)                // if modregrm byte
@@ -3856,12 +4069,13 @@ unsigned codout(code *c)
   {
 #ifdef DEBUG
         if (debugc) { printf("off=%02lx, sz=%ld, ",(long)OFFSET(),(long)calccodsize(c)); c->print(); }
+        unsigned startoffset = OFFSET();
 #endif
         op = c->Iop;
-        ins = inssize[op];
-        switch (op)
+        ins = inssize[op & 0xFF];
+        switch (op & 0xFF)
         {   case ESCAPE:
-                switch (c->Iop2)
+                switch (op & 0xFF00)
                 {   case ESClinnum:
                         /* put out line number stuff    */
                         objlinnum(c->IEV2.Vsrcpos,OFFSET());
@@ -3895,10 +4109,20 @@ unsigned codout(code *c)
 #endif
 #endif
                 }
+#ifdef DEBUG
+                assert(calccodsize(c) == 0);
+#endif
                 continue;
             case NOP:                   /* don't send them out          */
+                if (op != NOP)
+                    break;
+#ifdef DEBUG
+                assert(calccodsize(c) == 0);
+#endif
                 continue;
             case ASM:
+                if (op != ASM)
+                    break;
                 FLUSH();
                 if (c->Iflags == CFaddrsize)    // kludge for DA inline asm
                 {
@@ -3908,12 +4132,15 @@ unsigned codout(code *c)
                 {
                     offset += obj_bytes(cseg,offset,c->IEV1.as.len,c->IEV1.as.bytes);
                 }
+#ifdef DEBUG
+                assert(calccodsize(c) == c->IEV1.as.len);
+#endif
                 continue;
         }
         flags = c->Iflags;
 
         // See if we need to flush (don't have room for largest code sequence)
-        if (pgen - bytes > sizeof(bytes) - (4+4+4+4))
+        if (pgen - bytes > sizeof(bytes) - (1+4+4+8+8))
             FLUSH();
 
         // see if we need to put out prefix bytes
@@ -3941,12 +4168,11 @@ unsigned codout(code *c)
             if (flags & CFopsize)
                 GEN(0x66);                      /* operand size         */
 
-            if ((op & 0xF0) == 0x70 && flags & CFjmp16) /* long condit jmp */
+            if ((op & ~0x0F) == 0x70 && flags & CFjmp16) /* long condit jmp */
             {
                 if (!I16)
                 {   // Put out 16 bit conditional jump
-                    c->Iop2 = 0x80 | (op & 0x0F);
-                    c->Iop = op = 0x0F;
+                    c->Iop = op = 0x0F00 | (0x80 | (op & 0x0F));
                 }
                 else
                 {
@@ -3964,15 +4190,50 @@ unsigned codout(code *c)
             }
         }
 
-        if (c->Irex)
-            GEN(c->Irex | REX);
-        GEN(op);
-        if (op == 0x0F)
+        if (op > 0xFF)
         {
-           ins = inssize2[c->Iop2];
-           GEN(c->Iop2);
-           if (c->Iop2 == 0x38 || c->Iop2 == 0x3A)
-                GEN(c->Iop3);
+            if ((op & 0xFF00) == 0x0F00)
+                ins = inssize2[op & 0xFF];
+            if (op & 0xFF000000)
+            {
+                if (c->Irex)
+                    GEN(c->Irex | REX);
+                GEN(op >> 24);
+                GEN((op >> 8) & 0xFF);
+                GEN(op & 0xFF);
+                GEN((op >> 16) & 0xFF);         // yes, this is out of order. For 0x660F3A41 & 40
+            }
+            else if (op & 0xFF0000)
+            {
+                unsigned char op1 = op >> 16;
+                if (op1 == 0xF2 || op1 == 0xF3)
+                {
+                    GEN(op1);
+                    if (c->Irex)
+                        GEN(c->Irex | REX);
+                }
+                else
+                {
+                    if (c->Irex)
+                        GEN(c->Irex | REX);
+                    GEN(op1);
+                }
+                GEN((op >> 8) & 0xFF);
+                GEN(op & 0xFF);
+            }
+            else
+            {
+                if (c->Irex)
+                    GEN(c->Irex | REX);
+                GEN((op >> 8) & 0xFF);
+                GEN(op & 0xFF);
+            }
+        }
+        else
+        {
+            if (c->Irex)
+                GEN(c->Irex | REX);
+            GEN(op);
         }
         if (ins & M)            /* if modregrm byte             */
         {
@@ -3995,8 +4256,28 @@ unsigned codout(code *c)
                               (rm & 7) == 5))
                             break;
                     case 0x80:
-                        do32bit((enum FL)c->IFL1,&c->IEV1,CFoff | CFpc32);
+                    {   int flags = CFoff;
+                        targ_size_t val = 0;
+                        if (I64)
+                        {
+                            if ((rm & modregrm(3,0,7)) == modregrm(0,0,5))      // if disp32[RIP]
+                            {   flags |= CFpc32;
+                                val = -4;
+                                unsigned reg = rm & modregrm(0,7,0);
+                                if (ins & T ||
+                                    ((op == 0xF6 || op == 0xF7) && (reg == modregrm(0,0,0) || reg == modregrm(0,1,0))))
+                                {   if (ins & E)
+                                        val = -5;
+                                    else if (c->Iflags & CFopsize)
+                                        val = -6;
+                                    else
+                                        val = -8;
+                                }
+                            }
+                        }
+                        do32bit((enum FL)c->IFL1,&c->IEV1,flags,val);
                         break;
+                    }
                 }
             }
             else
@@ -4070,7 +4351,7 @@ unsigned codout(code *c)
                             goto case_default;
 
                         default:
-                            if (I64 && (op & 0xF8) == 0xB8 && c->Irex & REX_W)
+                            if (I64 && (op & ~7) == 0xB8 && c->Irex & REX_W)
                                 goto do64;
                         case_default:
                             if (c->Iflags & CFopsize)
@@ -4153,6 +4434,14 @@ unsigned codout(code *c)
                     do16bit((enum FL)c->IFL2,&c->IEV2,flags);
             }
         }
+#ifdef DEBUG
+        if (OFFSET() - startoffset != calccodsize(c))
+        {
+            printf("actual: %d, calc: %d\n", (int)(OFFSET() - startoffset), (int)calccodsize(c));
+            c->print();
+            assert(0);
+        }
+#endif
     }
     FLUSH();
     Coffset = offset;
@@ -4247,7 +4536,7 @@ STATIC void do64bit(enum FL fl,union evc *uev,int flags)
 }
 
 
-STATIC void do32bit(enum FL fl,union evc *uev,int flags)
+STATIC void do32bit(enum FL fl,union evc *uev,int flags, targ_size_t val)
 { char *p;
   symbol *s;
   targ_size_t ad;
@@ -4301,7 +4590,7 @@ STATIC void do32bit(enum FL fl,union evc *uev,int flags)
 #endif
         FLUSH();
         s = uev->sp.Vsym;               /* symbol pointer               */
-        reftoident(cseg,offset,s,uev->sp.Voffset,flags);
+        reftoident(cseg,offset,s,uev->sp.Voffset + val,flags);
         break;
 
 #if TARGET_OSX
@@ -4331,7 +4620,7 @@ STATIC void do32bit(enum FL fl,union evc *uev,int flags)
         {
                 assert(!(TARGET_FLAT && tyfarfunc(s->ty())));
                 FLUSH();
-                reftoident(cseg,offset,s,0,flags);
+                reftoident(cseg,offset,s,val,flags);
         }
         break;
 
@@ -4620,7 +4909,8 @@ void outfixlist()
         }
   }
 }
-
+
+
 /**********************************
  */
 
@@ -4635,24 +4925,24 @@ void code_hydrate(code **pc)
     while (*pc)
     {
         c = (code *) ph_hydrate(pc);
+        if ((c->Iop & 0xFF00) == 0x0F00)
+            ins = inssize2[c->Iop & 0xFF];
+        else
+            ins = inssize[c->Iop & 0xFF];
         switch (c->Iop)
-        {   case 0x0F:
-                ins = inssize2[c->Iop2];
-                break;
+        {
             default:
-                ins = inssize[c->Iop];
                 break;
-            case ESCAPE:
-                switch (c->Iop2)
-                {   case ESClinnum:
-                        srcpos_hydrate(&c->IEV2.Vsrcpos);
-                        break;
-                    case ESCctor:
-                    case ESCdtor:
-                        el_hydrate(&c->IEV1.Vtor);
-                        break;
-                }
+
+            case ESCAPE | ESClinnum:
+                srcpos_hydrate(&c->IEV2.Vsrcpos);
                 goto done;
+
+            case ESCAPE | ESCctor:
+            case ESCAPE | ESCdtor:
+                el_hydrate(&c->IEV1.Vtor);
+                goto done;
+
             case ASM:
                 ph_hydrate(&c->IEV1.as.bytes);
                 goto done;
@@ -4799,24 +5089,24 @@ void code_dehydrate(code **pc)
     {
         ph_dehydrate(pc);
 
+        if ((c->Iop & 0xFF00) == 0x0F00)
+            ins = inssize2[c->Iop & 0xFF];
+        else
+            ins = inssize[c->Iop & 0xFF];
         switch (c->Iop)
-        {   case 0x0F:
-                ins = inssize2[c->Iop2];
-                break;
+        {
             default:
-                ins = inssize[c->Iop];
                 break;
-            case ESCAPE:
-                switch (c->Iop2)
-                {   case ESClinnum:
-                        srcpos_dehydrate(&c->IEV2.Vsrcpos);
-                        break;
-                    case ESCctor:
-                    case ESCdtor:
-                        el_dehydrate(&c->IEV1.Vtor);
-                        break;
-                }
+
+            case ESCAPE | ESClinnum:
+                srcpos_dehydrate(&c->IEV2.Vsrcpos);
                 goto done;
+
+            case ESCAPE | ESCctor:
+            case ESCAPE | ESCdtor:
+                el_dehydrate(&c->IEV1.Vtor);
+                goto done;
+
             case ASM:
                 ph_dehydrate(&c->IEV1.as.bytes);
                 goto done;
@@ -4962,36 +5252,48 @@ void WRcodlst(code *c)
 
 void code::print()
 {
-  unsigned op,rm;
-  unsigned char ins;
-  code *c = this;
+    unsigned char ins;
+    code *c = this;
 
-  if (c == CNIL)
-  {     printf("code 0\n");
+    if (c == CNIL)
+    {   printf("code 0\n");
         return;
-  }
-  op = c->Iop;
-  ins = inssize[op];
-  if (op == 0x0F)
-  {     op = 0x0F00 + c->Iop2;
-        if (op == 0x0F38 || op == 0x0F3A)
-            op = (op << 8) | c->Iop3;
-        ins = inssize2[c->Iop2];
-  }
-  printf("code %p: nxt=%p op=%02x",c,code_next(c),op);
-  if (op == ESCAPE)
-  {     if (c->Iop2 == ESClinnum)
+    }
+
+    unsigned op = c->Iop;
+    if ((c->Iop & 0xFF00) == 0x0F00)
+        ins = inssize2[op & 0xFF];
+    else
+        ins = inssize[op & 0xFF];
+
+    printf("code %p: nxt=%p ",c,code_next(c));
+    if (c->Irex)
+    {   printf("rex=%x ", c->Irex);
+        if (c->Irex & REX_W)
+            printf("W");
+        if (c->Irex & REX_R)
+            printf("R");
+        if (c->Irex & REX_X)
+            printf("X");
+        if (c->Irex & REX_B)
+            printf("B");
+        printf(" ");
+    }
+    printf("op=%02x",op);
+
+  if ((op & 0xFF) == ESCAPE)
+  {     if ((op & 0xFF00) == ESClinnum)
         {   printf(" linnum = %d\n",c->IEV2.Vsrcpos.Slinnum);
             return;
         }
-        printf(" ESCAPE %d",c->Iop2);
+        printf(" ESCAPE %d",c->Iop >> 8);
   }
   if (c->Iflags)
         printf(" flg=%x",c->Iflags);
   if (ins & M)
-  {     rm = c->Irm;
+  {     unsigned rm = c->Irm;
         printf(" rm=%02x=%d,%d,%d",rm,(rm>>6)&3,(rm>>3)&7,rm&7);
-        if (I32 && issib(rm))
+        if (!I16 && issib(rm))
         {   unsigned char sib = c->Isib;
             printf(" sib=%02x=%d,%d,%d",sib,(sib>>6)&3,(sib>>3)&7,sib&7);
         }
@@ -5024,6 +5326,9 @@ void code::print()
                 case FLbprel:
                 case FLtlsdata:
                     printf(" sym='%s'",c->IEVsym1->Sident);
+                    break;
+                case FLextern:
+                    printf(" FLextern offset = %4d",(int)c->IEVoffset1);
                     break;
                 default:
                     WRFL((enum FL)c->IFL1);

@@ -64,6 +64,7 @@ Identifier *Id::_arguments_typeinfo;
 Identifier *Id::_arguments;
 Identifier *Id::_argptr;
 Identifier *Id::_match;
+Identifier *Id::m_align;
 Identifier *Id::LINE;
 Identifier *Id::FILE;
 Identifier *Id::DATE;
@@ -179,6 +180,8 @@ Identifier *Id::alloca;
 Identifier *Id::main;
 Identifier *Id::WinMain;
 Identifier *Id::DllMain;
+Identifier *Id::va_argsave_t;
+Identifier *Id::va_argsave;
 void Id::initialize()
 {
     IUnknown = Lexer::idPool("IUnknown");
@@ -243,6 +246,7 @@ void Id::initialize()
     _arguments = Lexer::idPool("_arguments");
     _argptr = Lexer::idPool("_argptr");
     _match = Lexer::idPool("_match");
+    m_align = Lexer::idPool("m_align");
     LINE = Lexer::idPool("__LINE__");
     FILE = Lexer::idPool("__FILE__");
     DATE = Lexer::idPool("__DATE__");
@@ -358,4 +362,6 @@ void Id::initialize()
     main = Lexer::idPool("main");
     WinMain = Lexer::idPool("WinMain");
     DllMain = Lexer::idPool("DllMain");
+    va_argsave_t = Lexer::idPool("__va_argsave_t");
+    va_argsave = Lexer::idPool("__va_argsave");
 }

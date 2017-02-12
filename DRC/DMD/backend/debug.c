@@ -107,7 +107,7 @@ void WRTYxx(tym_t t)
 #endif
     t = tybasic(t);
     if (t >= TYMAX)
-    {   dbg_printf("TY %lx\n",t);
+    {   dbg_printf("TY %lx\n",(long)t);
         assert(0);
     }
     dbg_printf("TY%s ",tystring[tybasic(t)]);
@@ -185,7 +185,7 @@ void WReqn(elem *e)
         ferr(" ");
         WROP(e->Eoper);
         if (e->Eoper == OPstreq)
-            dbg_printf("%ld",e->Enumbytes);
+            dbg_printf("%ld",(long)type_size(e->ET));
         ferr(" ");
         if (OTbinary(e->E2->Eoper))
         {       nest++;
@@ -209,6 +209,13 @@ void WReqn(elem *e)
                     case TYdouble:
                         dbg_printf("%g ",e->EV.Vdouble);
                         break;
+                    case TYldouble:
+                        dbg_printf("%Lg ",e->EV.Vldouble);
+                        break;
+                    case TYcent:
+                    case TYucent:
+                        dbg_printf("%lld+%lld ", e->EV.Vcent.msw, e->EV.Vcent.lsw);
+                        break;
                     default:
                         dbg_printf("%lld ",el_tolong(e));
                         break;
@@ -222,7 +229,7 @@ void WReqn(elem *e)
                 if (e->EV.sp.Vsym->Ssymnum != -1)
                     dbg_printf("(%d)",e->EV.sp.Vsym->Ssymnum);
                 if (e->Eoffset != 0)
-                        dbg_printf(".%ld",e->Eoffset);
+                        dbg_printf(".%ld",(long)e->Eoffset);
                 break;
             case OPasm:
 #if TARGET_MAC
@@ -238,11 +245,12 @@ void WReqn(elem *e)
             case OPstring:
                 dbg_printf("\"%s\"",e->EV.ss.Vstring);
                 if (e->EV.ss.Voffset)
-                    dbg_printf("+%ld",e->EV.ss.Voffset);
+                    dbg_printf("+%ld",(long)e->EV.ss.Voffset);
                 break;
             case OPmark:
             case OPgot:
             case OPframeptr:
+            case OPhalt:
                 WROP(e->Eoper);
                 break;
             case OPstrthis:

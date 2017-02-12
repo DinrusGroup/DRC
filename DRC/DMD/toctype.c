@@ -1,8 +1,12 @@
 
-// Copyright (c) 1999-2009 by Digital Mars
+// Copyright (c) 1999-2010 by Digital Mars
 // All Rights Reserved
 // written by Walter Bright
 // http://www.digitalmars.com
+// http://www.dsource.org/projects/dmd/browser/branches/dmd-1.x/src/toctype.c
+// License for redistribution is by either the Artistic License
+// in artistic.txt, or the GNU General Public License in gnu.txt.
+// See the included readme.txt for details.
 
 #include <stdio.h>
 #include <stddef.h>
@@ -63,8 +67,12 @@ type *Type::toCParamtype()
 
 type *TypeSArray::toCParamtype()
 {
+#if SARRAYVALUE
+    return toCtype();
+#else
     // arrays are passed as pointers
     return next->pointerTo()->toCtype();
+#endif
 }
 
 type *TypeSArray::toCtype()
@@ -223,15 +231,11 @@ type *TypeFunction::toCtype()
 
     if (1)
     {
-        param_t *paramtypes;
-        tym_t tyf;
-        type *tp;
-
-        paramtypes = NULL;
+        param_t *paramtypes = NULL;
         size_t nparams = Parameter::dim(parameters);
         for (size_t i = 0; i < nparams; i++)
         {   Parameter *arg = Parameter::getNth(parameters, i);
-            tp = arg->type->toCtype();
+            type *tp = arg->type->toCtype();
             if (arg->storageClass & (STCout | STCref))
             {   // C doesn't have reference types, so it's really a pointer
                 // to the parameter type
@@ -239,12 +243,13 @@ type *TypeFunction::toCtype()
             }
             param_append_type(&paramtypes,tp);
         }
-        tyf = totym();
+        tym_t tyf = totym();
         t = type_alloc(tyf);
         t->Tflags |= TFprototype;
         if (varargs != 1)
             t->Tflags |= TFfixed;
         ctype = t;
+        assert(next);           // function return type should exist
         t->Tnext = next->toCtype();
         t->Tnext->Tcount++;
         t->Tparamtypes = paramtypes;
@@ -321,7 +326,7 @@ type *TypeStruct::toCtype()
     s->Sstruct = struct_calloc();
     s->Sstruct->Sflags |= 0;
     s->Sstruct->Salignsize = sym->alignsize;
-    s->Sstruct->Sstructalign = sym->structalign;
+    s->Sstruct->Sstructalign = sym->alignsize;
     s->Sstruct->Sstructsize = sym->structsize;
 
     if (sym->isUnionDeclaration())
@@ -335,6 +340,7 @@ type *TypeStruct::toCtype()
     ctype = t;
 
     /* Add in fields of the struct
+     * (after setting ctype to avoid infinite recursion)
      */
     if (global.params.symdebug)
         for (int i = 0; i < sym->fields.dim; i++)
@@ -372,30 +378,29 @@ type *TypeClass::toCtype()
     if (ctype)
         return ctype;
 
+    s = symbol_calloc(sym->toPrettyChars());
+    s->Sclass = SCstruct;
+    s->Sstruct = struct_calloc();
+    s->Sstruct->Sflags |= STRclass;
+    s->Sstruct->Salignsize = sym->alignsize;
+    s->Sstruct->Sstructalign = sym->structalign;
+    s->Sstruct->Sstructsize = sym->structsize;
+
+    t = type_alloc(TYstruct);
+    t->Ttag = (Classsym *)s;                // structure tag name
+    t->Tcount++;
+    s->Stype = t;
+    slist_add(s);
+
+    t = type_allocn(TYnptr, t);
+
+    t->Tcount++;
+    ctype = t;
+
+    /* Add in fields of the class
+     * (after setting ctype to avoid infinite recursion)
+     */
     if (global.params.symdebug)
-    {
-        s = symbol_calloc(sym->toPrettyChars());
-        //s = symbol_calloc(deco);
-        s->Sclass = SCstruct;
-        s->Sstruct = struct_calloc();
-        s->Sstruct->Sflags |= STRclass;
-        s->Sstruct->Salignsize = sym->alignsize;
-        s->Sstruct->Sstructalign = sym->structalign;
-        s->Sstruct->Sstructsize = sym->structsize;
-
-        t = type_alloc(TYstruct);
-        t->Ttag = (Classsym *)s;                // structure tag name
-        t->Tcount++;
-        s->Stype = t;
-        slist_add(s);
-
-        t = type_allocn(TYnptr, t);
-
-        t->Tcount++;
-        ctype = t;
-
-        /* Add in fields of the class
-         */
         for (int i = 0; i < sym->fields.dim; i++)
         {   VarDeclaration *v = (VarDeclaration *)sym->fields.data[i];
 
@@ -403,12 +408,7 @@ type *TypeClass::toCtype()
             s2->Smemoff = v->offset;
             list_append(&s->Sstruct->Sfldlst, s2);
         }
-    }
-    else
-    {   t = type_fake(totym());
-        t->Tcount++;
-        ctype = t;
-    }
+
     return t;
 }
 

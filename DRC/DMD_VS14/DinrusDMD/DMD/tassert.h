@@ -14,8 +14,6 @@
 #ifndef TASSERT_H
 #define TASSERT_H 1
 
-#include "../stdafx.h"
-
 /*****************************
  * Define a local assert function.
  */
@@ -28,7 +26,7 @@ void util_assert ( char * , int );
 
 static void local_assert(int line)
 {
-    util_assert(__FILE__, line);
+    util_assert(__file__,line);
 }
 
 #pragma noreturn(local_assert)

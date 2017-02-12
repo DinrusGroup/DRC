@@ -25,6 +25,7 @@
 #include "expression.h"
 #include "aggregate.h"
 #include "declaration.h"
+#include "utf.h"
 
 #ifdef IN_GCC
 #include "d-gcc-real.h"
@@ -554,13 +555,11 @@ Expression *Shl(Type *type, Expression *e1, Expression *e2)
 }
 
 Expression *Shr(Type *type, Expression *e1, Expression *e2)
-{   Expression *e;
+{
     Loc loc = e1->loc;
-    unsigned count;
-    dinteger_t value;
 
-    value = e1->toInteger();
-    count = e2->toInteger();
+    dinteger_t value = e1->toInteger();
+    unsigned count = e2->toInteger();
     switch (e1->type->toBasetype()->ty)
     {
         case Tint8:
@@ -595,21 +594,22 @@ Expression *Shr(Type *type, Expression *e1, Expression *e2)
                 value = (d_uns64)(value) >> count;
                 break;
 
+        case Terror:
+                return e1;
+
         default:
                 assert(0);
     }
-    e = new IntegerExp(loc, value, type);
+    Expression *e = new IntegerExp(loc, value, type);
     return e;
 }
 
 Expression *Ushr(Type *type, Expression *e1, Expression *e2)
-{   Expression *e;
+{
     Loc loc = e1->loc;
-    unsigned count;
-    dinteger_t value;
 
-    value = e1->toInteger();
-    count = e2->toInteger();
+    dinteger_t value = e1->toInteger();
+    unsigned count = e2->toInteger();
     switch (e1->type->toBasetype()->ty)
     {
         case Tint8:
@@ -634,10 +634,13 @@ Expression *Ushr(Type *type, Expression *e1, Expression *e2)
                 value = (d_uns64)(value) >> count;
                 break;
 
+        case Terror:
+                return e1;
+
         default:
                 assert(0);
     }
-    e = new IntegerExp(loc, value, type);
+    Expression *e = new IntegerExp(loc, value, type);
     return e;
 }
 
@@ -1042,7 +1045,7 @@ Expression *Cast(Type *type, Type *to, Expression *e1)
     Loc loc = e1->loc;
 
     //printf("Cast(type = %s, to = %s, e1 = %s)\n", type->toChars(), to->toChars(), e1->toChars());
-    //printf("e1->type = %s\n", e1->type->toChars());
+    //printf("\te1->type = %s\n", e1->type->toChars());
     if (type->equals(e1->type) && to->equals(type))
         return e1;
 
@@ -1061,14 +1064,10 @@ Expression *Cast(Type *type, Type *to, Expression *e1)
     }
 
     if (e1->op == TOKarrayliteral && typeb == tb)
-    {
         return e1;
-    }
 
     if (e1->isConst() != 1)
-    {
         return EXP_CANT_INTERPRET;
-    }
 
     if (tb->ty == Tbool)
         e = new IntegerExp(loc, e1->toInteger() != 0, type);
@@ -1078,7 +1077,7 @@ Expression *Cast(Type *type, Type *to, Expression *e1)
         {   dinteger_t result;
             real_t r = e1->toReal();
 
-            switch (type->toBasetype()->ty)
+            switch (typeb->ty)
             {
                 case Tint8:     result = (d_int8)r;     break;
                 case Tchar:
@@ -1319,14 +1318,16 @@ Expression *Cat(Type *type, Expression *e1, Expression *e2)
     Type *t2 = e2->type->toBasetype();
 
     //printf("Cat(e1 = %s, e2 = %s)\n", e1->toChars(), e2->toChars());
-    //printf("\tt1 = %s, t2 = %s\n", t1->toChars(), t2->toChars());
+    //printf("\tt1 = %s, t2 = %s, type = %s\n", t1->toChars(), t2->toChars(), type->toChars());
 
     if (e1->op == TOKnull && (e2->op == TOKint64 || e2->op == TOKstructliteral))
     {   e = e2;
+        t = t1;
         goto L2;
     }
     else if ((e1->op == TOKint64 || e1->op == TOKstructliteral) && e2->op == TOKnull)
     {   e = e1;
+        t = t2;
      L2:
         Type *tn = e->type->toBasetype();
         if (tn->ty == Tchar || tn->ty == Twchar || tn->ty == Tdchar)
@@ -1334,12 +1335,15 @@ Expression *Cat(Type *type, Expression *e1, Expression *e2)
             // Create a StringExp
             void *s;
             StringExp *es;
-            size_t len = 1;
-            int sz = tn->size();
+            if (t->nextOf())
+                t = t->nextOf()->toBasetype();
+            int sz = t->size();
+
             dinteger_t v = e->toInteger();
 
+            size_t len = utf_codeLength(sz, v);
             s = mem.malloc((len + 1) * sz);
-            memcpy((unsigned char *)s, &v, sz);
+            utf_encode(sz, s, v);
 
             // Add terminating 0
             memset((unsigned char *)s + len * sz, 0, sz);
@@ -1401,13 +1405,13 @@ Expression *Cat(Type *type, Expression *e1, Expression *e2)
         StringExp *es1 = (StringExp *)e1;
         StringExp *es;
         Type *t;
-        size_t len = es1->len + 1;
         int sz = es1->sz;
         dinteger_t v = e2->toInteger();
 
+        size_t len = es1->len + utf_codeLength(sz, v);
         s = mem.malloc((len + 1) * sz);
         memcpy(s, es1->string, es1->len * sz);
-        memcpy((unsigned char *)s + es1->len * sz, &v, sz);
+        utf_encode(sz, (unsigned char *)s + (sz * es1->len), v);
 
         // Add terminating 0
         memset((unsigned char *)s + len * sz, 0, sz);
@@ -1457,7 +1461,7 @@ Expression *Cat(Type *type, Expression *e1, Expression *e2)
 
         if (type->toBasetype()->ty == Tsarray)
         {
-            e->type = new TypeSArray(e1->type->toBasetype()->next, new IntegerExp(0, es1->elements->dim, Type::tindex));
+            e->type = new TypeSArray(t1->nextOf(), new IntegerExp(loc, es1->elements->dim, Type::tindex));
             e->type = e->type->semantic(loc, NULL);
         }
         else

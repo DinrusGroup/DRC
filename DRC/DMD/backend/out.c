@@ -406,6 +406,8 @@ void outdata(symbol *s)
                     flags = CFoff;
                 else
                     flags = CFoff | CFseg;
+                if (I64)
+                    flags |= CFoffset64;
                 if (tybasic(dt->Dty) == TYcptr)
                     reftocodseg(seg,offset,dt->DTabytes);
 #if TARGET_LINUX || TARGET_OSX || TARGET_FREEBSD || TARGET_SOLARIS
@@ -575,10 +577,11 @@ again:
     tym = t->Tty;
     switch (tybasic(tym))
     {   case TYstruct:
-            e->Enumbytes = type_size(t);
+            t->Tcount++;
             break;
+
         case TYarray:
-            e->Enumbytes = (t->Tflags & TFsizeunknown) ? 0 : type_size(t);
+            t->Tcount++;
             break;
 
         case TYbool:
@@ -588,14 +591,19 @@ again:
         case TYvtshape:
         case TYnullptr:
             tym = tym_conv(t);
+            e->ET = NULL;
             break;
 
         case TYenum:
             tym = tym_conv(t->Tnext);
+            e->ET = NULL;
+            break;
+
+        default:
+            e->ET = NULL;
             break;
     }
     e->Nflags = 0;
-    e->ET  = NULL;
     e->Ety = tym;
 #endif
 

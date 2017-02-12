@@ -1,6 +1,6 @@
 
 // Compiler implementation of the D programming language
-// Copyright (c) 1999-2010 by Digital Mars
+// Copyright (c) 1999-2011 by Digital Mars
 // All Rights Reserved
 // written by Walter Bright
 // http://www.digitalmars.com
@@ -213,21 +213,31 @@ int match(Object *o1, Object *o2, TemplateDeclaration *tempdecl, Scope *sc)
     }
     else if (s1)
     {
-        //printf("%p %s, %p %s\n", s1, s1->toChars(), s2, s2->toChars());
-        if (!s2 || !s1->equals(s2) || s1->parent != s2->parent)
+        //printf("%p %s %s, %p %s %s\n", s1, s1->kind(), s1->toChars(), s2, s2->kind(), s2->toChars());
+        if (!s2)
         {
             goto Lnomatch;
         }
+        if (!s1->equals(s2))
+        {
 #if DMDV2
-        VarDeclaration *v1 = s1->isVarDeclaration();
-        VarDeclaration *v2 = s2->isVarDeclaration();
-        if (v1 && v2 && v1->storage_class & v2->storage_class & STCmanifest)
-        {   ExpInitializer *ei1 = v1->init->isExpInitializer();
-            ExpInitializer *ei2 = v2->init->isExpInitializer();
-            if (ei1 && ei2 && !ei1->exp->equals(ei2->exp))
+            VarDeclaration *v1 = s1->isVarDeclaration();
+            VarDeclaration *v2 = s2->isVarDeclaration();
+            if (v1 && v2 && v1->storage_class & v2->storage_class & STCmanifest)
+            {   ExpInitializer *ei1 = v1->init->isExpInitializer();
+                ExpInitializer *ei2 = v2->init->isExpInitializer();
+                if (ei1 && ei2 && !ei1->exp->equals(ei2->exp))
+                    goto Lnomatch;
+                goto Lmatch;
+            }
+            else
+#endif
                 goto Lnomatch;
         }
-#endif
+        if (s1->parent != s2->parent)
+        {
+            goto Lnomatch;
+        }
     }
     else if (v1)
     {
@@ -243,11 +253,34 @@ int match(Object *o1, Object *o2, TemplateDeclaration *tempdecl, Scope *sc)
                 goto Lnomatch;
         }
     }
+Lmatch:
     //printf("match\n");
     return 1;   // match
 Lnomatch:
     //printf("nomatch\n");
     return 0;   // nomatch;
+}
+
+
+/************************************
+ * Match an array of them.
+ * This should match what genIdent() does.
+ */
+int arrayObjectMatch(Objects *oa1, Objects *oa2, TemplateDeclaration *tempdecl, Scope *sc)
+{
+    if (oa1 == oa2)
+        return 1;
+    if (oa1->dim != oa2->dim)
+        return 0;
+    for (size_t j = 0; j < oa1->dim; j++)
+    {   Object *o1 = (Object *)oa1->data[j];
+        Object *o2 = (Object *)oa2->data[j];
+        if (!match(o1, o2, tempdecl, sc))
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 /****************************************
@@ -349,7 +382,6 @@ Dsymbol *TemplateDeclaration::syntaxCopy(Dsymbol *)
     //printf("TemplateDeclaration::syntaxCopy()\n");
     TemplateDeclaration *td;
     TemplateParameters *p;
-    Array *d;
 
     p = NULL;
     if (parameters)
@@ -364,7 +396,7 @@ Dsymbol *TemplateDeclaration::syntaxCopy(Dsymbol *)
     Expression *e = NULL;
     if (constraint)
         e = constraint->syntaxCopy();
-    d = Dsymbol::arraySyntaxCopy(members);
+    Array *d = Dsymbol::arraySyntaxCopy(members);
     td = new TemplateDeclaration(loc, ident, p, e, d);
     return td;
 }
@@ -373,6 +405,8 @@ void TemplateDeclaration::semantic(Scope *sc)
 {
 #if LOG
     printf("TemplateDeclaration::semantic(this = %p, id = '%s')\n", this, ident->toChars());
+    printf("sc->stc = %llx\n", sc->stc);
+    printf("sc->module = %s\n", sc->module->toChars());
 #endif
     if (semanticRun)
         return;         // semantic() already run
@@ -398,6 +432,15 @@ void TemplateDeclaration::semantic(Scope *sc)
         // when template is instantiated in other modules
         sc->module->toModuleAssert();
     }
+
+#if DMDV2
+    if (/*global.params.useUnitTests &&*/ sc->module)
+    {
+        // Generate this function as it may be used
+        // when template is instantiated in other modules
+        sc->module->toModuleUnittest();
+    }
+#endif
 
     /* Remember Scope for later instantiations, but make
      * a copy since attributes can change.
@@ -808,6 +851,7 @@ MATCH TemplateDeclaration::deduceFunctionTemplateMatch(Loc loc, Objects *targsi,
     ScopeDsymbol *paramsym = new ScopeDsymbol();
     paramsym->parent = scope->parent;
     Scope *paramscope = scope->push(paramsym);
+    paramscope->stc = 0;
 
     TemplateTupleParameter *tp = isVariadic();
 
@@ -944,9 +988,9 @@ L1:
 
 L2:
 #if DMDV2
-    // Match 'ethis' to any TemplateThisParameter's
     if (ethis)
     {
+        // Match 'ethis' to any TemplateThisParameter's
         for (size_t i = 0; i < parameters->dim; i++)
         {   TemplateParameter *tp = (TemplateParameter *)parameters->data[i];
             TemplateThisParameter *ttp = tp->isTemplateThisParameter();
@@ -961,23 +1005,58 @@ L2:
                     match = m;          // pick worst match
             }
         }
+
+        // Match attributes of ethis against attributes of fd
+        if (fd->type)
+        {
+            Type *tthis = ethis->type;
+            unsigned mod = fd->type->mod;
+            StorageClass stc = scope->stc;
+            if (stc & (STCshared | STCsynchronized))
+                mod |= MODshared;
+            if (stc & STCimmutable)
+                mod |= MODimmutable;
+            if (stc & STCconst)
+                mod |= MODconst;
+            if (stc & STCwild)
+                mod |= MODwild;
+            // Fix mod
+            if (mod & MODimmutable)
+                mod = MODimmutable;
+            if (mod & MODconst)
+                mod &= ~STCwild;
+            if (tthis->mod != mod)
+            {
+                if (!MODimplicitConv(tthis->mod, mod))
+                    goto Lnomatch;
+                if (MATCHconst < match)
+                    match = MATCHconst;
+            }
+        }
     }
 #endif
 
     // Loop through the function parameters
-    for (i = 0; i < nfparams; i++)
+    for (size_t parami = 0; parami < nfparams; parami++)
     {
         /* Skip over function parameters which wound up
          * as part of a template tuple parameter.
          */
-        if (i == fptupindex)
-        {   if (fptupindex == nfparams - 1)
-                break;
-            i += tuple_dim - 1;
+        if (parami == fptupindex)
             continue;
-        }
+        /* Set i = index into function arguments
+         * Function parameters correspond to function arguments as follows.
+         * Note that tuple_dim may be zero, and there may be default or
+         * variadic arguments at the end.
+         *  arg [0..fptupindex] == param[0..fptupindex]
+         *  arg [fptupindex..fptupindex+tuple_dim] == param[fptupindex]
+         *  arg[fputupindex+dim.. ] == param[fptupindex+1.. ]
+         */
+        i = parami;
+        if (fptupindex >= 0 && parami > fptupindex)
+            i += tuple_dim - 1;
 
-        Parameter *fparam = Parameter::getNth(fparameters, i);
+        Parameter *fparam = Parameter::getNth(fparameters, parami);
 
         if (i >= nfargs)                // if not enough arguments
         {
@@ -1320,6 +1399,7 @@ FuncDeclaration *TemplateDeclaration::deduceFunctionTemplate(Scope *sc, Loc loc,
         printf("\t%s %s\n", arg->type->toChars(), arg->toChars());
         //printf("\tty = %d\n", arg->type->ty);
     }
+    printf("stc = %llx\n", scope->stc);
 #endif
 
     for (TemplateDeclaration *td = this; td; td = td->overnext)
@@ -1614,8 +1694,14 @@ MATCH Type::deduceType(Scope *sc, Type *tparam, TemplateParameters *parameters,
     }
 
     if (ty != tparam->ty)
-        return implicitConvTo(tparam);
-//      goto Lnomatch;
+    {
+#if DMDV2
+        // Can't instantiate AssociativeArray!() without a scope
+        if (tparam->ty == Taarray && !((TypeAArray*)tparam)->sc)
+            ((TypeAArray*)tparam)->sc = sc;
+#endif
+       return implicitConvTo(tparam);
+    }
 
     if (nextOf())
         return nextOf()->deduceType(sc, tparam->nextOf(), parameters, dedtypes);
@@ -1784,6 +1870,8 @@ MATCH TypeFunction::deduceType(Scope *sc, Type *tparam, TemplateParameters *para
              * of the type of the last function parameter.
              */
             Parameter *fparam = Parameter::getNth(tp->parameters, nfparams - 1);
+            assert(fparam);
+            assert(fparam->type);
             if (fparam->type->ty != Tident)
                 goto L1;
             TypeIdentifier *tid = (TypeIdentifier *)fparam->type;
@@ -2089,6 +2177,7 @@ MATCH TypeInstance::deduceType(Scope *sc,
     return Type::deduceType(sc, tparam, parameters, dedtypes);
 
 Lnomatch:
+    //printf("no match\n");
     return MATCHnomatch;
 }
 
@@ -2171,6 +2260,63 @@ MATCH TypeTypedef::deduceType(Scope *sc, Type *tparam, TemplateParameters *param
     return Type::deduceType(sc, tparam, parameters, dedtypes);
 }
 
+/* Helper for TypeClass::deduceType().
+ * Classes can match with implicit conversion to a base class or interface.
+ * This is complicated, because there may be more than one base class which
+ * matches. In such cases, one or more parameters remain ambiguous.
+ * For example,
+ *
+ *   interface I(X, Y) {}
+ *   class C : I(uint, double), I(char, double) {}
+ *   C x;
+ *   foo(T, U)( I!(T, U) x)
+ *
+ *   deduces that U is double, but T remains ambiguous (could be char or uint).
+ *
+ * Given a baseclass b, and initial deduced types 'dedtypes', this function
+ * tries to match tparam with b, and also tries all base interfaces of b.
+ * If a match occurs, numBaseClassMatches is incremented, and the new deduced
+ * types are ANDed with the current 'best' estimate for dedtypes.
+ */
+void deduceBaseClassParameters(BaseClass *b,
+    Scope *sc, Type *tparam, TemplateParameters *parameters, Objects *dedtypes,
+    Objects *best, int &numBaseClassMatches)
+{
+    TemplateInstance *parti = b->base ? b->base->parent->isTemplateInstance() : NULL;
+    if (parti)
+    {
+        // Make a temporary copy of dedtypes so we don't destroy it
+        Objects *tmpdedtypes = new Objects();
+        tmpdedtypes->setDim(dedtypes->dim);
+        memcpy(tmpdedtypes->data, dedtypes->data, dedtypes->dim * sizeof(void *));
+
+        TypeInstance *t = new TypeInstance(0, parti);
+        MATCH m = t->deduceType(sc, tparam, parameters, tmpdedtypes);
+        if (m != MATCHnomatch)
+        {
+            // If this is the first ever match, it becomes our best estimate
+            if (numBaseClassMatches==0)
+                memcpy(best->data, tmpdedtypes->data, tmpdedtypes->dim * sizeof(void *));
+            else for (size_t k = 0; k < tmpdedtypes->dim; ++k)
+            {
+                // If we've found more than one possible type for a parameter,
+                // mark it as unknown.
+                if (tmpdedtypes->data[k] != best->data[k])
+                    best->data[k] = dedtypes->data[k];
+            }
+            ++numBaseClassMatches;
+        }
+    }
+    // Now recursively test the inherited interfaces
+    for (size_t j = 0; j < b->baseInterfaces_dim; ++j)
+    {
+        deduceBaseClassParameters( &(b->baseInterfaces)[j],
+            sc, tparam, parameters, dedtypes,
+            best, numBaseClassMatches);
+    }
+
+}
+
 MATCH TypeClass::deduceType(Scope *sc, Type *tparam, TemplateParameters *parameters, Objects *dedtypes)
 {
     //printf("TypeClass::deduceType(this = %s)\n", toChars());
@@ -2186,7 +2332,11 @@ MATCH TypeClass::deduceType(Scope *sc, Type *tparam, TemplateParameters *paramet
         if (ti && ti->toAlias() == sym)
         {
             TypeInstance *t = new TypeInstance(0, ti);
-            return t->deduceType(sc, tparam, parameters, dedtypes);
+            MATCH m = t->deduceType(sc, tparam, parameters, dedtypes);
+            // Even if the match fails, there is still a chance it could match
+            // a base class.
+            if (m != MATCHnomatch)
+                return m;
         }
 
         /* Match things like:
@@ -2209,6 +2359,47 @@ MATCH TypeClass::deduceType(Scope *sc, Type *tparam, TemplateParameters *paramet
                 }
             }
         }
+
+        // If it matches exactly or via implicit conversion, we're done
+        MATCH m = Type::deduceType(sc, tparam, parameters, dedtypes);
+        if (m != MATCHnomatch)
+            return m;
+
+        /* There is still a chance to match via implicit conversion to
+         * a base class or interface. Because there could be more than one such
+         * match, we need to check them all.
+         */
+
+        int numBaseClassMatches = 0; // Have we found an interface match?
+
+        // Our best guess at dedtypes
+        Objects *best = new Objects();
+        best->setDim(dedtypes->dim);
+
+        ClassDeclaration *s = sym;
+        while(s && s->baseclasses->dim > 0)
+        {
+            // Test the base class
+            deduceBaseClassParameters((BaseClass *)(s->baseclasses->data[0]),
+                sc, tparam, parameters, dedtypes,
+                best, numBaseClassMatches);
+
+            // Test the interfaces inherited by the base class
+            for (size_t i = 0; i < s->interfaces_dim; ++i)
+            {
+                BaseClass *b = s->interfaces[i];
+                deduceBaseClassParameters(b, sc, tparam, parameters, dedtypes,
+                    best, numBaseClassMatches);
+            }
+            s = ((BaseClass *)(s->baseclasses->data[0]))->base;
+        }
+
+        if (numBaseClassMatches == 0)
+            return MATCHnomatch;
+
+        // If we got at least one match, copy the known types into dedtypes
+        memcpy(dedtypes->data, best->data, best->dim * sizeof(void *));
+        return MATCHconvert;
     }
 
     // Extra check
@@ -2217,7 +2408,7 @@ MATCH TypeClass::deduceType(Scope *sc, Type *tparam, TemplateParameters *paramet
         TypeClass *tp = (TypeClass *)tparam;
 
         //printf("\t%d\n", (MATCH) implicitConvTo(tp));
-        return (MATCH) implicitConvTo(tp);
+        return implicitConvTo(tp);
     }
     return Type::deduceType(sc, tparam, parameters, dedtypes);
 }
@@ -2345,6 +2536,7 @@ Lnomatch:
  *      parameters[]    template parameters
  *      dedtypes[]      deduced arguments to template instance
  *      *psparam        set to symbol declared and initialized to dedtypes[i]
+ *      flags           1: don't do 'toHeadMutable()'
  */
 
 MATCH TemplateTypeParameter::matchArg(Scope *sc, Objects *tiargs,
@@ -2752,7 +2944,10 @@ void TemplateValueParameter::semantic(Scope *sc)
     valType = valType->semantic(loc, sc);
     if (!(valType->isintegral() || valType->isfloating() || valType->isString()) &&
         valType->ty != Tident)
-        error(loc, "arithmetic/string type expected for value-parameter, not %s", valType->toChars());
+    {
+        if (valType != Type::terror)
+            error(loc, "arithmetic/string type expected for value-parameter, not %s", valType->toChars());
+    }
 
     if (specValue)
     {   Expression *e = specValue;
@@ -3011,7 +3206,10 @@ MATCH TemplateTupleParameter::matchArg(Scope *sc,
      */
     assert(i + 1 == dedtypes->dim);     // must be the last one
     Tuple *ovar;
-    if (i + 1 == tiargs->dim && isTuple((Object *)tiargs->data[i]))
+    if (dedtypes->data[i] && isTuple((Object *)dedtypes->data[i]))
+        // It was already been deduced
+        ovar = isTuple((Object *)dedtypes->data[i]);
+    else if (i + 1 == tiargs->dim && isTuple((Object *)tiargs->data[i]))
         ovar = isTuple((Object *)tiargs->data[i]);
     else
     {
@@ -3192,7 +3390,7 @@ void TemplateInstance::semantic(Scope *sc)
              */
             fatal();
         }
-        return;
+        //return;
     }
 #if LOG
     printf("\n+TemplateInstance::semantic('%s', this=%p)\n", toChars(), this);
@@ -3210,6 +3408,9 @@ void TemplateInstance::semantic(Scope *sc)
 
     if (semanticRun != 0)
     {
+#if LOG
+        printf("Recursive template expansion\n");
+#endif
         error(loc, "recursive template expansion");
 //      inst = this;
         return;
@@ -3526,7 +3727,7 @@ void TemplateInstance::semantic(Scope *sc)
     // Give additional context info if error occurred during instantiation
     if (global.errors != errorsave)
     {
-        error("error instantiating");
+        error(loc, "error instantiating");
         if (tinst)
         {   tinst->printInstantiationTrace();
             if (!global.gag)
@@ -3536,8 +3737,11 @@ void TemplateInstance::semantic(Scope *sc)
         if (global.gag)
         {   // Try to reset things so we can try again later to instantiate it
             tempdecl->instances.remove(tempdecl_instance_idx);
-            semanticRun = 0;
-            inst = NULL;
+            if (!(sc->flags & SCOPEstaticif))
+            {   // Bugzilla 4302 for discussion
+                semanticRun = 0;
+                inst = NULL;
+            }
         }
     }
 
@@ -3717,11 +3921,7 @@ TemplateDeclaration *TemplateInstance::findTemplateDeclaration(Scope *sc)
         if (s->parent &&
             (ti = s->parent->isTemplateInstance()) != NULL)
         {
-            if (
-                (ti->name == id ||
-                 ti->toAlias()->ident == id)
-                &&
-                ti->tempdecl)
+            if (ti->tempdecl && ti->tempdecl->ident == id)
             {
                 /* This is so that one can refer to the enclosing
                  * template, even if it has the same name as a member
@@ -4078,7 +4278,15 @@ Identifier *TemplateInstance::genIdent()
                 error("forward reference of %s", d->toChars());
             else
             {
-                char *p = sa->mangle();
+                const char *p = sa->mangle();
+
+                /* Bugzilla 3043: if the first character of p is a digit this
+                 * causes ambiguity issues because the digits of the two numbers are adjacent.
+                 * Current demanglers resolve this by trying various places to separate the
+                 * numbers until one gets a successful demangle.
+                 * Unfortunately, fixing this ambiguity will break existing binary
+                 * compatibility and the demanglers, so we'll leave it as is.
+                 */
                 buf.printf("%zu%s", strlen(p), p);
             }
         }

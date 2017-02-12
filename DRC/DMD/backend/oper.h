@@ -177,6 +177,9 @@ enum OPER
         OPu32_64,       // unsigned long to long long
         OPs32_64,       // long to long long
         OP64_32,        // long long to long
+        OPu64_128,
+        OPs64_128,
+        OP128_64,
 #define OPsfltdbl       OPunde
 #define OPdblsflt       OPunde
         OPoffset,       // get offset of far pointer
@@ -215,7 +218,6 @@ TARGET_CONVERSION_OPS
 #define OPu8int         OPu8_16         // unsigned char to short
 #define OPs8int         OPs8_16         // signed char to short
 #define OPint8          OP16_8          // short to 8 bits
-#define OPulngllng      OPu32_64        // unsigned long to long long
 #define OPlngllng       OPs32_64        // long to long long
 #define OPllnglng       OP64_32         // long long to long
 #define OPsfltdbl       OPunde

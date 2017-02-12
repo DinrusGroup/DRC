@@ -53,8 +53,18 @@ bool isArrayOpValid(Expression *e)
             case TOKxor:
             case TOKand:
             case TOKor:
+            case TOKassign:
+            case TOKaddass:
+            case TOKminass:
+            case TOKmulass:
+            case TOKdivass:
+            case TOKmodass:
+            case TOKxorass:
+            case TOKandass:
+            case TOKorass:
 #if DMDV2
             case TOKpow:
+            case TOKpowass:
 #endif
                  return isArrayOpValid(((BinExp *)e)->e1) && isArrayOpValid(((BinExp *)e)->e2);
 
@@ -337,6 +347,7 @@ Expression *BinExp::arrayOp(Scope *sc)
             fd->fbody = fbody;
             fd->protection = PROTpublic;
             fd->linkage = LINKc;
+            fd->isArrayOp = 1;
 
             sc->module->importedFrom->members->push(fd);
 
@@ -597,6 +608,19 @@ int Expression::isArrayOperand()
             case TOKxor:
             case TOKand:
             case TOKor:
+            case TOKassign:
+            case TOKaddass:
+            case TOKminass:
+            case TOKmulass:
+            case TOKdivass:
+            case TOKmodass:
+            case TOKxorass:
+            case TOKandass:
+            case TOKorass:
+#if DMDV2
+            case TOKpow:
+            case TOKpowass:
+#endif
             case TOKneg:
             case TOKtilde:
                 return 1;

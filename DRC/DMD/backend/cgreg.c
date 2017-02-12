@@ -568,6 +568,8 @@ void cgreg_spillreg_prolog(block *b,Symbol *s,code **pcstore,code **pcload)
         cs.Iop ^= (sz == 1);
         c = getlvalue(&cs,e,keepmsk);
         cs.orReg(s->Sreglsw);
+        if (I64 && sz == 1 && s->Sreglsw >= 4)
+            cs.Irex |= REX;
         c = gen(c,&cs);
         if (sz > REGSIZE)
         {
@@ -666,6 +668,8 @@ void cgreg_spillreg_epilog(block *b,Symbol *s,code **pcstore,code **pcload)
         cs.Iop ^= (sz == 1);
         c = getlvalue(&cs,e,keepmsk);
         cs.orReg(s->Sreglsw);
+        if (I64 && sz == 1 && s->Sreglsw >= 4)
+            cs.Irex |= REX;
         c = gen(c,&cs);
         if (sz > REGSIZE)
         {
@@ -692,7 +696,7 @@ void cgreg_spillreg_epilog(block *b,Symbol *s,code **pcstore,code **pcload)
 
 void cgreg_map(Symbol *s, unsigned regmsw, unsigned reglsw)
 {
-    assert(reglsw < 8);
+    assert(I64 || reglsw < 8);
 
     if (vec_disjoint(s->Srange,regrange[reglsw]) &&
         (regmsw == NOREG || vec_disjoint(s->Srange,regrange[regmsw]))
@@ -914,8 +918,8 @@ int cgreg_assign(Symbol *retsym)
 
         #ifdef DEBUG
             if (debugr)
-            {   printf("symbol '%3s', ty x%lx weight x%x sz %d\n   ",
-                s->Sident,ty,s->Sweight,sz);
+            {   printf("symbol '%3s', ty x%x weight x%x sz %d\n   ",
+                s->Sident,ty,s->Sweight,(int)sz);
                 vec_println(s->Srange);
             }
         #endif

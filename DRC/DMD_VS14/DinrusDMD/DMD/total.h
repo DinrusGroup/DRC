@@ -60,7 +60,7 @@
 
 #if M_UNIX || M_XENIX || linux || __APPLE__ || __FreeBSD__ || __sun&&__SVR4
 #include        <stdlib.h>
-#include        <unistd.h>
+//#include        <unistd.h>
 #endif
 
 #if MSDOS || __OS2__ || __NT__ || _WIN32
@@ -152,7 +152,7 @@
 #undef TEXT
 ////////////////////////////////////////////////////////////////////
 
-#if M_UNICODE
+#ifdef M_UNICODE
 typedef wchar_t dchar;
 #define TEXT(x)		L##x
 #define Dchar_mbmax	1
@@ -624,7 +624,7 @@ struct OutBuffer : Object
     void align(unsigned size);
     void vprintf(const char *format, va_list args);
     void printf(const char *format, ...);
-#if M_UNICODE
+#ifdef M_UNICODE
     void vprintf(const unsigned short *format, va_list args);
     void printf(const unsigned short *format, ...);
 #endif
@@ -690,7 +690,7 @@ private:
 
 struct Dchar
 {
-#if M_UNICODE
+#ifdef M_UNICODE
     static dchar *inc(dchar *p) { return p + 1; }
     static dchar *dec(dchar *pstart, dchar *p) { (void)pstart; return p - 1; }
     static int len(const dchar *p) { return wcslen(p); }
@@ -839,7 +839,7 @@ struct Lstring
     dchar string[];
 
     static Lstring zero;
-    #if M_UNICODE
+    #ifdef M_UNICODE
     #define LSTRING(p,length) { length, L##p }
     #else
     #define LSTRING(p,length) { length, p }

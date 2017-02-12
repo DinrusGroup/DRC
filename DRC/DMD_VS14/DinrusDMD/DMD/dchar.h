@@ -169,18 +169,13 @@ struct Dchar
     static int toLower(dchar c) { return isupper(c) ? tolower(c) : c; }
     static int toLower(dchar *p) { return toLower(*p); }
     static int toUpper(dchar c) { return islower(c) ? toupper(c) : c; }
-    static dchar *dup(dchar *p) { return ::_strdup(p); } // BUG: out of memory?
+    static dchar *dup(dchar *p) { return ::strdup(p); } // BUG: out of memory?
 #endif
     static dchar *chr(dchar *p, int c) { return strchr(p, c); }
     static dchar *rchr(dchar *p, int c) { return strrchr(p, c); }
     static dchar *memchr(dchar *p, int c, int count)
         { return (dchar *)::memchr(p, c, count); }
-	static dchar *cpy(dchar *s1, dchar *s2)
-	{ 
-		if(strcpy_s(s1, sizeof(s2), s2)) return s1;
-		else return NULL;
-	
-	}
+    static dchar *cpy(dchar *s1, dchar *s2) { return strcpy(s1, s2); }
     static dchar *str(dchar *s1, dchar *s2) { return strstr(s1, s2); }
     static hash_t calcHash(const dchar *str, size_t len);
 
@@ -188,9 +183,9 @@ struct Dchar
 #ifdef __GNUC__
     static int icmp(dchar *s1, dchar *s2) { return strcasecmp(s1, s2); }
 #else
-    static int icmp(dchar *s1, dchar *s2) { return _stricmp(s1, s2); }
+    static int icmp(dchar *s1, dchar *s2) { return stricmp(s1, s2); }
 #endif
-    static int memicmp(const dchar *s1, const dchar *s2, int nchars) { return ::_memicmp(s1, s2, nchars); }
+    static int memicmp(const dchar *s1, const dchar *s2, int nchars) { return ::memicmp(s1, s2, nchars); }
     static hash_t icalcHash(const dchar *str, size_t len);
 };
 

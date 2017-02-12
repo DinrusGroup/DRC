@@ -1,18 +1,18 @@
 #_ win32.mak
-# Copyright (C) 1999-2009 by Digital Mars, http://www.digitalmars.com
+# Copyright (C) 1999-2010 by Digital Mars, http://www.digitalmars.com
 # Written by Walter Bright
 # All Rights Reserved
 # Build dmd with Digital Mars C++ compiler
 
 D=d:
-#DMDSVN=\svnproj\dm\trunk\src
-DMDSVN=\svnproj\dm\branches\dmd-1.x\src
+#DMDSVN=\svnproj\dmd\trunk\src
+DMDSVN=\svnproj\dmd\branches\dmd-1.x\src
 SCROOT=$D\dinrus
 INCLUDE=$(SCROOT)\include
 CC=$(DINRUS)\dmc
 LIBNT=$(SCROOT)\lib
-SNN=$(SCROOT)\lib\snn
-DIR=$D\dinrus
+SNN=$(SCROOT)\lib\c\snn
+DIR=\dmd1
 CP=cp
 
 C=backend
@@ -28,12 +28,12 @@ OPT=
 DEBUG=-gl -D -DUNITTEST
 #PREC=-H -HItotal.h -HO
 PREC=
-LFLAGS=
+LFLAGS=/CO
 
-LINKN=$(SCROOT)\bin\dmlink /de
+LINKN=$(SCROOT)\bin\link /de
 
-CFLAGS=-I$(ROOT);$(INCLUDE) $(XFLG) $(OPT) $(DEBUG) -cpp -D_DH -cod
-MFLAGS=-I$C;$(TK) -DMARS -cpp $(DEBUG) -e -wx -D_DH
+CFLAGS=-I$(ROOT);$(INCLUDE) $(XFLG) $(OPT) -cpp -D_DH
+MFLAGS=-I$C;$(TK) -DMARS -cpp -e -wx -D_DH
 
 # Makerules:
 .c.obj:
@@ -42,7 +42,7 @@ MFLAGS=-I$C;$(TK) -DMARS -cpp $(DEBUG) -e -wx -D_DH
 .asm.obj:
 	$(CC) -c $(CFLAGS) $*
 
-defaulttarget: dmd
+defaulttarget: debdmd
 
 ################ RELEASES #########################
 
@@ -57,7 +57,7 @@ trace:
 	$(MAKE) OPT=-o "DEBUG=-gt -Nc" LFLAGS=-L/ma/co/delexe dmd.exe
 
 dmd:
-	$(MAKE) OPT=-o "DEBUG=" LFLAGS=-L/delexe dmd.exe
+	$(MAKE) OPT=-o  LFLAGS=-L/delexe dmd.exe
 #	$(MAKE) OPT=-o "DEBUG=" LFLAGS=-L/ma/co/delexe dmd.exe
 
 ################ NT COMMAND LINE DEBUG #########################
@@ -81,7 +81,7 @@ OBJ1= mars.obj enum.obj struct.obj dsymbol.obj import.obj id.obj \
 	builtin.obj clone.obj libomf.obj arrayop.obj irstate.obj \
 	glue.obj msc.obj ph.obj tk.obj s2ir.obj todt.obj e2ir.obj tocsym.obj \
 	util.obj bit.obj eh.obj toobj.obj toctype.obj tocvdebug.obj toir.obj \
-	json.obj unittests.obj imphint.obj
+	json.obj unittests.obj imphint.obj argtypes.obj
 
 # from C/C++ compiler optimizer and back end
 
@@ -109,13 +109,13 @@ SRCS= mars.c enum.c struct.c dsymbol.c import.c idgen.c impcnvgen.c utf.h \
 	eh.c toctype.c class.c mangle.c bit.c tocsym.c func.c inline.c \
 	access.c complex_t.h unialpha.c irstate.h irstate.c glue.c msc.c \
 	ph.c tk.c s2ir.c todt.c e2ir.c util.c toobj.c cppmangle.c \
-	identifier.h parse.h objfile.h scope.h enum.h import.h \
+	identifier.h parse.h scope.h enum.h import.h \
 	typinf.c tocvdebug.c toelfdebug.c mars.h module.h mtype.h dsymbol.h \
 	declaration.h lexer.h expression.h statement.h doc.h doc.c \
 	macro.h macro.c hdrgen.h hdrgen.c arraytypes.h \
 	delegatize.c toir.h toir.c interpret.c traits.c builtin.c \
 	clone.c lib.h libomf.c libelf.c libmach.c arrayop.c \
-	aliasthis.h aliasthis.c json.h json.c unittests.c imphint.c
+	aliasthis.h aliasthis.c json.h json.c unittests.c imphint.c argtypes.c
 
 # From C++ compiler
 
@@ -135,7 +135,8 @@ BACKSRC= $C\cdef.h $C\cc.h $C\oper.h $C\ty.h $C\optabgen.c \
 	$C\elfobj.c $C\cv4.h $C\dwarf2.h $C\cpp.h $C\exh.h $C\go.h \
 	$C\dwarf.c $C\dwarf.h $C\cppman.c $C\machobj.c \
 	$C\strtold.c $C\aa.h $C\aa.c $C\tinfo.h $C\ti_achar.c \
-	$C\md5.h $C\md5.c
+	$C\md5.h $C\md5.c \
+	$C\backend.txt
 
 # From TK
 
@@ -158,7 +159,7 @@ MAKEFILES=win32.mak linux.mak osx.mak freebsd.mak solaris.mak
 #########################################
 
 $(TARGET).exe : $(OBJS) win32.mak
-	$(CC) -o$(TARGET).exe $(OBJS) -cpp -mn -Ar $(LFLAGS)
+	dmc -o$(TARGET).exe $(OBJS) -cpp -mn -Ar $(LFLAGS)
 
 
 ##################### INCLUDE MACROS #####################
@@ -174,11 +175,11 @@ msgs.h msgs.c sj1041.msg sj1036.msg sj1031.msg : msgsx.exe
 	msgsx
 
 msgsx.exe : msgsx.c
-	$(CC) msgsx -mn -D$(TARGET) $(DEFINES) $(WINLIBS)
+	dmc msgsx -mn -D$(TARGET) $(DEFINES) $(WINLIBS)
 
 elxxx.c cdxxx.c optab.c debtab.c fltables.c tytab.c : \
 	$C\cdef.h $C\cc.h $C\oper.h $C\ty.h $C\optabgen.c
-	$(CC) -cpp -ooptabgen.exe $C\optabgen -DMARS -I$(TK) $(WINLIBS) #-L$(LINKS)
+	dmc -cpp -ooptabgen.exe $C\optabgen -DMARS -I$(TK) $(WINLIBS) #-L$(LINKS)
 	optabgen
 
 impcnvtab.c : impcnvgen.c
@@ -186,7 +187,7 @@ impcnvtab.c : impcnvgen.c
 	impcnvgen
 
 id.h id.c : idgen.c
-	$(CC) -cpp idgen
+	dmc -cpp idgen
 	idgen
 
 ##################### SPECIAL BUILDS #####################
@@ -442,6 +443,7 @@ stringtable.obj : $(ROOT)\stringtable.c
 
 access.obj : $(TOTALH) enum.h aggregate.h init.h attrib.h access.c
 aliasthis.obj : $(TOTALH) aliasthis.h aliasthis.c
+argtypes.obj : $(TOTALH) mtype.h argtypes.c
 arrayop.obj : $(TOTALH) identifier.h declaration.h arrayop.c
 attrib.obj : $(TOTALH) identifier.h declaration.h attrib.h attrib.c
 builtin.obj : $(TOTALH) builtin.c
@@ -495,7 +497,7 @@ clean:
 	del elxxx.c cdxxx.c optab.c debtab.c fltables.c tytab.c
 	del impcnvtab.c
 
-zip : detab $(MAKEFILES)
+zip : detab tolf $(MAKEFILES)
 	del dmdsrc.zip
 	zip32 dmdsrc $(MAKEFILES)
 	zip32 dmdsrc $(SRCS)
@@ -508,6 +510,9 @@ zip : detab $(MAKEFILES)
 detab:
 	detab $(SRCS) $(ROOTSRC) $(TKSRC) $(BACKSRC)
 
+tolf:
+	tolf $(SRCS) $(ROOTSRC) $(TKSRC) $(BACKSRC) $(MAKEFILES)
+
 ################### Install ################
 
 install: detab install2
@@ -515,19 +520,19 @@ install: detab install2
 install2:
 	copy dmd.exe $(DIR)\windows\bin\ 
 	copy phobos\phobos.lib $(DIR)\windows\lib 
-	$(CP) $(SRCS) $(DIR)\src\dm\ 
-	$(CP) $(ROOTSRC) $(DIR)\src\dm\root\ 
-	$(CP) $(TKSRC) $(DIR)\src\dm\tk\  
-	$(CP) $(BACKSRC) $(DIR)\src\dm\backend\  
-	$(CP) $(MAKEFILES) $(DIR)\src\dm\  
-	copy gpl.txt $(DIR)\src\dm\ 
-	copy readme.txt $(DIR)\src\dm\ 
-	copy artistic.txt $(DIR)\src\dm\ 
-	copy backendlicense.txt $(DIR)\src\dm\ 
+	$(CP) $(SRCS) $(DIR)\src\dmd\ 
+	$(CP) $(ROOTSRC) $(DIR)\src\dmd\root\ 
+	$(CP) $(TKSRC) $(DIR)\src\dmd\tk\  
+	$(CP) $(BACKSRC) $(DIR)\src\dmd\backend\  
+	$(CP) $(MAKEFILES) $(DIR)\src\dmd\  
+	copy gpl.txt $(DIR)\src\dmd\ 
+	copy readme.txt $(DIR)\src\dmd\ 
+	copy artistic.txt $(DIR)\src\dmd\ 
+	copy backendlicense.txt $(DIR)\src\dmd\ 
 
 ################### Write to SVN ################
 
-svn:	detab svn2
+svn:	detab tolf svn2
 
 svn2:
 	$(CP) $(SRCS) $(DMDSVN)\ 

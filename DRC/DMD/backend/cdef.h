@@ -137,9 +137,9 @@ One and only one of these macros must be set by the makefile:
 #ifndef CDEF_H
 #define CDEF_H  1
 
-#define VERSION "8.52.5"        // for banner and imbedding in .OBJ file
-#define VERSIONHEX "0x852"      // for __DMC__ macro
-#define VERSIONINT 0x852        // for precompiled headers and DLL version
+#define VERSION "8.54.0"        // for banner and imbedding in .OBJ file
+#define VERSIONHEX "0x854"      // for __DMC__ macro
+#define VERSIONINT 0x854        // for precompiled headers and DLL version
 
 
 /***********************************
@@ -477,7 +477,7 @@ typedef unsigned        targ_uns;
 #define FPTRSIZE        tysize[TYfptr]
 #define REGMASK         0xFFFF
 
-#if TARGET_LINUX
+#if TARGET_LINUX || TARGET_FREEBSD
 typedef targ_llong      targ_ptrdiff_t; /* ptrdiff_t for target machine  */
 typedef targ_ullong     targ_size_t;    /* size_t for the target machine */
 #else
@@ -860,7 +860,7 @@ struct elem;
 
 typedef unsigned regm_t;        // Register mask type
 struct immed_t
-{   targ_int value[REGMAX];     // immediate values in registers
+{   targ_size_t value[REGMAX];  // immediate values in registers
     regm_t mval;                // Mask of which values in regimmed.value[] are valid
 };
 
@@ -894,6 +894,12 @@ struct con_t
  * size of the data on the TARGET, not the host.
  */
 
+struct Cent
+{
+    targ_ullong lsw;
+    targ_ullong msw;
+};
+
 union eve
 {
         targ_char       Vchar;
@@ -907,6 +913,7 @@ union eve
         targ_ulong      Vulong;
         targ_llong      Vllong;
         targ_ullong     Vullong;
+        Cent            Vcent;
         targ_float      Vfloat;
         targ_double     Vdouble;
         targ_ldouble    Vldouble;

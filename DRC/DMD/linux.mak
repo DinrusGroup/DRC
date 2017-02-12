@@ -17,25 +17,24 @@ WARNINGS=-Wno-deprecated -Wstrict-aliasing
 #GFLAGS = $(WARNINGS) -D__near= -D__pascal= -fno-exceptions -g -DDEBUG=1 $(COV)
 GFLAGS = $(WARNINGS) -D__near= -D__pascal= -fno-exceptions -O2
 
-CFLAGS = $(GFLAGS) -I$(ROOT) -D__I86__=1 -DMARS=1 -DTARGET_LINUX=0 -D_DH
-MFLAGS = $(GFLAGS) -I$C -I$(TK) -D__I86__=1 -DMARS=1 -DTARGET_LINUX=0 -D_DH 
-#-DTARGET_WINDOS=1
+CFLAGS = $(GFLAGS) -I$(ROOT) -D__I86__=1 -DMARS=1 -DTARGET_LINUX=1 -D_DH
+MFLAGS = $(GFLAGS) -I$C -I$(TK) -D__I86__=1 -DMARS=1 -DTARGET_LINUX=1 -D_DH
 
 CH= $C/cc.h $C/global.h $C/parser.h $C/oper.h $C/code.h $C/type.h \
 	$C/dt.h $C/cgcv.h $C/el.h $C/iasm.h
 TOTALH=
-# constfold.o cod3.o evalu8.o expression.o lexer.o mars.o mtype.o os.o
+
 DMD_OBJS = \
 	access.o array.o attrib.o bcomplex.o bit.o blockopt.o \
 	cast.o code.o cg.o cg87.o cgcod.o cgcs.o cgelem.o cgen.o \
-	cgreg.o cgsched.o class.o cod1.o cod2.o cod4.o cod5.o \
-	 irstate.o dchar.o cond.o debug.o \
+	cgreg.o cgsched.o class.o cod1.o cod2.o cod3.o cod4.o cod5.o \
+	constfold.o irstate.o dchar.o cond.o debug.o \
 	declaration.o dsymbol.o dt.o dump.o e2ir.o ee.o eh.o el.o \
-	dwarf.o enum.o  func.o gdag.o gflow.o \
+	dwarf.o enum.o evalu8.o expression.o func.o gdag.o gflow.o \
 	glocal.o gloop.o glue.o gnuc.o go.o gother.o html.o iasm.o id.o \
 	identifier.o impcnvtab.o import.o inifile.o init.o inline.o \
-	link.o lstring.o mangle.o rmem.o module.o msc.o \
-	nteh.o cppmangle.o opover.o optimize.o out.o outbuf.o \
+	lexer.o link.o lstring.o mangle.o mars.o rmem.o module.o msc.o mtype.o \
+	nteh.o cppmangle.o opover.o optimize.o os.o out.o outbuf.o \
 	parse.o ph.o ptrntab.o root.o rtlsym.o s2ir.o scope.o statement.o \
 	stringtable.o struct.o csymbol.o template.o tk.o tocsym.o todt.o \
 	type.o typinf.o util.o var.o version.o strtold.o utf.o staticassert.o \
@@ -43,7 +42,7 @@ DMD_OBJS = \
 	hdrgen.o delegatize.o aa.o ti_achar.o toir.o interpret.o traits.o \
 	builtin.o clone.o aliasthis.o \
 	man.o arrayop.o port.o response.o async.o json.o speller.o aav.o unittests.o \
-	imphint.o \
+	imphint.o argtypes.o \
 	libelf.o elfobj.o
 
 SRC = win32.mak linux.mak osx.mak freebsd.mak solaris.mak \
@@ -63,6 +62,7 @@ SRC = win32.mak linux.mak osx.mak freebsd.mak solaris.mak \
 	delegatize.c toir.h toir.c interpret.c traits.c cppmangle.c \
 	builtin.c clone.c lib.h libomf.c libelf.c libmach.c arrayop.c \
 	aliasthis.h aliasthis.c json.h json.c unittests.c imphint.c \
+	argtypes.c \
 	$C/cdef.h $C/cc.h $C/oper.h $C/ty.h $C/optabgen.c \
 	$C/global.h $C/parser.h $C/code.h $C/type.h $C/dt.h $C/cgcv.h \
 	$C/el.h $C/iasm.h $C/rtlsym.h $C/html.h \
@@ -145,6 +145,9 @@ access.o: access.c
 aliasthis.o: aliasthis.c
 	$(CC) -c $(CFLAGS) $<
 
+argtypes.o: argtypes.c
+	$(CC) -c $(CFLAGS) $<
+
 array.o: $(ROOT)/array.c
 	$(CC) -c $(GFLAGS) -I$(ROOT) $<
 
@@ -214,8 +217,8 @@ cod1.o: $C/rtlsym.h $C/cod1.c
 cod2.o: $C/rtlsym.h $C/cod2.c
 	$(CC) -c $(MFLAGS) $C/cod2.c
 
-#cod3.o: $C/rtlsym.h $C/cod3.c
-	#$(CC) -c $(MFLAGS) $C/cod3.c
+cod3.o: $C/rtlsym.h $C/cod3.c
+	$(CC) -c $(MFLAGS) $C/cod3.c
 
 cod4.o: $C/cod4.c
 	$(CC) -c $(MFLAGS) $<
@@ -226,8 +229,8 @@ cod5.o: $C/cod5.c
 code.o: $C/code.c
 	$(CC) -c $(MFLAGS) $<
 
-#constfold.o: constfold.c
-	#$(CC) -c $(CFLAGS) $<
+constfold.o: constfold.c
+	$(CC) -c $(CFLAGS) $<
 
 irstate.o: irstate.h irstate.c
 	$(CC) -c $(MFLAGS) -I$(ROOT) irstate.c
@@ -289,11 +292,11 @@ entity.o: entity.c
 enum.o: enum.c
 	$(CC) -c $(CFLAGS) $<
 
-#evalu8.o: $C/evalu8.c
-	#$(CC) -c $(MFLAGS) $<
+evalu8.o: $C/evalu8.c
+	$(CC) -c $(MFLAGS) $<
 
-#expression.o: expression.c
-	#$(CC) -c $(CFLAGS) $<
+expression.o: expression.c
+	$(CC) -c $(CFLAGS) $<
 
 func.o: func.c
 	$(CC) -c $(CFLAGS) $<
@@ -364,8 +367,8 @@ interpret.o: interpret.c
 json.o: json.c
 	$(CC) -c $(CFLAGS) $<
 
-#lexer.o: lexer.c
-	#$(CC) -c $(CFLAGS) $<
+lexer.o: lexer.c
+	$(CC) -c $(CFLAGS) $<
 
 libelf.o: libelf.c $C/melf.h
 	$(CC) -c $(CFLAGS) -I$C $<
@@ -391,8 +394,8 @@ man.o: $(ROOT)/man.c
 mangle.o: mangle.c
 	$(CC) -c $(CFLAGS) $<
 
-#mars.o: mars.c
-	#$(CC) -c $(CFLAGS) $<
+mars.o: mars.c
+	$(CC) -c $(CFLAGS) $<
 
 rmem.o: $(ROOT)/rmem.c
 	$(CC) -c $(GFLAGS) -I$(ROOT) $(ROOT)/rmem.c
@@ -403,8 +406,8 @@ module.o: $(TOTALH) $C/html.h module.c
 msc.o: $(CH) mars.h msc.c
 	$(CC) -c $(MFLAGS) msc.c
 
-#mtype.o: mtype.c
-	#$(CC) -c $(CFLAGS) $<
+mtype.o: mtype.c
+	$(CC) -c $(CFLAGS) $<
 
 nteh.o: $C/rtlsym.h $C/nteh.c
 	$(CC) -c $(MFLAGS) $C/nteh.c
@@ -415,8 +418,8 @@ opover.o: opover.c
 optimize.o: optimize.c
 	$(CC) -c $(CFLAGS) $<
 
-#os.o: $C/os.c
-	#$(CC) -c $(MFLAGS) $<
+os.o: $C/os.c
+	$(CC) -c $(MFLAGS) $<
 
 out.o: $C/out.c
 	$(CC) -c $(MFLAGS) $<

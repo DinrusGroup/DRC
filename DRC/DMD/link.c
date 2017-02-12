@@ -86,12 +86,14 @@ int runLINK()
         if (i)
             cmdbuf.writeByte('+');
         p = (char *)global.params.objfiles->data[i];
+        char *basename = FileName::removeExt(FileName::name(p));
         char *ext = FileName::ext(p);
-        if (ext)
-            // Write name sans extension
+        if (ext && !strchr(basename, '.'))
+            // Write name sans extension (but not if a double extension)
             writeFilename(&cmdbuf, p, ext - p - 1);
         else
             writeFilename(&cmdbuf, p);
+        mem.free(basename);
     }
     cmdbuf.writeByte(',');
     if (global.params.exefile)
@@ -114,7 +116,7 @@ int runLINK()
 
     cmdbuf.writeByte(',');
     if (global.params.mapfile)
-        cmdbuf.writestring(global.params.mapfile);
+        writeFilename(&cmdbuf, global.params.mapfile);
     else if (global.params.run)
         cmdbuf.writestring("nul");
     cmdbuf.writeByte(',');

@@ -3,11 +3,10 @@
 #ifndef OBJFILE_H
 #define OBJFILE_H
 
-#include "../stdafx.h"
+#include "root.h"
 
 typedef void *SymHandle;
 typedef unsigned SegOffset;
-typedef void *SegHandle; //VK!
 
 enum ObjFormat
 {

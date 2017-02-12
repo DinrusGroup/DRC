@@ -1,6 +1,6 @@
 
 // Compiler implementation of the D programming language
-// Copyright (c) 1999-2009 by Digital Mars
+// Copyright (c) 1999-2010 by Digital Mars
 // All Rights Reserved
 // written by Walter Bright
 // http://www.digitalmars.com
@@ -144,6 +144,11 @@ dt_t *StructInitializer::toDt()
                 unsigned vsz = v->type->size();
                 unsigned voffset = v->offset;
 
+                if (sz > vsz)
+                {   assert(v->type->ty == Tsarray && vsz == 0);
+                    error(loc, "zero length array %s has non-zero length initializer", v->toChars());
+                }
+
                 unsigned dim = 1;
                 for (Type *vt = v->type->toBasetype();
                      vt->ty == Tsarray;
@@ -286,7 +291,7 @@ dt_t *ArrayInitializer::toDt()
 
             d = NULL;
             if (tb->ty == Tarray)
-                dtdword(&d, dim);
+                dtsize_t(&d, dim);
             dtxoff(&d, s, 0, TYnptr);
             break;
 
@@ -401,7 +406,7 @@ dt_t *ArrayInitializer::toDtBit()
 
             d = NULL;
             if (tb->ty == Tarray)
-                dtdword(&d, dim);
+                dtsize_t(&d, dim);
             dtxoff(&d, s, 0, TYnptr);
             break;
 
@@ -543,7 +548,7 @@ dt_t **StringExp::toDt(dt_t **pdt)
     switch (t->ty)
     {
         case Tarray:
-            dtdword(pdt, len);
+            dtsize_t(pdt, len);
             pdt = dtabytes(pdt, TYnptr, 0, (len + 1) * sz, (char *)string);
             break;
 
@@ -599,7 +604,7 @@ dt_t **ArrayLiteralExp::toDt(dt_t **pdt)
         case Tpointer:
         case Tarray:
             if (t->ty == Tarray)
-                dtdword(pdt, elements->dim);
+                dtsize_t(pdt, elements->dim);
             if (d)
             {
                 // Create symbol, and then refer to it
@@ -611,7 +616,7 @@ dt_t **ArrayLiteralExp::toDt(dt_t **pdt)
                 dtxoff(pdt, s, 0, TYnptr);
             }
             else
-                dtdword(pdt, 0);
+                dtsize_t(pdt, 0);
 
             break;
 
@@ -689,15 +694,23 @@ dt_t **StructLiteralExp::toDt(dt_t **pdt)
             {   unsigned sz = dt_size(d);
                 unsigned vsz = v->type->size();
                 unsigned voffset = v->offset;
-                assert(sz <= vsz);
+
+                if (sz > vsz)
+                {   assert(v->type->ty == Tsarray && vsz == 0);
+                    error("zero length array %s has non-zero length initializer", v->toChars());
+                }
 
                 unsigned dim = 1;
-                for (Type *vt = v->type->toBasetype();
+                Type *vt;
+                for (vt = v->type->toBasetype();
                      vt->ty == Tsarray;
                      vt = vt->next->toBasetype())
                 {   TypeSArray *tsa = (TypeSArray *)vt;
                     dim *= tsa->dim->toInteger();
                 }
+
+                //printf("sz = %d, dim = %d, vsz = %d\n", sz, dim, vsz);
+                assert(sz == vsz || sz * dim <= vsz);
 
                 for (size_t i = 0; i < dim; i++)
                 {
@@ -708,7 +721,7 @@ dt_t **StructLiteralExp::toDt(dt_t **pdt)
                         if (v->init)
                             d = v->init->toDt();
                         else
-                            v->type->toDt(&d);
+                            vt->toDt(&d);
                     }
                     pdt = dtcat(pdt, d);
                     d = NULL;
@@ -788,7 +801,7 @@ void ClassDeclaration::toDt(dt_t **pdt)
 
     // Put in first two members, the vtbl[] and the monitor
     dtxoff(pdt, toVtblSymbol(), 0, TYnptr);
-    dtdword(pdt, 0);                    // monitor
+    dtsize_t(pdt, 0);                    // monitor
 
     // Put in the rest
     toDt2(pdt, this);
@@ -815,7 +828,7 @@ void ClassDeclaration::toDt2(dt_t **pdt, ClassDeclaration *cd)
     }
     else
     {
-        offset = 8;
+        offset = PTRSIZE * 2;
     }
 
     // Note equivalence of this loop to struct's
@@ -878,7 +891,7 @@ void ClassDeclaration::toDt2(dt_t **pdt, ClassDeclaration *cd)
         assert(csymoffset != ~0);
         dtxoff(pdt, csym, csymoffset, TYnptr);
 #endif
-        offset = b->offset + 4;
+        offset = b->offset + PTRSIZE;
     }
 
     if (offset < structsize)
@@ -963,55 +976,43 @@ dt_t **TypeSArray::toDtElem(dt_t **pdt, Expression *e)
             pdt = &((*pdt)->DTnext);
         Type *tnext = next;
         Type *tbn = tnext->toBasetype();
-        while (tbn->ty == Tsarray)
+        while (tbn->ty == Tsarray && (!e || tbn != e->type->nextOf()))
         {   TypeSArray *tsa = (TypeSArray *)tbn;
 
             len *= tsa->dim->toInteger();
-            tnext = tbn->next;
+            tnext = tbn->nextOf();
             tbn = tnext->toBasetype();
         }
         if (!e)                         // if not already supplied
             e = tnext->defaultInit();   // use default initializer
-        if (tbn->ty == Tbit)
+        e->toDt(pdt);
+        dt_optimize(*pdt);
+        if (e->op == TOKstring)
+            len /= ((StringExp *)e)->len;
+        if (e->op == TOKarrayliteral)
+            len /= ((ArrayLiteralExp *)e)->elements->dim;
+        if ((*pdt)->dt == DT_azeros && !(*pdt)->DTnext)
         {
-            Bits databits;
-
-            databits.resize(len);
-            if (e->toInteger())
-                databits.set();
-            pdt = dtnbytes(pdt, databits.allocdim * sizeof(databits.data[0]),
-                (char *)databits.data);
+            (*pdt)->DTazeros *= len;
+            pdt = &((*pdt)->DTnext);
+        }
+        else if ((*pdt)->dt == DT_1byte && (*pdt)->DTonebyte == 0 && !(*pdt)->DTnext)
+        {
+            (*pdt)->dt = DT_azeros;
+            (*pdt)->DTazeros = len;
+            pdt = &((*pdt)->DTnext);
         }
         else
         {
-            if (tbn->ty == Tstruct)
-                tnext->toDt(pdt);
-            else
-                e->toDt(pdt);
-            dt_optimize(*pdt);
-            if ((*pdt)->dt == DT_azeros && !(*pdt)->DTnext)
+            for (i = 1; i < len; i++)
             {
-                (*pdt)->DTazeros *= len;
-                pdt = &((*pdt)->DTnext);
-            }
-            else if ((*pdt)->dt == DT_1byte && (*pdt)->DTonebyte == 0 && !(*pdt)->DTnext)
-            {
-                (*pdt)->dt = DT_azeros;
-                (*pdt)->DTazeros = len;
-                pdt = &((*pdt)->DTnext);
-            }
-            else if (e->op != TOKstring)
-            {
-                for (i = 1; i < len; i++)
-                {
-                    if (tbn->ty == Tstruct)
-                    {   pdt = tnext->toDt(pdt);
-                        while (*pdt)
-                            pdt = &((*pdt)->DTnext);
-                    }
-                    else
-                        pdt = e->toDt(pdt);
+                if (tbn->ty == Tstruct)
+                {   pdt = tnext->toDt(pdt);
+                    while (*pdt)
+                        pdt = &((*pdt)->DTnext);
                 }
+                else
+                    pdt = e->toDt(pdt);
             }
         }
     }

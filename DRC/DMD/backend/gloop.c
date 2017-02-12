@@ -1105,11 +1105,14 @@ STATIC void markinvar(elem *n,vec_t rd)
 #endif
 
 #if LONGLONG
-        case OPlngllng: case OPulngllng:
+        case OPlngllng: case OPu32_64:
         case OP64_32:
         case OPd_s64:   case OPd_u64:
         case OPs64_d:
         case OPu64_d:
+        case OP128_64:
+        case OPs64_128:
+        case OPu64_128:
 #endif
 #if !(TARGET_POWERPC)
         case OPabs:
@@ -1335,7 +1338,7 @@ void updaterd(elem *n,vec_t GEN,vec_t KILL)
         targ_size_t tsize;
         targ_size_t ttop;
 
-        tsize = (op == OPstreq) ? n->Enumbytes : tysize(t->Ety);
+        tsize = (op == OPstreq) ? type_size(n->ET) : tysize(t->Ety);
         ttop = toff + tsize;
 
         //printf("updaterd: "); WReqn(n); printf(" toff=%d, tsize=%d\n", toff, tsize);
@@ -1361,7 +1364,7 @@ void updaterd(elem *n,vec_t GEN,vec_t KILL)
 
             // If t completely overlaps tn1
             tn1size = (tn->Eoper == OPstreq)
-                ? tn->Enumbytes : tysize(tn1->Ety);
+                ? type_size(tn->ET) : tysize(tn1->Ety);
             if (toff <= tn1->EV.sp.Voffset &&
                 tn1->EV.sp.Voffset + tn1size <= ttop)
             {
@@ -2137,6 +2140,8 @@ STATIC famlist * newfamlist(tym_t ty)
             case TYfptr:
             case TYvptr:
                 ty = TYint;
+                if (I64)
+                    ty = TYllong;
                 /* FALL-THROUGH */
             case TYint:
             case TYuint:
@@ -2165,6 +2170,8 @@ STATIC famlist * newfamlist(tym_t ty)
         {
 #if TX86
             ty = (tybasic(ty) == TYhptr) ? TYlong : TYint;
+            if (I64)
+                ty = TYllong;
 #else
             ty = TYint;
 #endif
@@ -2600,7 +2607,7 @@ STATIC void ivfamelems(register Iv *biv,register elem **pn)
                                         c2ty = TYlong;
                                     else
 #endif
-                                        c2ty = TYint;
+                                        c2ty = I64 ? TYllong : TYint;
                                 }
                           L1:
                                 fl->c2 = el_bin(op,c2ty,fl->c2,el_copytree(n2));
@@ -2690,7 +2697,7 @@ cmes2("nfams = %d\n",nfams);
 cmes2("nrefs = %d\n",nrefs);
         assert(nrefs + 1 >= nfams);
         if (nrefs > nfams ||            // if we won't eliminate the biv
-            (I32 && nrefs == nfams))
+            (!I16 && nrefs == nfams))
         {   /* Eliminate any family ivs that only differ by a constant  */
             /* from biv                                                 */
             for (fl = biv->IVfamily; fl; fl = fl->FLnext)
@@ -2702,7 +2709,7 @@ cmes2("nrefs = %d\n",nrefs);
                         ||
                     // Eliminate fl's that can be represented by
                     // an addressing mode
-                    (I32 && ec1->Eoper == OPconst && tyintegral(ec1->Ety) &&
+                    (!I16 && ec1->Eoper == OPconst && tyintegral(ec1->Ety) &&
                      ((c = el_tolong(ec1)) == 2 || c == 4 || c == 8)
                     )
 #endif
@@ -2976,7 +2983,7 @@ STATIC bool funcprev(Iv *biv,famlist *fl)
                     tymin = TYlong;
                 else
 #endif
-                    tymin = TYint;              /* type of (ptr - ptr) */
+                    tymin = I64 ? TYllong : TYint;         /* type of (ptr - ptr) */
         }
 
 #if TX86
@@ -3148,7 +3155,7 @@ STATIC void elimbasivs(register loop *l)
                          c1 & ~0x7FFFFFFFL)
                        )
                         continue;
-#if LONGLONG && __INTSIZE == 4
+#if LONGLONG && __INTSIZE >= 4
                     if (sz == LLONGSIZE &&
                         ((ref->E2->Eoper == OPconst &&
                         c1 * el_tolong(ref->E2) & ~0x7FFFFFFFFFFFFFFFLL) ||
@@ -3156,6 +3163,17 @@ STATIC void elimbasivs(register loop *l)
                        )
                         continue;
 #endif
+                }
+
+                /* If loop started out with a signed conditional that was
+                 * replaced with an unsigned one, don't do it if c2
+                 * is less than 0.
+                 */
+                if (ref->Nflags & NFLtouns && fl->c2->Eoper == OPconst)
+                {
+                    targ_llong c2 = el_tolong(fl->c2);
+                    if (c2 < 0)
+                        continue;
                 }
 
                 elem *refE2 = el_copytree(ref->E2);
@@ -3296,7 +3314,7 @@ STATIC void elimbasivs(register loop *l)
 #if TX86
                                 if (tybasic(ne->E1->Ety) == TYfptr &&
                                     tybasic(ne->E2->Ety) == TYfptr)
-                                {   ne->Ety = TYint;
+                                {   ne->Ety = I64 ? TYllong : TYint;
                                     if (tylong(ty) && intsize == 2)
                                         ne = el_una(OPshtlng,ty,ne);
                                 }
@@ -3567,6 +3585,12 @@ STATIC famlist * flcmp(famlist *f1,famlist *f2)
                 if (t2->Vldouble == 1.0 ||
                     t1->Vldouble != 1.0 && f2->c2->EV.Vldouble == 0)
 #endif
+                        goto Lf2;
+                break;
+            case TYllong:
+            case TYullong:
+                if (t2->Vllong == 1 ||
+                    t1->Vllong != 1 && f2->c2->EV.Vllong == 0)
                         goto Lf2;
                 break;
             default:

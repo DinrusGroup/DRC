@@ -192,6 +192,12 @@ HINT boolres(elem *e)
                                        on RHS of && || expressions */
                     b = 0;
                     break;
+
+                case TYcent:
+                case TYucent:
+                    b = e->EV.Vcent.lsw || e->EV.Vcent.msw;
+                    break;
+
                 default:
 #ifdef DEBUG
                     WRTYxx(typemask(e));
@@ -391,7 +397,7 @@ elem *poptelem(elem *e)
                 else if (tybasic(e->ET->Tty) == TYstruct || tybasic(e->ET->Tty) == TYarray)
                     {
                     to_sz = LONGSIZE;
-                    e1->Enumbytes = e->Enumbytes;
+                    e1->ET = e->ET;
                     }
                 if(to_sz == frm_sz)
                 {       /* convert *(&var) to var       */
@@ -581,7 +587,7 @@ elem * evalu8(elem *e)
     elem_debug(e);
     e1 = e->E1;
 
-    //printf("evalu8(): "); //elem_print(e);
+    //printf("evalu8(): "); elem_print(e);
     elem_debug(e1);
     if (e1->Eoper == OPconst)
     {
@@ -1199,7 +1205,7 @@ elem * evalu8(elem *e)
                     break;
                 default:
 #ifdef DEBUG
-                    dbg_printf("tym = x%lx\n",tym);
+                    dbg_printf("tym = x%x\n",tym);
                     elem_print(e);
 #endif
                     assert(0);
@@ -1566,6 +1572,10 @@ elem * evalu8(elem *e)
                 break;
             case 4:
                 e->EV.Vllong = (l2 << 32) | (l1 & 0xFFFFFFFF);
+                break;
+            case 8:
+                e->EV.Vcent.lsw = l1;
+                e->EV.Vcent.msw = l2;
                 break;
             default:
                 assert(0);
@@ -2029,15 +2039,31 @@ elem * evalu8(elem *e)
 #endif
         e->EV.Vint = l1;
         break;
+
     case OP64_32:
         e->EV.Vlong = l1;
         break;
-    case OPlngllng:
+    case OPs32_64:
         e->EV.Vllong = (targ_long) l1;
         break;
-    case OPulngllng:
+    case OPu32_64:
         e->EV.Vllong = (targ_ulong) l1;
         break;
+
+    case OP128_64:
+        e->EV.Vllong = e1->EV.Vcent.lsw;
+        break;
+    case OPs64_128:
+        e->EV.Vcent.lsw = e1->EV.Vllong;
+        e->EV.Vcent.msw = 0;
+        if ((targ_llong)e->EV.Vcent.lsw < 0)
+            e->EV.Vcent.msw = ~(targ_ullong)0;
+        break;
+    case OPu64_128:
+        e->EV.Vcent.lsw = e1->EV.Vullong;
+        e->EV.Vcent.msw = 0;
+        break;
+
     case OPmsw:
         switch (tysize(tym))
         {
@@ -2046,6 +2072,9 @@ elem * evalu8(elem *e)
                 break;
             case 8:
                 e->EV.Vllong = (l1 >> 32) & 0xFFFFFFFF;
+                break;
+            case 16:
+                e->EV.Vllong = e1->EV.Vcent.msw;
                 break;
             default:
                 assert(0);

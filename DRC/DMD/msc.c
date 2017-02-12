@@ -163,6 +163,8 @@ void out_config_init()
         cod3_set386();
     }
 
+    rtlsym_init();
+
 #ifdef DEBUG
     debugb = params->debugb;
     debugc = params->debugc;
@@ -203,6 +205,17 @@ void util_set386()
             tysize[TYvptr + i] = 6;
             tysize[TYfref + i] = 6;
         }
+
+        for (i = 0; i < 0x100; i += 0x40)
+        {   tyalignsize[TYenum + i] = LONGSIZE;
+            tyalignsize[TYint  + i] = LONGSIZE;
+            tyalignsize[TYuint + i] = LONGSIZE;
+            tyalignsize[TYnullptr + i] = LONGSIZE;
+            tyalignsize[TYnptr + i] = LONGSIZE;
+            tyalignsize[TYsptr + i] = LONGSIZE;
+            tyalignsize[TYcptr + i] = LONGSIZE;
+            tyalignsize[TYnref + i] = LONGSIZE;
+        }
     }
 }
 
@@ -235,6 +248,26 @@ void util_set64()
             tysize[TYldouble + i] = REALSIZE;
             tysize[TYildouble + i] = REALSIZE;
             tysize[TYcldouble + i] = 2 * REALSIZE;
+
+            tyalignsize[TYenum + i] = LONGSIZE;
+            tyalignsize[TYint  + i] = LONGSIZE;
+            tyalignsize[TYuint + i] = LONGSIZE;
+            tyalignsize[TYnullptr + i] = 8;
+            tyalignsize[TYnptr + i] = 8;
+            tyalignsize[TYsptr + i] = 8;
+            tyalignsize[TYcptr + i] = 8;
+            tyalignsize[TYnref + i] = 8;
+            tyalignsize[TYfptr + i] = 8;
+            tyalignsize[TYvptr + i] = 8;
+            tyalignsize[TYfref + i] = 8;
+#if TARGET_LINUX || TARGET_FREEBSD || TARGET_SOLARIS
+            tyalignsize[TYldouble + i] = 16;
+            tyalignsize[TYildouble + i] = 16;
+            tyalignsize[TYcldouble + i] = 16;
+#else
+            assert(0);
+#endif
+            tytab[TYjfunc + i] &= ~TYFLpascal;  // set so caller cleans the stack (as in C)
         }
     }
 
@@ -293,12 +326,16 @@ elem *exp2_copytotemp(elem *e)
     elem_debug(e);
     Symbol *stmp = symbol_genauto(e);
     elem *eeq = el_bin(OPeq,e->Ety,el_var(stmp),e);
-    if (e->Ety == TYstruct)
+    elem *er = el_bin(OPcomma,e->Ety,eeq,el_var(stmp));
+    if (tybasic(e->Ety) == TYstruct || tybasic(e->Ety) == TYarray)
     {
         eeq->Eoper = OPstreq;
-        eeq->Enumbytes = e->Enumbytes;
+        eeq->ET = e->ET;
+        eeq->E1->ET = e->ET;
+        er->ET = e->ET;
+        er->E2->ET = e->ET;
     }
-    return el_bin(OPcomma,e->Ety,eeq,el_var(stmp));
+    return er;
 }
 
 /****************************
@@ -358,7 +395,8 @@ void backend_init()
     ph_init();
     block_init();
     type_init();
-    rtlsym_init();
+
+    fregsaved = I64 ? mBP | mBX | mR12 | mR13 | mR14 | mR15 | mES : mES | mBP | mBX | mSI | mDI;
 }
 
 void backend_term()
