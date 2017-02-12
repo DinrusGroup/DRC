@@ -13,16 +13,16 @@
 #include        <string.h>
 #include        <time.h>
 
-#include        "cc.h"
-#include        "el.h"
-#include        "oper.h"
-#include        "global.h"
-#include        "code.h"
-#include        "type.h"
-#include        "dt.h"
+#include        "./backend/cc.h"
+#include        "./backend/el.h"
+#include        "./backend/oper.h"
+#include        "./backend/global.h"
+#include        "./backend/code.h"
+#include        "./backend/type.h"
+#include        "./backend/dt.h"
 
 static char __file__[] = __FILE__;      /* for tassert.h                */
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
 /**********************************************
  * Generate code for:

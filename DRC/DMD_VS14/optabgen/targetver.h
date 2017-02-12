@@ -7,6 +7,6 @@
 
 #include <SDKDDKVer.h>
 #define MARS 1
-#define _WINDLL 1
+#define TARGET_WINDOS 1 
 #define TX86 1
 #define __I86__  1

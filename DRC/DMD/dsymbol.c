@@ -12,9 +12,9 @@
 #include <string.h>
 #include <assert.h>
 
-#include "rmem.h"
-#include "speller.h"
-#include "aav.h"
+#include "./root/rmem.h"
+#include "./root/speller.h"
+#include "./root/aav.h"
 
 #include "mars.h"
 #include "dsymbol.h"

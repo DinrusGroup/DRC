@@ -5109,23 +5109,23 @@
  0002:000E4DC4       ___CPPExceptionFilter@4    004E6DC4
  0002:000E6E79       ___LDBLULLNG               004E8E79
  0002:000F1C24       ___SD?%___heap32_multpool_cpp4106907224_ 004F3C24
- 0002:00071B42       ___SD?%arrayop_c3153666503_ 00473B42
- 0002:00068154       ___SD?%doc_c3148535283_    0046A154
- 0002:00073762       ___SD?%glue_c3154422447_   00475762
- 0002:000307C9       ___SD?%lexer_c3133089978_  004327C9
- 0002:0005A4A7       ___SD?%module_c3142197777_ 0045C4A7
- 0002:00010E4C       ___SD?%mtype_c3127450619_  00412E4C
+ 0002:00071B42       ___SD?%arrayop_c690526783_ 00473B42
+ 0002:00068154       ___SD?%doc_c681341457_     0046A154
+ 0002:00073762       ___SD?%glue_c692267169_    00475762
+ 0002:000307C9       ___SD?%lexer_c643379441_   004327C9
+ 0002:0005A4A7       ___SD?%module_c666243995_  0045C4A7
+ 0002:00010E4C       ___SD?%mtype_c633660851_   00412E4C
  0002:000F1C3C       ___SI?%___heap32_multpool_cpp4106907224_ 004F3C3C
- 0002:00071B4D       ___SI?%arrayop_c3153666503_ 00473B4D
- 0002:000DF903       ___SI?%backend_ti_achar_c3186230674_ 004E1903
- 0002:00068168       ___SI?%doc_c3148535283_    0046A168
- 0002:0007378B       ___SI?%glue_c3154422447_   0047578B
- 0002:000DEF0B       ___SI?%iasm_c3184345777_   004E0F0B
- 0002:000307DE       ___SI?%lexer_c3133089978_  004327DE
- 0002:00002595       ___SI?%mars_c3122386267_   00404595
- 0002:0005A4BC       ___SI?%module_c3142197777_ 0045C4BC
- 0002:00010E57       ___SI?%mtype_c3127450619_  00412E57
- 0002:000E10F6       ___SI?%root_rmem_c3190050576_ 004E30F6
+ 0002:00071B4D       ___SI?%arrayop_c690526783_ 00473B4D
+ 0002:000DF903       ___SI?%backend_ti_achar_c725961676_ 004E1903
+ 0002:00068168       ___SI?%doc_c681341457_     0046A168
+ 0002:0007378B       ___SI?%glue_c692267169_    0047578B
+ 0002:000DEF0B       ___SI?%iasm_c724258642_    004E0F0B
+ 0002:000307DE       ___SI?%lexer_c643379441_   004327DE
+ 0002:00002595       ___SI?%mars_c619584338_    00404595
+ 0002:0005A4BC       ___SI?%module_c666243995_  0045C4BC
+ 0002:00010E57       ___SI?%mtype_c633660851_   00412E57
+ 0002:000E10F6       ___SI?%root_rmem_c729356826_ 004E30F6
  0002:000F0904       ___adjustfordst            004F2904
  0002:000E6C10       ___alloca                  004E8C10
  0003:0003CAAC       ___altzone                 00533AAC
@@ -5362,7 +5362,7 @@
  0002:000E9A70       __lrotl                    004EBA70
  0002:000E9A88       __lrotr                    004EBA88
  0003:0003BFE8       __maxspan                  00532FE8
- 0003:0 0003:0003CCB8       __mbctype                  005 0002:000F1340       __mbschr                   004F3340
+ 0003:0003C 0003:0003CCB8       __mbctype                  0002:000F1340       __mbschr                   004F3340
  0002:000F3F0C       __mbsdec                   004F5F0C
  0002:000F11A0       __mbsnbicmp                004F31A0
  0003:0003CAD8       __mdays                    00533AD8
@@ -5643,7 +5643,7 @@
  0003:00045E33       _gotref                    0053CE33
  0002:000DEAF9       _iasm_regs                 004E0AF9
  0002:000DEADE       _iasm_term                 004E0ADE
- 0002:000C2862       _idxr 0002:000C2862       _idxregm    0002:000EE37C       _isatty                    004F037C
+ 0002:000C2862       _idxregm  0002:000C2862       _idxreg 0002:000EE37C       _isatty                    004F037C
  0002:000BA5B4       _isregvar                  004BC5B4
  0002:000BBD06       _isscaledindex             004BDD06
  0002:000F2134       _iswctype                  004F4134
@@ -5921,9 +5921,9 @@
  0002:00000376       _main                      00402376
  0002:000023B6       ?getenv_setargv@@YAXPBDPAHPAPAPAD@Z 004043B6
  0002:0000257E       ?__ehfilter@@YAJPAU_EXCEPTION_POINTERS@@@Z 0040457E
- 0002:00002595       ___SI?%mars_c3122386267_   00404595
+ 0002:00002595       ___SI?%mars_c619584338_    00404595
  0002:000025A0       ??0EnumDeclaration@@QAE@ULoc@@PAUIdentifier@@PAUType@@@Z 004045A0
- 0002:00002636       ?syntaxCopy@EnumDeclaration@@UAEPAUDsymbol@@PAU2@@ 0002:000026 0002:000026AF       ?semantic0@EnumDeclaration@@UAEXPAUScope@@@Z 004046AF
+ 0002:00002636       ?syntaxCopy@EnumDeclaration@@UAEPAUDsymbol@@PAU2@@Z 00 0002:00 0002:000026AF       ?semantic0@EnumDeclaration@@UAEXPAUScope@@@Z 004046AF
  0002:00002734       ?semantic@EnumDeclaration@@UAEXPAUScope@@@Z 00404734
  0002:00002CA4       ?oneMember@EnumDeclaration@@UAEHPAPAUDsymbol@@@Z 00404CA4
  0002:00002CD8       ?toCBuffer@EnumDeclaration@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 00404CD8
@@ -6146,7 +6146,7 @@
  0002:00007943       ?toCBuffer@Type@@UAEXPAUOutBuffer@@PAUIdentifier@@PAUHdrGenState@@@Z 00409943
  0002:00007979       ?toCBuffer2@Type@@UAEXPAUOutBuffer@@PAUHdrGenState@@H@Z 00409979
  0002:000079AA       ?toCBuffer3@Type@@QAEXPAUOutBuffer@@PAUHdrGenState@@H@Z 004099AA
- 0002:0 0002:00007A3C       ?merge@Type@@QAEPAU1@XZ    004 0002:00007AF8       ?merge2@Type@@QAEPAU1@XZ   00409AF8
+ 0002:00007 0002:00007A3C       ?merge@Type@@QAEPAU1@XZ    0002:00007AF8       ?merge2@Type@@QAEPAU1@XZ   00409AF8
  0002:00007B99       ?isbit@Type@@UAEHXZ        00409B99
  0002:00007BA1       ?isintegral@Type@@UAEHXZ   00409BA1
  0002:00007BA9       ?isfloating@Type@@UAEHXZ   00409BA9
@@ -6361,7 +6361,8 @@
  0002:0000E19C       ?isZeroInit@TypeTypedef@@UAEHULoc@@@Z 0041019C
  0002:0000E260       ?hasPointers@TypeTypedef@@UAEHXZ 00410260
  0002:0000E275       ??0TypeStruct@@QAE@PAUStructDeclaration@@@Z 00410275
- 0002:0000E298       ?toChars@TypeStruct@@UAEPADXZ 004102 000 0002:0000E2E4       ?syntaxCopy@TypeStruct@@UAEPAUType@@XZ 004102E4
+ 0002:0000E298       ?toChars@TypeStruct@@UAEPADXZ 00410298
+ 0002:0000E2E4       ?syntaxCopy@TypeStruct@@UAEPAUType@@XZ 004102E4
  0002:0000E2EC       ?semantic@TypeStruct@@UAEPAUType@@ULoc@@PAUScope@@@Z 004102EC
  0002:0000E2F9       ?size@TypeStruct@@UAE_KULoc@@@Z 004102F9
  0002:0000E311       ?alignsize@TypeStruct@@UAEIXZ 00410311
@@ -6419,8 +6420,8 @@
  0002:00010CDA       ?toDecoBuffer@Parameter@@QAEXPAUOutBuffer@@@Z 00412CDA
  0002:00010D51       ?dim@Parameter@@SAIPAUParameters@@@Z 00412D51
  0002:00010DB5       ?getNth@Parameter@@SAPAU1@PAUParameters@@IPAI@Z 00412DB5
- 0002:00010E4C       ___SD?%mtype_c3127450619_  00412E4C
- 0002:00010E57       ___SI?%mtype_c3127450619_  00412E57
+ 0002:00010E4C       ___SD?%mtype_c633660851_   00412E4C
+ 0002:00010E57       ___SI?%mtype_c633660851_   00412E57
  0002:00010E74       ??_GType@@UAEPAXI@Z        00412E74
  0002:00010EAC       ?dyncast@Type@@UAEHXZ      00412EAC
  0002:00010EB8       ??_GTypeError@@UAEPAXI@Z   00412EB8
@@ -6585,7 +6586,7 @@
  0002:00015F25       ?toCBuffer@AssocArrayLiteralExp@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 00417F25
  0002:00015FC2       ?toMangleBuffer@AssocArrayLiteralExp@@UAEXPAUOutBuffer@@@Z 00417FC2
  0002:00016032       ??0StructLiteralExp@@QAE@ULoc@@PAUStructDeclaration@@PAUExpressions@@@Z 00418032
- 0002:00016076       ?syntaxCopy@StructLiteralExp@@UAEPAUExp 0002:00016076       ? 0002:000160B9       ?semantic@StructLiteralExp@@UAEPAUExpression@@PAUScope@@@Z 004180B9
+ 0002:00016076       ?syntaxCopy@StructLiteralExp@@UAEPAUExpress 0002:00016076     0002:000160B9       ?semantic@StructLiteralExp@@UAEPAUExpression@@PAUScope@@@Z 004180B9
  0002:000163F4       ?getField@StructLiteralExp@@QAEPAUExpression@@PAUType@@I@Z 004183F4
  0002:0001653C       ?getFieldIndex@StructLiteralExp@@QAEHPAUType@@I@Z 0041853C
  0002:000165FC       ?toLvalue@StructLiteralExp@@UAEPAUExpression@@PAUScope@@PAU2@@Z 004185FC
@@ -6790,7 +6791,7 @@
  0002:0001F908       ?semantic@AddAssignExp@@UAEPAUExpression@@PAUScope@@@Z 00421908
  0002:0001FBCD       ??0MinAssignExp@@QAE@ULoc@@PAUExpression@@1@Z 00421BCD
  0002:0001FBF6       ?semantic@MinAssignExp@@UAEPAUExpression@@PAUScope@@@Z 00421BF6
- 0002:0001FD7F       ??0CatAssi 0002:0001FD7F       ??0CatAssignExp@@QAE@ULoc 0002:0001FDA8       ?semantic@CatAssignExp@@UAEPAUExpression@@PAUScope@@@Z 00421DA8
+ 0002:0001FD7F       ??0CatAssignEx 0002:0001FD7F       ??0CatAssignExp@@QAE@ 0002:0001FDA8       ?semantic@CatAssignExp@@UAEPAUExpression@@PAUScope@@@Z 00421DA8
  0002:0001FFF7       ??0MulAssignExp@@QAE@ULoc@@PAUExpression@@1@Z 00421FF7
  0002:00020020       ?semantic@MulAssignExp@@UAEPAUExpression@@PAUScope@@@Z 00422020
  0002:00020217       ??0DivAssignExp@@QAE@ULoc@@PAUExpression@@1@Z 00422217
@@ -7023,7 +7024,7 @@
  0002:00026ACF       ?deduceFunctionTemplateMatch@TemplateDeclaration@@QAE?AW4MATCH@@ULoc@@PAUObjects@@PAUExpression@@PAUExpressions@@1@Z 00428ACF
  0002:00027528       ?declareParameter@TemplateDeclaration@@QAEXPAUScope@@PAUTemplateParameter@@PAUObject@@@Z 00429528
  0002:00027824       ?isVariadic@@YAPAUTemplateTupleParameter@@PAUTemplateParameters@@@Z 00429824
- 0002:0002785A       ?isVariadic@Temp 0002:0002785A       ?isVariadic@TemplateDeclaration@@QAEPAU 0002:0002786B       ?isOverloadable@TemplateDeclaration@@QAEHXZ 0042986B
+ 0002:0002785A       ?isVariadic@Template 0002:0002785A       ?isVariadic@TemplateDeclaration@@QA 0002:0002786B       ?isOverloadable@TemplateDeclaration@@QAEHXZ 0042986B
  0002:00027876       ?deduceFunctionTemplate@ÄàâDecÒraÄÑú@@QAEPAUÄÑ¨ÄçóÄÉîScope@@ULocÄÖêObjectsÄÖåExpressÄà´ÄäèÄÉüH@Z 00429876
  0002:00027C5B       ?toCBuffer@TemplateDeclaration@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 00429C5B
  0002:00027D95       ?toChars@TemplateDeclaration@@UAEPADXZ 00429D95
@@ -7169,8 +7170,8 @@
  0002:0003031E       ?uniqueId@Lexer@@SAPAUIdentifier@@PBD@Z 0043231E
  0002:00030337       ?isKeyword@Token@@QAEHXZ   00432337
  0002:00030372       ?initKeywords@Lexer@@SAXXZ 00432372
- 0002:000307C9       ___SD?%lexer_c3133089978_  004327C9
- 0002:000307DE       ___SI?%lexer_c3133089978_  004327DE
+ 0002:000307C9       ___SD?%lexer_c643379441_   004327C9
+ 0002:000307DE       ___SI?%lexer_c643379441_   004327DE
  0002:00030804       ??0Declaration@@QAE@PAUIdentifier@@@Z 00432804
  0002:00030837       ?semantic@Declaration@@UAEXPAUScope@@@Z 00432837
  0002:0003083F       ?kind@Declaration@@UAEPBDXZ 0043283F
@@ -7217,7 +7218,7 @@
  0002:00032943       ?checkCtorConstInit@VarDeclaration@@UAEXXZ 00434943
  0002:00032987       ?checkNestedReference@VarDeclaration@@QAEXPAUScope@@ULoc@@@Z 00434987
  0002:00032A3F       ?isDataseg@VarDeclaration@@UAEHXZ 00434A3F
- 0002:00032AC9       ?i 0002:00032AC9       ?isThreadlocal@VarDeclara 0002:00032AD1       ?isCTFE@VarDeclaration@@QAEHXZ 00434AD1
+ 0002:00032AC9       ?isThr 0002:00032AC9       ?isThreadlocal@VarDec 0002:00032AD1       ?isCTFE@VarDeclaration@@QAEHXZ 00434AD1
  0002:00032AF2       ?hasPointers@VarDeclaration@@UAEHXZ 00434AF2
  0002:00032B22       ?callScopeDtor@VarDeclaration@@QAEPAUExpression@@PAUScope@@@Z 00434B22
  0002:00032BC5       ??0ClassInfoDeclaration@@QAE@PAUClassDeclaration@@@Z 00434BC5
@@ -7423,7 +7424,7 @@
  0002:0003D096       ?isStaticConstructor@StaticCtorDeclaration@@UAEHXZ 0043F096
  0002:0003D0A1       ?isVirtual@StaticCtorDeclaration@@UAEHXZ 0043F0A1
  0002:0003D0A9       ?addPreInvariant@StaticCtorDeclaration@@UAEHXZ 0043F0A9
- 0002:0003D0B1       0002:0003D0B1       ?addPostInvariant@StaticCtorDeclaratio 0002:0003D0B9       ?toCBuffer@StaticCtorDeclaration@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 0043F0B9
+ 0002:0003D0B1       ?ad 0002:0003D0B1       ?addPostInvariant@StaticCtorDeclar 0002:0003D0B9       ?toCBuffer@StaticCtorDeclaration@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 0043F0B9
  0002:0003D100       ??0StaticDtorDeclaration@@QAE@ULoc@@0@Z 0043F100
  0002:0003D146       ?syntaxCopy@StaticDtorDeclaration@@UAEPAUDsymbol@@PAU2@@Z 0043F146
  0002:0003D1AA       ?semantic@StaticDtorDeclaration@@UAEXPAUScope@@@Z 0043F1AA
@@ -7637,7 +7638,7 @@
  0002:00049846       ?toCBuffer@ScopeStatement@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 0044B846
  0002:00049891       ??0WhileStatement@@QAE@ULoc@@PAUExpression@@PAUStatement@@@Z 0044B891
  0002:000498BC       ?syntaxCopy@WhileStatement@@UAEPAUStatement@@XZ 0044B8BC
- 0002:00049910  0002:00049910       ?semantic@WhileStatement@@UAEPAUStatement@@PAUScope 0002:00049956       ?hasBreak@WhileStatement@@UAEHXZ 0044B956
+ 0002:00049910      0002:00049910       ?semantic@WhileStatement@@UAEPAUStatement@@PAUS 0002:00049956       ?hasBreak@WhileStatement@@UAEHXZ 0044B956
  0002:00049961       ?hasContinue@WhileStatement@@UAEHXZ 0044B961
  0002:0004996C       ?usesEH@WhileStatement@@UAEHXZ 0044B96C
  0002:00049998       ?blockExit@WhileStatement@@UAEHXZ 0044B998
@@ -7844,7 +7845,7 @@
  0002:00051744       ??_GForeachStatement@@UAEPAXI@Z 00453744
  0002:00051784       ??_GIfStatement@@UAEPAXI@Z 00453784
  0002:000517C4       ?isIfStatement@IfStatement@@UAEPAU1@XZ 004537C4
- 0002:000517CC       ??_GConditionalStatement 0002:000517CC       ? 0002:0005180C       ??_GPragmaStatement@@UAEPAXI@Z 0045380C
+ 0002:000517CC       ??_GConditionalStatement@@UA 0002:000517CC     0002:0005180C       ??_GPragmaStatement@@UAEPAXI@Z 0045380C
  0002:0005184C       ??_GStaticAssertStatement@@UAEPAXI@Z 0045384C
  0002:0005188C       ??_GSwitchStatement@@UAEPAXI@Z 0045388C
  0002:000518D8       ??_GCaseStatement@@UAEPAXI@Z 004538D8
@@ -7982,8 +7983,8 @@
  0002:0005A33C       ??0Package@@QAE@PAUIdentifier@@@Z 0045C33C
  0002:0005A358       ?kind@Package@@UAEPBDXZ    0045C358
  0002:0005A363       ?resolve@Package@@SAPAUDsymbolTable@@PAUArray@@PAPAUDsymbol@@PAPAU1@@Z 0045C363
- 0002:0005A4A7       ___SD?%module_c3142197777_ 0045C4A7
- 0002:0005A4BC       ___SI?%module_c3142197777_ 0045C4BC
+ 0002:0005A4A7       ___SD?%module_c666243995_  0045C4A7
+ 0002:0005A4BC       ___SI?%module_c666243995_  0045C4BC
  0002:0005A4E0       ??_GModule@@UAEPAXI@Z      0045C4E0
  0002:0005A510       ?semantic@Package@@UAEXPAUScope@@@Z 0045C510
  0002:0005A518       ?isPackage@Package@@UAEPAU1@XZ 0045C518
@@ -8067,7 +8068,7 @@
  0002:0005C1B0       ?inlineCost@SliceExp@@UAEHPAUInlineCostState@@@Z 0045E1B0
  0002:0005C20E       ?inlineCost@ArrayExp@@UAEHPAUInlineCostState@@@Z 0045E20E
  0002:0005C241       ?inlineCost@CondExp@@UAEHPAUInlineCostState@@@Z 0045E241
- 0002 0002:0005C289       ?doInline@Statement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0045E 0002:0005C2A7       ?doInline@ExpStatement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0045E2A7
+ 0002:000 0002:0005C289       ?doInline@Statement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0 0002:0005C2A7       ?doInline@ExpStatement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0045E2A7
  0002:0005C2C7       ?doInline@CompoundStatement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0045E2C7
  0002:0005C376       ?doInline@UnrolledLoopStatement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0045E376
  0002:0005C3E5       ?doInline@IfStatement@@UAEPAUExpression@@PAUInlineDoState@@@Z 0045E3E5
@@ -8268,7 +8269,7 @@
  0002:00062A3D       ?toCBuffer@StorageClassDeclaration@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 00464A3D
  0002:00062A67       ??0LinkDeclaration@@QAE@W4LINK@@PAUArray@@@Z 00464A67
  0002:00062A89       ?syntaxCopy@LinkDeclaration@@UAEPAUDsymbol@@PAU2@@Z 00464A89
- 0002:00062AE4       ?setScope@LinkDeclaration@@UAEXPAUScope@@ 0002:00062AE 0002:00062B0D       ?semantic@LinkDeclaration@@UAEXPAUScope@@@Z 00464B0D
+ 0002:00062AE4       ?setScope@LinkDeclaration@@UAEXPAUScope@@@Z 0 0002:000 0002:00062B0D       ?semantic@LinkDeclaration@@UAEXPAUScope@@@Z 00464B0D
  0002:00062B36       ?semantic3@LinkDeclaration@@UAEXPAUScope@@@Z 00464B36
  0002:00062BA4       ?toCBuffer@LinkDeclaration@@UAEXPAUOutBuffer@@PAUHdrGenState@@@Z 00464BA4
  0002:00062C37       ?toChars@LinkDeclaration@@UAEPADXZ 00464C37
@@ -8403,8 +8404,8 @@
  0002:00067FD1       ?isIdStart@@YAHPAE@Z       00469FD1
  0002:00068073       ?isIdTail@@YAHPAE@Z        0046A073
  0002:00068115       ?utfStride@@YAHPAE@Z       0046A115
- 0002:00068154       ___SD?%doc_c3148535283_    0046A154
- 0002:00068168       ___SI?%doc_c3148535283_    0046A168
+ 0002:00068154       ___SD?%doc_c681341457_     0046A154
+ 0002:00068168       ___SI?%doc_c681341457_     0046A168
  0002:00068178       ??_GFileName@@UAEPAXI@Z    0046A178
  0002:000681B0       ?memdup@@YAPAEPAEI@Z       0046A1B0
  0002:000681D0       ??0Macro@@AAE@PAEI0I@Z     0046A1D0
@@ -8471,7 +8472,7 @@
  0002:0006A789       ?interpret@IntegerExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C789
  0002:0006A793       ?interpret@RealExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C793
  0002:0006A79D       ?interpret@ComplexExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C79D
- 0002:0006A7A7       ?interpret@StringExp@@UAEPAUExpression@@PAUInterS 0002:0006A7A7      0002:0006A7B1       ?interpret@FuncExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C7B1
+ 0002:0006A7A7       ?interpret@StringExp@@UAEPAUExpression@@PAUInterState 0002:0006A7A7  0002:0006A7B1       ?interpret@FuncExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C7B1
  0002:0006A7BB       ?interpret@SymOffExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C7BB
  0002:0006A806       ?interpret@DelegateExp@@UAEPAUExpression@@PAUInterState@@@Z 0046C806
  0002:0006A810       ?resolveReferences@@YAPAUExpression@@PAU1@0PA_N@Z 0046C810
@@ -8607,8 +8608,8 @@
  0002:000719FA       ?buildArrayLoop@AndExp@@UAEPAUExpression@@PAUParameters@@@Z 004739FA
  0002:00071A71       ?buildArrayLoop@OrExp@@UAEPAUExpression@@PAUParameters@@@Z 00473A71
  0002:00071AE8       ?isArrayOperand@Expression@@QAEHXZ 00473AE8
- 0002:00071B42       ___SD?%arrayop_c3153666503_ 00473B42
- 0002:00071B4D       ___SI?%arrayop_c3153666503_ 00473B4D
+ 0002:00071B42       ___SD?%arrayop_c690526783_ 00473B42
+ 0002:00071B4D       ___SI?%arrayop_c690526783_ 00473B4D
  0002:00071B68       ??0IRState@@QAE@PAU0@PAUStatement@@@Z 00473B68
  0002:00071BD0       ??0IRState@@QAE@PAU0@PAUDsymbol@@@Z 00473BD0
  0002:00071C38       ??0IRState@@QAE@PAUModule@@PAUDsymbol@@@Z 00473C38
@@ -8630,8 +8631,8 @@
  0002:000735EC       ?gencritsec@Module@@SAPAUSymbol@@XZ 004755EC
  0002:0007364C       ?toEmodulename@Module@@QAEPAUelem@@XZ 0047564C
  0002:000736BF       ?toEfilename@Module@@QAEPAUelem@@XZ 004756BF
- 0002:00073762       ___SD?%glue_c3154422447_   00475762
- 0002:0007378B       ___SI?%glue_c3154422447_   0047578B
+ 0002:00073762       ___SD?%glue_c692267169_    00475762
+ 0002:0007378B       ___SI?%glue_c692267169_    0047578B
  0002:000737D2       ?out_config_init@@YAXXZ    004757D2
  0002:00073997       ?util_set386@@YAXXZ        00475997
  0002:00073AA3       ?util_set64@@YAXXZ         00475AA3
@@ -8673,7 +8674,7 @@
  0002:00074791       ?mem_term@@YAXXZ           00476791
  0002:00074803       ?list_init@@YAXXZ          00476803
  0002:0007481D       ?list_term@@YAXXZ          0047681D
- 0002:00074896       ?list_free@@ 0002:00074896       ?list_free@@YAX 0002:000748EF       ?list_subtract@@YAPAXPAPAULIST@@PAX@Z 004768EF
+ 0002:00074896       ?list_free@@YAXPAP 0002:00074896       ?list_fre 0002:000748EF       ?list_subtract@@YAPAXPAPAULIST@@PAX@Z 004768EF
  0002:0007493E       ?list_append@@YAPAULIST@@PAPAU1@PAX@Z 0047693E
  0002:00074984       ?list_prepend@@YAPAULIST@@PAPAU1@PAX@Z 00476984
  0002:000749B4       ?list_nitems@@YCHPAULIST@@@Z 004769B4
@@ -8900,7 +8901,7 @@
  0002:00081836       ?bit_read@@YAPAUelem@@PAU1@0H@Z 00483836
  0002:0008187E       ?except_gentables@@YAPAUSymbol@@XZ 0048387E
  0002:00081884       ?genmoduleinfo@Module@@QAEXXZ 00483884
- 0002:00081C00        0002:00081C00       ?toObjFile@Dsymbo 0002:00081C08       ?toObjFile@ClassDeclaration@@UAEXH@Z 00483C08
+ 0002:00081C00       ?toObj 0002:00081C00       ?toObjFile@ 0002:00081C08       ?toObjFile@ClassDeclaration@@UAEXH@Z 00483C08
  0002:000824CD       ?baseVtblOffset@ClassDeclaration@@QAEIPAUBaseClass@@@Z 004844CD
  0002:0008260E       ?toObjFile@InterfaceDeclaration@@UAEXH@Z 0048460E
  0002:00082941       ?toObjFile@StructDeclaration@@UAEXH@Z 00484941
@@ -9155,7 +9156,7 @@
  0002:000A2382       _gen                       004A4382
  0002:000A24B7       _gen1                      004A44B7
  0002:000A2511       _gen2                      004A4511
- 0002 0002:000A255B       _gen2sib                   004A4 0002:000A25D0       _genregs                   004A45D0
+ 0002:000A2 0002:000A255B       _gen2sib                   0002:000A25D0       _genregs                   004A45D0
  0002:000A2620       _gentstreg                 004A4620
  0002:000A2679       _genpush                   004A4679
  0002:000A26B3       _genpop                    004A46B3
@@ -9419,7 +9420,7 @@
  0002:000BB109       _evalinregister            004BD109
  0002:000BB24C       _getscratch                004BD24C
  0002:000BBA4B       _codelem                   004BDA4B
- 0002:000BBD06       _isscal 0002:000BBD06       _isscaled 0002:000BBD51       ?cdisscaledindex@@YAPAUcode@@PAUelem@@PAII@Z 004BDD51
+ 0002:000BBD06       _isscaledinde 0002:000BBD06       _is 0002:000BBD51       ?cdisscaledindex@@YAPAUcode@@PAUelem@@PAII@Z 004BDD51
  0002:000BBDF1       _ssindex                   004BDDF1
  0002:000BBE35       _buildEA                   004BDE35
  0002:000BBF84       _buildModregrm             004BDF84
@@ -9570,7 +9571,7 @@
  0002:000DEADE       _iasm_term                 004E0ADE
  0002:000DEAF9       _iasm_regs                 004E0AF9
  0002:000DEB0B       ?semantic@AsmStatement@@UAEPAUStatement@@PAUScope@@@Z 004E0B0B
- 0002:000DEF0B       ___SI?%iasm_c3184345777_   004E0F0B
+ 0002:000DEF0B       ___SI?%iasm_c724258642_    004E0F0B
  0002:000DEF32       ?asm_opstr@@YAPBDPAUOP@@@Z 004E0F32
  0002:000DEF4F       ?asm_op_lookup@@YAPAUOP@@PBD@Z 004E0F4F
  0002:000DEFA5       ?init_optab@@YAXXZ         004E0FA5
@@ -9595,7 +9596,7 @@
  0002:000DF8D0       ?compare@TypeInfo_Achar@@UAEHPAX0@Z 004E18D0
  0002:000DF8F0       ?tsize@TypeInfo_Achar@@UAEIXZ 004E18F0
  0002:000DF8FB       ?swap@TypeInfo_Achar@@UAEXPAX0@Z 004E18FB
- 0002:000DF903       ___SI?%backend_ti_achar_c3186230674_ 004E1903
+ 0002:000DF903       ___SI?%backend_ti_achar_c725961676_ 004E1903
  0002:000DF910       ?MD5Init@@YAXPAUMD5_CTX@@@Z 004E1910
  0002:000DF938       ?MD5Update@@YAXPAUMD5_CTX@@PAEI@Z 004E1938
  0002:000DFA1A       ?MD5Final@@YAXPAUMD5_CTX@@@Z 004E1A1A
@@ -9638,7 +9639,7 @@
  0002:000E10AD       ?mark@Mem@@QAEXPAX@Z       004E30AD
  0002:000E10B5       ??2@YAPAXI@Z               004E30B5
  0002:000E10E9       ??3@YAXPAX@Z               004E30E9
- 0002:000E10F6       ___SI?%root_rmem_c3190050576_ 004E30F6
+ 0002:000E10F6       ___SI?%root_rmem_c729356826_ 004E30F6
  0002:000E1104       ?isNan@Port@@SAHN@Z        004E3104
  0002:000E1130       ?isNan@Port@@SAH_Z@Z       004E3130
  0002:000E115F       ?isSignallingNan@Port@@SAHN@Z 004E315F
@@ -9692,7 +9693,7 @@
  0002:000E1967       ?compare@FileName@@UAEHPAUObject@@@Z 004E3967
  0002:000E1980       ?compare@FileName@@SAHPBD0@Z 004E3980
  0002:000E1991       ?equals@FileName@@UAEHPAUObject@@@Z 004E3991
- 0002:000E19A6       ?equals@FileName@@SAHPB 0002:000E19A6  0002:000E19BC       ?absolute@FileName@@SAHPBD@Z 004E39BC
+ 0002:000E19A6       ?equals@FileName@@SAHPBD0@Z 004 0002:0 0002:000E19BC       ?absolute@FileName@@SAHPBD@Z 004E39BC
  0002:000E19E1       ?ext@FileName@@SAPADPBD@Z  004E39E1
  0002:000E1A35       ?ext@FileName@@QAEPADXZ    004E3A35
  0002:000E1A46       ?removeExt@FileName@@SAPADPBD@Z 004E3A46
@@ -9963,7 +9964,7 @@
  0002:000EB2CE       __FTEST@                   004ED2CE
  0002:000EB2E6       __DTST87@                  004ED2E6
  0002:000EB2EA       __87TOPSW@                 004ED2EA
- 0002:000E 0002:000EB2EF       __DBLTO87@                  0002:000EB2FA       __DBLINT87@                004ED2FA
+ 0002:000EB2EF     0002:000EB2EF       __DBLTO87@          0002:000EB2FA       __DBLINT87@                004ED2FA
  0002:000EB31B       __DBLLNG87@                004ED31B
  0002:000EB337       __FLTTO87@                 004ED337
  0002:000EB33E       __status87                 004ED33E
@@ -10229,7 +10230,7 @@
  0002:000F4C9E  Imp  _GetCurrentThreadId@0 (KERNEL32.DLL.GetCurrentThreadId)
  0002:000F4CA4  Imp  _FreeEnvironmentStringsA@4 (KERNEL32.DLL.FreeEnvironmentStringsA)
  0002:000F4CAA  Imp  _GetVersion@0        (KERNEL32.DLL.GetVersion)
- 0002: 0002:000F4CB0  Imp  _GetEnvironmentStrings@0 (KERNEL32.DLL.GetEnvironmentStri 0002:000F4CB6  Imp  _GetEnvironmentVariableA@12 (KERNEL32.DLL.GetEnvironmentVariableA)
+ 0002:000F4CB0 0002:000F4CB0  Imp  _GetEnvironmentStrings@0 (KERNEL32.DLL.GetEnviron 0002:000F4CB6  Imp  _GetEnvironmentVariableA@12 (KERNEL32.DLL.GetEnvironmentVariableA)
  0002:000F4CBC  Imp  _SetUnhandledExceptionFilter@4 (KERNEL32.DLL.SetUnhandledExceptionFilter)
  0002:000F4CC2  Imp  _GetCommandLineA@0   (KERNEL32.DLL.GetCommandLineA)
  0002:000F4CC8  Imp  _GetModuleHandleA@4  (KERNEL32.DLL.GetModuleHandleA)
@@ -10494,7 +10495,7 @@
  0003:00014F58       ??_7GotoDefaultStatement@@6B@ 0050BF58
  0003:00014FDC       ??_7GotoCaseStatement@@6B@ 0050BFDC
  0003:00015060       ??_7SwitchErrorStatement@@6B@ 0050C060
- 0003:000150E4       ??_ 0003:000150E4       ??_7ReturnSta 0003:00015168       ??_7BreakStatement@@6B@    0050C168
+ 0003:000150E4       ??_7ReturnS 0003:000150E4       ??_7R 0003:00015168       ??_7BreakStatement@@6B@    0050C168
  0003:000151EC       ??_7ContinueStatement@@6B@ 0050C1EC
  0003:00015270       ??_7SynchronizedStatement@@6B@ 0050C270
  0003:000152F4       ??_7WithStatement@@6B@     0050C2F4
@@ -10770,7 +10771,7 @@
  0003:00032DB4       ?aptb1SETS@@3QAU_PTRNTAB1@@A 00529DB4
  0003:00032DCC       ?aptb1SETNS@@3QAU_PTRNTAB1@@A 00529DCC
  0003:00032DE4       ?aptb1SETP@@3QAU_PTRNTAB1@@A 00529DE4
- 0003:00032DFC       ?aptb1SETNP@@3QA 0003:00032DFC       ?ap 0003:00032E14       ?aptb1SETL@@3QAU_PTRNTAB1@@A 00529E14
+ 0003:00032DFC       ?aptb1SETNP@@3QAU_PTRNTA 0003:00032DFC   0003:00032E14       ?aptb1SETL@@3QAU_PTRNTAB1@@A 00529E14
  0003:00032E2C       ?aptb1SETNL@@3QAU_PTRNTAB1@@A 00529E2C
  0003:00032E44       ?aptb1SETLE@@3QAU_PTRNTAB1@@A 00529E44
  0003:00032E5C       ?aptb1SETNLE@@3QAU_PTRNTAB1@@A 00529E5C
@@ -11036,7 +11037,7 @@
  0003:000369DC       ?aptb2CVTSS2SI@@3QAU_PTRNTAB2@@A 0052D9DC
  0003:000369FC       ?aptb2CVTTPD2PI@@3QAU_PTRNTAB2@@A 0052D9FC
  0003:00036A1C       ?aptb2CVTTPD2DQ@@3QAU_PTRNTAB2@@A 0052DA1C
- 0003:00036A3C       ?aptb2CVTTPS2DQ@@3QAU_PTRN 0003:00036A3C     0003:00036A5C       ?aptb2CVTTPS2PI@@3QAU_PTRNTAB2@@A 0052DA5C
+ 0003:00036A3C       ?aptb2CVTTPS2DQ@@3QAU_PTRNTAB2@@A  0003:0003 0003:00036A5C       ?aptb2CVTTPS2PI@@3QAU_PTRNTAB2@@A 0052DA5C
  0003:00036A7C       ?aptb2CVTTSD2SI@@3QAU_PTRNTAB2@@A 0052DA7C
  0003:00036A9C       ?aptb2CVTTSS2SI@@3QAU_PTRNTAB2@@A 0052DA9C
  0003:00036ABC       ?aptb2DIVPD@@3QAU_PTRNTAB2@@A 0052DABC
@@ -11306,7 +11307,7 @@
  0003:000446E4       ?length@Id@@2PAUIdentifier@@A 0053B6E4
  0003:000446E8       ?dollar@Id@@2PAUIdentifier@@A 0053B6E8
  0003:000446EC       ?p@Id@@2PAUIdentifier@@A   0053B6EC
- 0003:000446F0       ?eq@Id@@2PA 0003:000446F0       ?eq@I 0003:000446F4       ?cmp@Id@@2PAUIdentifier@@A 0053B6F4
+ 0003:000446F0       ?eq@Id@@2PAUIdentif 0003:000446F0     0003:000446F4       ?cmp@Id@@2PAUIdentifier@@A 0053B6F4
  0003:000446F8       ?classNew@Id@@2PAUIdentifier@@A 0053B6F8
  0003:000446FC       ?classDelete@Id@@2PAUIdentifier@@A 0053B6FC
  0003:00044700       ?IUnknown@Id@@2PAUIdentifier@@A 0053B700
@@ -11570,7 +11571,8 @@
  0003:000459BC       _msavereg                  0053C9BC
  0003:000459C0       _dfoidx                    0053C9C0
  0003:000459C4       _cstop                     0053C9C4
- 0003:000459C8       ?csmax@@3IA                00 0003:00 0003:000459CC       _funcoffset                0053C9CC
+ 0003:000459C8       ?csmax@@3IA                0053C9C8
+ 0003:000459CC       _funcoffset                0053C9CC
  0003:000459D0       ?retsize@@3IA              0053C9D0
  0003:000459D4       _framehandleroffset        0053C9D4
  0003:000459D8       ?tls_get_addr_sym@@3PAUSymbol@@A 0053C9D8

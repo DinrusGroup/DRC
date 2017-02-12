@@ -17,9 +17,9 @@
 #include <complex.h>
 #endif
 
-#include "rmem.h"
-#include "root.h"
-#include "port.h"
+#include "./root/rmem.h"
+#include "./root/root.h"
+#include "./root/port.h"
 
 #include "mtype.h"
 #include "expression.h"

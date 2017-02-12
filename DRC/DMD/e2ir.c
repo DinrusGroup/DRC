@@ -13,7 +13,7 @@
 #include        <time.h>
 #include        <complex.h>
 
-#include        "port.h"
+#include        "./root/port.h"
 
 #include        "lexer.h"
 #include        "expression.h"
@@ -27,26 +27,25 @@
 #include        "init.h"
 #include        "template.h"
 
-#include        "mem.h" // for tk/mem_malloc
+#include        "./tk/mem.h" // for tk/mem_malloc
 
 #if __APPLE__
 #define __I86__ 1
 #endif
 
-#include        "cc.h"
-#include        "el.h"
-#include        "oper.h"
-#include        "global.h"
-#include        "code.h"
-#include        "type.h"
-#include        "dt.h"
+#include        "./backend/cc.h"
+#include        "./backend/el.h"
+#include        "./backend/oper.h"
+#include        "./backend/global.h"
+#include        "./backend/code.h"
+#include        "./backend/type.h"
+#include        "./backend/dt.h"
 #include        "irstate.h"
 #include        "id.h"
-#include        "type.h"
 #include        "toir.h"
 
 static char __file__[] = __FILE__;      /* for tassert.h                */
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
 
 elem *addressElem(elem *e, Type *t);

@@ -15,8 +15,8 @@
 #pragma once
 #endif /* __DMC__ mtype.h   Thu Oct 14 2010 */
 
-#include "root.h"
-#include "stringtable.h"
+#include "./root/root.h"
+#include "./root/stringtable.h"
 
 #include "arraytypes.h"
 #include "expression.h"

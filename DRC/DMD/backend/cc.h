@@ -149,10 +149,10 @@ enum LANG
 #if TARGET_LINUX || TARGET_OSX || TARGET_FREEBSD || TARGET_SOLARIS
 #include        "../tk/mem.h"
 #else
-#include        "mem.h"
+#include        "../tk/mem.h"
 #endif
-#include        "list.h"
-#include        "vec.h"
+#include        "../tk/list.h"
+#include        "../tk/vec.h"
 
 #if SPP
 #define COMPILER "Preprocessor"

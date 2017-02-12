@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "rmem.h"
+#include "./root/rmem.h"
 
 #include "init.h"
 #include "declaration.h"

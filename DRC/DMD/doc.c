@@ -16,8 +16,8 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "rmem.h"
-#include "root.h"
+#include "./root/rmem.h"
+#include "./root/root.h"
 
 #include "mars.h"
 #include "dsymbol.h"
@@ -35,12 +35,7 @@
 #include "mtype.h"
 #include "utf.h"
 
-struct Escape
-{
-    const char *strings[256];
 
-    static const char *escapeChar(unsigned c);
-};
 
 struct Section
 {

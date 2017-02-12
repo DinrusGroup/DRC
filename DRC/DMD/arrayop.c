@@ -11,9 +11,9 @@
 #include <string.h>
 #include <assert.h>
 
-#include "rmem.h"
+#include "./root/rmem.h"
 
-#include "stringtable.h"
+#include "./root/stringtable.h"
 
 #include "expression.h"
 #include "statement.h"

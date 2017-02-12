@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "rmem.h"
+#include "./root/rmem.h"
 
 #include "expression.h"
 #include "mtype.h"

@@ -15,16 +15,22 @@
 #pragma once
 #endif /* __DMC__ */
 
-#include "root.h"
+#include "./root/root.h"
 #include "dsymbol.h"
 
 struct ModuleInfoDeclaration;
 struct ClassDeclaration;
 struct ModuleDeclaration;
 struct Macro;
-struct Escape;
 struct VarDeclaration;
 struct Library;
+
+struct Escape
+{
+    const char *strings[256];
+
+    static const char *escapeChar(unsigned c);
+};
 
 // Back end
 #if IN_GCC
@@ -44,6 +50,7 @@ struct Package : ScopeDsymbol
 
     virtual void semantic(Scope *sc) { }
 };
+
 
 struct Module : Package
 {
@@ -105,7 +112,7 @@ struct Module : Package
     Array *versionidsNot;       // forward referenced version identifiers
 
     Macro *macrotable;          // document comment macros
-    Escape *escapetable;        // document comment escapes
+   struct Escape *escapetable;        // document comment escapes
     bool safe;                  // TRUE if module is marked as 'safe'
 
     Module(char *arg, Identifier *ident, int doDocComment, int doHdrGen);

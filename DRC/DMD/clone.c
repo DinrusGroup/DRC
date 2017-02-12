@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "root.h"
+#include "./root/root.h"
 #include "aggregate.h"
 #include "scope.h"
 #include "mtype.h"

@@ -12,8 +12,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "root.h"
-#include "rmem.h"
+#include "./root/root.h"
+#include "./root/rmem.h"
 
 #include "enum.h"
 #include "aggregate.h"

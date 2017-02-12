@@ -22,6 +22,7 @@ struct HdrGenState
     int inBinExp;
     int inArrExp;
     int emitInst;
+
     struct
     {
         int init;

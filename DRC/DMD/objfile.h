@@ -3,7 +3,8 @@
 #ifndef OBJFILE_H
 #define OBJFILE_H
 
-#include "root.h"
+#include "./root/root.h"
+
 
 typedef void *SymHandle;
 typedef unsigned SegOffset;
@@ -21,16 +22,19 @@ struct ObjFile : File
 
     ObjFile *init(ObjFormat);
 
+	// Segments
+	enum SegHandle
+	{
+		code = 1,
+		data, bss
+	};
+
     void comment(const char *);         // insert comment into object file
     void modulename(const char *);      // set module name
     void library(const char *);         // add default library
     void startaddress(SegHandle seg, SegOffset offset);         // set start address
 
-    // Segments
-    enum SegHandle
-    {   code = 1,
-        data, bss
-    };
+
 
     SymHandle defineSym(const char *name, SegHandle seg, SegOffset offset);
     SymHandle externSym(const char *name);
