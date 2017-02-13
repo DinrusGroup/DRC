@@ -48,7 +48,7 @@ void error(Loc loc, const char *format, ...);
 
 #if OMFOBJ
 
-static char __file__[] = __FILE__;      // for tassert.h
+
 #include        "tassert.h"
 
 #define MULTISCOPE      1       /* account for bug in MultiScope debugger

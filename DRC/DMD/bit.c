@@ -21,7 +21,7 @@
 #include        "./backend/type.h"
 #include        "./backend/dt.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "./backend/tassert.h"
 
 /**********************************************

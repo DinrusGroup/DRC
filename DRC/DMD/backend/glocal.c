@@ -27,7 +27,7 @@
 #include        "type.h"
 #include        "oper.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 typedef struct loc_t

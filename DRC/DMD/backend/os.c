@@ -41,7 +41,7 @@
 #endif
 
 #if __DMC__ || __GNUC__
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 #else
 #include        <assert.h>

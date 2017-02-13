@@ -22,7 +22,7 @@
 #include        "type.h"
 #include        "global.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 /*************************************

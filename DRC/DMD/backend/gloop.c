@@ -24,7 +24,7 @@
 #include        "global.h"
 #include        "type.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 /*#define vec_copy(t,f) (dbg_printf("line %d\n",__LINE__),vec_copy((t),(f)))*/

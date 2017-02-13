@@ -14,6 +14,8 @@
 #ifndef TASSERT_H
 #define TASSERT_H 1
 
+static char __file__[] = __FILE__; 
+
 /*****************************
  * Define a local assert function.
  */

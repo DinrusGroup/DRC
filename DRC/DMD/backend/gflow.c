@@ -23,7 +23,7 @@
 #include        "oper.h"
 #include        "vec.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 /* Since many routines are nearly identical, we can combine them with   */

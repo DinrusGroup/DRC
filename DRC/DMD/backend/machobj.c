@@ -61,7 +61,7 @@ static Outbuffer *fobjbuf;
 regm_t BYTEREGS = BYTEREGS_INIT;
 regm_t ALLREGS = ALLREGS_INIT;
 
-static char __file__[] = __FILE__;      // for tassert.h
+
 #include        "tassert.h"
 
 #define DEST_LEN (IDMAX + IDOHD + 1)

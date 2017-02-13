@@ -45,7 +45,7 @@
 #define DDRT 1          // turn ddrt on
 #endif
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 #ifdef STATS

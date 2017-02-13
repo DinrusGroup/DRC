@@ -22,7 +22,7 @@
 #include        "code.h"
 #include        "global.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 // Constants that the 8087 supports directly

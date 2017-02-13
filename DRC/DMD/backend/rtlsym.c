@@ -21,7 +21,7 @@
 #include        "global.h"
 #include        "code.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 Symbol *rtlsym[RTLSYM_MAX];

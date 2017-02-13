@@ -29,7 +29,7 @@
 #include        "type.h"
 #include        "exh.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 STATIC void resetEcomsub(elem *e);

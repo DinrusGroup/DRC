@@ -36,7 +36,7 @@
 #include        "cpp.h"
 #endif
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 // Convert from SFL protections to CV4 protections

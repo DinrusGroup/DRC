@@ -35,7 +35,7 @@
 #include        "TG.h"
 #endif
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 //STATIC void symbol_undef(symbol *s);

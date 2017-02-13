@@ -37,7 +37,7 @@
 #include        "cpp.h"
 
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 extern void error(const char *filename, unsigned linnum, const char *format, ...);

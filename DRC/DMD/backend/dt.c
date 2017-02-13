@@ -24,7 +24,7 @@
 #include        "type.h"
 #include        "dt.h"
 
-static char __file__[] = __FILE__;      /* for tassert.h                */
+
 #include        "tassert.h"
 
 static dt_t *dt_freelist;
