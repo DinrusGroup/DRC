@@ -24,7 +24,6 @@
 #include "declaration.h"
 #include "aggregate.h"
 #include "id.h"
-#include "hdrgen.h"
 #include "parse.h"
 #include "template.h"
 #include "attrib.h"

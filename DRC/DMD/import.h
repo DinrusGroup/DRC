@@ -25,7 +25,7 @@ struct Module;
 struct Package;
 struct AliasDeclaration;
 #ifdef _DH
-struct HdrGenState;
+#include "hdrgen.h"
 #endif
 
 struct Import : Dsymbol

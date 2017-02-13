@@ -16,9 +16,9 @@
 #endif /* __DMC__ */
 
 #include "dsymbol.h"
+#include "hdrgen.h"
 
 struct OutBuffer;
-struct HdrGenState;
 
 struct DebugSymbol : Dsymbol
 {

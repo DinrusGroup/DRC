@@ -34,7 +34,6 @@
 
 #include        "rmem.h"
 
-static char __file__[] = __FILE__;      // for tassert.h
 #include        "tassert.h"
 
 elem *bit_assign(enum OPER op, elem *eb, elem *ei, elem *ev, int result);

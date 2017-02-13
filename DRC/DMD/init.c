@@ -20,7 +20,7 @@
 #include "aggregate.h"
 #include "scope.h"
 #include "mtype.h"
-#include "hdrgen.h"
+
 
 /********************************** Initializer *******************************/
 

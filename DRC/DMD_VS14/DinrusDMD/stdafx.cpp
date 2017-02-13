@@ -7,13 +7,14 @@
 // TODO: Установите ссылки на любые требующиеся дополнительные заголовки в файле STDAFX.H
 // , а не в данном файле
 
-	
+	/*
 	
 #include ".\..\..\DMD\access.c"
 #include ".\..\..\DMD\aliasthis.c"
 #include ".\..\..\DMD\argtypes.c"
 #include ".\..\..\DMD\arrayop.c"
 #include ".\..\..\DMD\attrib.c"
+*/
 /*
 #include ".\..\..\DMD\backend\aa.c"
 #include ".\..\..\DMD\backend\bcomplex.c"
@@ -65,6 +66,7 @@
 #include ".\..\..\DMD\backend\type.c"
 #include ".\..\..\DMD\backend\var.c"
 */
+/*
 #include ".\..\..\DMD\bit.c"
 #include ".\..\..\DMD\builtin.c"
 #include ".\..\..\DMD\cast.c"
@@ -93,8 +95,8 @@
 #include ".\..\..\DMD\iasm.c"
 #include ".\..\..\DMD\id.c"
 #include ".\..\..\DMD\identifier.c"
-#include ".\..\..\DMD\idgen.c"
-#include ".\..\..\DMD\impcnvgen.c"
+//#include ".\..\..\DMD\idgen.c"
+//#include ".\..\..\DMD\impcnvgen.c"
 #include ".\..\..\DMD\impcnvtab.c"
 #include ".\..\..\DMD\imphint.c"
 #include ".\..\..\DMD\import.c"
@@ -159,3 +161,4 @@
 #include ".\..\..\DMD\utf.c"
 #include ".\..\..\DMD\util.c"
 #include ".\..\..\DMD\version.c"
+*/

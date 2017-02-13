@@ -21,7 +21,7 @@
 struct ModuleInfoDeclaration;
 struct ClassDeclaration;
 struct ModuleDeclaration;
-struct Macro;
+class Macro;
 struct VarDeclaration;
 struct Library;
 

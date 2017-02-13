@@ -23,7 +23,6 @@
 #include "module.h"
 #include "statement.h"
 #include "template.h"
-#include "hdrgen.h"
 
 #ifdef IN_GCC
 #include "d-dmd-gcc.h"

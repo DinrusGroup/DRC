@@ -16,7 +16,6 @@
 #include "staticassert.h"
 #include "expression.h"
 #include "id.h"
-#include "hdrgen.h"
 #include "scope.h"
 #include "template.h"
 #include "declaration.h"

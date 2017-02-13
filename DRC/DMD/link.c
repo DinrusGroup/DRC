@@ -190,7 +190,7 @@ int runLINK()
 
     char *linkcmd = getenv("LINKCMD");
     if (!linkcmd)
-        linkcmd = "link";
+        linkcmd = "dmlink";
     status = executecmd(linkcmd, p, 1);
     if (lnkfilename)
     {

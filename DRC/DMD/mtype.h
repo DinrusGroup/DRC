@@ -20,6 +20,7 @@
 
 #include "arraytypes.h"
 #include "expression.h"
+#include "hdrgen.h"
 
 struct Scope;
 struct Identifier;
@@ -36,7 +37,6 @@ struct CppMangleState;
 enum LINK;
 
 struct TypeBasic;
-struct HdrGenState;
 struct Parameter;
 
 // Back end

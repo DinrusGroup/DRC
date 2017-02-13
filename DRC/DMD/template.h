@@ -18,6 +18,7 @@
 #include "./root/root.h"
 #include "arraytypes.h"
 #include "dsymbol.h"
+#include "hdrgen.h"
 
 
 struct OutBuffer;
@@ -35,7 +36,7 @@ struct Scope;
 struct Expression;
 struct AliasDeclaration;
 struct FuncDeclaration;
-struct HdrGenState;
+
 enum MATCH;
 
 struct Tuple : Object

@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы исходного кода\root">
+      <UniqueIdentifier>{df5fd7d8-865e-4942-809e-96deac1238cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\tk">
+      <UniqueIdentifier>{0fc5845f-231f-497e-8d60-bc38ae82a18b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\backend">
+      <UniqueIdentifier>{7c7047c3-1a87-4d62-96f2-f6e74aed6471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -23,6 +32,441 @@
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\access.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\aliasthis.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\argtypes.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\arrayop.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\attrib.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\bit.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\builtin.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\cast.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\cdxxx.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\class.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\clone.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\cond.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\constfold.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\cppmangle.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\debtab.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\declaration.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\delegatize.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\doc.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\dsymbol.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\dump.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\e2ir.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\eh.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\elxxx.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\entity.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\enum.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\expression.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\fltables.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\func.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\glue.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\hdrgen.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\iasm.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\id.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\identifier.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\impcnvtab.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\imphint.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\import.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\inifile.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\init.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\inline.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\interpret.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\irstate.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\json.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\lexer.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\libelf.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\libmach.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\libomf.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\link.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\macro.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\mangle.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\mars.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\module.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\msc.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\mtype.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\opover.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\optab.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\optimize.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\parse.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\ph.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\s2ir.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\scope.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\statement.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\staticassert.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\struct.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\template.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tk.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tocsym.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\toctype.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tocvdebug.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\todt.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\toelfdebug.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\toir.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\toobj.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\traits.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\typinf.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tytab.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\unialpha.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\unittests.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\utf.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\util.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\version.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\aav.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\array.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\async.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\dchar.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\gnuc.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\lstring.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\man.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\port.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\response.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\rmem.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\root.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\speller.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\root\stringtable.c">
+      <Filter>Файлы исходного кода\root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tk\filespec.c">
+      <Filter>Файлы исходного кода\tk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tk\list.c">
+      <Filter>Файлы исходного кода\tk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tk\mem.c">
+      <Filter>Файлы исходного кода\tk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\tk\vec.c">
+      <Filter>Файлы исходного кода\tk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\aa.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\bcomplex.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\blockopt.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cg.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cg87.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgcod.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgcs.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgcv.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgelem.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgen.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgobj.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgreg.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cgsched.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cod1.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cod2.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cod3.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cod4.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cod5.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\code.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\cppman.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\debug.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\dt.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\dwarf.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\ee.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\el.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\elfobj.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\evalu8.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\gdag.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\gflow.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\glocal.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\gloop.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\go.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\gother.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\html.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\machobj.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\md5.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\newman.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\nteh.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\os.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\out.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\outbuf.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\ptrntab.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\rtlsym.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\strtold.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\symbol.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\ti_achar.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\type.c">
+      <Filter>Файлы исходного кода\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DMD\backend\var.c">
+      <Filter>Файлы исходного кода\backend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

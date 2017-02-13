@@ -29,7 +29,6 @@
 #include "mars.h"
 #include "dsymbol.h"
 #include "identifier.h"
-#include "hdrgen.h"
 
 #if WINDOWS_SEH
 #include <windows.h>

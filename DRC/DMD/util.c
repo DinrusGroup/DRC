@@ -31,8 +31,6 @@
 //#include      "scdll.h"
 #include        <controlc.h>
 #endif
-
-static char __file__[] = __FILE__;      /* for tassert.h                */
 #include        "tassert.h"
 
 void util_exit(int exitcode);

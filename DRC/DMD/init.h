@@ -12,6 +12,7 @@
 #define INIT_H
 
 #include "./root/root.h"
+#include "hdrgen.h"
 
 #include "mars.h"
 #include "arraytypes.h"
@@ -27,7 +28,7 @@ struct StructInitializer;
 struct ArrayInitializer;
 struct ExpInitializer;
 #ifdef _DH
-struct HdrGenState;
+#include "hdrgen.h"
 #endif
 
 struct Initializer : Object

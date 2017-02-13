@@ -17,6 +17,7 @@
 #include "scope.h"
 #include "aggregate.h"
 #include "dsymbol.h"
+#include "hdrgen.h"
 
 #if DMDV2
 

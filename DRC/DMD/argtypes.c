@@ -25,7 +25,7 @@
 #include "enum.h"
 #include "import.h"
 #include "aggregate.h"
-#include "hdrgen.h"
+
 
 /****************************************************
  * This breaks a type down into 'simpler' types that can be passed to a function

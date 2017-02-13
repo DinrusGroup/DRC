@@ -30,7 +30,6 @@
 #include "id.h"
 #include "module.h"
 #include "scope.h"
-#include "hdrgen.h"
 #include "json.h"
 #include "mtype.h"
 #include "attrib.h"

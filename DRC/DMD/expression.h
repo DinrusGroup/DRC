@@ -15,6 +15,7 @@
 #include "identifier.h"
 #include "lexer.h"
 #include "arraytypes.h"
+#include "hdrgen.h"
 
 struct Type;
 struct Scope;
@@ -39,7 +40,6 @@ struct StructDeclaration;
 struct TemplateInstance;
 struct TemplateDeclaration;
 struct ClassDeclaration;
-struct HdrGenState;
 struct BinExp;
 struct InterState;
 struct Symbol;          // back end symbol

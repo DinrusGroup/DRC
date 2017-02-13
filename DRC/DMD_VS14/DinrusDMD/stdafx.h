@@ -15,14 +15,19 @@
 	#include <windows.h>
 
 	// TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
+#ifndef allH_H
+#define allH_H 1	
 
+#include ".\..\..\DMD\allH.h"
+
+#endif
 	
-	
+/*
 #include ".\..\..\DMD\aggregate.h"
 #include ".\..\..\DMD\aliasthis.h"
 #include ".\..\..\DMD\arraytypes.h"
 #include ".\..\..\DMD\attrib.h"
-/*
+
 #include ".\..\..\DMD\backend\aa.h"
 #include ".\..\..\DMD\backend\bcomplex.h"
 #include ".\..\..\DMD\backend\cc.h"
@@ -53,7 +58,7 @@
 #include ".\..\..\DMD\backend\token.h"
 #include ".\..\..\DMD\backend\ty.h"
 #include ".\..\..\DMD\backend\type.h"
-*/
+
 #include ".\..\..\DMD\complex_t.h"
 #include ".\..\..\DMD\cond.h"
 #include ".\..\..\DMD\declaration.h"
@@ -79,7 +84,7 @@
 #include ".\..\..\DMD\root\aav.h"
 #include ".\..\..\DMD\root\async.h"
 #include ".\..\..\DMD\root\dchar.h"
-#include ".\..\..\DMD\root\gnuc.h"
+//#include ".\..\..\DMD\root\gnuc.h"
 #include ".\..\..\DMD\root\lstring.h"
 #include ".\..\..\DMD\root\port.h"
 #include ".\..\..\DMD\root\rmem.h"
@@ -97,3 +102,4 @@
 #include ".\..\..\DMD\toir.h"
 #include ".\..\..\DMD\utf.h"
 #include ".\..\..\DMD\version.h"
+*/

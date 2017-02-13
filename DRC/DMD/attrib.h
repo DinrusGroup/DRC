@@ -24,7 +24,7 @@ struct Initializer;
 struct Module;
 struct Condition;
 #ifdef _DH
-struct HdrGenState;
+#include "hdrgen.h"
 #endif
 
 /**************************************************************/

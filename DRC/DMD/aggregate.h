@@ -16,6 +16,7 @@
 #endif /* __DMC__ */
 
 #include "./root/root.h"
+#include "hdrgen.h"
 
 #include "dsymbol.h"
 

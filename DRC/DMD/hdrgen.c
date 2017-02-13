@@ -46,7 +46,7 @@
 #include "expression.h"
 #include "statement.h"
 #include "mtype.h"
-#include "hdrgen.h"
+
 
 void argsToCBuffer(OutBuffer *buf, Array *arguments, HdrGenState *hgs);
 

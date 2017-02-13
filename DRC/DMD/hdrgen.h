@@ -8,7 +8,8 @@
 // in artistic.txt, or the GNU General Public License in gnu.txt.
 // See the included readme.txt for details.
 
-
+#ifndef HDRGEN_H
+#define HDRGEN_H
 struct HdrGenState
 {
     int hdrgen;         // 1 if generating header file
@@ -22,7 +23,6 @@ struct HdrGenState
     int inBinExp;
     int inArrExp;
     int emitInst;
-
     struct
     {
         int init;
@@ -33,3 +33,4 @@ struct HdrGenState
 };
 
 
+#endif

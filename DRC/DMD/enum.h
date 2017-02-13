@@ -22,7 +22,7 @@ struct Identifier;
 struct Type;
 struct Expression;
 #ifdef _DH
-struct HdrGenState;
+#include "hdrgen.h"
 #endif
 
 

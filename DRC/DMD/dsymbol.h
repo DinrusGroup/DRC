@@ -20,6 +20,7 @@
 
 #include "mars.h"
 #include "arraytypes.h"
+#include "hdrgen.h"
 
 struct Identifier;
 struct Scope;
@@ -67,7 +68,6 @@ struct ArrayScopeSymbol;
 struct SymbolDeclaration;
 struct Expression;
 struct DeleteDeclaration;
-struct HdrGenState;
 struct OverloadSet;
 struct AA;
 #if TARGET_NET

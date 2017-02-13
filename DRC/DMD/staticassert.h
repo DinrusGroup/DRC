@@ -19,7 +19,7 @@
 
 struct Expression;
 #ifdef _DH
-struct HdrGenState;
+#include "hdrgen.h"
 #endif
 
 struct StaticAssert : Dsymbol

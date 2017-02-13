@@ -41,7 +41,6 @@ extern "C" char * __cdecl __locale_decpoint;
 #include "dsymbol.h"
 #include "module.h"
 #include "attrib.h"
-#include "hdrgen.h"
 #include "parse.h"
 
 

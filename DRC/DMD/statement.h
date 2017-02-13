@@ -20,6 +20,7 @@
 #include "arraytypes.h"
 #include "dsymbol.h"
 #include "lexer.h"
+#include "hdrgen.h"
 
 struct OutBuffer;
 struct Scope;
@@ -45,7 +46,6 @@ struct GotoStatement;
 struct ScopeStatement;
 struct TryCatchStatement;
 struct TryFinallyStatement;
-struct HdrGenState;
 struct InterState;
 
 enum TOK;

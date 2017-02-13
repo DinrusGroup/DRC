@@ -37,7 +37,6 @@
 #include "dsymbol.h"
 #include "module.h"
 #include "attrib.h"
-#include "hdrgen.h"
 #include "parse.h"
 
 #define LOGSEMANTIC     0

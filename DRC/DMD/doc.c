@@ -30,7 +30,6 @@
 #include "id.h"
 #include "module.h"
 #include "scope.h"
-#include "hdrgen.h"
 #include "doc.h"
 #include "mtype.h"
 #include "utf.h"
