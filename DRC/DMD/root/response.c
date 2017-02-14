@@ -97,12 +97,12 @@ int response_expand(int *pargc, char ***pargv)
             char *p;
 
             cp++;
+
             p = getenv(cp);
+
             if (p)
             {
                 buffer = strdup(p);
-                if (!buffer)
-                    goto noexpand;
                 bufend = buffer + strlen(buffer);
             }
             else
@@ -129,14 +129,25 @@ int response_expand(int *pargc, char ***pargv)
                 bufend = &buffer[len];
                 /* Read file into buffer   */
 #if _WIN32
+#if _DMD__
+
                 fd = open(cp,O_RDONLY|O_BINARY);
+#else
+				fd = _open(cp, O_RDONLY | O_BINARY);
+#endif
 #else
                 fd = open(cp,O_RDONLY);
 #endif
                 if (fd == -1)
                     goto noexpand;
+#if __DMD__
                 nread = read(fd,buffer,len);
-                close(fd);
+				close(fd);
+#else
+				nread = _read(fd, buffer, len);
+				_close(fd);
+#endif
+         
 
                 if (nread != len)
                     goto noexpand;

@@ -25,11 +25,11 @@
 #include        <unistd.h>
 #endif
 
-#include        "root.h"
+#include        "./root/root.h"
 
 #include        "mars.h"
 
-#include        "rmem.h"
+#include        "./root/rmem.h"
 
 int executecmd(char *cmd, char *args, int useenv);
 int executearg0(char *cmd, char *args);

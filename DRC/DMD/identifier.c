@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "root.h"
+#include "./root/root.h"
 #include "identifier.h"
 #include "mars.h"
 #include "lexer.h"

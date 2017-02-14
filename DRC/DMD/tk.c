@@ -9,10 +9,10 @@
 #include        <string.h>
 
 
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
-#include        "mem.h"
-#include        "filespec.c"
+#include        "./tk/mem.h"
+#include        "./tk/filespec.c"
 
 #if 0
 #define malloc          ph_malloc
@@ -25,6 +25,6 @@
 #define MEM_NOMEMCOUNT  1
 #define MEM_NONEW       1
 #endif
-#include        "mem.c"
-#include        "list.c"
-#include        "vec.c"
+#include        "./tk/mem.c"
+#include        "./tk/list.c"
+#include        "./tk/vec.c"

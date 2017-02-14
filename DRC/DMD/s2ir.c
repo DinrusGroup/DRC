@@ -25,16 +25,16 @@
 #include        "id.h"
 
 // Back end
-#include        "cc.h"
-#include        "type.h"
-#include        "code.h"
-#include        "oper.h"
-#include        "global.h"
-#include        "dt.h"
+#include        "./backend/cc.h"
+#include        "./backend/type.h"
+#include        "./backend/code.h"
+#include        "./backend/oper.h"
+#include        "./backend/global.h"
+#include        "./backend/dt.h"
 
-#include        "rmem.h"
+#include        "./root/rmem.h"
 
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
 elem *bit_assign(enum OPER op, elem *eb, elem *ei, elem *ev, int result);
 elem *bit_read(elem *eb, elem *ei, int result);

@@ -32,8 +32,8 @@
 #include <malloc.h>
 #endif
 
-#include "rmem.h"
-#include "port.h"
+#include "./root/rmem.h"
+#include "./root/port.h"
 
 #include "dsymbol.h"
 #include "mtype.h"

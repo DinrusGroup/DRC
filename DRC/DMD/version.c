@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "root.h"
+#include "./root/root.h"
 
 #include "identifier.h"
 #include "dsymbol.h"

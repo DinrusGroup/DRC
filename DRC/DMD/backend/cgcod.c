@@ -2617,7 +2617,7 @@ elem_print(e);
  *      pointer to code sequence generated
  */
 
-#include "cdxxx.c"                      /* jump table                   */
+#include "../cdxxx.c"                      /* jump table                   */
 
 code *codelem(elem *e,regm_t *pretregs,bool constflag)
 { code *c;

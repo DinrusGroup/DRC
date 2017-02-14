@@ -30,15 +30,15 @@
 #include "import.h"
 #include "template.h"
 
-#include "rmem.h"
-#include "cc.h"
-#include "global.h"
-#include "oper.h"
-#include "code.h"
-#include "type.h"
-#include "dt.h"
-#include "cgcv.h"
-#include "outbuf.h"
+#include "./root/rmem.h"
+#include "./backend/cc.h"
+#include "./backend/global.h"
+#include "./backend/oper.h"
+#include "./backend/code.h"
+#include "./backend/type.h"
+#include "./backend/dt.h"
+#include "./backend/cgcv.h"
+#include "./backend/outbuf.h"
 #include "irstate.h"
 
 void out_config_init();
@@ -411,4 +411,3 @@ type *TypeClass::toCtype()
 
     return t;
 }
-

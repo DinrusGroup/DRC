@@ -26,8 +26,8 @@
 #include        "cc.h"
 #include        "type.h"
 #include        "el.h"
-#include        "list.h"
-#include        "mem.h"
+#include        "../tk/list.h"
+#include        "../tk/mem.h"
 #include        "oper.h"
 #include        "type.h"
 

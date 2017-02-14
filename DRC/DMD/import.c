@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "root.h"
+#include "./root/root.h"
 #include "dsymbol.h"
 #include "import.h"
 #include "identifier.h"

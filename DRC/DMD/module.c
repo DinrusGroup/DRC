@@ -24,7 +24,7 @@
 #include "gdc_alloca.h"
 #endif
 
-#include "rmem.h"
+#include "./root/rmem.h"
 
 #include "mars.h"
 #include "module.h"
@@ -36,8 +36,9 @@
 #include "dsymbol.h"
 #include "lexer.h"
 
-#define MARS 1
-#include "html.h"
+//#define MARS 1
+#include "targetver.h"
+#include "./backend/html.h"
 
 #ifdef IN_GCC
 #include "d-dmd-gcc.h"

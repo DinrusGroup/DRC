@@ -33,7 +33,7 @@
 #include        "code.h"
 #include        "type.h"
 #include        "outbuf.h"
-#include        "filespec.h"
+#include        "../tk/filespec.h"
 #include        "cv4.h"
 #include        "cgcv.h"
 #include        "dt.h"

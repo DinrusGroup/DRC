@@ -19,7 +19,7 @@
 #include        <ctype.h>
 #include        <direct.h>
 
-#include        "filespec.h"
+#include        "../tk/filespec.h"
 
 #include        "cc.h"
 #include        "global.h"

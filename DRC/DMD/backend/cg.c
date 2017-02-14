@@ -19,11 +19,11 @@
 #include        "global.h"
 #include        "code.h"
 #include        "type.h"
-#include        "filespec.h"
+#include        "../tk/filespec.h"
 
 ///////////////////// GLOBALS /////////////////////
 
-#include        "fltables.c"
+#include        "../fltables.c"
 
 targ_size_t     Poffset;        /* size of func parameter variables     */
 targ_size_t     framehandleroffset;     // offset of C++ frame handler

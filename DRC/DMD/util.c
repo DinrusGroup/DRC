@@ -18,12 +18,12 @@
 #include        <stdlib.h>
 #include        <time.h>
 
-#include        "cc.h"
-#include        "global.h"
-#include        "mem.h"
-#include        "token.h"
+#include        "./backend/cc.h"
+#include        "./backend/global.h"
+#include        "./tk/mem.h"
+#include        "./backend/token.h"
 #if SCPP || MARS
-#include        "el.h"
+#include        "./backend/el.h"
 #endif
 #include        "parser.h"
 
@@ -31,7 +31,7 @@
 //#include      "scdll.h"
 #include        <controlc.h>
 #endif
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
 void util_exit(int exitcode);
 
@@ -99,15 +99,19 @@ static void __cdecl controlc_handler(void)
 
 void _STI_controlc()
 {
+#if __DMC__
     //printf("_STI_controlc()\n");
     _controlc_handler = controlc_handler;
     controlc_open();                    /* trap control C               */
+#endif
 }
 
 void _STD_controlc()
 {
+#if __DMC__
     //printf("_STD_controlc()\n");
     controlc_close();
+#endif
 }
 
 
@@ -261,7 +265,9 @@ void *util_malloc(unsigned n,unsigned size)
     //dbg_printf("util_calloc(%d) = %p\n",n * size,p);
     return p;
 #elif UTIL_PH
+#if __DMC__
     return ph_malloc(n * size);
+#endif
 #else
     size_t nbytes = (size_t)n * (size_t)size;
     void *p = malloc(nbytes);
@@ -285,7 +291,9 @@ void *util_calloc(unsigned n,unsigned size)
     //dbg_printf("util_calloc(%d) = %p\n",n * size,p);
     return p;
 #elif UTIL_PH
+#if __DMC__
     return ph_calloc(n * size);
+#endif
 #else
     size_t nbytes = (size_t) n * (size_t) size;
     void *p = calloc(n,size);
@@ -306,7 +314,9 @@ void util_free(void *p)
 #if 0 && MEM_DEBUG
     mem_free(p);
 #elif UTIL_PH
+#if __DMC__
     ph_free(p);
+#endif
 #else
     free(p);
 #endif
@@ -323,7 +333,9 @@ void *util_realloc(void *oldp,unsigned n,unsigned size)
     //dbg_printf("util_realloc(%p,%d)\n",oldp,n * size);
     return mem_realloc(oldp,n * size);
 #elif UTIL_PH
+#if __DMC__
     return ph_realloc(oldp,n * size);
+#endif
 #else
     size_t nbytes = (size_t) n * (size_t) size;
     void *p = realloc(oldp,nbytes);

@@ -43,16 +43,16 @@
 
 // C/C++ compiler
 #define SCOPE_H 1               // avoid conflicts with D's Scope
-#include        "cc.h"
-#include        "token.h"
+#include        "./backend/cc.h"
+#include        "./backend/token.h"
 #include        "parser.h"
-#include        "global.h"
-#include        "el.h"
-#include        "type.h"
-#include        "oper.h"
-#include        "code.h"
-#include        "iasm.h"
-#include        "cpp.h"
+#include        "./backend/global.h"
+#include        "./backend/el.h"
+#include        "./backend/type.h"
+#include        "./backend/oper.h"
+#include        "./backend/code.h"
+#include        "./backend/iasm.h"
+#include        "./backend/cpp.h"
 
 #undef _DH
 

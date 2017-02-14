@@ -23,8 +23,8 @@
 extern "C" char * __cdecl __locale_decpoint;
 #endif
 
-#include "rmem.h"
-#include "port.h"
+#include "./root/rmem.h"
+#include "./root/port.h"
 
 #include "mtype.h"
 #include "init.h"

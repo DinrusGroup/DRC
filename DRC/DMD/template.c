@@ -13,9 +13,9 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "root.h"
-#include "rmem.h"
-#include "stringtable.h"
+#include "./root/root.h"
+#include "./root/rmem.h"
+#include "./root/stringtable.h"
 
 #include "mtype.h"
 #include "template.h"

@@ -131,7 +131,7 @@ extern int TYptrdiff, TYsize, TYsize_t;
 
 #else
 #define TYTARG          0x11
-#include "TGty.h"               /* Target types */
+//#include "TGty.h"               /* Target types */
 #endif
 
 #define mTYbasic        0x3F    /* bit mask for basic types     */
@@ -155,7 +155,7 @@ extern int TYptrdiff, TYsize, TYsize_t;
 #define mTYnothrow      0x4000000       // nothrow function
 
 /* Flags in tytab[] array       */
-extern unsigned tytab[];
+extern unsigned  tytab[];
 #define TYFLptr         1
 #define TYFLreal        2
 #define TYFLintegral    4

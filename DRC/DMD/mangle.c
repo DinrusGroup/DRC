@@ -13,7 +13,7 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "root.h"
+#include "./root/root.h"
 
 #include "init.h"
 #include "declaration.h"

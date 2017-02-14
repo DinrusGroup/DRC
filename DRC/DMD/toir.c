@@ -29,22 +29,19 @@
 #include        "init.h"
 #include        "template.h"
 
-#include        "mem.h" // for mem_malloc
+#include        "./tk/mem.h" // for mem_malloc
 
-#include        "cc.h"
-#include        "el.h"
-#include        "oper.h"
-#include        "global.h"
-#include        "code.h"
-#include        "type.h"
-#include        "dt.h"
+#include        "./backend/cc.h"
+#include        "./backend/el.h"
+#include        "./backend/oper.h"
+#include        "./backend/global.h"
+#include        "./backend/code.h"
+#include        "./backend/type.h"
+#include        "./backend/dt.h"
 #include        "irstate.h"
 #include        "id.h"
-#include        "type.h"
 #include        "toir.h"
-
-
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
 /*********************************************
  * Produce elem which increments the usage count for a particular line.
@@ -771,5 +768,3 @@ enum RET TypeFunction::retStyle()
     else
         return RETregs;
 }
-
-

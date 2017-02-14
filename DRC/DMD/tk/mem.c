@@ -108,7 +108,12 @@ int mem_exception()
                 /* Avoid linking in buffered I/O */
             {   static char msg[] = "Fatal error: out of memory\r\n";
 
+#if __DMC__
                 write(1,msg,sizeof(msg) - 1);
+#else
+			_write(1, msg, sizeof(msg) - 1);
+#endif
+
             }
 #else
                 PRINT "Fatal error: out of memory\n");

@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "root.h"
-#include "speller.h"
+#include "./root/root.h"
+#include "./root/speller.h"
 
 #include "mars.h"
 #include "init.h"

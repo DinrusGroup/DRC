@@ -41,8 +41,8 @@ extern tym_t functypetab[LINK_MAXDIM][MEMMODELS];
 extern mangle_t funcmangletab[LINK_MAXDIM];
 extern mangle_t varmangletab[LINK_MAXDIM];
 
-#else
-#include        "TGparser.h"
+//#else
+//#include        "TGparser.h"
 #endif
 
 #ifndef EL_H

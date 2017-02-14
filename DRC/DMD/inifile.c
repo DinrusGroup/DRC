@@ -32,8 +32,8 @@
 #include        <alloca.h>
 #endif
 
-#include        "root.h"
-#include        "rmem.h"
+#include        "./root/root.h"
+#include        "./root/rmem.h"
 
 #define LOG     0
 

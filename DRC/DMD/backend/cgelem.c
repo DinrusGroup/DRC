@@ -4188,7 +4188,7 @@ STATIC elem * optelem(elem *e,HINT goal)
 #if TX86
   static
 #endif
-#include "elxxx.c"                      /* jump table                   */
+#include "../elxxx.c"                      /* jump table                   */
 
 beg:
 #if MARS

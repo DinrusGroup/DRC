@@ -17,9 +17,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "rmem.h"
-#include "root.h"
-#include "stringtable.h"
+#include "./root/rmem.h"
+#include "./root/root.h"
+#include "./root/stringtable.h"
 
 #include "mars.h"
 #include "lib.h"

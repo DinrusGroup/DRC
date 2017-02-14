@@ -175,7 +175,9 @@ int synerr(unsigned,...);
 void preerr(unsigned,...);
 void err_exit(void);
 void err_nomem(void);
+#if __DMC__
 #pragma noreturn(err_nomem)
+#endif
 int cpperr(unsigned,...);
 #if TX86
 int tx86err(unsigned,...);
@@ -185,7 +187,9 @@ void warerr(unsigned,...);
 void err_warning_enable(unsigned warnum, int on);
 CEXTERN void lexerr(unsigned,...);
 CEXTERN void err_fatal(unsigned,...);
+#if __DMC__
 #pragma noreturn(err_fatal)
+#endif
 int typerr(int,type *,type *,...);
 void err_noctor(Classsym *stag,list_t arglist);
 void err_nomatch(const char *, list_t);

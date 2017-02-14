@@ -14,17 +14,17 @@
 
 #include        "mars.h"
 
-#include        "cc.h"
-#include        "global.h"
+#include        "./backend/cc.h"
+#include        "./backend/global.h"
 #include        "parser.h"
-#include        "oper.h"
-#include        "code.h"
-#include        "type.h"
-#include        "dt.h"
-#include        "cgcv.h"
+#include        "./backend/oper.h"
+#include        "./backend/code.h"
+#include        "./backend/type.h"
+#include        "./backend/dt.h"
+#include        "./backend/cgcv.h"
 
 
-#include        "tassert.h"
+#include        "./backend/tassert.h"
 
 extern Global global;
 extern int REALSIZE;

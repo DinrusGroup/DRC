@@ -12,7 +12,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
+#if IN_GCC
 #include <unistd.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 

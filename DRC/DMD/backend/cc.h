@@ -9,7 +9,7 @@
  * or /dm/src/dmd/backendlicense.txt
  * For any other uses, please contact Digital Mars.
  */
-
+#include "../targetver.h"
 #if __SC__
 #pragma once
 #endif
@@ -105,8 +105,8 @@ enum LANG
 #define INITIALIZED_STATIC_DEF  static
 
 #else
-#include        "TGcc.h"
-#include        "str4.h"
+//#include        "TGcc.h"
+//#include        "str4.h"
 
 #if MULTI_FILE
 /* Make statics that require re-initialization available */
@@ -1414,7 +1414,9 @@ struct Symbol
 
     int needThis();     // !=0 if symbol needs a 'this' pointer
 };
+#if __DMC__
 #pragma SC align
+#endif
 
 // Class, struct or union
 

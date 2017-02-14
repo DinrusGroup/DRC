@@ -19,9 +19,9 @@
 #include <errno.h>
 #endif
 
-#include "rmem.h"
-#include "root.h"
-#include "async.h"
+#include "./root/rmem.h"
+#include "./root/root.h"
+#include "./root/async.h"
 
 #include "mars.h"
 #include "module.h"

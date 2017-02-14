@@ -20,9 +20,9 @@
 #include <assert.h>
 #include <time.h>       // for time() and ctime()
 
-#include "rmem.h"
+#include "./root/rmem.h"
 
-#include "stringtable.h"
+#include "./root/stringtable.h"
 
 #include "lexer.h"
 #include "utf.h"

@@ -20,11 +20,9 @@
 #include        <new>
 #endif
 
-#include        "cc.h"
-#include        "global.h"
-
-
-#include        "tassert.h"
+#include        "./backend/cc.h"
+#include        "./backend/global.h"
+#include        "./backend/tassert.h"
 
 /**********************************************
  * Do our own storage allocator, a replacement

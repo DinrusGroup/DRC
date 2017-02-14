@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "rmem.h"
+#include "./root/rmem.h"
 
 #include "statement.h"
 #include "expression.h"

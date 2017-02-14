@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "rmem.h"
+#include "./root/rmem.h"
 #include "lexer.h"
 #include "parse.h"
 #include "init.h"

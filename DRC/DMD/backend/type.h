@@ -30,8 +30,8 @@ typedef unsigned char mangle_t;
 #define mTYman_std      6       // _stdcall mangling
 #define mTYman_d        7       // D mangling
 
-#else
-#include "TGtype.h"
+//#else
+//#include "TGtype.h"
 #endif
 
 /*********************************
