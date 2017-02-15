@@ -9,4 +9,4 @@
 #define MARS 1
 #define TARGET_WINDOS 1 
 #define TX86 1
-#define __I86__  1
+//#define __I86__  1

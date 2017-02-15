@@ -40,7 +40,12 @@
 #include        <windows.h>
 #endif
 
-#if __DMC__ || __GNUC__
+#if _MSC_VER
+#define strdup _strdup
+#define alloca _alloca
+#endif
+
+#if __DMC__ || __GNUC__ || _MSC_VER
 
 #include        "tassert.h"
 #else
@@ -241,10 +246,15 @@ void *vmem_mapfile(const char *filename,void *ptr,unsigned long size,int flag)
     GetVersionEx(&OsVerInfo);
 
     dbg_printf("vmem_mapfile(filename = '%s', ptr = %p, size = x%lx, flag = %d)\n",filename,ptr,size,flag);
-
+#if __DMC__
     hFile = CreateFile(filename, GENERIC_READ | GENERIC_WRITE,
                         FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+#else
+	hFile = CreateFile((LPCWSTR) filename, GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+#endif
     if (hFile == INVALID_HANDLE_VALUE)
         goto L1;                        // failure
     dbg_printf(" file created\n");
@@ -642,8 +652,11 @@ int os_file_exists(const char *name)
 #if _WIN32
     DWORD dw;
     int result;
-
+#if __DMC__
     dw = GetFileAttributes(name);
+#else
+	dw = GetFileAttributes((LPCWSTR) name);
+#endif
     if (dw == -1L)
         result = 0;
     else if (dw & FILE_ATTRIBUTE_DIRECTORY)
@@ -701,8 +714,11 @@ char *file_8dot3name(const char *filename)
     WIN32_FIND_DATA fileinfo;
     char *buf;
     int i;
-
+#if __DMC__
     h = FindFirstFile(filename,&fileinfo);
+#else
+	h = FindFirstFile((LPCWSTR) filename, &fileinfo);
+#endif
     if (h == INVALID_HANDLE_VALUE)
         return NULL;
     if (fileinfo.cAlternateFileName[0])
@@ -716,7 +732,11 @@ char *file_8dot3name(const char *filename)
         if (buf)
         {
             memcpy(buf,filename,i);
+#if __DMC__
             strcpy(buf + i,fileinfo.cAlternateFileName);
+#else
+			strcpy(buf + i, (const char*)  fileinfo.cAlternateFileName);
+#endif
         }
     }
     else

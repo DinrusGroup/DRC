@@ -51,7 +51,7 @@ void vec_init()
 void vec_term()
 {
     if (--vec_initcount == 0)
-    {   int i;
+    {   
 
 #ifdef DEBUG
         if (vec_count != 0)
@@ -63,6 +63,7 @@ void vec_term()
         assert(vec_count == 0);
 #endif
 #if TERMCODE
+		int i;
         for (i = 0; i < VECMAX; i++)
         {   void **v;
             void **vn;
@@ -490,7 +491,7 @@ void vec_orass(vec_t v1,vec_t v2)
     }
     else
         assert(!v2);
-Lret: ;
+//Lret: ;
 }
 
 /********************************
@@ -644,9 +645,10 @@ void vec_println(vec_t v)
 }
 
 void vec_print(vec_t v)
-{ register unsigned i;
+{ 
 
 #ifdef DEBUG
+	register unsigned i;
   printf(" Vec %p, numbits %d dim %d",v,vec_numbits(v),vec_dim(v));
   if (v)
   {     fputc('\t',stdout);

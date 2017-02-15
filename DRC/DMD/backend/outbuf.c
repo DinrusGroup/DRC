@@ -19,7 +19,7 @@
 #include "cc.h"
 
 #include "outbuf.h"
-#include "mem.h"
+#include "../tk/mem.h"
 
 #if DEBUG
 

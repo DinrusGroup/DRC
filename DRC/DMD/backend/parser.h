@@ -103,7 +103,7 @@ struct Match
  */
 #if TARGET_POWERPC
 #pragma ZTC align 4
-#elif !TX86
+#elif !TX86 &&  __DMC__
 #pragma ZTC align 1
 #endif
 
@@ -141,7 +141,7 @@ struct MACRO
 #endif
 };
 
-#if !TX86
+#if !TX86 && __DMC__
 #pragma ZTC align
 #endif
 

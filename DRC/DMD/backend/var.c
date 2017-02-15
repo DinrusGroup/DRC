@@ -23,8 +23,8 @@
 #include        "go.h"
 #include        "ty.h"
 
-#include        "optab.c"
-#include        "tytab.c"
+#include        "../optab.c"
+#include        "../tytab.c"
 
 #if __SC__ && _MSDOS
 #if __INTSIZE == 4

@@ -22,7 +22,7 @@
 #include        "global.h"
 #include        "type.h"
 #include        "parser.h"
-#include        "filespec.h"
+#include        "../tk/filespec.h"
 #include        "code.h"
 #include        "cgcv.h"
 #include        "go.h"

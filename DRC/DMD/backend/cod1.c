@@ -21,6 +21,11 @@
 #include        <alloca.h>
 #endif
 
+#if _MSC_VER
+#include <malloc.h>
+#define alloca _alloca
+#endif
+
 #include        "cc.h"
 #include        "el.h"
 #include        "oper.h"

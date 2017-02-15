@@ -18,6 +18,8 @@
 #ifndef TY_H
 #define TY_H 1
 
+#include "cdef.h"
+
 //#define TYjhandle     TYnptr          // use for Jupiter handle
 
 /*****************************************
@@ -155,7 +157,12 @@ extern int TYptrdiff, TYsize, TYsize_t;
 #define mTYnothrow      0x4000000       // nothrow function
 
 /* Flags in tytab[] array       */
+//#if __DMC__
 extern unsigned  tytab[];
+//#else
+//#include "cdef.h"
+//#endif
+
 #define TYFLptr         1
 #define TYFLreal        2
 #define TYFLintegral    4
@@ -236,8 +243,12 @@ extern unsigned  tytab[];
 #endif
 
 /* Array to give the size in bytes of a type, -1 means error    */
+//#if __DMC__
 extern signed char tysize[];
 extern signed char tyalignsize[];
+//#else
+//#include "cdef.h"
+//#endif
 
 // Give size of type
 #define tysize(ty)      tysize[(ty) & 0xFF]

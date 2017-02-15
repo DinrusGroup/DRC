@@ -13,10 +13,12 @@
 #include        "./../../../DMD/backend/cc.h"
 #include        "./../../../DMD/backend/oper.h"
 
+#if _MSC_VER
 #define MARS 1
 #define TARGET_WINDOS 1 
 #define TX86 1
-#define __I86__  1
+#endif
+
 
 
 /* Generate op-code tables

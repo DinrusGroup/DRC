@@ -9,7 +9,8 @@
  * or /dm/src/dmd/backendlicense.txt
  * For any other uses, please contact Digital Mars.
  */
-
+#ifndef CODE_H
+#define CODE_H 1
 #if __cplusplus && TX86
 extern "C" {
 #endif
@@ -968,4 +969,4 @@ extern seg_data **SegData;
 #if __cplusplus && TX86
 }
 #endif
-
+#endif

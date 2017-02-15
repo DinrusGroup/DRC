@@ -26,7 +26,7 @@
 #include        "el.h"
 #include        "type.h"
 #include        "cpp.h"
-#include        "filespec.h"
+#include        "../tk/filespec.h"
 
 #if NEWMANGLE
 

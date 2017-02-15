@@ -26,9 +26,9 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>LLVM-vs2014</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -189,7 +189,6 @@
     <ClCompile Include="..\..\DMD\backend\gother.c" />
     <ClCompile Include="..\..\DMD\backend\html.c" />
     <ClCompile Include="..\..\DMD\backend\machobj.c" />
-    <ClCompile Include="..\..\DMD\backend\md5.c" />
     <ClCompile Include="..\..\DMD\backend\newman.c" />
     <ClCompile Include="..\..\DMD\backend\nteh.c" />
     <ClCompile Include="..\..\DMD\backend\os.c" />
@@ -197,7 +196,6 @@
     <ClCompile Include="..\..\DMD\backend\outbuf.c" />
     <ClCompile Include="..\..\DMD\backend\ptrntab.c" />
     <ClCompile Include="..\..\DMD\backend\rtlsym.c" />
-    <ClCompile Include="..\..\DMD\backend\strtold.c" />
     <ClCompile Include="..\..\DMD\backend\symbol.c" />
     <ClCompile Include="..\..\DMD\backend\ti_achar.c" />
     <ClCompile Include="..\..\DMD\backend\type.c" />
@@ -205,13 +203,11 @@
     <ClCompile Include="..\..\DMD\bit.c" />
     <ClCompile Include="..\..\DMD\builtin.c" />
     <ClCompile Include="..\..\DMD\cast.c" />
-    <ClCompile Include="..\..\DMD\cdxxx.c" />
     <ClCompile Include="..\..\DMD\class.c" />
     <ClCompile Include="..\..\DMD\clone.c" />
     <ClCompile Include="..\..\DMD\cond.c" />
     <ClCompile Include="..\..\DMD\constfold.c" />
     <ClCompile Include="..\..\DMD\cppmangle.c" />
-    <ClCompile Include="..\..\DMD\debtab.c" />
     <ClCompile Include="..\..\DMD\declaration.c" />
     <ClCompile Include="..\..\DMD\delegatize.c" />
     <ClCompile Include="..\..\DMD\doc.c" />
@@ -219,11 +215,9 @@
     <ClCompile Include="..\..\DMD\dump.c" />
     <ClCompile Include="..\..\DMD\e2ir.c" />
     <ClCompile Include="..\..\DMD\eh.c" />
-    <ClCompile Include="..\..\DMD\elxxx.c" />
     <ClCompile Include="..\..\DMD\entity.c" />
     <ClCompile Include="..\..\DMD\enum.c" />
     <ClCompile Include="..\..\DMD\expression.c" />
-    <ClCompile Include="..\..\DMD\fltables.c" />
     <ClCompile Include="..\..\DMD\func.c" />
     <ClCompile Include="..\..\DMD\glue.c" />
     <ClCompile Include="..\..\DMD\hdrgen.c" />
@@ -251,7 +245,6 @@
     <ClCompile Include="..\..\DMD\msc.c" />
     <ClCompile Include="..\..\DMD\mtype.c" />
     <ClCompile Include="..\..\DMD\opover.c" />
-    <ClCompile Include="..\..\DMD\optab.c" />
     <ClCompile Include="..\..\DMD\optimize.c" />
     <ClCompile Include="..\..\DMD\parse.c" />
     <ClCompile Include="..\..\DMD\ph.c" />
@@ -294,30 +287,85 @@
     <ClCompile Include="..\..\DMD\utf.c" />
     <ClCompile Include="..\..\DMD\util.c" />
     <ClCompile Include="..\..\DMD\version.c" />
-    <ClCompile Include="dllmain.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="..\..\DMD\aggregate.h" />
+    <ClInclude Include="..\..\DMD\aliasthis.h" />
+    <ClInclude Include="..\..\DMD\arraytypes.h" />
+    <ClInclude Include="..\..\DMD\attrib.h" />
+    <ClInclude Include="..\..\DMD\backend\aa.h" />
+    <ClInclude Include="..\..\DMD\backend\bcomplex.h" />
+    <ClInclude Include="..\..\DMD\backend\cc.h" />
+    <ClInclude Include="..\..\DMD\backend\cdef.h" />
+    <ClInclude Include="..\..\DMD\backend\cdeflnx.h" />
+    <ClInclude Include="..\..\DMD\backend\cgcv.h" />
+    <ClInclude Include="..\..\DMD\backend\code.h" />
+    <ClInclude Include="..\..\DMD\backend\cpp.h" />
+    <ClInclude Include="..\..\DMD\backend\cv4.h" />
+    <ClInclude Include="..\..\DMD\backend\dt.h" />
+    <ClInclude Include="..\..\DMD\backend\dwarf.h" />
+    <ClInclude Include="..\..\DMD\backend\dwarf2.h" />
+    <ClInclude Include="..\..\DMD\backend\el.h" />
+    <ClInclude Include="..\..\DMD\backend\exh.h" />
+    <ClInclude Include="..\..\DMD\backend\global.h" />
+    <ClInclude Include="..\..\DMD\backend\go.h" />
+    <ClInclude Include="..\..\DMD\backend\html.h" />
+    <ClInclude Include="..\..\DMD\backend\iasm.h" />
+    <ClInclude Include="..\..\DMD\backend\mach.h" />
+    <ClInclude Include="..\..\DMD\backend\melf.h" />
+    <ClInclude Include="..\..\DMD\backend\oper.h" />
+    <ClInclude Include="..\..\DMD\backend\outbuf.h" />
+    <ClInclude Include="..\..\DMD\backend\parser.h" />
+    <ClInclude Include="..\..\DMD\backend\rtlsym.h" />
+    <ClInclude Include="..\..\DMD\backend\tassert.h" />
+    <ClInclude Include="..\..\DMD\backend\tinfo.h" />
+    <ClInclude Include="..\..\DMD\backend\token.h" />
+    <ClInclude Include="..\..\DMD\backend\ty.h" />
+    <ClInclude Include="..\..\DMD\backend\type.h" />
+    <ClInclude Include="..\..\DMD\complex_t.h" />
+    <ClInclude Include="..\..\DMD\cond.h" />
+    <ClInclude Include="..\..\DMD\declaration.h" />
+    <ClInclude Include="..\..\DMD\doc.h" />
+    <ClInclude Include="..\..\DMD\dsymbol.h" />
+    <ClInclude Include="..\..\DMD\enum.h" />
+    <ClInclude Include="..\..\DMD\expression.h" />
+    <ClInclude Include="..\..\DMD\hdrgen.h" />
+    <ClInclude Include="..\..\DMD\id.h" />
+    <ClInclude Include="..\..\DMD\identifier.h" />
+    <ClInclude Include="..\..\DMD\import.h" />
+    <ClInclude Include="..\..\DMD\init.h" />
+    <ClInclude Include="..\..\DMD\irstate.h" />
+    <ClInclude Include="..\..\DMD\json.h" />
+    <ClInclude Include="..\..\DMD\lexer.h" />
+    <ClInclude Include="..\..\DMD\lib.h" />
+    <ClInclude Include="..\..\DMD\macro.h" />
+    <ClInclude Include="..\..\DMD\mars.h" />
+    <ClInclude Include="..\..\DMD\module.h" />
+    <ClInclude Include="..\..\DMD\mtype.h" />
+    <ClInclude Include="..\..\DMD\objfile.h" />
+    <ClInclude Include="..\..\DMD\parse.h" />
+    <ClInclude Include="..\..\DMD\root\aav.h" />
+    <ClInclude Include="..\..\DMD\root\async.h" />
+    <ClInclude Include="..\..\DMD\root\dchar.h" />
+    <ClInclude Include="..\..\DMD\root\gnuc.h" />
+    <ClInclude Include="..\..\DMD\root\lstring.h" />
+    <ClInclude Include="..\..\DMD\root\port.h" />
+    <ClInclude Include="..\..\DMD\root\rmem.h" />
+    <ClInclude Include="..\..\DMD\root\root.h" />
+    <ClInclude Include="..\..\DMD\root\speller.h" />
+    <ClInclude Include="..\..\DMD\root\stringtable.h" />
+    <ClInclude Include="..\..\DMD\scope.h" />
+    <ClInclude Include="..\..\DMD\statement.h" />
+    <ClInclude Include="..\..\DMD\staticassert.h" />
+    <ClInclude Include="..\..\DMD\targetver.h" />
+    <ClInclude Include="..\..\DMD\template.h" />
+    <ClInclude Include="..\..\DMD\tk\filespec.h" />
+    <ClInclude Include="..\..\DMD\tk\list.h" />
+    <ClInclude Include="..\..\DMD\tk\mem.h" />
+    <ClInclude Include="..\..\DMD\tk\vec.h" />
+    <ClInclude Include="..\..\DMD\toir.h" />
+    <ClInclude Include="..\..\DMD\utf.h" />
+    <ClInclude Include="..\..\DMD\version.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,7 +24,7 @@ static char __file__[] = __FILE__;
 #define assert(e)       ((e) || (local_assert(__LINE__), 0))
 
 void util_assert ( char * , int );
-#if __DMD__
+#if __DMC__
 #pragma noreturn(util_assert)
 #endif
 static void local_assert(int line)
@@ -32,7 +32,7 @@ static void local_assert(int line)
     util_assert(__file__,line);
 }
 
-#if __DMD__
+#if __DMC__
 #pragma noreturn(local_assert)
 #endif
 

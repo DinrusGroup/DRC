@@ -12,6 +12,13 @@
 
 #include "mtype.h"
 
+#if _MSC_VER
+#define MARS 1
+#define TARGET_WINDOS 1 
+#define TX86 1
+#define M_UNICODE 1
+#endif
+
 enum TY impcnvResult[TMAX][TMAX];
 enum TY impcnvType1[TMAX][TMAX];
 enum TY impcnvType2[TMAX][TMAX];

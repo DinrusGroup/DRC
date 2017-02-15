@@ -310,7 +310,11 @@ const wchar_t *Port::wlist_separator()
 
 char *Port::strupr(char *s)
 {
+#if __DMC__
     return ::strupr(s);
+#else
+	return _strupr(s);
+#endif
 }
 
 #endif

@@ -102,7 +102,12 @@ int response_expand(int *pargc, char ***pargv)
 
             if (p)
             {
+#if __DMC__
                 buffer = strdup(p);
+#else
+				buffer = _strdup(p);
+#endif
+
                 bufend = buffer + strlen(buffer);
             }
             else
@@ -140,7 +145,7 @@ int response_expand(int *pargc, char ***pargv)
 #endif
                 if (fd == -1)
                     goto noexpand;
-#if __DMD__
+#if __DMC__
                 nread = read(fd,buffer,len);
 				close(fd);
 #else

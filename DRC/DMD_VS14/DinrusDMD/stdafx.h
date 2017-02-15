@@ -8,14 +8,14 @@
 	#define WIN32_LEAN_AND_MEAN 1
 	#define _CRT_SECURE_NO_WARNINGS 1
 
-
-
 	 // Исключите редко используемые компоненты из заголовков Windows
 	 // Файлы заголовков Windows:
 	 
 	#include <windows.h>
 
 	// TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
+
+
 #ifndef allH_H
 #define allH_H 1	
 

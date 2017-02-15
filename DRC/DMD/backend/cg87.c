@@ -17,6 +17,7 @@
 #include        <time.h>
 #include        <math.h>
 #include        "cc.h"
+#include		 "ty.h"
 #include        "el.h"
 #include        "oper.h"
 #include        "code.h"
@@ -24,6 +25,7 @@
 
 
 #include        "tassert.h"
+#include		"cdef.h"
 
 // Constants that the 8087 supports directly
 // BUG: rewrite for 80 bit long doubles
@@ -638,7 +640,7 @@ __body
     static double dval[7] =
         {0.0,1.0,PI,LOG2T,LOG2E,LOG2,LN2};
     static long double ldval[7] =
-#if __APPLE__ || __FreeBSD__ || __sun&&__SVR4
+#if __APPLE__ || __FreeBSD__ || __sun&&__SVR4 || _MSC_VER
 #define M_PIl           0x1.921fb54442d1846ap+1L        // 3.14159 fldpi
 #define M_LOG2T_L       0x1.a934f0979a3715fcp+1L        // 3.32193 fldl2t
 #define M_LOG2El        0x1.71547652b82fe178p+0L        // 1.4427 fldl2e

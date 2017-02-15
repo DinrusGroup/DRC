@@ -484,7 +484,11 @@ int FileName::compare(Object *obj)
 int FileName::compare(const char *name1, const char *name2)
 {
 #if _WIN32
+#if __DMC__
     return stricmp(name1, name2);
+#else
+	return _stricmp(name1, name2);
+#endif
 #else
     return strcmp(name1, name2);
 #endif
@@ -754,7 +758,11 @@ int FileName::equalsExt(const char *ext)
 #if POSIX
     return strcmp(e,ext) == 0;
 #elif _WIN32
+#if __DMC__
     return stricmp(e,ext) == 0;
+#else
+	return _stricmp(e, ext) == 0;
+#endif
 #else
     assert(0);
 #endif
@@ -953,7 +961,11 @@ void FileName::ensurePathExists(const char *path)
             {
                 //printf("mkdir(%s)\n", path);
 #if _WIN32
+#if __DMC__
                 if (mkdir(path))
+#else
+				if (_mkdir(path))
+#endif
 #endif
 #if POSIX
                 if (mkdir(path, 0777))

@@ -25,7 +25,7 @@
 #include        "parser.h"
 #include        "cpp.h"
 #include        "exh.h"
-#include        "list.h"
+#include        "../tk/list.h"
 
 
 #include        "tassert.h"

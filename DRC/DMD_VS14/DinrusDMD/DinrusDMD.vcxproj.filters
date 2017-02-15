@@ -22,17 +22,20 @@
     <Filter Include="Файлы исходного кода\backend">
       <UniqueIdentifier>{7c7047c3-1a87-4d62-96f2-f6e74aed6471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\root">
+      <UniqueIdentifier>{60c2ee1d-378e-43ab-8d3c-e6ec5b3a09c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\tk">
+      <UniqueIdentifier>{6a50808d-ec31-4da6-a920-f83d32b4a9db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\backend">
+      <UniqueIdentifier>{a53addb9-2e88-411c-85e3-7b7a15c4e8ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DMD\access.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -57,9 +60,6 @@
     <ClCompile Include="..\..\DMD\cast.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DMD\cdxxx.c">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DMD\class.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -73,9 +73,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DMD\cppmangle.c">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DMD\debtab.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DMD\declaration.c">
@@ -99,9 +96,6 @@
     <ClCompile Include="..\..\DMD\eh.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DMD\elxxx.c">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DMD\entity.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -109,9 +103,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DMD\expression.c">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DMD\fltables.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DMD\func.c">
@@ -193,9 +184,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DMD\opover.c">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DMD\optab.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DMD\optimize.c">
@@ -429,9 +417,6 @@
     <ClCompile Include="..\..\DMD\backend\machobj.c">
       <Filter>Файлы исходного кода\backend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DMD\backend\md5.c">
-      <Filter>Файлы исходного кода\backend</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DMD\backend\newman.c">
       <Filter>Файлы исходного кода\backend</Filter>
     </ClCompile>
@@ -453,9 +438,6 @@
     <ClCompile Include="..\..\DMD\backend\rtlsym.c">
       <Filter>Файлы исходного кода\backend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DMD\backend\strtold.c">
-      <Filter>Файлы исходного кода\backend</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DMD\backend\symbol.c">
       <Filter>Файлы исходного кода\backend</Filter>
     </ClCompile>
@@ -470,11 +452,236 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="..\..\DMD\root\aav.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\async.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\dchar.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\gnuc.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\lstring.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\port.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\rmem.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\root.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\speller.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\root\stringtable.h">
+      <Filter>Заголовочные файлы\root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\aggregate.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="..\..\DMD\aliasthis.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\arraytypes.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\attrib.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\complex_t.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\cond.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\declaration.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\doc.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\dsymbol.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\enum.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\expression.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\hdrgen.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\id.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\identifier.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\import.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\init.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\irstate.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\json.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\lexer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\lib.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\macro.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\mars.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\module.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\mtype.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\objfile.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\parse.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\scope.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\statement.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\staticassert.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\targetver.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\template.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\toir.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\utf.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\version.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\tk\filespec.h">
+      <Filter>Заголовочные файлы\tk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\tk\list.h">
+      <Filter>Заголовочные файлы\tk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\tk\mem.h">
+      <Filter>Заголовочные файлы\tk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\tk\vec.h">
+      <Filter>Заголовочные файлы\tk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\aa.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\bcomplex.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\cc.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\cdef.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\cdeflnx.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\cgcv.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\code.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\cpp.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\cv4.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\dt.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\dwarf.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\dwarf2.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\el.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\exh.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\global.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\go.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\html.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\iasm.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\mach.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\melf.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\oper.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\outbuf.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\parser.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\rtlsym.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\tassert.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\tinfo.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\token.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\ty.h">
+      <Filter>Заголовочные файлы\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DMD\backend\type.h">
+      <Filter>Заголовочные файлы\backend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

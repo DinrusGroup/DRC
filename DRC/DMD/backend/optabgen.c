@@ -258,6 +258,7 @@ void dooptab()
 #undef X1
 
         f = fopen("optab.c","w");
+		//fprintf(f,"#include \"./backend/cdef.h\"\n");
         fprintf(f,"const unsigned char optab1[OPMAX] =\n\t{");
         for (i = 0; i < OPMAX; i++)
         {       if ((i & 7) == 0)
@@ -627,6 +628,7 @@ void dotab()
   fprintf(fdeb,"\t\"%s\"\n\t};\n",debtab[i]);
 
   f = fopen("cdxxx.c","w");
+  //fprintf(f,"#include \"./backend/cdef.h\"\n");
   fprintf(f,"code *(*cdxxx[OPMAX]) (elem *,regm_t *) = \n\t{\n");
   for (i = 0; i < OPMAX - 1; i++)
         fprintf(f,"\t%s,\n",cdxxx[i]);
@@ -634,6 +636,7 @@ void dotab()
   fclose(f);
 
   f = fopen("elxxx.c","w");
+  //fprintf(f,"#include \"./backend/cdef.h\"\n");
   fprintf(f,"elem *(*elxxx[OPMAX]) (elem *) = \n\t{\n");
   for (i = 0; i < OPMAX - 1; i++)
         fprintf(f,"\t%s,\n",elxxx[i]);
@@ -732,6 +735,7 @@ void fltables()
         }
 
         f = fopen("fltables.c","w");
+		//fprintf(f,"#include \"./backend/cdef.h\"\n");
 
         fprintf(f,"const char datafl[FLMAX] = \n\t{ ");
         for (i = 0; i < FLMAX - 1; i++)
@@ -939,7 +943,7 @@ void dotytab()
 #undef T2
 
     f = fopen("tytab.c","w");
-
+	//fprintf(f,"#include \"./backend/cdef.h\"\n");
     fprintf(f,"unsigned tytab[] =\n{ ");
     for (i = 0; i < arraysize(tytab); i++)
     {   fprintf(f,"0x%02x,",tytab[i]);

@@ -21,7 +21,11 @@
 
 void browse(const char *url)
 {
-    ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+#if _MSC_VER
+    ShellExecute(NULL,(LPCWSTR) "open",(LPCWSTR) url, NULL, NULL, SW_SHOWNORMAL);
+#else
+	ShellExecute(NULL,"open", url, NULL, NULL, SW_SHOWNORMAL);
+#endif
 }
 
 #endif

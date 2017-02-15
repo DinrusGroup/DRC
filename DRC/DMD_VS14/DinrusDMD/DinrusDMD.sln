@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DinrusDMD", "DinrusDMD.vcxproj", "{03A12680-F2FA-44C7-B032-23DC6208A865}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290} = {D95E494D-B8D8-4F73-BF9F-ADF7E029B290}
+		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95} = {8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idgen", "idgen\idgen.vcxproj", "{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}"
 EndProject

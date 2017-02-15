@@ -103,7 +103,7 @@ int go_flag(char *cp)
 
     if (*cp == '-')                     /* a regular -whatever flag     */
     {                                   /* cp -> flag string            */
-        switch (flag)
+        switch ((int) flag)
         {
             case GLall:
             case GLcnp:
@@ -139,7 +139,7 @@ int go_flag(char *cp)
     }
     else if (*cp == '+')                /* a regular +whatever flag     */
     {                           /* cp -> flag string            */
-        switch (flag)
+        switch ((int)flag)
         {
             case GLall:
             case GLcnp:

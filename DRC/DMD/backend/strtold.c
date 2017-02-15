@@ -25,6 +25,7 @@
 #endif
 
 #if _WIN32
+
 // from \sc\src\include\setlocal.h
 extern char * __cdecl __locale_decpoint;
 void __pascal __set_errno (int an_errno);

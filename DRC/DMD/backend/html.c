@@ -22,7 +22,7 @@
 
 #if MARS
 #include <assert.h>
-#include "root.h"
+#include "../root/root.h"
 //#include "../mars/mars.h"
 #else
 #include "outbuf.h"

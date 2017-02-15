@@ -547,7 +547,8 @@ void LinkDeclaration::semantic3(Scope *sc)
 }
 
 void LinkDeclaration::toCBuffer(OutBuffer *buf, HdrGenState *hgs)
-{   const char *p;
+{  
+	const char *p;
 
     switch (linkage)
     {

@@ -116,7 +116,11 @@ char * filespecrootpath(char *filespec)
     cwd_t = (char *)getcwd(NULL, 256);
 #endif
 #if MSDOS || __OS2__ || __NT__ || _WIN32
+#if __DMD__
     if (getcwd(cwd_d, sizeof(cwd_d)))
+#else
+	if (_getcwd(cwd_d, sizeof(cwd_d)))
+#endif
        cwd_t = cwd_d;
     else
        cwd_t = NULL;

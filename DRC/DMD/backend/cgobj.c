@@ -28,7 +28,9 @@
 #include        "type.h"
 #include        "outbuf.h"
 
+#if __DMC__
 #include        "md5.h"
+#endif
 
 #if MARS
 struct Loc

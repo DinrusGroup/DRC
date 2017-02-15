@@ -690,7 +690,7 @@ L1:
     {
         if (flags & mPSW)
         {
-            switch (value)
+            switch ((int)value)
             {   case 0:
                     c = genclrreg(c,reg);
                     if (flags & 64)

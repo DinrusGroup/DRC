@@ -137,6 +137,10 @@ One and only one of these macros must be set by the makefile:
 #ifndef CDEF_H
 #define CDEF_H  1
 
+#if _MSC_VER
+//#include "../tytab.c"
+#endif
+
 #define VERSION "8.54.0"        // for banner and imbedding in .OBJ file
 #define VERSIONHEX "0x854"      // for __DMC__ macro
 #define VERSIONINT 0x854        // for precompiled headers and DLL version

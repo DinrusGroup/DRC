@@ -19,6 +19,7 @@
 #include        "global.h"
 #include        "code.h"
 #include        "type.h"
+#include		"aa.h"
 #include        "../tk/filespec.h"
 
 ///////////////////// GLOBALS /////////////////////

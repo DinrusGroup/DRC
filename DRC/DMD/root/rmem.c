@@ -27,7 +27,11 @@ char *Mem::strdup(const char *s)
 
     if (s)
     {
+#if __DMC__
         p = ::strdup(s);
+#else
+		p = _strdup(s);
+#endif
         if (p)
             return p;
         error();

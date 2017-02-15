@@ -4037,7 +4037,7 @@ static char *pgen;
 #if ELFOBJ || MACHOBJ
 #define FLUSH()         if (pgen-bytes) cod3_flush()
 #else
-#define FLUSH()         ((pgen - bytes) && cod3_flush())
+#define FLUSH()        if (pgen-bytes) cod3_flush() //((pgen - bytes) && cod3_flush())
 #endif
 #define OFFSET()        (offset + (pgen - bytes))
 
