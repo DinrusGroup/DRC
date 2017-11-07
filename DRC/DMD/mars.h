@@ -96,6 +96,7 @@ the target object file format:
 #if _WIN32
 #define TARGET_WINDOS 1         // Windows dmd generates Windows targets
 #define OMFOBJ 1
+#include <windef.h>
 #endif
 
 #if TARGET_LINUX || TARGET_FREEBSD || TARGET_SOLARIS

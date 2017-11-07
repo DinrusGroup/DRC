@@ -127,7 +127,8 @@ Expression *BinExp::arrayOp(Scope *sc)
 
     /* Look up name in hash table
      */
-    StringValue *sv = arrayfuncs.update(name, namelen);
+	const wchar_t *s = (wchar_t*) name;
+    StringValue *sv = arrayfuncs.update(s, namelen);
     FuncDeclaration *fd = (FuncDeclaration *)sv->ptrvalue;
     if (!fd)
     {

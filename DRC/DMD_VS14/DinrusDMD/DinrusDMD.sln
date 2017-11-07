@@ -4,14 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DinrusDMD", "DinrusDMD.vcxproj", "{03A12680-F2FA-44C7-B032-23DC6208A865}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290} = {D95E494D-B8D8-4F73-BF9F-ADF7E029B290}
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95} = {8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idgen", "idgen\idgen.vcxproj", "{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "optabgen", "optabgen\optabgen.vcxproj", "{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,22 +21,6 @@ Global
 		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x64.Build.0 = Release|x64
 		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x86.ActiveCfg = Release|Win32
 		{03A12680-F2FA-44C7-B032-23DC6208A865}.Release|x86.Build.0 = Release|Win32
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Debug|x64.ActiveCfg = Debug|x64
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Debug|x64.Build.0 = Debug|x64
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Debug|x86.ActiveCfg = Debug|Win32
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Debug|x86.Build.0 = Debug|Win32
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Release|x64.ActiveCfg = Release|x64
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Release|x64.Build.0 = Release|x64
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Release|x86.ActiveCfg = Release|Win32
-		{D95E494D-B8D8-4F73-BF9F-ADF7E029B290}.Release|x86.Build.0 = Release|Win32
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Debug|x64.ActiveCfg = Debug|x64
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Debug|x64.Build.0 = Debug|x64
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Debug|x86.ActiveCfg = Debug|Win32
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Debug|x86.Build.0 = Debug|Win32
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Release|x64.ActiveCfg = Release|x64
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Release|x64.Build.0 = Release|x64
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Release|x86.ActiveCfg = Release|Win32
-		{8B8889A5-4EAD-4B14-A56A-4FABFE2F6D95}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

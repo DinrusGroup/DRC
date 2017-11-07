@@ -15,6 +15,8 @@
 #include "gnuc.h"
 #endif
 
+#define M_UNICODE  1
+
 #if _MSC_VER
     // Disable useless warnings about unreferenced functions
     #pragma warning (disable : 4514)
@@ -27,10 +29,11 @@ typedef size_t hash_t;
 
 // NOTE: All functions accepting pointer arguments must not be NULL
 
-#if M_UNICODE
+#if M_UNICODE 
 
 #include <string.h>
 #include <wchar.h>
+
 
 typedef wchar_t dchar;
 #define TEXT(x)         L##x
@@ -73,7 +76,14 @@ struct Dchar
     static dchar *chr(dchar *p, unsigned c) { return wcschr(p, (dchar)c); }
     static dchar *rchr(dchar *p, unsigned c) { return wcsrchr(p, (dchar)c); }
     static dchar *memchr(dchar *p, int c, int count);
-    static dchar *cpy(dchar *s1, dchar *s2) { return wcscpy(s1, s2); }
+#if __DMC__
+	static dchar *cpy(dchar *s1, dchar *s2) { return wcscpy(s1, s2); }
+#else
+    static dchar *cpy(dchar *s1, dchar *s2) {
+		 wcscpy_s(s1, sizeof(s2), s2);
+		 return s1;
+	}
+#endif
     static dchar *str(dchar *s1, dchar *s2) { return wcsstr(s1, s2); }
     static hash_t calcHash(const dchar *str, size_t len);
 
