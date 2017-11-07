@@ -1,0 +1,1 @@
+set path=c:\dm\bin;c:\dmd2.050\windows\bin;%PATH%

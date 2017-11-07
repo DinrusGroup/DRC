@@ -1,0 +1,16 @@
+syntax: regexp
+
+# eclipse files etc.
+^\.
+
+\.map$
+\.obj$
+\.o$
+glob:dmd2/*
+glob:dmd.*.zip
+glob:buildHelper.d.deps
+glob:buildHelper.exe
+glob:dmd.lib
+glob:bin/*
+glob:libdmd.a
+glob:*.orig

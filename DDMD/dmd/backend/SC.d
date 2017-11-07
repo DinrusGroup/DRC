@@ -1,0 +1,51 @@
+module dmd.backend.SC;
+
+enum SC : ubyte
+{
+  	SCunde,
+	SCauto,
+	SCstatic,
+	SCextern,
+	SCregister,
+	SCpseudo,
+	SCglobal,
+	SCcomdat,
+	SCparameter,
+	SCregpar,
+	SCfastpar,
+	SCtypedef,
+	SCexplicit,
+	SCmutable,
+	SCtmp,
+	SClabel, 
+	SCstruct, 
+	SCenum, 
+	SCfield, 
+	SCconst, 
+	SCmember, 
+	SCanon, 
+	SCinline, 
+	SCsinline, 
+	SCeinline, 
+	SCoverload, 
+	SCfriend, 
+	SCvirtual, 
+	SClocstat, 
+	SCtemplate, 
+	SCfunctempl, 
+	SCftexpspec, 
+	SClinkage, 
+	SCpublic, 
+	SCcomdef, 
+	SCbprel, 
+	SCnamespace, 
+	SCalias, 
+	SCfuncalias, 
+	SCmemalias, 
+	SCstack,
+	SCadl,
+	SCMAX
+}
+
+import dmd.EnumUtils;
+mixin(BringToCurrentScope!(SC));

@@ -1,0 +1,98 @@
+# HG changeset patch
+# User trass3r
+# Date 1283292718 -7200
+# Node ID e6e22eceb1e7da03f765df9369851a6491d1b2ad
+# Parent  a5c1086667193606d10002efa031b316a5727450
+2.036 patch
+
+diff -r a5c108666719 -r e6e22eceb1e7 src/dmd/class.c
+--- a/src/dmd/class.c	Mon Aug 30 20:49:59 2010 +0200
++++ b/src/dmd/class.c	Wed Sep 01 00:11:58 2010 +0200
+@@ -61,7 +61,7 @@
+     if (id)
+     {	// Look for special class names
+ 
+-	if (id == Id::__sizeof || id == Id::alignof || id == Id::mangleof)
++	if (id == Id::__sizeof || id == Id::_alignof || id == Id::mangleof)
+ 	    error("illegal class name");
+ 
+ 	// BUG: What if this is the wrong TypeInfo, i.e. it is nested?
+diff -r a5c108666719 -r e6e22eceb1e7 src/dmd/dsymbol.c
+--- a/src/dmd/dsymbol.c	Mon Aug 30 20:49:59 2010 +0200
++++ b/src/dmd/dsymbol.c	Wed Sep 01 00:11:58 2010 +0200
+@@ -488,7 +488,7 @@
+ 	}
+ 	if (sd->isAggregateDeclaration() || sd->isEnumDeclaration())
+ 	{
+-	    if (ident == Id::__sizeof || ident == Id::alignof || ident == Id::mangleof)
++	    if (ident == Id::__sizeof || ident == Id::_alignof || ident == Id::mangleof)
+ 		error(".%s property cannot be redefined", ident->toChars());
+ 	}
+ 	return 1;
+diff -r a5c108666719 -r e6e22eceb1e7 src/dmd/expression.c
+--- a/src/dmd/expression.c	Mon Aug 30 20:49:59 2010 +0200
++++ b/src/dmd/expression.c	Wed Sep 01 00:11:58 2010 +0200
+@@ -5747,7 +5747,7 @@
+     }
+     else if (t1b->ty == Tpointer &&
+ 	     ident != Id::init && ident != Id::__sizeof &&
+-	     ident != Id::alignof && ident != Id::offsetof &&
++	     ident != Id::_alignof && ident != Id::offsetof &&
+ 	     ident != Id::mangleof && ident != Id::stringof)
+     {	/* Rewrite:
+          *   p.ident
+diff -r a5c108666719 -r e6e22eceb1e7 src/dmd/idgen.c
+--- a/src/dmd/idgen.c	Mon Aug 30 20:49:59 2010 +0200
++++ b/src/dmd/idgen.c	Wed Sep 01 00:11:58 2010 +0200
+@@ -45,7 +45,7 @@
+     { "init" },
+     { "size" },
+     { "__sizeof", "sizeof" },
+-    { "alignof" },
++    { "_alignof", "alignof" },
+     { "mangleof" },
+     { "stringof" },
+     { "tupleof" },
+diff -r a5c108666719 -r e6e22eceb1e7 src/dmd/mtype.c
+--- a/src/dmd/mtype.c	Mon Aug 30 20:49:59 2010 +0200
++++ b/src/dmd/mtype.c	Wed Sep 01 00:11:58 2010 +0200
+@@ -1266,7 +1266,7 @@
+ 	error(loc, ".size property should be replaced with .sizeof");
+ 	e = new ErrorExp();
+     }
+-    else if (ident == Id::alignof)
++    else if (ident == Id::_alignof)
+     {
+ 	e = new IntegerExp(loc, alignsize(), Type::tsize_t);
+     }
+@@ -5895,7 +5895,7 @@
+     if (!s)
+     {
+ 	if (ident != Id::__sizeof &&
+-	    ident != Id::alignof &&
++	    ident != Id::_alignof &&
+ 	    ident != Id::init &&
+ 	    ident != Id::mangleof &&
+ 	    ident != Id::stringof &&
+@@ -6386,7 +6386,7 @@
+ 	{
+ 
+ 	    if (ident != Id::__sizeof &&
+-		ident != Id::alignof &&
++		ident != Id::_alignof &&
+ 		ident != Id::init &&
+ 		ident != Id::mangleof &&
+ 		ident != Id::stringof &&
+diff -r a5c108666719 -r e6e22eceb1e7 src/druntime/src/compiler/dmd/win32.mak
+--- a/src/druntime/src/compiler/dmd/win32.mak	Mon Aug 30 20:49:59 2010 +0200
++++ b/src/druntime/src/compiler/dmd/win32.mak	Wed Sep 01 00:11:58 2010 +0200
+@@ -163,8 +163,8 @@
+ 
+ # Patterns - asm
+ 
+-minit.obj : minit.asm
+-	$(CC) -c $**
++#minit.obj : minit.asm
++#	$(CC) -c $**
+ 
+ # Rulez

@@ -1,0 +1,620 @@
+<DProject>
+ <ProjectGuid>{C58DB54F-7447-4ADC-80C0-7DD2392E5F28}</ProjectGuid>
+ <Config name="Debug">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <multiobj>0</multiobj>
+  <oneobj>0</oneobj>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <symdebug>1</symdebug>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>1</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>1</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <otherDMD>0</otherDMD>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(ProjectName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids>DMDV2 TX86 MARS _WIN32 TARGET_WINDOS OMFOBJ WindowsXP DumbClone BREAKABI SEH STRUCTTHISREF CCASTSYNTAX CARRAYDECL SNAN_DEFAULT_INIT SARRAYVALUE</versionids>
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <objfiles />
+  <linkswitches />
+  <libfiles>dmd.lib</libfiles>
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <additionalOptions />
+  <preBuildCommand>dmc -c bridge\bridge.cpp</preBuildCommand>
+  <postBuildCommand />
+  <debugtarget>$(TARGETPATH)</debugtarget>
+  <debugarguments />
+  <debugworkingdir />
+  <debugattach>0</debugattach>
+  <debugremote />
+  <filesToClean>*.obj</filesToClean>
+ </Config>
+ <Config name="Release">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <multiobj>0</multiobj>
+  <oneobj>0</oneobj>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <symdebug>0</symdebug>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>1</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <otherDMD>0</otherDMD>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(ProjectName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids>DMDV2 TX86 MARS _WIN32 TARGET_WINDOS OMFOBJ WindowsXP DumbClone BREAKABI SEH STRUCTTHISREF CCASTSYNTAX CARRAYDECL SNAN_DEFAULT_INIT SARRAYVALUE</versionids>
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <objfiles />
+  <linkswitches />
+  <libfiles>dmdrelease.lib</libfiles>
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <debugtarget>$(TARGETPATH)</debugtarget>
+  <debugarguments />
+  <debugworkingdir />
+  <debugattach>0</debugattach>
+  <debugremote />
+  <filesToClean>*.obj</filesToClean>
+ </Config>
+ <Folder name="ddmd">
+  <Folder name="rt">
+   <File path="rt\memory.d" />
+  </Folder>
+  <Folder name="dbg">
+   <Folder name="image">
+    <File path="dbg\image\PE.d" />
+   </Folder>
+   <Folder name="symbol">
+    <File path="dbg\symbol\CodeView.d" />
+   </Folder>
+   <File path="dbg\CallStackInfo.d" />
+   <File path="dbg\Debug.d" />
+  </Folder>
+  <Folder name="dmd">
+   <Folder name="backend">
+    <File path="dmd\backend\BC.d" />
+    <File path="dmd\backend\block.d" />
+    <File path="dmd\backend\Blockx.d" />
+    <File path="dmd\backend\Classsym.d" />
+    <File path="dmd\backend\code.d" />
+    <File path="dmd\backend\Config.d" />
+    <File path="dmd\backend\Configv.d" />
+    <File path="dmd\backend\con_t.d" />
+    <File path="dmd\backend\cse_t.d" />
+    <File path="dmd\backend\Cstate.d" />
+    <File path="dmd\backend\DT.d" />
+    <File path="dmd\backend\dt_t.d" />
+    <File path="dmd\backend\elem.d" />
+    <File path="dmd\backend\enum_t.d" />
+    <File path="dmd\backend\F.d" />
+    <File path="dmd\backend\FL.d" />
+    <File path="dmd\backend\Funcsym.d" />
+    <File path="dmd\backend\func_t.d" />
+    <File path="dmd\backend\glue.d" />
+    <File path="dmd\backend\iasm.d" />
+    <File path="dmd\backend\immed_t.d" />
+    <File path="dmd\backend\LANG.d" />
+    <File path="dmd\backend\LINKAGE.d" />
+    <File path="dmd\backend\LIST.d" />
+    <File path="dmd\backend\mTY.d" />
+    <File path="dmd\backend\mTYman.d" />
+    <File path="dmd\backend\OPER.d" />
+    <File path="dmd\backend\PARAM.d" />
+    <File path="dmd\backend\REG.d" />
+    <File path="dmd\backend\REGMAX.d" />
+    <File path="dmd\backend\regm_t.d" />
+    <File path="dmd\backend\rel.d" />
+    <File path="dmd\backend\RTLSYM.d" />
+    <File path="dmd\backend\SC.d" />
+    <File path="dmd\backend\SEN.d" />
+    <File path="dmd\backend\SFL.d" />
+    <File path="dmd\backend\Srcpos.d" />
+    <File path="dmd\backend\STR.d" />
+    <File path="dmd\backend\StringTab.d" />
+    <File path="dmd\backend\struct_t.d" />
+    <File path="dmd\backend\Symbol.d" />
+    <File path="dmd\backend\SYMIDX.d" />
+    <File path="dmd\backend\symtab_t.d" />
+    <File path="dmd\backend\targ_types.d" />
+    <File path="dmd\backend\template_t.d" />
+    <File path="dmd\backend\TF.d" />
+    <File path="dmd\backend\Thunk.d" />
+    <File path="dmd\backend\token_t.d" />
+    <File path="dmd\backend\TYFL.d" />
+    <File path="dmd\backend\TYM.d" />
+    <File path="dmd\backend\TYPE.d" />
+    <File path="dmd\backend\Util.d" />
+    <File path="dmd\backend\vec_t.d" />
+   </Folder>
+   <Folder name="codegen">
+    <File path="dmd\codegen\Util.d" />
+    <File path="dmd\codegen\linkhelper.d" />
+   </Folder>
+   <Folder name="condition">
+    <Folder name="util">
+     <File path="dmd\condition\util\findCondition.d" />
+    </Folder>
+   </Folder>
+   <Folder name="declaration">
+    <File path="dmd\declaration\Match.d" />
+   </Folder>
+   <Folder name="expression">
+    <Folder name="util">
+     <File path="dmd\expression\util\arrayTypeCompatible.d" />
+    </Folder>
+    <File path="dmd\expression\Add.d" />
+    <File path="dmd\expression\And.d" />
+    <File path="dmd\expression\ArrayLength.d" />
+    <File path="dmd\expression\Bool.d" />
+    <File path="dmd\expression\Cat.d" />
+    <File path="dmd\expression\Cmp.d" />
+    <File path="dmd\expression\Com.d" />
+    <File path="dmd\expression\Div.d" />
+    <File path="dmd\expression\Equal.d" />
+    <File path="dmd\expression\Identity.d" />
+    <File path="dmd\expression\Index.d" />
+    <File path="dmd\expression\Min.d" />
+    <File path="dmd\expression\Mod.d" />
+    <File path="dmd\expression\Mul.d" />
+    <File path="dmd\expression\Neg.d" />
+    <File path="dmd\expression\Not.d" />
+    <File path="dmd\expression\Or.d" />
+    <File path="dmd\expression\Ptr.d" />
+    <File path="dmd\expression\shift_optimize.d" />
+    <File path="dmd\expression\Shl.d" />
+    <File path="dmd\expression\Shr.d" />
+    <File path="dmd\expression\Slice.d" />
+    <File path="dmd\expression\Ushr.d" />
+    <File path="dmd\expression\Util.d" />
+    <File path="dmd\expression\Xor.d" />
+   </Folder>
+   <Folder name="interpret">
+    <File path="dmd\interpret\Util.d" />
+   </Folder>
+   <Folder name="templates">
+    <File path="dmd\templates\Util.d" />
+   </Folder>
+   <Folder name="type">
+    <File path="dmd\type\Util.d" />
+   </Folder>
+   <File path="dmd\AddAssignExp.d" />
+   <File path="dmd\AddExp.d" />
+   <File path="dmd\AddrExp.d" />
+   <File path="dmd\AggregateDeclaration.d" />
+   <File path="dmd\AliasDeclaration.d" />
+   <File path="dmd\AliasThis.d" />
+   <File path="dmd\AlignDeclaration.d" />
+   <File path="dmd\AndAndExp.d" />
+   <File path="dmd\AndAssignExp.d" />
+   <File path="dmd\AndExp.d" />
+   <File path="dmd\AnonDeclaration.d" />
+   <File path="dmd\AnonymousAggregateDeclaration.d" />
+   <File path="dmd\Array.d" />
+   <File path="dmd\ArrayExp.d" />
+   <File path="dmd\ArrayInitializer.d" />
+   <File path="dmd\ArrayLengthExp.d" />
+   <File path="dmd\ArrayLiteralExp.d" />
+   <File path="dmd\ArrayScopeSymbol.d" />
+   <File path="dmd\ArrayTypes.d" />
+   <File path="dmd\AsmStatement.d" />
+   <File path="dmd\AssertExp.d" />
+   <File path="dmd\AssignExp.d" />
+   <File path="dmd\AssocArrayLiteralExp.d" />
+   <File path="dmd\AttribDeclaration.d" />
+   <File path="dmd\BaseClass.d" />
+   <File path="dmd\BE.d" />
+   <File path="dmd\BinExp.d" />
+   <File path="dmd\BoolExp.d" />
+   <File path="dmd\BreakStatement.d" />
+   <File path="dmd\BUILTIN.d" />
+   <File path="dmd\CallExp.d" />
+   <File path="dmd\CaseRangeStatement.d" />
+   <File path="dmd\CaseStatement.d" />
+   <File path="dmd\Cast.d" />
+   <File path="dmd\CastExp.d" />
+   <File path="dmd\CatAssignExp.d" />
+   <File path="dmd\Catch.d" />
+   <File path="dmd\CatExp.d" />
+   <File path="dmd\ClassDeclaration.d" />
+   <File path="dmd\ClassInfoDeclaration.d" />
+   <File path="dmd\CmpExp.d" />
+   <File path="dmd\ComExp.d" />
+   <File path="dmd\CommaExp.d" />
+   <File path="dmd\CompileDeclaration.d" />
+   <File path="dmd\CompileExp.d" />
+   <File path="dmd\CompileStatement.d" />
+   <File path="dmd\Complex.d" />
+   <File path="dmd\ComplexExp.d" />
+   <File path="dmd\CompoundDeclarationStatement.d" />
+   <File path="dmd\CompoundStatement.d" />
+   <File path="dmd\CondExp.d" />
+   <File path="dmd\Condition.d" />
+   <File path="dmd\ConditionalDeclaration.d" />
+   <File path="dmd\ConditionalStatement.d" />
+   <File path="dmd\ContinueStatement.d" />
+   <File path="dmd\CppMangleState.d" />
+   <File path="dmd\CSX.d" />
+   <File path="dmd\CtorDeclaration.d" />
+   <File path="dmd\Dchar.d" />
+   <File path="dmd\DebugCondition.d" />
+   <File path="dmd\DebugSymbol.d" />
+   <File path="dmd\Declaration.d" />
+   <File path="dmd\DeclarationExp.d" />
+   <File path="dmd\DeclarationStatement.d" />
+   <File path="dmd\DefaultInitExp.d" />
+   <File path="dmd\DefaultStatement.d" />
+   <File path="dmd\DelegateExp.d" />
+   <File path="dmd\DeleteDeclaration.d" />
+   <File path="dmd\DeleteExp.d" />
+   <File path="dmd\DivAssignExp.d" />
+   <File path="dmd\DivExp.d" />
+   <File path="dmd\DocComment.d" />
+   <File path="dmd\DollarExp.d" />
+   <File path="dmd\DoStatement.d" />
+   <File path="dmd\DotExp.d" />
+   <File path="dmd\DotIdExp.d" />
+   <File path="dmd\DotTemplateExp.d" />
+   <File path="dmd\DotTemplateInstanceExp.d" />
+   <File path="dmd\DotTypeExp.d" />
+   <File path="dmd\DotVarExp.d" />
+   <File path="dmd\Dsymbol.d" />
+   <File path="dmd\DsymbolExp.d" />
+   <File path="dmd\DsymbolTable.d" />
+   <File path="dmd\DtorDeclaration.d" />
+   <File path="dmd\DVCondition.d" />
+   <File path="dmd\DYNCAST.d" />
+   <File path="dmd\EnumDeclaration.d" />
+   <File path="dmd\EnumMember.d" />
+   <File path="dmd\EnumUtils.d" />
+   <File path="dmd\EqualExp.d" />
+   <File path="dmd\ErrorExp.d" />
+   <File path="dmd\Escape.d" />
+   <File path="dmd\ExpInitializer.d" />
+   <File path="dmd\Expression.d" />
+   <File path="dmd\ExpStatement.d" />
+   <File path="dmd\File.d" />
+   <File path="dmd\FileExp.d" />
+   <File path="dmd\FileInitExp.d" />
+   <File path="dmd\FileName.d" />
+   <File path="dmd\ForeachRangeStatement.d" />
+   <File path="dmd\ForeachStatement.d" />
+   <File path="dmd\ForStatement.d" />
+   <File path="dmd\FuncAliasDeclaration.d" />
+   <File path="dmd\FuncDeclaration.d" />
+   <File path="dmd\FuncExp.d" />
+   <File path="dmd\FuncLiteralDeclaration.d" />
+   <File path="dmd\Global.d" />
+   <File path="dmd\GlobalExpressions.d" />
+   <File path="dmd\Gnuc.d" />
+   <File path="dmd\GotoCaseStatement.d" />
+   <File path="dmd\GotoDefaultStatement.d" />
+   <File path="dmd\GotoStatement.d" />
+   <File path="dmd\HaltExp.d" />
+   <File path="dmd\HdrGenState.d" />
+   <File path="dmd\Id.d" />
+   <File path="dmd\Identifier.d" />
+   <File path="dmd\IdentifierExp.d" />
+   <File path="dmd\IdentityExp.d" />
+   <File path="dmd\IfStatement.d" />
+   <File path="dmd\ILS.d" />
+   <File path="dmd\Import.d" />
+   <File path="dmd\IndexExp.d" />
+   <File path="dmd\InExp.d" />
+   <File path="dmd\Initializer.d" />
+   <File path="dmd\InlineCostState.d" />
+   <File path="dmd\InlineDoState.d" />
+   <File path="dmd\InlineScanState.d" />
+   <File path="dmd\IntegerExp.d" />
+   <File path="dmd\InterfaceDeclaration.d" />
+   <File path="dmd\InterState.d" />
+   <File path="dmd\IntRange.d" />
+   <File path="dmd\InvariantDeclaration.d" />
+   <File path="dmd\IRState.d" />
+   <File path="dmd\IsExp.d" />
+   <File path="dmd\Json.d" />
+   <File path="dmd\Keyword.d" />
+   <File path="dmd\LabelDsymbol.d" />
+   <File path="dmd\LabelStatement.d" />
+   <File path="dmd\Lexer.d" />
+   <File path="dmd\Library.d" />
+   <File path="dmd\LineInitExp.d" />
+   <File path="dmd\LINK.d" />
+   <File path="dmd\LinkDeclaration.d" />
+   <File path="dmd\Loc.d" />
+   <File path="dmd\Lstring.d" />
+   <File path="dmd\Macro.d" />
+   <File path="dmd\MATCH.d" />
+   <File path="dmd\MinAssignExp.d" />
+   <File path="dmd\MinExp.d" />
+   <File path="dmd\MOD.d" />
+   <File path="dmd\ModAssignExp.d" />
+   <File path="dmd\ModExp.d" />
+   <File path="dmd\Module.d" />
+   <File path="dmd\ModuleDeclaration.d" />
+   <File path="dmd\ModuleInfoDeclaration.d" />
+   <File path="dmd\MulAssignExp.d" />
+   <File path="dmd\MulExp.d" />
+   <File path="dmd\NegExp.d" />
+   <File path="dmd\NewAnonClassExp.d" />
+   <File path="dmd\NewDeclaration.d" />
+   <File path="dmd\NewExp.d" />
+   <File path="dmd\NotExp.d" />
+   <File path="dmd\NullExp.d" />
+   <File path="dmd\ObjModule.d" />
+   <File path="dmd\OnScopeStatement.d" />
+   <File path="dmd\Optimize.d" />
+   <File path="dmd\OrAssignExp.d" />
+   <File path="dmd\OrExp.d" />
+   <File path="dmd\OrOrExp.d" />
+   <File path="dmd\OutBuffer.d" />
+   <File path="dmd\OverExp.d" />
+   <File path="dmd\OverloadSet.d" />
+   <File path="dmd\Package.d" />
+   <File path="dmd\Param.d" />
+   <File path="dmd\Parser.d" />
+   <File path="dmd\ParseStatementFlags.d" />
+   <File path="dmd\PASS.d" />
+   <File path="dmd\PeelStatement.d" />
+   <File path="dmd\Port.d" />
+   <File path="dmd\PostBlitDeclaration.d" />
+   <File path="dmd\PostExp.d" />
+   <File path="dmd\PragmaDeclaration.d" />
+   <File path="dmd\PragmaStatement.d" />
+   <File path="dmd\PREC.d" />
+   <File path="dmd\PROT.d" />
+   <File path="dmd\ProtDeclaration.d" />
+   <File path="dmd\PtrExp.d" />
+   <File path="dmd\RealExp.d" />
+   <File path="dmd\RemoveExp.d" />
+   <File path="dmd\RET.d" />
+   <File path="dmd\ReturnStatement.d" />
+   <File path="dmd\Scope.d" />
+   <File path="dmd\ScopeDsymbol.d" />
+   <File path="dmd\ScopeExp.d" />
+   <File path="dmd\ScopeStatement.d" />
+   <File path="dmd\Section.d" />
+   <File path="dmd\ShlAssignExp.d" />
+   <File path="dmd\ShlExp.d" />
+   <File path="dmd\ShrAssignExp.d" />
+   <File path="dmd\ShrExp.d" />
+   <File path="dmd\SliceExp.d" />
+   <File path="dmd\Statement.d" />
+   <File path="dmd\StaticAssert.d" />
+   <File path="dmd\StaticAssertStatement.d" />
+   <File path="dmd\StaticCtorDeclaration.d" />
+   <File path="dmd\StaticDtorDeclaration.d" />
+   <File path="dmd\StaticIfCondition.d" />
+   <File path="dmd\StaticIfDeclaration.d" />
+   <File path="dmd\STC.d" />
+   <File path="dmd\StorageClassDeclaration.d" />
+   <File path="dmd\String.d" />
+   <File path="dmd\StringEntry.d" />
+   <File path="dmd\StringExp.d" />
+   <File path="dmd\StringTable.d" />
+   <File path="dmd\StringValue.d" />
+   <File path="dmd\StructDeclaration.d" />
+   <File path="dmd\StructInitializer.d" />
+   <File path="dmd\StructLiteralExp.d" />
+   <File path="dmd\SuperExp.d" />
+   <File path="dmd\SwitchErrorStatement.d" />
+   <File path="dmd\SwitchStatement.d" />
+   <File path="dmd\SymbolDeclaration.d" />
+   <File path="dmd\SymbolExp.d" />
+   <File path="dmd\SymOffExp.d" />
+   <File path="dmd\SynchronizedStatement.d" />
+   <File path="dmd\TemplateAliasParameter.d" />
+   <File path="dmd\TemplateDeclaration.d" />
+   <File path="dmd\TemplateExp.d" />
+   <File path="dmd\TemplateInstance.d" />
+   <File path="dmd\TemplateMixin.d" />
+   <File path="dmd\TemplateParameter.d" />
+   <File path="dmd\TemplateThisParameter.d" />
+   <File path="dmd\TemplateTupleParameter.d" />
+   <File path="dmd\TemplateTypeParameter.d" />
+   <File path="dmd\TemplateValueParameter.d" />
+   <File path="dmd\TFLAGS.d" />
+   <File path="dmd\ThisDeclaration.d" />
+   <File path="dmd\ThisExp.d" />
+   <File path="dmd\ThrowStatement.d" />
+   <File path="dmd\TOK.d" />
+   <File path="dmd\Token.d" />
+   <File path="dmd\TraitsExp.d" />
+   <File path="dmd\TryCatchStatement.d" />
+   <File path="dmd\TryFinallyStatement.d" />
+   <File path="dmd\Tuple.d" />
+   <File path="dmd\TupleDeclaration.d" />
+   <File path="dmd\TupleExp.d" />
+   <File path="dmd\TY.d" />
+   <File path="dmd\Type.d" />
+   <File path="dmd\TypeAArray.d" />
+   <File path="dmd\TypeArray.d" />
+   <File path="dmd\TypeBasic.d" />
+   <File path="dmd\TypeClass.d" />
+   <File path="dmd\TypeDArray.d" />
+   <File path="dmd\TypedefDeclaration.d" />
+   <File path="dmd\TypeDelegate.d" />
+   <File path="dmd\TypeEnum.d" />
+   <File path="dmd\TypeExp.d" />
+   <File path="dmd\TypeFunction.d" />
+   <File path="dmd\TypeIdentifier.d" />
+   <File path="dmd\TypeidExp.d" />
+   <File path="dmd\TypeInfoArrayDeclaration.d" />
+   <File path="dmd\TypeInfoAssociativeArrayDeclaration.d" />
+   <File path="dmd\TypeInfoClassDeclaration.d" />
+   <File path="dmd\TypeInfoConstDeclaration.d" />
+   <File path="dmd\TypeInfoDeclaration.d" />
+   <File path="dmd\TypeInfoDelegateDeclaration.d" />
+   <File path="dmd\TypeInfoEnumDeclaration.d" />
+   <File path="dmd\TypeInfoFunctionDeclaration.d" />
+   <File path="dmd\TypeInfoInterfaceDeclaration.d" />
+   <File path="dmd\TypeInfoInvariantDeclaration.d" />
+   <File path="dmd\TypeInfoPointerDeclaration.d" />
+   <File path="dmd\TypeInfoSharedDeclaration.d" />
+   <File path="dmd\TypeInfoStaticArrayDeclaration.d" />
+   <File path="dmd\TypeInfoStructDeclaration.d" />
+   <File path="dmd\TypeInfoTupleDeclaration.d" />
+   <File path="dmd\TypeInfoTypedefDeclaration.d" />
+   <File path="dmd\TypeInstance.d" />
+   <File path="dmd\TypeNewArray.d" />
+   <File path="dmd\TypeNext.d" />
+   <File path="dmd\TypePointer.d" />
+   <File path="dmd\TypeQualified.d" />
+   <File path="dmd\TypeReference.d" />
+   <File path="dmd\TypeReturn.d" />
+   <File path="dmd\TypeSArray.d" />
+   <File path="dmd\TypeSlice.d" />
+   <File path="dmd\TypeStruct.d" />
+   <File path="dmd\TypeTuple.d" />
+   <File path="dmd\TypeTypedef.d" />
+   <File path="dmd\TypeTypeof.d" />
+   <File path="dmd\UAddExp.d" />
+   <File path="dmd\UnaExp.d" />
+   <File path="dmd\UnionDeclaration.d" />
+   <File path="dmd\UnitTestDeclaration.d" />
+   <File path="dmd\UnrolledLoopStatement.d" />
+   <File path="dmd\UshrAssignExp.d" />
+   <File path="dmd\UshrExp.d" />
+   <File path="dmd\Utf.d" />
+   <File path="dmd\Util.d" />
+   <File path="dmd\VarDeclaration.d" />
+   <File path="dmd\VarExp.d" />
+   <File path="dmd\VersionCondition.d" />
+   <File path="dmd\VersionSymbol.d" />
+   <File path="dmd\VoidInitializer.d" />
+   <File path="dmd\VolatileStatement.d" />
+   <File path="dmd\WANT.d" />
+   <File path="dmd\WhileStatement.d" />
+   <File path="dmd\WithScopeSymbol.d" />
+   <File path="dmd\WithStatement.d" />
+   <File path="dmd\XorAssignExp.d" />
+   <File path="dmd\XorExp.d" />
+   <File path="dmd\common.d" />
+   <File path="dmd\Parameter.d" />
+   <File path="dmd\TRUST.d" />
+   <File path="dmd\PowExp.d" />
+   <File path="dmd\TypeInfoWildDeclaration.d" />
+   <File path="dmd\PowAssignExp.d" />
+  </Folder>
+  <File path="bridge.obj" />
+  <File path="ddmd.def" />
+  <File path="main.d" />
+ </Folder>
+</DProject>

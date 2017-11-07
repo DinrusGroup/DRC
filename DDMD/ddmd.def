@@ -1,0 +1,8 @@
+EXETYPE NT
+
+IMPORTS
+_EnumProcessModules@16 = psapi.EnumProcessModules
+_GetFileVersionInfoSizeA@8 = version.GetFileVersionInfoSizeA
+_GetFileVersionInfoA@16 = version.GetFileVersionInfoA
+_VerQueryValueA@16 = version.VerQueryValueA
+_CommandLineToArgvW@8 = shell32.CommandLineToArgvW
