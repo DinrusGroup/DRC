@@ -1,0 +1,497 @@
+# depslib dependency file v1.0
+1363078707 source:d:\dinrus\dev\dinrus\drc\src\cmd\aststats.d
+
+1422176180 source:d:\dinrus\dev\dinrus\drc\src\cmd\compile.d
+	<drc/doc/Doc.d>
+	<drc/Compilation.d>
+	<drc/Diagnostics.d>
+	<drc/ModuleManager.d>
+	<common.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\doc\doc.d
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\compilation.d
+
+1422002503 d:\dinrus\dev\dinrus\drc\src\drc\diagnostics.d
+	<drc/Information.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\information.d
+	<drc/Location.d>
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\location.d
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\modulemanager.d
+
+1511942869 d:\dinrus\dev\dinrus\drc\src\common.d
+	<io/Stdout.d>
+
+1488389192 source:d:\dinrus\dev\dinrus\drc\src\cmd\ddoc.d
+	<drc/Compilation.d>
+	<drc/Diagnostics.d>
+	<drc/Converter.d>
+	<drc/SourceText.d>
+	<drc/Enums.d>
+	<drc/Time.d>
+	<common.d>
+	<io/File.d>
+	<io/FilePath.d>
+
+1526394009 d:\dinrus\dev\dinrus\drc\src\drc\converter.d
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\sourcetext.d
+
+1488388835 d:\dinrus\dev\dinrus\drc\src\drc\enums.d
+
+1422006632 d:\dinrus\dev\dinrus\drc\src\drc\time.d
+
+1488389346 source:d:\dinrus\dev\dinrus\drc\src\cmd\ddocemitter.d
+	<cmd/Highlight.d>
+	<drc/semantic/Module.d>
+	<drc/Diagnostics.d>
+	<drc/SourceText.d>
+	<drc/Enums.d>
+	<common.d>
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\cmd\highlight.d
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\semantic\module.d
+
+1486208518 source:d:\dinrus\dev\dinrus\drc\src\cmd\ddochtml.d
+	<drc/doc/Macro.d>
+	<drc/semantic/Module.d>
+	<common.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\doc\macro.d
+
+1488389673 source:d:\dinrus\dev\dinrus\drc\src\cmd\ddocxml.d
+	<drc/doc/Macro.d>
+	<drc/ast/Declarations.d>
+	<drc/semantic/Module.d>
+	<common.d>
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\ast\declarations.d
+	<drc/ast/Declaration.d>
+
+1365009410 d:\dinrus\dev\dinrus\drc\src\drc\ast\declaration.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\cmd\highlight.d
+	<drc/lexer/Lexer.d>
+	<drc/parser/Parser.d>
+	<drc/semantic/Module.d>
+	<drc/SourceText.d>
+	<drc/Diagnostics.d>
+	<SettingsLoader.d>
+	<Settings.d>
+	<common.d>
+	<io/Buffer.d>
+	<io/FilePath.d>
+	<io/stream/Format.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\lexer\lexer.d
+	<drc/lexer/Funcs.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\lexer\funcs.d
+
+1526420107 d:\dinrus\dev\dinrus\drc\src\drc\parser\parser.d
+
+1515444670 d:\dinrus\dev\dinrus\drc\src\settingsloader.d
+
+1511942870 d:\dinrus\dev\dinrus\drc\src\settings.d
+
+1488389673 source:d:\dinrus\dev\dinrus\drc\src\cmd\importgraph.d
+	<drc/semantic/Module.d>
+	<drc/parser/ImportParser.d>
+	<drc/SourceText.d>
+	<drc/Compilation.d>
+	<drc/ModuleManager.d>
+	<Settings.d>
+	<common.d>
+	<io/FilePath.d>
+	<io/model.d>
+	<text/Util.d>
+	<Decl.d>
+
+1488389026 d:\dinrus\dev\dinrus\drc\src\drc\parser\importparser.d
+
+1488389733 source:d:\dinrus\dev\dinrus\drc\src\cmd\statistics.d
+	<cmd/ASTStats.d>
+	<drc/parser/Parser.d>
+	<drc/ast/NodesEnum.d>
+	<drc/SourceText.d>
+	<common.d>
+
+1363078707 d:\dinrus\dev\dinrus\drc\src\cmd\aststats.d
+
+1486221397 d:\dinrus\dev\dinrus\drc\src\drc\ast\nodesenum.d
+
+1511942869 source:d:\dinrus\dev\dinrus\drc\src\common.d
+	<io/Stdout.d>
+
+1365009410 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\declaration.d
+	<drc/ast/Node.d>
+	<drc/Enums.d>
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\ast\node.d
+	<drc/lexer/Token.d>
+	<drc/ast/NodesEnum.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\lexer\token.d
+	<drc/lexer/TokensEnum.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\lexer\tokensenum.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\declarations.d
+	<drc/ast/Declaration.d>
+	<drc/lexer/IdTable.d>
+	<drc/semantic/Symbols.d>
+	<drc/Enums.d>
+	<common.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\lexer\idtable.d
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\semantic\symbols.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\defaultvisitor.d
+	<common.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\expression.d
+	<drc/ast/Node.d>
+	<common.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\expressions.d
+	<drc/ast/Expression.d>
+	<drc/lexer/Identifier.d>
+	<drc/semantic/Types.d>
+	<common.d>
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\ast\expression.d
+
+1486234273 d:\dinrus\dev\dinrus\drc\src\drc\lexer\identifier.d
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\semantic\types.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\node.d
+	<common.d>
+	<drc/lexer/Token.d>
+	<drc/ast/NodesEnum.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\nodecopier.d
+	<common.d>
+
+1486221397 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\nodemembers.d
+	<drc/ast/NodesEnum.d>
+
+1486221397 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\nodesenum.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\parameters.d
+	<drc/lexer/Identifier.d>
+	<drc/Enums.d>
+
+1363078707 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\statement.d
+	<drc/ast/Node.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\statements.d
+	<drc/ast/Statement.d>
+	<drc/lexer/IdTable.d>
+
+1363078707 d:\dinrus\dev\dinrus\drc\src\drc\ast\statement.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\type.d
+	<drc/ast/Node.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\types.d
+	<drc/ast/Type.d>
+	<drc/lexer/Identifier.d>
+	<drc/semantic/Types.d>
+	<drc/Enums.d>
+
+1486731019 d:\dinrus\dev\dinrus\drc\src\drc\ast\type.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\ast\visitor.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\code\interpreter.d
+	<drc/Diagnostics.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\compilation.d
+	<common.d>
+
+1422002503 source:d:\dinrus\dev\dinrus\drc\src\drc\diagnostics.d
+	<drc/Information.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\doc\doc.d
+	<drc/doc/Parser.d>
+	<drc/ast/Node.d>
+	<drc/lexer/Funcs.d>
+	<drc/Unicode.d>
+	<common.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\doc\parser.d
+
+1482072609 d:\dinrus\dev\dinrus\drc\src\drc\unicode.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\doc\macro.d
+	<drc/doc/Parser.d>
+	<drc/lexer/Funcs.d>
+	<drc/Unicode.d>
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<common.d>
+
+1526420104 d:\dinrus\dev\dinrus\drc\src\drc\messages.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\doc\parser.d
+	<drc/lexer/Funcs.d>
+	<drc/Unicode.d>
+	<common.d>
+
+1488388835 source:d:\dinrus\dev\dinrus\drc\src\drc\enums.d
+	<common.d>
+
+1486731918 source:d:\dinrus\dev\dinrus\drc\src\drc\filebom.d
+	<common.d>
+
+1482068318 source:d:\dinrus\dev\dinrus\drc\src\drc\htmlentities.d
+	<common.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\information.d
+	<drc/Messages.d>
+	<common.d>
+	<drc/Location.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\funcs.d
+
+1486234273 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\identifier.d
+	<common.d>
+
+1486234364 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\identsenum.d
+	<drc/lexer/IdentsGenerator.d>
+
+1526420106 d:\dinrus\dev\dinrus\drc\src\drc\lexer\identsgenerator.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\idtable.d
+	<common.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\keywords.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\lexer.d
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<drc/HtmlEntities.d>
+	<drc/CompilerInfo.d>
+	<drc/Unicode.d>
+	<drc/SourceText.d>
+	<drc/Time.d>
+	<common.d>
+	<core/Vararg.d>
+	<drc/lexer/Funcs.d>
+
+1482068318 d:\dinrus\dev\dinrus\drc\src\drc\htmlentities.d
+
+1526394016 d:\dinrus\dev\dinrus\drc\src\drc\compilerinfo.d
+	<drc/Version.d>
+
+1486248556 d:\dinrus\dev\dinrus\drc\src\drc\version.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\token.d
+	<drc/Location.d>
+	<exception.d>
+	<common.d>
+	<drc/lexer/TokensEnum.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\tokensenum.d
+	<common.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\location.d
+	<drc/lexer/Funcs.d>
+	<drc/Unicode.d>
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\modulemanager.d
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<common.d>
+
+1488389026 source:d:\dinrus\dev\dinrus\drc\src\drc\parser\importparser.d
+	<drc/parser/Parser.d>
+	<drc/SourceText.d>
+	<drc/Enums.d>
+	<common.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\analysis.d
+	<drc/semantic/Scope.d>
+	<drc/lexer/IdTable.d>
+	<drc/Compilation.d>
+	<common.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\semantic\scope.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\module.d
+	<drc/parser/Parser.d>
+	<drc/Location.d>
+	<drc/Messages.d>
+	<drc/Diagnostics.d>
+	<drc/SourceText.d>
+	<common.d>
+	<io/FilePath.d>
+	<io/model.d>
+	<_.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\package.d
+	<drc/lexer/IdTable.d>
+	<common.d>
+
+1488389026 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\pass1.d
+	<drc/lexer/IdTable.d>
+	<drc/Compilation.d>
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<drc/Enums.d>
+	<drc/CompilerInfo.d>
+	<common.d>
+	<io/model.d>
+	<edModule.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\pass2.d
+	<drc/lexer/Identifier.d>
+	<drc/code/Interpreter.d>
+	<drc/parser/Parser.d>
+	<drc/SourceText.d>
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<drc/Enums.d>
+	<drc/CompilerInfo.d>
+	<common.d>
+
+1486731020 d:\dinrus\dev\dinrus\drc\src\drc\code\interpreter.d
+
+1488389026 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\passes.d
+	<drc/lexer/IdTable.d>
+	<drc/parser/Parser.d>
+	<drc/code/Interpreter.d>
+	<drc/Compilation.d>
+	<drc/SourceText.d>
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<drc/Enums.d>
+	<drc/CompilerInfo.d>
+	<common.d>
+	<edModule.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\scope.d
+	<drc/lexer/Identifier.d>
+	<common.d>
+
+1486229423 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\symbol.d
+	<drc/ast/Node.d>
+	<drc/lexer/Identifier.d>
+	<common.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\symbols.d
+	<drc/lexer/IdTable.d>
+	<drc/Enums.d>
+	<common.d>
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\symboltable.d
+	<drc/semantic/Symbol.d>
+	<drc/lexer/Identifier.d>
+	<common.d>
+
+1486229423 d:\dinrus\dev\dinrus\drc\src\drc\semantic\symbol.d
+
+1486731020 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\types.d
+	<drc/lexer/Identifier.d>
+	<drc/CompilerInfo.d>
+	<common.d>
+
+1486231056 source:d:\dinrus\dev\dinrus\drc\src\drc\semantic\typesenum.d
+
+1486731019 source:d:\dinrus\dev\dinrus\drc\src\drc\sourcetext.d
+	<drc/Converter.d>
+	<drc/Diagnostics.d>
+	<drc/Messages.d>
+	<common.d>
+
+1422006632 source:d:\dinrus\dev\dinrus\drc\src\drc\time.d
+
+1482070680 source:d:\dinrus\dev\dinrus\drc\src\drc\translator\german.d
+	<io/stream/Format.d>
+
+1482072609 source:d:\dinrus\dev\dinrus\drc\src\drc\unicode.d
+
+1486248556 source:d:\dinrus\dev\dinrus\drc\src\drc\version.d
+
+1512500740 source:d:\dinrus\dev\dinrus\drc\src\main.d
+	<drc/parser/Parser.d>
+	<drc/code/Interpreter.d>
+	<drc/translator/German.d>
+	<drc/Messages.d>
+	<drc/CompilerInfo.d>
+	<drc/Diagnostics.d>
+	<drc/SourceText.d>
+	<drc/Compilation.d>
+	<cmd/Compile.d>
+	<cmd/Highlight.d>
+	<cmd/Statistics.d>
+	<cmd/ImportGraph.d>
+	<cmd/DDoc.d>
+	<Settings.d>
+	<SettingsLoader.d>
+	<common.d>
+	<text/convert/Integer.d>
+	<cidrus.d>
+	<io/File.d>
+	<text/Util.d>
+	<time/StopWatch.d>
+
+1482070680 d:\dinrus\dev\dinrus\drc\src\drc\translator\german.d
+
+1422176180 d:\dinrus\dev\dinrus\drc\src\cmd\compile.d
+
+1488389733 d:\dinrus\dev\dinrus\drc\src\cmd\statistics.d
+
+1488389673 d:\dinrus\dev\dinrus\drc\src\cmd\importgraph.d
+
+1488389192 d:\dinrus\dev\dinrus\drc\src\cmd\ddoc.d
+
+1511942870 source:d:\dinrus\dev\dinrus\drc\src\settings.d
+	<common.d>
+
+1515444670 source:d:\dinrus\dev\dinrus\drc\src\settingsloader.d
+	<drc/Messages.d>
+	<drc/Diagnostics.d>
+	<drc/Compilation.d>
+	<Settings.d>
+	<common.d>
+	<io/FilePath.d>
+	<sys/Environment.d>
+
+1482072609 source:d:\dinrus\dev\dinrus\drc\src\util\uni.d
+
+1526394016 source:d:\dinrus\dev\dinrus\drc\src\drc\compilerinfo.d
+	<drc/Version.d>
+
+1526394009 source:d:\dinrus\dev\dinrus\drc\src\drc\converter.d
+	<drc/lexer/Funcs.d>
+	<drc/Diagnostics.d>
+	<drc/Location.d>
+	<drc/Unicode.d>
+	<drc/FileBOM.d>
+	<drc/Messages.d>
+	<common.d>
+
+1486731918 d:\dinrus\dev\dinrus\drc\src\drc\filebom.d
+
+1526420106 source:d:\dinrus\dev\dinrus\drc\src\drc\lexer\identsgenerator.d
+
+1526420104 source:d:\dinrus\dev\dinrus\drc\src\drc\messages.d
+	<common.d>
+
+1526420107 source:d:\dinrus\dev\dinrus\drc\src\drc\parser\parser.d
+	<drc/Messages.d>
+	<drc/Diagnostics.d>
+	<drc/Enums.d>
+	<drc/CompilerInfo.d>
+	<drc/SourceText.d>
+	<drc/Unicode.d>
+	<common.d>
+	<core/Vararg.d>
+

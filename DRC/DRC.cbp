@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DRC" />
+		<Option pch_mode="2" />
+		<Option compiler="dmd" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/DRC" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="dmd" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-debug" />
+					<Add directory="src" />
+					<Add directory="../../../imp/dinrus" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/DRC" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="dmd" />
+				<Compiler>
+					<Add option="-O" />
+					<Add directory="src" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Unit filename="src/Settings.d" />
+		<Unit filename="src/SettingsLoader.d" />
+		<Unit filename="src/cmd/ASTStats.d" />
+		<Unit filename="src/cmd/Compile.d" />
+		<Unit filename="src/cmd/DDoc.d" />
+		<Unit filename="src/cmd/DDocEmitter.d" />
+		<Unit filename="src/cmd/DDocHTML.d" />
+		<Unit filename="src/cmd/DDocXML.d" />
+		<Unit filename="src/cmd/Highlight.d" />
+		<Unit filename="src/cmd/ImportGraph.d" />
+		<Unit filename="src/cmd/Statistics.d" />
+		<Unit filename="src/common.d" />
+		<Unit filename="src/drc/Compilation.d" />
+		<Unit filename="src/drc/CompilerInfo.d" />
+		<Unit filename="src/drc/Converter.d" />
+		<Unit filename="src/drc/Diagnostics.d" />
+		<Unit filename="src/drc/Enums.d" />
+		<Unit filename="src/drc/FileBOM.d" />
+		<Unit filename="src/drc/HtmlEntities.d" />
+		<Unit filename="src/drc/Information.d" />
+		<Unit filename="src/drc/Location.d" />
+		<Unit filename="src/drc/Messages.d" />
+		<Unit filename="src/drc/ModuleManager.d" />
+		<Unit filename="src/drc/SourceText.d" />
+		<Unit filename="src/drc/Time.d" />
+		<Unit filename="src/drc/Unicode.d" />
+		<Unit filename="src/drc/Version.d" />
+		<Unit filename="src/drc/ast/Declaration.d" />
+		<Unit filename="src/drc/ast/Declarations.d" />
+		<Unit filename="src/drc/ast/DefaultVisitor.d" />
+		<Unit filename="src/drc/ast/Expression.d" />
+		<Unit filename="src/drc/ast/Expressions.d" />
+		<Unit filename="src/drc/ast/Node.d" />
+		<Unit filename="src/drc/ast/NodeCopier.d" />
+		<Unit filename="src/drc/ast/NodeMembers.d" />
+		<Unit filename="src/drc/ast/NodesEnum.d" />
+		<Unit filename="src/drc/ast/Parameters.d" />
+		<Unit filename="src/drc/ast/Statement.d" />
+		<Unit filename="src/drc/ast/Statements.d" />
+		<Unit filename="src/drc/ast/Type.d" />
+		<Unit filename="src/drc/ast/Types.d" />
+		<Unit filename="src/drc/ast/Visitor.d" />
+		<Unit filename="src/drc/code/Interpreter.d" />
+		<Unit filename="src/drc/doc/Doc.d" />
+		<Unit filename="src/drc/doc/Macro.d" />
+		<Unit filename="src/drc/doc/Parser.d" />
+		<Unit filename="src/drc/lexer/Funcs.d" />
+		<Unit filename="src/drc/lexer/IdTable.d" />
+		<Unit filename="src/drc/lexer/Identifier.d" />
+		<Unit filename="src/drc/lexer/IdentsEnum.d" />
+		<Unit filename="src/drc/lexer/IdentsGenerator.d" />
+		<Unit filename="src/drc/lexer/Keywords.d" />
+		<Unit filename="src/drc/lexer/Lexer.d" />
+		<Unit filename="src/drc/lexer/Token.d" />
+		<Unit filename="src/drc/lexer/TokensEnum.d" />
+		<Unit filename="src/drc/parser/ImportParser.d" />
+		<Unit filename="src/drc/parser/Parser.d" />
+		<Unit filename="src/drc/semantic/Analysis.d" />
+		<Unit filename="src/drc/semantic/Module.d" />
+		<Unit filename="src/drc/semantic/Package.d" />
+		<Unit filename="src/drc/semantic/Pass1.d" />
+		<Unit filename="src/drc/semantic/Pass2.d" />
+		<Unit filename="src/drc/semantic/Passes.d" />
+		<Unit filename="src/drc/semantic/Scope.d" />
+		<Unit filename="src/drc/semantic/Symbol.d" />
+		<Unit filename="src/drc/semantic/SymbolTable.d" />
+		<Unit filename="src/drc/semantic/Symbols.d" />
+		<Unit filename="src/drc/semantic/Types.d" />
+		<Unit filename="src/drc/semantic/TypesEnum.d" />
+		<Unit filename="src/drc/translator/German.d" />
+		<Unit filename="src/main.d" />
+		<Unit filename="src/util/uni.d" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

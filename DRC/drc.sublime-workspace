@@ -1,0 +1,372 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "/// Author: Aziz Köksal\n/// License: GPL3\n/// $(Maturity average)\nmodule Settings;\n\nimport common;\n\n/// Глобальные настройки приложения.\nstruct ГлобальныеНастройки\n{\nstatic:\n  /// Путь к папке с данными.\n  ткст папкаСДанными = \"data\";\n  /// Предопределенные идентификаторы версии.\n  ткст[] идыВерсий;\n  /// Путь к файлу языка.\n  ткст файлЯзыка = \"lang.d\";\n  /// Код языка загруженного каталога сообщений.\n  ткст кодЯзыка = \"ru\";\n  /// Таблица локализованных сообщений компилятора.\n  ткст[] сообщения;\n  /// Массив путей импорта для поиска модулей.\n  ткст[] путиИмпорта;\n  /// Массив путей к макросам Ддок.\n  ткст[] путиКФайлуДдок;\n  ткст файлКартыРЯР = \"xml_map.d\"; /// Файл карты РЯР(XML).\n  ткст файлКартыГЯР = \"html_map.d\"; /// Фацл карты ГЯР(HTML).\n  ткст форматОшибкиЛексера = \"{0}({1},{2})L: {3}\"; /// Ошибка лексера.\n  ткст форматОшибкиПарсера = \"{0}({1},{2})P: {3}\"; /// Ошибка парсера.\n  ткст форматОшибкиСемантики = \"{0}({1},{2})S: {3}\"; /// Семантическая ошибка.\n  бцел ширинаТаб = 4; /// Ширина табулятора символа.\n}\n",
+			"file": "src/Settings.d",
+			"file_size": 1581,
+			"file_write_time": 131564164701406250,
+			"settings":
+			{
+				"buffer_size": 1029,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/drc/Compilation.d",
+			"settings":
+			{
+				"buffer_size": 1363,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/drc/ast/Statements.d",
+			"settings":
+			{
+				"buffer_size": 11805,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/drc/CompilerInfo.d",
+			"settings":
+			{
+				"buffer_size": 569,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "/// Author: Aziz Köksal\n/// License: GPL3\n/// $(Maturity very high)\nmodule drc.Converter;\n\nimport drc.lexer.Funcs;\nimport drc.Diagnostics;\nimport drc.Location;\nimport drc.Unicode;\nimport drc.FileBOM;\nimport drc.Messages;\nimport common;\n\n/// Преобразует различные форматы кодировки Unicode в UTF-8.\nstruct Преобразователь\n{\n  ткст путьКФайлу; /// Для сообщений об ошибках.\n  Диагностика диаг;\n\n  static Преобразователь opCall(ткст путьКФайлу, Диагностика диаг)\n  {\n    Преобразователь конв;\n    конв.путьКФайлу = путьКФайлу;\n    конв.диаг = диаг;\n    return конв;\n  }\n\n  /// Байт-swaps c.\n  дим инвертироватьБайты(дим c)\n  {\n    return c = (c << 24) |\n               (c >> 24) |\n              ((c >> 8) & 0xFF00) |\n              ((c << 8) & 0xFF0000);\n  }\n\n  /// Байт-swaps c.\n  шим инвертироватьБайты(шим c)\n  {\n    return (c << 8) | (c >> 8);\n  }\n\n  /// Swaps the bytes of c on a little-endian machine.\n  дим БЕВМашинноеДслово(дим c)\n  {\n    version(ЛитлЭндиан)\n      return инвертироватьБайты(c);\n    else\n      return c;\n  }\n\n  /// Swaps the bytes of c on a big-endian machine.\n  дим ЛЕВМашинноеДслово(дим c)\n  {\n    version(ЛитлЭндиан)\n      return c;\n    else\n      return инвертироватьБайты(c);\n  }\n\n  /// Swaps the bytes of c on a little-endian machine.\n  шим БЕВМашинноеСлово(шим c)\n  {\n    version(ЛитлЭндиан)\n      return инвертироватьБайты(c);\n    else\n      return c;\n  }\n\n  /// Swaps the bytes of c on a big-endian machine.\n  шим ЛЕВМашинноеСлово(шим c)\n  {\n    version(ЛитлЭндиан)\n      return c;\n    else\n      return инвертироватьБайты(c);\n  }\n\n  /// Преобразует текст в UTF-32 в UTF-8.\n  ткст УТФ32вУТФ8(бул БЕ_ли)(ббайт[] данные)\n  {\n    if (данные.length == 0)\n      return null;\n\n    ткст результат;\n    бцел номСтр = 1;\n    дим[] текст = cast(дим[]) данные[0 .. $-($%4)]; // Trim в multiple of 4.\n    foreach (дим c; текст)\n    {\n      static if (БЕ_ли)\n        c = БЕВМашинноеДслово(c);\n      else\n        c = ЛЕВМашинноеДслово(c);\n\n      if (!верноСимвол_ли(c))\n      {\n        диаг ~= new ОшибкаЛексера(\n          new Положение(путьКФайлу, номСтр),\n          Формат(сооб.НеверныйСимволУТФ32, c)\n        );\n        c = СИМ_ЗАМЕНЫ;\n      }\n\n      if (новСтр_ли(c))\n        ++номСтр;\n      drc.Unicode.кодируй(результат, c);\n    }\n\n    if (данные.length % 4)\n      диаг ~= new ОшибкаЛексера(\n        new Положение(путьКФайлу, номСтр),\n        сооб.ФайлУТФ32ДолженДелитьсяНа4\n      );\n\n    return результат;\n  }\n\n  alias УТФ32вУТФ8!(да) UTF32BEtoUTF8; /// Instantiation for UTF-32 BE.\n  alias УТФ32вУТФ8!(нет) UTF32LEtoUTF8; /// Instantiation for UTF-32 LE.\n\n  /// Converts a UTF-16 текст в UTF-8.\n  ткст УТФ16вУТФ8(бул БЕ_ли)(ббайт[] данные)\n  {\n    if (данные.length == 0)\n      return null;\n\n    шим[] текст = cast(шим[]) данные[0 .. $-($%2)]; // Trim в multiple of two.\n    шим* p = текст.ptr,\n         конец = текст.ptr + текст.length;\n    ткст результат;\n    бцел номСтр = 1;\n\n    for (; p < конец; p++)\n    {\n      дим c = *p;\n      static if (БЕ_ли)\n        c = БЕВМашинноеСлово(c);\n      else\n        c = ЛЕВМашинноеСлово(c);\n\n      if (0xD800 > c || c > 0xDFFF)\n      {}\n      else if (c <= 0xDBFF && p+1 < конец)\n      { // Decode surrogate пары.\n        шим c2 = p[1];\n        static if (БЕ_ли)\n          c2 = БЕВМашинноеСлово(c2);\n        else\n          c2 = ЛЕВМашинноеСлово(c2);\n\n        if (0xDC00 <= c2 && c2 <= 0xDFFF)\n        {\n          c = (c - 0xD7C0) << 10;\n          c |= (c2 & 0x3FF);\n          ++p;\n        }\n      }\n      else\n      {\n        диаг ~= new ОшибкаЛексера(\n          new Положение(путьКФайлу, номСтр),\n          Формат(сооб.НеверныйСимволУТФ16, c)\n        );\n        c = СИМ_ЗАМЕНЫ;\n      }\n\n      if (новСтр_ли(c))\n        ++номСтр;\n      drc.Unicode.кодируй(результат, c);\n    }\n\n    if (данные.length % 2)\n      диаг ~= new ОшибкаЛексера(\n        new Положение(путьКФайлу, номСтр),\n        сооб.ФайлУТФ16ДолженДелитьсяНа2\n      );\n    return результат;\n  }\n\n  alias УТФ16вУТФ8!(да) UTF16BEtoUTF8; /// Instantiation for UTF-16 BE.\n  alias УТФ16вУТФ8!(нет) UTF16LEtoUTF8; /// Instantiation for UTF-16 LE.\n\n  /// Converts the текст in данные в UTF-8.\n  /// Leaves данные unchanged if it is in UTF-8 already.\n  ткст данныеВУТФ8(ббайт[] данные)\n  {\n    if (данные.length == 0)\n      return \"\";\n\n    ткст текст;\n    МПБ мпб = опишиМПБ(данные);\n\n    switch (мпб)\n    {\n    case МПБ.Нет:\n      // No МПБ found. According в the specs the first символ\n      // must be an ASCII символ.\n      if (данные.length >= 4)\n      {\n        if (данные[0..3] == cast(ббайт[3])x\"00 00 00\")\n        {\n          текст = UTF32BEtoUTF8(данные); // UTF-32BE: 00 00 00 XX\n          break;\n        }\n        else if (данные[1..4] == cast(ббайт[3])x\"00 00 00\")\n        {\n          текст = UTF32LEtoUTF8(данные); // UTF-32LE: XX 00 00 00\n          break;\n        }\n      }\n      if (данные.length >= 2)\n      {\n        if (данные[0] == 0) // UTF-16BE: 00 XX\n        {\n          текст = UTF16BEtoUTF8(данные);\n          break;\n        }\n        else if (данные[1] == 0) // UTF-16LE: XX 00\n        {\n          текст = UTF16LEtoUTF8(данные);\n          break;\n        }\n      }\n      текст = cast(сим[])данные; // UTF-8\n      break;\n    case МПБ.Ю8:\n      текст = cast(сим[])данные[3..$];\n      break;\n    case МПБ.Ю16БЕ:\n      текст = UTF16BEtoUTF8(данные[2..$]);\n      break;\n    case МПБ.Ю16ЛЕ:\n      текст = UTF16LEtoUTF8(данные[2..$]);\n      break;\n    case МПБ.Ю32БЕ:\n      текст = UTF32BEtoUTF8(данные[4..$]);\n      break;\n    case МПБ.Ю32ЛЕ:\n      текст = UTF32LEtoUTF8(данные[4..$]);\n      break;\n    default:\n      assert(0);\n    }\n    return текст;\n  }\n}\n\n/// Replaces invalid UTF-8 sequences with U+FFFD (if there's enough space,)\n/// and Newlines with '\\n'.\nткст обеззаразьТекст(ткст текст)\n{\n  if (!текст.length)\n    return null;\n\n  сим* p = текст.ptr; // Reader.\n  сим* конец = p + текст.length;\n  сим* q = p; // Writer.\n\n  for (; p < конец; p++, q++)\n  {\n    assert(q <= p);\n    if (аски_ли(*p)) {\n      *q = *p; // Just копируй ASCII characters.\n      continue;\n    }\n    switch (*p)\n    {\n    case '\\r':\n      if (p+1 < конец && p[1] == '\\n')\n        p++;\n    case '\\n':\n      *q = '\\n'; // Copy newlines as '\\n'.\n      continue;\n    default:\n      if (p+2 < конец && новСтрЮ_ли(p))\n      {\n        p += 2;\n        goto case '\\n';\n      }\n\n      auto p2 = p; // Remember beginning of the UTF-8 sequence.\n      дим c = раскодируй(p, конец);\n\n      if (c == СИМ_ОШИБКИ)\n      { // Skip в следщ ASCII символ or valid UTF-8 sequence.\n        while (++p < конец && ведомыйБайт_ли(*p))\n        {}\n        alias СТР_ЗАМЕНЫ R;\n        if (q+2 < p) // Copy replacement сим if there is enough space.\n          (*q = R[0]), (*++q = R[1]), (*++q = R[2]);\n        p--;\n      }\n      else\n      { // Copy the valid UTF-8 sequence.\n        while (p2 < p) // p points в one past the last trail байт.\n          *q++ = *p2++; // Copy код units.\n        q--;\n        p--;\n      }\n    }\n  }\n  assert(p == конец);\n  текст.length = q - текст.ptr;\n  return текст;\n}\n\nunittest\n{\n  выдай(\"Тестируется функция Преобразователь.\\n\");\n  struct Data2Text\n  {\n    ткст текст;\n    ткст ожидаемое = \"source\";\n    ббайт[] данные()\n    { return cast(ббайт[])текст; }\n  }\n  const Data2Text[] карта = [\n    // Without МПБ\n    {\"source\"},\n    {\"s\\0o\\0u\\0r\\0c\\0e\\0\"},\n    {\"\\0s\\0o\\0u\\0r\\0c\\0e\"},\n    {\"s\\0\\0\\0o\\0\\0\\0u\\0\\0\\0r\\0\\0\\0c\\0\\0\\0e\\0\\0\\0\"},\n    {\"\\0\\0\\0s\\0\\0\\0o\\0\\0\\0u\\0\\0\\0r\\0\\0\\0c\\0\\0\\0e\"},\n    // Для МПБ\n    {\"\\xEF\\xBB\\xBFsource\"},\n    {\"\\xFE\\xFF\\0s\\0o\\0u\\0r\\0c\\0e\"},\n    {\"\\xFF\\xFEs\\0o\\0u\\0r\\0c\\0e\\0\"},\n    {\"\\x00\\x00\\xFE\\xFF\\0\\0\\0s\\0\\0\\0o\\0\\0\\0u\\0\\0\\0r\\0\\0\\0c\\0\\0\\0e\"},\n    {\"\\xFF\\xFE\\x00\\x00s\\0\\0\\0o\\0\\0\\0u\\0\\0\\0r\\0\\0\\0c\\0\\0\\0e\\0\\0\\0\"},\n  ];\n  auto конвертер = Преобразователь(\"\", new Диагностика);\n  foreach (i, пара; карта)\n    assert(конвертер.данныеВУТФ8(пара.данные) == пара.ожидаемое, Формат(\"failed at item {}\", i));\n}\n",
+			"file": "src/drc/Converter.d",
+			"file_size": 9739,
+			"file_write_time": 131312046197978515,
+			"settings":
+			{
+				"buffer_size": 7848,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/dinrus/dev/DINRUS/DRC/src",
+		"/D/dinrus/dev/DINRUS/DRC/src/drc",
+		"/D/dinrus/dev/DINRUS/DRC/src/drc/ast",
+		"/D/dinrus/dev/DINRUS/DRC/src/drc/code",
+		"/D/dinrus/dev/DINRUS/DRC/src/drc/doc",
+		"/D/dinrus/dev/DINRUS/DRC/src/drc/semantic",
+		"/D/dinrus/dev/DINRUS/DRC/src/util"
+	],
+	"file_history":
+	[
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/Settings.d",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1029,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								751,
+								751
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/D/D.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/drc/Compilation.d",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1363,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/D/D.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/drc/ast/Statements.d",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 11805,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								364,
+								378
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/D/D.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7650.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/drc/CompilerInfo.d",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 569,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/D/D.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/drc/Converter.d",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7848,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7122,
+								7122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/D/D.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4680.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "drc.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 214.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
