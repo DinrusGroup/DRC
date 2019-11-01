@@ -1,9 +1,6 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity average)
 module drc.Diagnostics;
 
-public import drc.Information;
+public import drc.Infилиmation;
 
 /// Собирает диагностическую информацию о процессе компиляции.
 class Диагностика

@@ -80,7 +80,7 @@ Example:
   "unterminated string literal.",
   // x""
   "non-hex character '{0}' found in hex string.",
-  "odd number of hex digits in hex string.",
+  "odd number of hex цифры in hex string.",
   "unterminated hex string.",
   // /* */ /+ +/
   "unterminated block comment (/* */).",
@@ -91,7 +91,7 @@ Example:
   // \x \u \U
   "found undefined escape sequence '{0}'.",
   "found invalid Unicode escape sequence '{0}'.",
-  "insufficient number of hex digits in escape sequence: '{0}'",
+  "insufficient number of hex цифры in escape sequence: '{0}'",
   // \&[a-zA-Z][a-zA-Z0-9]+;
   "undefined HTML entity '{0}'",
   "unterminated HTML entity '{0}'.",
@@ -103,7 +103,7 @@ Example:
   "overflow in binary number.",
   "overflow in octal number.",
   "overflow in float number.",
-  "digits 8 and 9 are not allowed in octal numbers.",
+  "цифры 8 and 9 are not allowed in octal numbers.",
   "invalid hex number; at least one hex digit expected.",
   "invalid binary number; at least one binary digit expected.",
   "the exponent of a hexadecimal float number is required.",

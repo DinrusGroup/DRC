@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity average)
 module drc.semantic.Scope;
@@ -12,9 +12,9 @@ import common;
 /// Выполняет построение иерархии сред.
 class Масштаб
 {
-  Масштаб родитель; /// The surrounding Масштаб, or null if this is the корень Масштаб.
+  Масштаб родитель; /// The surrounding Масштаб, или пусто if this is the корень Масштаб.
 
-  СимволМасштаба символ; /// The current символ with the символ таблица.
+  СимволМасштаба символ; /// The current символ with the таблицу символов.
 
   this(Масштаб родитель, СимволМасштаба символ)
   {
@@ -39,7 +39,7 @@ class Масштаб
     for (auto sc = this; sc; sc = sc.родитель)
     {
       символ = sc.сыщи(имя);
-      if (символ !is null)
+      if (символ !is пусто)
         break;
     }
     return символ;
@@ -48,14 +48,14 @@ class Масштаб
   /// Searches for a символ in this Масштаб and all включающий scopes.
   /// Параметры:
   ///   имя = the имя of the символ.
-  ///   ignoreSymbol = the символ that must be пропустиped.
-  Символ ищи(Идентификатор* имя, Символ ignoreSymbol)
+  ///   ignилиeSymbol = the символ that must be пропустиped.
+  Символ ищи(Идентификатор* имя, Символ ignилиeSymbol)
   {
     Символ символ;
     for (auto sc = this; sc; sc = sc.родитель)
     {
       символ = sc.сыщи(имя);
-      if (символ !is null && символ !is ignoreSymbol)
+      if (символ !is пусто && символ !is ignилиeSymbol)
         break;
     }
     return символ;
@@ -85,7 +85,7 @@ class Масштаб
         return масш;
       масш = масш.родитель;
     } while (масш)
-    return null;
+    return пусто;
   }
 
   /// Находит Масштаб включающего Модуля.
@@ -98,6 +98,6 @@ class Масштаб
         return масш;
       масш = масш.родитель;
     } while (масш)
-    return null;
+    return пусто;
   }
 }

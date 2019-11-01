@@ -1,6 +1,3 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity high)
 module drc.lexer.Identifier;
 
 import drc.lexer.TokensEnum,
@@ -16,7 +13,7 @@ import common;
 ///  Буква := ЮАльфа
 /// )
 /// See_Also:
-///  Алфавитные символы Unicode определены в Unicode 5.0.0.
+///  Алфавитные символы Юникод определены в Юникод 5.0.0.
 align(1)
 struct Идентификатор
 {
@@ -44,9 +41,9 @@ struct Идентификатор
   бцел вХэш()
   {
     бцел хэш;
-    foreach(c; ткт) {
+    foreach(с; ткт) {
       хэш *= 11;
-      хэш += c;
+      хэш += с;
     }
     return хэш;
   }

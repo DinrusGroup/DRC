@@ -1,6 +1,3 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity very high)
 module drc.FileBOM;
 
 import common;
@@ -52,15 +49,15 @@ enum МПБ
 
 unittest
 {
-  выдай("Testing function опишиМПБ().\n");
+  выдай("Тестируется функция опишиМПБ().\n");
 
-  struct Data2МПБ
+  struct Данные_в_МПБ
   {
     ббайт[] данные;
     МПБ мпб;
   }
   alias ббайт[] бб;
-  const Data2МПБ[] карта = [
+  const Данные_в_МПБ[] карта = [
     {cast(бб)x"12",          МПБ.Нет},
     {cast(бб)x"12 34",       МПБ.Нет},
     {cast(бб)x"00 00 FF FE", МПБ.Нет},

@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity average)
 module cmd.Highlight;
@@ -70,21 +70,21 @@ struct КомандаВыделить
   }
 }
 
-/// Escapes the characters '<', '>' and '&' with named символ entities.
+/// Escapes the characters '<', '>' and '&' with Имяd символ entities.
 ткст xml_escape(ткст текст)
 {
   ткст результат;
-  foreach(c; текст)
-    switch(c)
+  foreach(с; текст)
+    switch(с)
     {
       case '<': результат ~= "&тк;";  break;
       case '>': результат ~= "&gt;";  break;
       case '&': результат ~= "&amp;"; break;
-      default:  результат ~= c;
+      default:  результат ~= с;
     }
   if (результат.length != текст.length)
     return результат;
-  // Nothing escaped. Итог original текст.
+  // Nothing escaped. Итог илиiginal текст.
   delete результат;
   return текст;
 }
@@ -108,14 +108,14 @@ class КартаТегов
     NestedC      = this["NestedC", "{0}"];
     Шебанг      = this["Шебанг", "{0}"];
     HLine        = this["HLine", "{0}"];
-    Filespec     = this["Filespec", "{0}"];
+    Файлспец     = this["Файлспец", "{0}"];
     Нелегал      = this["Нелегал", "{0}"];
     Новстр      = this["НовСтр", "{0}"];
     ОсобаяСема = this["ОсобаяСема", "{0}"];
     Декларация  = this["Декларация", "d"];
     Инструкция    = this["Инструкция", "s"];
     Выражение   = this["Выражение", "в"];
-    Тип         = this["Тип", "t"];
+    Тип         = this["Тип", "т"];
     Иное        = this["Иное", "o"];
     КФ          = this["КФ", ""];
 
@@ -124,12 +124,12 @@ class КартаТегов
         tokenTable[i] = *pStr;
   }
 
-  /// Возвращает значение for ткт, or 'fallback' if ткт is not in the таблица.
+  /// Возвращает значение for ткт, или 'fallback' if ткт is not in the таблица.
   ткст opIndex(ткст ткт, ткст fallback = "")
   {
-    auto p = ткт in таблица;
-    if (p)
-      return *p;
+    auto у = ткт in таблица;
+    if (у)
+      return *у;
     return fallback;
   }
 
@@ -139,9 +139,9 @@ class КартаТегов
     return tokenTable[лекс];
   }
 
-  /// Shortcuts for quick access.
+  /// Shилиtcuts for quick access.
   ткст Идентификатор, Ткст, Сим, Число, КСлово, LineC, BlockC,
-         NestedC, Шебанг, HLine, Filespec, Нелегал, Новстр, ОсобаяСема,
+         NestedC, Шебанг, HLine, Файлспец, Нелегал, Новстр, ОсобаяСема,
          Декларация, Инструкция, Выражение, Тип, Иное, КФ;
 
   /// Возвращает тэг for the категория 'nc'.
@@ -162,25 +162,25 @@ class КартаТегов
 }
 
 /// Find the last occurrence of объект in субъект.
-/// Возвращает: the индекс if found, or -1 if not.
+/// Возвращает: the индекс if found, или -1 if not.
 цел rfind(ткст субъект, сим объект)
 {
-  foreach_reverse(i, c; субъект)
-    if (c == объект)
+  foreach_reverse(i, с; субъект)
+    if (с == объект)
       return i;
   return -1;
 }
 
 /// Возвращает крат class имя of a class descending из Узел.$(BR)
-/// E.g.: drc.ast.Declarations.ДекларацияКласса -> Класс
+/// Напр.: drc.ast.Declarations.ДекларацияКласса -> Класс
 ткст дайКраткоеИмяКласса(Узел узел)
 {
-  static сим[][] name_table;
-  if (name_table is null)
-    name_table = new сим[][ВидУзла.max+1]; // Create a new таблица.
+  static сим[][] Имя_table;
+  if (Имя_table is пусто)
+    Имя_table = new сим[][ВидУзла.max+1]; // Create a new таблица.
   // Look up in таблица.
-  ткст имя = name_table[узел.вид];
-  if (имя !is null)
+  ткст имя = Имя_table[узел.вид];
+  if (имя !is пусто)
     return имя; // Итог cached имя.
 
   имя = узел.classinfo.имя; // Get the fully qualified имя of the class.
@@ -209,8 +209,8 @@ class КартаТегов
   }
   // Remove common суффикс.
   имя = имя[0 .. $ - suffixLength];
-  // Store the имя in the таблица.
-  name_table[узел.вид] = имя;
+  // Stилиe the имя in the таблица.
+  Имя_table[узел.вид] = имя;
   return имя;
 }
 
@@ -240,26 +240,26 @@ class TokenExBuilder : ДефолтныйВизитёр
     foreach (ref tokEx; toks)
     {
       tokEx.сема = сема;
-      if (!сема.пробел_ли)
+      if (!сема.пробел)
         tokenTable[сема] = &tokEx;
       сема = сема.следщ;
     }
 
     super.посетиУ(корень);
-    tokenTable = null;
+    tokenTable = пусто;
     return toks;
   }
 
-  TokenEx* getTokenEx()(Сема* t)
+  TokenEx* getTokenEx()(Сема* т)
   {
-    auto p = t in tokenTable;
-    assert(p, t.исхТекст~" is not in tokenTable");
-    return *p;
+    auto у = т in tokenTable;
+    assert(у, т.исхТекст~" is not in tokenTable");
+    return *у;
   }
 
   // Перепись отправь function.
   override Узел отправь(Узел n)
-  { assert(n !is null);
+  { assert(n !is пусто);
     auto начало = n.начало;
     if (начало)
     { assert(n.конец);
@@ -286,9 +286,9 @@ class TokenExBuilder : ДефолтныйВизитёр
 
 проц  printLines(бцел lines, КартаТегов тэги, Print print)
 {
-  auto lineNumberFormat = тэги["НомерСтроки"];
-  for (auto номСтр = 1; номСтр <= lines; номСтр++)
-    print.форматируй(lineNumberFormat, номСтр);
+  auto lineNumberFилиmat = тэги["НомерСтроки"];
+  for (auto номерСтроки = 1; номерСтроки <= lines; номерСтроки++)
+    print.форматируй(lineNumberFилиmat, номерСтроки);
 }
 
 /// Highlights the syntax in a source file.
@@ -315,7 +315,7 @@ class TokenExBuilder : ДефолтныйВизитёр
   if (опции & КомандаВыделить.Опция.ВыводСтрок)
   {
     print(тэги["НачалоНомераСтроки"]);
-    printLines(lx.номСтр, тэги, print);
+    printLines(lx.номерСтроки, тэги, print);
     print(тэги["КонецНомераСтроки"]);
   }
 
@@ -330,7 +330,7 @@ class TokenExBuilder : ДефолтныйВизитёр
     auto сема = tokenEx.сема;
 
     сема.пп && print(сема.пробСимволы); // Print preceding whitespace.
-    if (сема.пробел_ли) {
+    if (сема.пробел) {
       printToken(сема, тэги, print);
       continue;
     }
@@ -370,7 +370,7 @@ class TokenExBuilder : ДефолтныйВизитёр
   if (опции & КомандаВыделить.Опция.ВыводСтрок)
   {
     print(тэги["НачалоНомераСтроки"]);
-    printLines(lx.номСтр, тэги, print);
+    printLines(lx.номерСтроки, тэги, print);
     print(тэги["КонецНомераСтроки"]);
   }
 
@@ -408,7 +408,7 @@ class ПодсветчикСем
     lx.сканируйВсе();
 
     // Traverse linked список and print семы.
-    print("$(D_CODE\n");
+    print("$(D_Код\n");
     if (lx.ошибки.length)
     { // Output ошибка сообщения.
       // FIXME: CompBegin and CompEnd break the таблица layout.
@@ -459,7 +459,7 @@ class ПодсветчикСем
   case TOK.Шебанг:
     print.форматируй(тэги.Шебанг, xml_escape(сема.исхТекст));
     break;
-  case TOK.HashLine:
+  case TOK.ХэшСтрочка:
     auto formatStr = тэги.HLine;
     // The текст в be inserted into formatStr.
     auto буфер = объБуферРоста;
@@ -470,23 +470,23 @@ class ПодсветчикСем
       старт != конец && print2(старт[0 .. конец - старт]);
     }
 
-    auto чис = сема.tokLineNum;
-    if (чис is null)
-    { // Malformed #line
+    auto чис = сема.номСтрокиСем;
+    if (чис is пусто)
+    { // Malfилиmed #line
       print.форматируй(formatStr, сема.исхТекст);
       break;
     }
 
     // Print whitespace between #line and число.
-    выводитьШС(сема.старт, чис.старт); // Prints "#line" as well.
+    выводитьШС(сема.старт, чис.старт); // Prints "#line" также.
     printToken(чис, тэги, print2); // Print the число.
 
-    if (auto filespec = сема.tokLineFilespec)
+    if (auto filespec = сема.семаФайлспецСтроки)
     { // Print whitespace between число and filespec.
       выводитьШС(чис.конец, filespec.старт);
-      print2.форматируй(тэги.Filespec, xml_escape(filespec.исхТекст));
+      print2.форматируй(тэги.Файлспец, xml_escape(filespec.исхТекст));
     }
-    // Finally print the whole сема.
+    // ВИтоге print the whole сема.
     print.форматируй(formatStr, cast(сим[])буфер.срез());
     break;
   case TOK.Нелегал:
@@ -499,9 +499,9 @@ class ПодсветчикСем
     print(тэги.КФ);
     break;
   default:
-    if (сема.кслово_ли())
+    if (сема.кслово())
       print.форматируй(тэги.КСлово, сема.исхТекст);
-    else if (сема.спецСема_ли)
+    else if (сема.спецСема)
       print.форматируй(тэги.ОсобаяСема, сема.исхТекст);
     else
       print(тэги[сема.вид]);

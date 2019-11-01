@@ -1,10 +1,7 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity very high)
 module drc.ast.NodeCopier;
 
 import drc.ast.NodesEnum,
-       drc.ast.NodeMembers;
+       drc.ast.NodeЧленs;
 
 import common;
 
@@ -47,25 +44,25 @@ private ткст создайКод(ткст[] члены)
     auto имя = m[0], тип = m[1];
     switch (тип)
     {
-    case "": // Copy a член, must not be null.
+    case "": // Копировать член, не должно быть пусто.
       // n.член = n.член.копируй();
       код ~= "n."~имя~" = n."~имя~".копируй();"\n;
       break;
-    case "?": // Copy a член, may be null.
+    case "?": // Копировать член, может быть пусто.
       // n.член && (n.член = n.член.копируй());
       код ~= "n."~имя~" && (n."~имя~" = n."~имя~".копируй());"\n;
       break;
-    case "[]": // Copy an массив of nodes.
+    case "[]": // Копировать массив узлов.
       код ~= "n."~имя~" = n."~имя~".dup;"\n // n.член = n.член.dup;
               "foreach (ref x; n."~имя~")"\n  // foreach (ref x; n.член)
               "  x = x.копируй();\n";             //   x = x.копируй();
       break;
-    case "[?]": // Copy an массив of nodes, элементы may be null.
+    case "[?]": // Копировать массив узлов, элементы могут быть пусто.
       код ~= "n."~имя~" = n."~имя~".dup;"\n // n.член = n.член.dup;
               "foreach (ref x; n."~имя~")"\n  // foreach (ref x; n.член)
               "  x && (x = x.копируй());\n";      //   x && (x = x.копируй());
       break;
-    case "%": // Copy код verbatim.
+    case "%": // Копировать код verbatim.
       код ~= имя ~ \n;
       break;
     default:
@@ -77,23 +74,23 @@ private ткст создайКод(ткст[] члены)
 
 // pragma(сооб, создайКод(["выр?", "деклы[]", "тип"]));
 
-/// Generates код for copying a узел.
+/// Генерирует код для копирования узла.
 ткст генКодКопию(ВидУзла видУзла)
 {
-  ткст[] m; // Array of член имена в be copied.
+  ткст[] m; // Массив имён копируемых членов.
 
-  // Handle special cases.
+  // Обработка особых случаев.
   if (видУзла == ВидУзла.ТекстовоеВыражение)
     m = ["%n.ткт = n.ткт.dup;"];
   else
-    // Look up члены for this вид of узел in the таблица.
+    // Поиск членов для данного вида узла в таблице.
     m = г_таблицаЧленов[видУзла];
 
   ткст код =
-  // First do a shallow копируй.
+  // Вначале сделать shallow копию.
   "auto n = cast(т_этот)cast(ук)this.dup;\n";
 
-  // Then копируй the члены.
+  // Затем скопировать члены.
   if (m.length)
     код ~= создайКод(m);
 

@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity high)
 module drc.semantic.TypesEnum;
@@ -47,7 +47,7 @@ enum ТИП
   Делегат,   /// A delegate.
   Указатель,    /// A pointer.
   Ссылка,  /// A reference.
-  Идентификатор, /// An identifier.
+  Идентификатор, /// An идентификатор.
   ШЭкземпляр,  /// Шаблон instance.
   Кортеж,      /// A template tuple.
   Конст,      /// A constant тип. D2.0

@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity high)
 module cmd.DDocEmitter;
@@ -51,10 +51,10 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// Метод ввода.
   ткст выдать()
   {
-    if (isDDocFile(модуль))
+    if (файлДДок(модуль))
     { // Модуль действительно является текстовым файлом DDoc.
-      auto c = УтилитыДДок.дайКомментарийДДок(дайТекстДДок(модуль));
-      foreach (s; c.резделы)
+      auto с = УтилитыДДок.дайКомментарийДДок(дайТекстДДок(модуль));
+      foreach (s; с.резделы)
       {
         if (s.Является("макрос"))
         { // E этой секции декларируется макрос.
@@ -80,14 +80,14 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     return текст;
   }
 
-  /// Returns да if the source текст starts with "Ddoc\n" (ignores letter case.)
-  static бул isDDocFile(Модуль мод)
+  /// Возвращает "да", если the source текст starts with "Ddoc\n" (ignилиes letter case.)
+  static бул файлДДок(Модуль мод)
   {
     auto данные = мод.исходныйТекст.данные;
     // 5 = "ddoc\n".length; +1 = trailing '\0' in данные.
-    if (данные.length >= 5 + 1 && // Check for minimum length.
+    if (данные.length >= 5 + 1 && // Проверим на minimum length.
         сравнилюб(данные[0..4], "ddoc") == 0 && // Check first four characters.
-        новСтр_ли(данные.ptr + 4)) // Check for a нс.
+        новСтр(данные.ptr + 4)) // Проверим на a нс.
       return да;
     return нет;
   }
@@ -96,19 +96,19 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   static ткст дайТекстДДок(Модуль мод)
   {
     auto данные = мод.исходныйТекст.данные;
-    сим* p = данные.ptr + "ddoc".length;
-    if (сканируйНовСтр(p)) // Skip the нс.
+    сим* у = данные.ptr + "ddoc".length;
+    if (сканируйНовСтр(у)) // Пропустим the нс.
       // Exclude preceding "Ddoc\n" and trailing '\0'.
-      return данные[p-данные.ptr .. $-1];
-    return null;
+      return данные[у-данные.ptr .. $-1];
+    return пусто;
   }
 
-  ткст textSpan(Сема* левый, Сема* правый)
+  ткст участокТекста(Сема* левый, Сема* правый)
   {
     //assert(левый && правый && (левый.конец <= правый.старт || левый is правый));
     //ткст результат;
     //TODO: filter out whitespace семы.
-    return Сема.textSpan(левый, правый);
+    return Сема.участокТекста(левый, правый);
   }
 
   /// The template параметры of the current declaration.
@@ -118,16 +118,16 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// A push occurs when entering a Масштаб, and a pop when exiting it.
   ткст[] fqnStack;
   /// Counts символы with the same ПКИ.
-  /// Этот is useful for anchor имена that требуется unique тксты.
+  /// Этот is useful for anchили имена that требуется unique тксты.
   бцел[ткст] fqnCount;
 
-  /// Pushes an identifier onto the stack.
+  /// Pushes an идентификатор onto the stack.
   проц  pushFQN(ткст fqn)
   {
     if (fqn.length)
       fqnStack ~= fqn;
   }
-  /// Pops an identifier из the stack.
+  /// Pops an идентификатор из the stack.
   проц  popFQN()
   {
     if (fqnStack.length)
@@ -135,11 +135,11 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Returns a unique, identifying ткст for the current символ.
-  ткст getSymbolFQN(ткст имя)
+  ткст дайПКНСимвола(ткст имя)
   {
     ткст fqn;
-    foreach (name_part; fqnStack)
-      fqn ~= name_part ~ ".";
+    foreach (Имя_part; fqnStack)
+      fqn ~= Имя_part ~ ".";
     fqn ~= имя;
 
     бцел счёт;
@@ -149,7 +149,7 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     else
       fqnCount[fqn] = 1; // Start counting with 1.
 
-    if (счёт > 1) // Ignore unique суффикс for the значение 1.
+    if (счёт > 1) // Ignилиe unique суффикс for the значение 1.
       fqn ~= Формат(":{}", счёт);
     return fqn;
   }
@@ -162,33 +162,33 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// Initializes the empty comment.
   static this()
   {
-    this.emptyCmnt = new КомментарийДДок(null, null, null);
+    this.emptyCmnt = new КомментарийДДок(пусто, пусто, пусто);
   }
 
   /// Keeps track of предшious comments in each Масштаб.
- scope class DDocScope
+ scope class МасштабДДок
   {
     КомментарийДДок saved_предшCmnt;
     бул saved_cmntIsDitto;
     бцел saved_предшDeclOffset;
-    /// When constructed, переменные are saved.
+    /// When constructed, переменные are сохранённое.
     this(ткст имя)
-    { // Save the предшious comment of the родитель Масштаб.
+    { // Сохранить the предшious comment of the родитель Масштаб.
       saved_предшCmnt = this.outer.предшCmnt;
       saved_cmntIsDitto = this.outer.cmntIsDitto;
-      saved_предшDeclOffset = this.outer.предшDeclOffset;
+      saved_предшDeclOffset = this.outer.предшСмещДекл;
       pushFQN(имя);
       // Entering a new Масштаб. Clear переменные.
-      this.outer.предшCmnt = null;
+      this.outer.предшCmnt = пусто;
       this.outer.cmntIsDitto = нет;
-      this.outer.предшDeclOffset = 0;
+      this.outer.предшСмещДекл = 0;
     }
-    /// When destructed, переменные are restored.
+    /// When destructed, переменные are restилиed.
     ~this()
-    { // Restore the предшious comment of the родитель Масштаб.
+    { // Восстановить the предшious comment of the родитель Масштаб.
       this.outer.предшCmnt = saved_предшCmnt;
       this.outer.cmntIsDitto = saved_cmntIsDitto;
-      this.outer.предшDeclOffset = saved_предшDeclOffset;
+      this.outer.предшСмещДекл = saved_предшDeclOffset;
       popFQN();
     }
   }
@@ -201,9 +201,9 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
     this.cmnt = УтилитыДДок.дайКомментарийДДок(узел);
     if (this.cmnt)
     {
-      if (this.cmnt.дитто_ли) // A определено comment.
+      if (this.cmnt.дитто) // A определено comment.
         (this.cmnt = this.предшCmnt), (this.cmntIsDitto = да);
-      else // A normal comment.
+      else // A nилиmal comment.
         (this.предшCmnt = this.cmnt), (this.cmntIsDitto = нет);
     }
     else if (включатьНедокументированное)
@@ -225,14 +225,14 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// Writes the DDoc comment в the текст буфер.
   проц  writeComment()
   {
-    auto c = this.cmnt;
-    assert(c !is null);
+    auto с = this.cmnt;
+    assert(с !is пусто);
     пиши("$(DDOC_SECTIONS ");
-      foreach (s; c.резделы)
+      foreach (s; с.резделы)
       {
-        if (s is c.сводка)
+        if (s is с.сводка)
           пиши("\n$(DDOC_SUMMARY ");
-        else if (s is c.описание)
+        else if (s is с.описание)
           пиши("\n$(DDOC_DESCRIPTION ");
         else if (auto имя = вЗаг(s.имя.dup) in specialSections)
           пиши("\n$(DDOC_", *имя, " ");
@@ -240,9 +240,9 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
         { // Process параметры раздел.
           auto ps = new РазделПараметров(s.имя, s.текст);
           пиши("\n$(DDOC_PARAMS ");
-          foreach (i, paramName; ps.paramNames)
+          foreach (i, paramИмя; ps.paramИмяs)
             пиши("\n$(DDOC_PARAM_ROW ",
-                    "$(DDOC_PARAM_ID $(DDOC_PARAM ", paramName, "))",
+                    "$(DDOC_PARAM_ID $(DDOC_PARAM ", paramИмя, "))",
                     "$(DDOC_PARAM_DESC ", ps.paramDescs[i], ")",
                   ")");
           пиши(")");
@@ -264,8 +264,8 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// Replaces occurrences of '_' with ' ' in ткт.
   ткст replace_(ткст ткт)
   {
-    foreach (ref c; ткт.dup)
-      if (c == '_') c = ' ';
+    foreach (ref с; ткт.dup)
+      if (с == '_') с = ' ';
     return ткт;
   }
 
@@ -279,50 +279,50 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   /// )
   ткст scanCommentText(ткст текст)
   {
-    сим* p = текст.ptr;
-    сим* конец = p + текст.length;
+    сим* у = текст.ptr;
+    сим* конец = у + текст.length;
     ткст результат = new сим[текст.length]; // Reserve space.
     результат.length = 0;
 
-    while (p < конец)
+    while (у < конец)
     {
-      switch (*p)
+      switch (*у)
       {
       case '$':
-        if (auto конецМакроса = ПарсерМакросов.сканируйМакрос(p, конец))
+        if (auto конецМакроса = ПарсерМакросов.сканируйМакрос(у, конец))
         {
-          результат ~= сделайТекст(p, конецМакроса); // Copy macro invocation as is.
-          p = конецМакроса;
+          результат ~= сделайТекст(у, конецМакроса); // Copy macro invocation as is.
+          у = конецМакроса;
           continue;
         }
         goto default;
       case '<':
-        auto начало = p;
-        p++;
-        if (p+2 < конец && *p == '!' && p[1] == '-' && p[2] == '-') // <!--
+        auto начало = у;
+        у++;
+        if (у+2 < конец && *у == '!' && у[1] == '-' && у[2] == '-') // <!--
         {
-          p += 2; // Point в 2nd '-'.
+          у += 2; // Point в 2nd '-'.
           // Scan в закрывающий "-->".
-          while (++p < конец)
-            if (*p == '-' && p+2 < конец && p[1] == '-' && p[2] == '>')
+          while (++у < конец)
+            if (*у == '-' && у+2 < конец && у[1] == '-' && у[2] == '>')
             {
-              p += 3; // Point one past '>'.
+              у += 3; // Point one past '>'.
               break;
             }
-          результат ~= сделайТекст(начало, p);
-        } // <тэг ...> or </тэг>
-        else if (p < конец && (буква_ли(*p) || *p == '/'))
+          результат ~= сделайТекст(начало, у);
+        } // <тэг ...> или </тэг>
+        else if (у < конец && (буква(*у) || *у == '/'))
         {
-          while (++p < конец && *p != '>') // Skip в закрывающий '>'.
+          while (++у < конец && *у != '>') // Пропустим в закрывающий '>'.
           {}
-          if (p == конец)
+          if (у == конец)
           { // No закрывающий '>' found.
-            p = начало + 1;
+            у = начало + 1;
             результат ~= "&тк;";
             continue;
           }
-          p++; // Skip '>'.
-          результат ~= сделайТекст(начало, p);
+          у++; // Пропустим '>'.
+          результат ~= сделайТекст(начало, у);
         }
         else
           результат ~= "&тк;";
@@ -333,72 +333,72 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
       // case '"': результат ~= "&quot;"; break;
       case '>': результат ~= "&gt;"; break;
       case '&':
-        if (p+1 < конец && (буква_ли(p[1]) || p[1] == '#'))
+        if (у+1 < конец && (буква(у[1]) || у[1] == '#'))
           goto default;
         результат ~= "&amp;";
         break;
       case '\n':
-        if (!(p+1 < конец && p[1] == '\n'))
+        if (!(у+1 < конец && у[1] == '\n'))
           goto default;
-        ++p;
+        ++у;
         результат ~= "$(DDOC_BLANKLINE)";
         break;
       case '-':
-        if (p+2 < конец && p[1] == '-' && p[2] == '-')
+        if (у+2 < конец && у[1] == '-' && у[2] == '-')
         { // Found "---".
-          while (p < конец && *p == '-') // Skip leading dashes.
-            p++;
-          auto codeBegin = p;
-          while (p < конец && пбел_ли(*p))
-            p++;
-          if (p < конец && *p == '\n') // Skip first нс.
-            codeBegin = ++p;
+          while (у < конец && *у == '-') // Пропустим leading dashes.
+            у++;
+          auto КодBegin = у;
+          while (у < конец && пбел(*у))
+            у++;
+          if (у < конец && *у == '\n') // Пропустим first нс.
+            КодBegin = ++у;
           // Find закрывающий dashes.
-          while (p < конец && !(*p == '-' && p+2 < конец &&
-                            p[1] == '-' && p[2] == '-'))
-            p++;
+          while (у < конец && !(*у == '-' && у+2 < конец &&
+                            у[1] == '-' && у[2] == '-'))
+            у++;
           // Remove last нс if present.
-          auto codeEnd = p;
-          while (пбел_ли(*--codeEnd))
+          auto КодКонец = у;
+          while (пбел(*--КодКонец))
           {}
-          if (*codeEnd != '\n') // Leaving the pointer on '\n' will exclude it.
-            codeEnd++; // Include the non-нс символ.
-          if (codeBegin < codeEnd)
+          if (*КодКонец != '\n') // Leaving the pointer on '\n' will exclude it.
+            КодКонец++; // Include the non-нс символ.
+          if (КодBegin < КодКонец)
           { // Highlight the extracted source код.
-            auto codeText = сделайТекст(codeBegin, codeEnd);
-            codeText = УтилитыДДок.unindentText(codeText);
-            результат ~= псвСем.highlight(codeText, модуль.дайПКН());
+            auto КодText = сделайТекст(КодBegin, КодКонец);
+            КодText = УтилитыДДок.unindentText(КодText);
+            результат ~= псвСем.highlight(КодText, модуль.дайПКИ());
           }
-          while (p < конец && *p == '-') // Skip remaining dashes.
-            p++;
+          while (у < конец && *у == '-') // Пропустим remaining dashes.
+            у++;
           continue;
         }
         //goto default;
       default:
-        результат ~= *p;
+        результат ~= *у;
       }
-      p++;
+      у++;
     }
-    assert(p is конец);
+    assert(у is конец);
     return результат;
   }
 
-  /// Escapes '<', '>' and '&' with named ГЯР entities.
+  /// Escapes '<', '>' and '&' with Имяd ГЯР entities.
   ткст escape(ткст текст)
   {
     ткст результат = new сим[текст.length]; // Reserve space.
     результат.length = 0;
-    foreach(c; текст)
-      switch(c)
+    foreach(с; текст)
+      switch(с)
       {
         case '<': результат ~= "&тк;";  break;
         case '>': результат ~= "&gt;";  break;
         case '&': результат ~= "&amp;"; break;
-        default:  результат ~= c;
+        default:  результат ~= с;
       }
     if (результат.length != текст.length)
       return результат;
-    // Nothing escaped. Итог original текст.
+    // Nothing escaped. Итог илиiginal текст.
     delete результат;
     return текст;
   }
@@ -411,27 +411,27 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Writes парамы в the текст буфер.
-  проц  writeParams(Параметры парамы)
+  проц  пишиПарамы(Параметры парамы)
   {
-    пиши("$(DIL_PARAMS ");
+    пиши("$(DRC_PARAMS ");
     foreach (парам; парамы.элементы)
     {
-      if (парам.СиВариадический_ли)
+      if (парам.СиВариадический)
         пиши("...");
       else
       {
         assert(парам.тип);
-        // Write storage classes.
+        // Write stилиage classes.
         auto typeBegin = парам.тип.типОснова.начало;
-        if (typeBegin !is парам.начало) // Write storage classes.
-          пиши(textSpan(парам.начало, typeBegin.предшНепроб), " ");
-        пиши(escape(textSpan(typeBegin, парам.тип.конец))); // Write тип.
+        if (typeBegin !is парам.начало) // Write stилиage classes.
+          пиши(участокТекста(парам.начало, typeBegin.предшНепроб), " ");
+        пиши(escape(участокТекста(typeBegin, парам.тип.конец))); // Write тип.
         if (парам.имя)
           пиши(" $(DDOC_PARAM ", парам.имя.ткт, ")");
-        if (парам.ДиВариадический_ли)
+        if (парам.ДиВариадический)
           пиши("...");
         if (парам.дефЗначение)
-          пиши(" = ", escape(textSpan(парам.дефЗначение.начало, парам.дефЗначение.конец)));
+          пиши(" = ", escape(участокТекста(парам.дефЗначение.начало, парам.дефЗначение.конец)));
       }
       пиши(", ");
     }
@@ -441,78 +441,78 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Writes the current template параметры в the текст буфер.
-  проц  writeTemplateParams()
+  проц  пишиПарамыШаблона()
   {
     if (!шпарамы)
       return;
-    auto текст = textSpan(шпарамы.начало, шпарамы.конец);
+    auto текст = участокТекста(шпарамы.начало, шпарамы.конец);
     текст = escape(текст)[1..$-1]; // Escape and remove '(', ')'.
-    пиши("$(DIL_TEMPLATE_PARAMS ", текст, ")");
-    шпарамы = null;
+    пиши("$(DRC_TEMPLATE_PARAMS ", текст, ")");
+    шпарамы = пусто;
   }
 
   /// Writes основы в the текст буфер.
-  проц  writeInheritanceList(ТипКлассОснова[] основы)
+  проц  пишиСписокНаследования(ТипКлассОснова[] основы)
   {
     if (основы.length == 0)
       return;
     auto basesBegin = основы[0].начало.предшНепроб;
     if (basesBegin.вид == TOK.Двоеточие)
       basesBegin = основы[0].начало;
-    auto текст = escape(textSpan(basesBegin, основы[$-1].конец));
-    пиши(" $(DIL_BASE_CLASSES ", текст, ")");
+    auto текст = escape(участокТекста(basesBegin, основы[$-1].конец));
+    пиши(" $(DRC_BASE_CLASSES ", текст, ")");
   }
 
   /// Offset at which в вставь a declaration with a "определено" comment.
-  бцел предшDeclOffset;
+  бцел предшСмещДекл;
 
   /// Writes a declaration в the текст буфер.
-  проц  DECL(проц  delegate() dg, Декларация d, бул writeSemicolon = да)
+  проц  ДЕКЛ(проц  delegate() dg, Декларация d, бул writeSemicolon = да)
   {
-    проц  writeDECL()
+    проц  пишиДЕКЛ()
     {
       пиши("\n$(DDOC_DECL ");
       dg();
       writeSemicolon && пиши(";");
-      writeAttributes(d);
+      пишиАтрибуты(d);
       пиши(")");
     }
 
     if (/+включатьНедокументированное &&+/ this.cmnt is this.emptyCmnt)
     { // Handle undocumented символы separately.
-      // Этот way they don't interrupt consolidated declarations.
-      writeDECL();
+      // Этот way they don'т interrupt consolidated declarations.
+      пишиДЕКЛ();
       // Write an empty DDOC_DECL_DD.
-      // The method DESC() does not выдать anything when cmntIsDitto is да.
+      // The method ДЕСК() does not выдать anything when cmntIsDitto is да.
       cmntIsDitto && пиши("\n$(DDOC_DECL_DD)");
     }
     else if (cmntIsDitto)
     { // The declaration has a определено comment.
-      alias предшDeclOffset offs;
+      alias предшСмещДекл offs;
       assert(offs != 0);
       auto savedText = текст;
       текст = "";
-      writeDECL();
-      // Insert текст at offset.
+      пишиДЕКЛ();
+      // Вставить текст at offset.
       auto len = текст.length;
       текст = savedText[0..offs] ~ текст ~ savedText[offs..$];
       offs += len; // Add length of the inserted текст в the offset.
     }
     else
     {
-      writeDECL();
-      // Set the offset. At this offset другой declarations with a определено
+      пишиДЕКЛ();
+      // Установить the offset. At this offset другой declarations with a определено
       // comment will be inserted, if present.
-      предшDeclOffset = текст.length;
+      предшСмещДекл = текст.length;
     }
   }
 
-  /// Wraps the DDOC_DECL_DD macro around the текст written by dg().
-  /// Writes the comment before dg() is called.
-  проц  DESC(проц  delegate() dg = null)
+  /// Wraps the DDOC_DECL_DD macro around the текст Автор dg().
+  /// Writes the comment befилиe dg() is called.
+  проц  ДЕСК(проц  delegate() dg = пусто)
   {
     if (cmntIsDitto)
-      return; // Don't пиши a описание when we have a определено declaration.
+      return; // Don'т пиши a описание when we have a определено declaration.
     пиши("\n$(DDOC_DECL_DD ");
     writeComment();
     dg && dg();
@@ -520,107 +520,107 @@ abstract class ЭмиттерДДок : ДефолтныйВизитёр
   }
 
   /// Writes a символ в the текст буфер.
-  /// E.g: &#36;(DIL_SYMBOL сканируй, Лексер.сканируй, func, 229, 646);
-  проц  SYMBOL(ткст имя, ткст вид, Декларация d)
+  /// E.g: &#36;(DRC_SYMBOL сканируй, Лексер.сканируй, функц, 229, 646);
+  проц  СИМВОЛ(ткст имя, ткст вид, Декларация d)
   {
-    auto fqn = getSymbolFQN(имя);
+    auto fqn = дайПКНСимвола(имя);
     auto место = d.начало.дайРеальноеПоложение();
     auto loc_end = d.конец.дайРеальноеПоложение();
-    auto ткт = Формат("$(DIL_SYMBOL {}, {}, {}, {}, {})",
-                      имя, fqn, вид, место.номСтр, loc_end.номСтр);
+    auto ткт = Формат("$(DRC_SYMBOL {}, {}, {}, {}, {})",
+                      имя, fqn, вид, место.номерСтроки, loc_end.номерСтроки);
     пиши(ткт);
-    // пиши("$(DDOC_PSYMBOL ", имя, ")"); // DMD's macro with no инфо.
+    // пиши("$(DDOC_PСИМВОЛ ", имя, ")"); // DMD's macro with no инфо.
   }
 
-  /// Wraps the DDOC_kind_MEMBERS macro around the текст
-  /// written by посети(члены).
+  /// Wraps the DDOC_kind_ЧленS macro around the текст
+  /// Автор посети(члены).
   проц  ЧЛЕНЫ(D)(ткст вид, ткст имя, D члены)
   {
-    scope s = new DDocScope(имя);
-    пиши("\n$(DDOC_"~вид~"_MEMBERS ");
-    if (члены !is null)
+    scope s = new МасштабДДок(имя);
+    пиши("\n$(DDOC_"~вид~"_ЧленS ");
+    if (члены !is пусто)
       super.посети(члены);
     пиши(")");
   }
 
-  /// Writes a class or interface declaration.
-  проц  writeClassOrЦелerface(T)(T d)
+  /// Writes a class или interface declaration.
+  проц  пишиКлассИлиИнтерфейс(T)(T d)
   {
     //if (!ddoc(d))
      // return d;
-    DECL({
+    ДЕКЛ({
       const вид = is(T == ДекларацияКласса) ? "class" : "interface";
       пиши(вид, " ");
-      SYMBOL(d.имя.ткт, вид, d);
-      writeTemplateParams();
-      writeInheritanceList(d.основы);
+      СИМВОЛ(d.имя.ткт, вид, d);
+      пишиПарамыШаблона();
+      пишиСписокНаследования(d.основы);
     }, d);
     const вид = is(T == ДекларацияКласса) ? "CLASS" : "INTERFACE";
-    DESC({ ЧЛЕНЫ(вид, d.имя.ткт, d.деклы); });
+    ДЕСК({ ЧЛЕНЫ(вид, d.имя.ткт, d.деклы); });
   }
 
-  /// Writes a struct or union declaration.
-  проц  writeStructOrUnion(T)(T d)
+  /// Writes a struct или union declaration.
+  проц  пишиСтруктИлиСоюз(T)(T d)
   {
     //if (!ddoc(d))
      // return d;
-    DECL({
+    ДЕКЛ({
       const вид = is(T == ДекларацияСтруктуры) ? "struct" : "union";
       пиши(вид, d.имя ? " " : "");
       if (d.имя)
-        SYMBOL(d.имя.ткт, вид, d);
-      writeTemplateParams();
+        СИМВОЛ(d.имя.ткт, вид, d);
+      пишиПарамыШаблона();
     }, d);
     const вид = is(T == ДекларацияСтруктуры) ? "STRUCT" : "UNION";
-    DESC({ ЧЛЕНЫ(вид, d.имя ? d.имя.ткт : "", d.деклы); });
+    ДЕСК({ ЧЛЕНЫ(вид, d.имя ? d.имя.ткт : "", d.деклы); });
   }
 
-  /// Writes an alias or typedef declaration.
-  проц  writeAliasOrTypedef(T)(T d)
+  /// Writes an alias или typedef declaration.
+  проц  пишиАлиасИлиТипдеф(T)(T d)
   {
     const вид = is(T == ДекларацияАлиаса) ? "alias" : "typedef";
     if (auto vd = d.декл.Является!(ДекларацияПеременных))
     {
-      auto тип = textSpan(vd.узелТипа.типОснова.начало, vd.узелТипа.конец);
+      auto тип = участокТекста(vd.узелТипа.типОснова.начало, vd.узелТипа.конец);
       foreach (имя; vd.имена)
-        DECL({ пиши(вид, " "); пиши(escape(тип), " ");
-          SYMBOL(имя.ткт, вид, d);
+        ДЕКЛ({ пиши(вид, " "); пиши(escape(тип), " ");
+          СИМВОЛ(имя.ткт, вид, d);
         }, d);
     }
     else if (auto дф = d.декл.Является!(ДекларацияФункции))
     {}
-    // DECL({ пиши(textSpan(d.начало, d.конец)); }, нет);
-    DESC();
+    // ДЕКЛ({ пиши(участокТекста(d.начало, d.конец)); }, нет);
+    ДЕСК();
   }
 
-  /// Writes the attributes of a declaration in brackets.
-  проц  writeAttributes(Декларация d)
+  /// Writes the атрибуты of a declaration in brackets.
+  проц  пишиАтрибуты(Декларация d)
   {
-    сим[][] attributes;
+    сим[][] атрибуты;
 
     if (d.защ != Защита.Нет)
-      attributes ~= "$(DIL_PROT " ~ .вТкст(d.защ) ~ ")";
+      атрибуты ~= "$(DRC_PROT " ~ .вТкст(d.защ) ~ ")";
 
     auto кхр = d.кхр;
-    кхр &= ~КлассХранения.Авто; // Ignore auto.
+    кхр &= ~КлассХранения.Авто; // Ignилиe auto.
     foreach (stcStr; .вТксты(кхр))
-      attributes ~= "$(DIL_STC " ~ stcStr ~ ")";
+      атрибуты ~= "$(DRC_STC " ~ stcStr ~ ")";
 
-    ТипКомпоновки ltype;
+    ТипКомпоновки типК;
     if (auto vd = d.Является!(ДекларацияПеременных))
-      ltype = vd.типКомпоновки;
+      типК = vd.типКомпоновки;
     else if (auto дф = d.Является!(ДекларацияФункции))
-      ltype = дф.типКомпоновки;
+      типК = дф.типКомпоновки;
 
-    if (ltype != ТипКомпоновки.Нет)
-      attributes ~= "$(DIL_LINKAGE extern(" ~ .вТкст(ltype) ~ "))";
+    if (типК != ТипКомпоновки.Нет)
+      атрибуты ~= "$(DRC_LINKAGE extern(" ~ .вТкст(типК) ~ "))";
 
-    if (!attributes.length)
+    if (!атрибуты.length)
       return;
 
-    пиши(" $(DIL_ATTRIBUTES ", attributes[0]);
-    foreach (attribute; attributes[1..$])
-      пиши(", ", attribute);
+    пиши(" $(DRC_ATTRIBUTES ", атрибуты[0]);
+    foreach (атрибут; атрибуты[1..$])
+      пиши(", ", атрибут);
     пиши(")");
   }
 
@@ -630,14 +630,14 @@ override:
   D посети(ДекларацияАлиаса d)
   {
     if (ddoc(d))
-      writeAliasOrTypedef(d);
+      пишиАлиасИлиТипдеф(d);
     return d;
   }
 
   D посети(ДекларацияТипдефа d)
   {
     if (ddoc(d))
-      writeAliasOrTypedef(d);
+      пишиАлиасИлиТипдеф(d);
     return d;
   }
 
@@ -645,11 +645,11 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({
+    ДЕКЛ({
       пиши("enum", d.имя ? " " : "");
-      d.имя && SYMBOL(d.имя.ткт, "enum", d);
+      d.имя && СИМВОЛ(d.имя.ткт, "enum", d);
     }, d);
-    DESC({ ЧЛЕНЫ("ENUM", d.имя ? d.имя.ткт : "", d); });
+    ДЕСК({ ЧЛЕНЫ("ENUM", d.имя ? d.имя.ткт : "", d); });
     return d;
   }
 
@@ -657,8 +657,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ SYMBOL(d.имя.ткт, "enummem", d); }, d, нет);
-    DESC();
+    ДЕКЛ({ СИМВОЛ(d.имя.ткт, "enummem", d); }, d, нет);
+    ДЕСК();
     return d;
   }
 
@@ -666,43 +666,43 @@ override:
   {
     this.шпарамы = d.шпарамы;
     if (d.начало.вид != TOK.Шаблон)
-    { // Этот is a templatized class/interface/struct/union/function.
+    { // Этот есть templatized class/interface/struct/union/function.
       super.посети(d.деклы);
-      this.шпарамы = null;
+      this.шпарамы = пусто;
       return d;
     }
     if (!ddoc(d))
       return d;
-    DECL({
+    ДЕКЛ({
       пиши("template ");
-      SYMBOL(d.имя.ткт, "template", d);
-      writeTemplateParams();
+      СИМВОЛ(d.имя.ткт, "template", d);
+      пишиПарамыШаблона();
     }, d);
-    DESC({ ЧЛЕНЫ("TEMPLATE", d.имя.ткт, d.деклы); });
+    ДЕСК({ ЧЛЕНЫ("TEMPLATE", d.имя.ткт, d.деклы); });
     return d;
   }
 
   D посети(ДекларацияКласса d)
   {
-    writeClassOrЦелerface(d);
+    пишиКлассИлиИнтерфейс(d);
     return d;
   }
 
   D посети(ДекларацияИнтерфейса d)
   {
-    writeClassOrЦелerface(d);
+    пишиКлассИлиИнтерфейс(d);
     return d;
   }
 
   D посети(ДекларацияСтруктуры d)
   {
-    writeStructOrUnion(d);
+    пишиСтруктИлиСоюз(d);
     return d;
   }
 
   D посети(ДекларацияСоюза d)
   {
-    writeStructOrUnion(d);
+    пишиСтруктИлиСоюз(d);
     return d;
   }
 
@@ -710,8 +710,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ SYMBOL("this", "ctor", d); writeParams(d.парамы); }, d);
-    DESC();
+    ДЕКЛ({ СИМВОЛ("this", "ctили", d); пишиПарамы(d.парамы); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -719,8 +719,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ пиши("static "); SYMBOL("this", "sctor", d); пиши("()"); }, d);
-    DESC();
+    ДЕКЛ({ пиши("static "); СИМВОЛ("this", "sctили", d); пиши("()"); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -728,8 +728,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ пиши("~"); SYMBOL("this", "dtor", d); пиши("()"); }, d);
-    DESC();
+    ДЕКЛ({ пиши("~"); СИМВОЛ("this", "dtили", d); пиши("()"); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -737,8 +737,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ пиши("static ~"); SYMBOL("this", "sdtor", d); пиши("()"); }, d);
-    DESC();
+    ДЕКЛ({ пиши("static ~"); СИМВОЛ("this", "sdtили", d); пиши("()"); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -746,14 +746,14 @@ override:
   {
     if (!ddoc(d))
       return d;
-    auto тип = textSpan(d.типВозврата.типОснова.начало, d.типВозврата.конец);
-    DECL({
+    auto тип = участокТекста(d.типВозврата.типОснова.начало, d.типВозврата.конец);
+    ДЕКЛ({
       пиши(escape(тип), " ");
-      SYMBOL(d.имя.ткт, "function", d);
-      writeTemplateParams();
-      writeParams(d.парамы);
+      СИМВОЛ(d.имя.ткт, "function", d);
+      пишиПарамыШаблона();
+      пишиПарамы(d.парамы);
     }, d);
-    DESC();
+    ДЕСК();
     return d;
   }
 
@@ -761,8 +761,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ SYMBOL("new", "new", d); writeParams(d.парамы); }, d);
-    DESC();
+    ДЕКЛ({ СИМВОЛ("new", "new", d); пишиПарамы(d.парамы); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -770,8 +770,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ SYMBOL("delete", "delete", d); writeParams(d.парамы); }, d);
-    DESC();
+    ДЕКЛ({ СИМВОЛ("delete", "delete", d); пишиПарамы(d.парамы); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -781,10 +781,10 @@ override:
       return d;
     ткст тип = "auto";
     if (d.узелТипа)
-      тип = textSpan(d.узелТипа.типОснова.начало, d.узелТипа.конец);
+      тип = участокТекста(d.узелТипа.типОснова.начало, d.узелТипа.конец);
     foreach (имя; d.имена)
-      DECL({ пиши(escape(тип), " "); SYMBOL(имя.ткт, "переменная", d); }, d);
-    DESC();
+      ДЕКЛ({ пиши(escape(тип), " "); СИМВОЛ(имя.ткт, "переменная", d); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -792,8 +792,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ SYMBOL("invariant", "invariant", d); }, d);
-    DESC();
+    ДЕКЛ({ СИМВОЛ("invariant", "invariant", d); }, d);
+    ДЕСК();
     return d;
   }
 
@@ -801,8 +801,8 @@ override:
   {
     if (!ddoc(d))
       return d;
-    DECL({ SYMBOL("unittest", "unittest", d); }, d);
-    DESC();
+    ДЕКЛ({ СИМВОЛ("unittest", "unittest", d); }, d);
+    ДЕСК();
     return d;
   }
 

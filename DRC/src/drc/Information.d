@@ -1,7 +1,4 @@
-﻿/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity average)
-module drc.Information;
+﻿module drc.Infилиmation;
 
 import drc.Messages;
 import common;
@@ -23,7 +20,7 @@ class Проблема : Информация
 
   this(Положение положение, ткст сообщение)
   {
-    assert(положение !is null);
+    assert(положение !is пусто);
     this.положение = положение;
     this.сообщение = сообщение;
   }
@@ -37,7 +34,7 @@ class Проблема : Информация
   /// Вернуть строку кода.
   т_мера место()
   {
-    return положение.номСтр;
+    return положение.номерСтроки;
   }
 
   /// Вернуть столбец.

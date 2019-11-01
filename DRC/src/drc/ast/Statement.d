@@ -1,11 +1,11 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity very high)
 module drc.ast.Statement;
 
 import drc.ast.Node;
 
-/// The корень class of all инструкции.
+/// Корневой класс всех инструкций.
 abstract class Инструкция : Узел
 {
   this()

@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity average)
 module drc.semantic.Symbols;
@@ -12,11 +12,11 @@ import drc.lexer.IdTable;
 import drc.Enums;
 import common;
 
-/// A символ that has its own Масштаб with a символ таблица.
+/// A символ that has its own Масштаб with a таблицу символов.
 class СимволМасштаба : Символ
 {
-  ТаблицаСимволов таблицаСимволов; /// The символ таблица.
-  Символ[] члены; /// The член символы (in lexical order.)
+  ТаблицаСимволов таблицаСимволов; /// The таблицу символов.
+  Символ[] члены; /// The член символы (in lexical илиder.)
 
   /// Строит СимволМасштаба объект.
   this(СИМ сид, Идентификатор* имя, Узел узел)
@@ -25,7 +25,7 @@ class СимволМасштаба : Символ
   }
 
   /// Строит СимволМасштаба объект with the СИМ.Масштаб ID.
-  this(Идентификатор* имя = Идент.Пусто, Узел узел = null)
+  this(Идентификатор* имя = Идент.Пусто, Узел узел = пусто)
   {
     super(СИМ.Масштаб, имя, узел);
   }
@@ -40,10 +40,10 @@ class СимволМасштаба : Символ
   Символ сыщи(ткст имя)
   {
     auto ид = ТаблицаИд.сыщи(имя);
-    return ид ? таблицаСимволов.сыщи(ид) : null;
+    return ид ? таблицаСимволов.сыщи(ид) : пусто;
   }
 
-  /// Insert a символ into the таблица.
+  /// Вставить a символ into the таблица.
   проц  вставь(Символ s, Идентификатор* имя)
   {
     таблицаСимволов.вставь(s, имя);
@@ -55,8 +55,8 @@ class СимволМасштаба : Символ
 abstract class Агрегат : СимволМасштаба
 {
   Тип тип;
-  Функция[] funcs;
-  Переменная[] fields;
+  Функция[] функции;
+  Переменная[] поля;
 
   this(СИМ сид, Идентификатор* имя, Узел узел)
   {
@@ -66,11 +66,11 @@ abstract class Агрегат : СимволМасштаба
   override проц  вставь(Символ s, Идентификатор* идент)
   {
     if (s.Переменная_ли)
-      // Append переменная в fields.
-      fields ~= cast(Переменная)cast(ук)s;
+      // Append переменная в поля.
+      поля ~= cast(Переменная)cast(ук)s;
     else if (s.Функция_ли)
-      // Append function в funcs.
-      funcs ~= cast(Функция)cast(ук)s;
+      // Append function в функции.
+      функции ~= cast(Функция)cast(ук)s;
     super.вставь(s, идент);
   }
 }
@@ -81,7 +81,7 @@ class Класс : Агрегат
   this(Идентификатор* имя, Узел classNode)
   {
     super(СИМ.Класс, имя, classNode);
-    this.тип = new ТКласс(this);
+    this.тип = new  drc.semantic.Types.ТипКласс(this);
   }
 }
 
@@ -91,47 +91,47 @@ class Интерфейс : Агрегат
   this(Идентификатор* имя, Узел узелИнтерфейса)
   {
     super(СИМ.Интерфейс, имя, узелИнтерфейса);
-    this.тип = new ТКласс(this);
+    this.тип = new  drc.semantic.Types.ТипКласс(this);
   }
 }
 
 /// A struct символ.
 class Структура : Агрегат
 {
-  бул анонимен_ли;
+  бул анонимен;
   this(Идентификатор* имя, Узел structNode)
   {
     super(СИМ.Структура, имя, structNode);
-    this.тип = new ТСтруктура(this);
-    this.анонимен_ли = имя is null;
+    this.тип = new  drc.semantic.Types.ТипСтруктура(this);
+    this.анонимен = имя is пусто;
   }
 }
 
 /// A union символ.
 class Союз : Агрегат
 {
-  бул анонимен_ли;
+  бул анонимен;
   this(Идентификатор* имя, Узел unionNode)
   {
     super(СИМ.Союз, имя, unionNode);
-    this.тип = new ТСтруктура(this);
-    this.анонимен_ли = имя is null;
+    this.тип = new  drc.semantic.Types.ТипСтруктура(this);
+    this.анонимен = имя is пусто;
   }
 }
 
 /// An enum символ.
 class Перечень : СимволМасштаба
 {
-  ПереченьТип тип;
-  бул анонимен_ли;
+  drc.semantic.Types.ТипПеречень тип;
+  бул анонимен;
   this(Идентификатор* имя, Узел enumNode)
   {
     super(СИМ.Перечень, имя, enumNode);
-    this.тип = new ПереченьТип(this);
-    this.анонимен_ли = имя is null;
+    this.тип = new  drc.semantic.Types.ТипПеречень(this);
+    this.анонимен = имя is пусто;
   }
 
-  проц  установиТип(ПереченьТип тип)
+  проц  установиТип( drc.semantic.Types.ТипПеречень тип)
   {
     this.тип = тип;
   }
@@ -150,7 +150,7 @@ class Шаблон : СимволМасштаба
 class Функция : СимволМасштаба
 {
   Защита защ; /// The защита.
-  КлассХранения кхр; /// The storage classes.
+  КлассХранения кхр; /// The stилиage classes.
   ТипКомпоновки типКомпоновки; /// The linkage тип.
 
   Тип типВозврата;
@@ -166,7 +166,7 @@ class Функция : СимволМасштаба
 class Переменная : Символ
 {
   Защита защ; /// The защита.
-  КлассХранения кхр; /// The storage classes.
+  КлассХранения кхр; /// The stилиage classes.
   ТипКомпоновки типКомпоновки; /// The linkage тип.
 
   Тип тип; /// The тип of this переменная.
@@ -205,7 +205,7 @@ class Алиас : Символ
   }
 }
 
-/// A список of символы that share the same identifier.
+/// A список of символы that share the same идентификатор.
 ///
 /// These can be functions, templates and aggregates with template parameter lists.
 class НаборПерегрузки : Символ

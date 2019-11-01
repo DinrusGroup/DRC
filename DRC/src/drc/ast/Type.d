@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity very high)
 module drc.ast.Type;
@@ -16,7 +16,7 @@ abstract class УзелТипа : Узел
 
   this()
   {
-    this(null);
+    this(пусто);
   }
 
   this(УзелТипа следщ)
@@ -35,16 +35,16 @@ abstract class УзелТипа : Узел
     return тип;
   }
 
-  /// Возвращает да, если член 'тип' не null.
+  /// Возвращает да, если член 'тип' не пусто.
   бул естьТип()
   {
-    return тип !is null;
+    return тип !is пусто;
   }
 
-  /// Returns да if the член 'символ' is not null.
+  /// Возвращает да, если член 'символ' не пусто.
   бул естьСимвол()
   {
-    return символ !is null;
+    return символ !is пусто;
   }
 
   override abstract УзелТипа копируй();

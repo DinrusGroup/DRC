@@ -1,6 +1,3 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity average)
 module drc.Compilation;
 
 import common;
@@ -20,7 +17,7 @@ class КонтекстКомпиляции
   бул приниматьДеприкированное;
   бцел раскладкаСтруктуры = 4;
 
-  this(КК родитель = null)
+  this(КК родитель = пусто)
   {
     this.родитель = родитель;
     if (родитель)
@@ -48,7 +45,7 @@ class КонтекстКомпиляции
     auto pId = ид in отладИды;
     if (pId)
       return да;
-    if (!корень_ли())
+    if (!корень())
       return родитель.найдиИдОтладки(ид);
     return нет;
   }
@@ -58,13 +55,13 @@ class КонтекстКомпиляции
     auto pId = ид in версионИды;
     if (pId)
       return да;
-    if (!корень_ли())
+    if (!корень())
       return родитель.найдиИдВерсии(ид);
     return нет;
   }
 
-  бул корень_ли()
+  бул корень()
   {
-    return родитель is null;
+    return родитель is пусто;
   }
 }

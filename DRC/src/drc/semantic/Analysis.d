@@ -1,6 +1,4 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity average)
+
 module drc.semantic.Analysis;
 
 import drc.ast.Node,
@@ -11,28 +9,28 @@ import drc.Compilation;
 import common;
 
 /// Общая семантика для декларации прагм и инструкций.
-проц  семантикаПрагмы(Масштаб масш, Сема* pragmaLoc,
+проц  семантикаПрагмы(Масштаб масш, Сема* локПрагмы,
                     Идентификатор* идент,
                     Выражение[] арги)
 {
   if (идент is Идент.сооб)
-    прагма_сооб(масш, pragmaLoc, арги);
-  else if (идент is Идент.lib)
-    прагма_биб(масш, pragmaLoc, арги);
+    прагма_сооб(масш, локПрагмы, арги);
+  else if (идент is Идент.биб)
+    прагма_биб(масш, локПрагмы, арги);
   // else
-  //   масш.ошибка(начало, "unrecognized pragma");
+  //   масш.ошибка(начало, "нераспознанная прагма");
 }
 
 /// Оценивает прагма сообщение.
-проц  прагма_сооб(Масштаб масш, Сема* pragmaLoc, Выражение[] арги)
+проц  прагма_сооб(Масштаб масш, Сема* локПрагмы, Выражение[] арги)
 {
   if (арги.length == 0)
-    return /*масш.ошибка(pragmaLoc, "ожидаемое выражение arguments в pragma")*/;
+    return /*масш.ошибка(локПрагмы, "ожидаемое выражение arguments в pragma")*/;
 
   foreach (арг; арги)
   {
     auto в = арг/+.evaluate()+/;
-    if (в is null)
+    if (в is пусто)
     {
       // масш.ошибка(в.начало, "выражение is not оцениuatable at compile время");
     }
@@ -48,14 +46,14 @@ import common;
   выдай('\n');
 }
 
-/// Evaluates a lib pragma.
-проц  прагма_биб(Масштаб масш, Сема* pragmaLoc, Выражение[] арги)
+/// Оценивает прагму биб.
+проц  прагма_биб(Масштаб масш, Сема* локПрагмы, Выражение[] арги)
 {
   if (арги.length != 1)
-    return /*масш.ошибка(pragmaLoc, "ожидаемое one выражение аргумент в pragma")*/;
+    return /*масш.ошибка(локПрагмы, "ожидаемое one выражение аргумент в pragma")*/;
 
   auto в = арги[0]/+.evaluate()+/;
-  if (в is null)
+  if (в is пусто)
   {
     // масш.ошибка(в.начало, "выражение is not оцениuatable at compile время");
   }
@@ -70,7 +68,7 @@ import common;
   }
 }
 
-/// Returns да if the first branch (of a debug declaration/statement) or
+/// Возвращает "да", если the first branch (of a debug declaration/statement) или
 /// нет if the else-branch should be compiled in.
 бул выборОтладВетви(Сема* услов, КонтекстКомпиляции контекст)
 {
@@ -89,7 +87,7 @@ import common;
   return нет;
 }
 
-/// Returns да if the first branch (of a version declaration/statement) or
+/// Возвращает "да", если the first branch (of a version declaration/statement) или
 /// нет if the else-branch should be compiled in.
 бул выборВерсионВетви(Сема* услов, КонтекстКомпиляции контекст)
 {

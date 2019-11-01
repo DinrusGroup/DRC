@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity average)
 module drc.semantic.Symbol;
@@ -65,12 +65,12 @@ class Символ
   проц  устОбработан()
   { состояние = Состояние.Обработан; }
 
-  /// Returns да if the символ is being completed.
-  бул обрабатывается_ли()
+  /// Возвращает "да", если the символ is being completed.
+  бул обрабатывается()
   { return состояние == Состояние.Обрабатывается; }
 
-  /// Returns да if the символы is complete.
-  бул обработан_ли()
+  /// Возвращает "да", если the символы is complete.
+  бул обработан()
   { return состояние == Состояние.Обработан; }
 
   /// A template macro for building isXYZ() methods.
@@ -102,13 +102,13 @@ class Символ
   }
 
   /// Возвращает: the fully qualified имя of this символ.
-  /// E.g.: drc.semantic.Symbol.Символ.дайПКН
-  ткст дайПКН()
+  /// Напр.: drc.semantic.Symbol.Символ.дайПКИ
+  ткст дайПКИ()
   {
     if (!имя)
-      return родитель ? родитель.дайПКН() : "";
+      return родитель ? родитель.дайПКИ() : "";
     if (родитель)
-      return родитель.дайПКН() ~ '.' ~ имя.ткт;
+      return родитель.дайПКИ() ~ '.' ~ имя.ткт;
     return имя.ткт;
   }
 }

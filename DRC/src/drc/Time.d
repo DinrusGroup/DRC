@@ -1,11 +1,9 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity high)
 module drc.Time;
 
 import cidrus : time, ctime, time_t, strlen;
 
-/// Some convenience functions for dealing with C's время functions.
+/// Некоторые дополнительные функции для работы с
+/// функциями времени Си.
 struct Время
 {
 static:
@@ -14,8 +12,8 @@ static:
   {
     time_t знач_врем;
     .time(&знач_врем);
-    сим* ткт = ctime(&знач_врем); // ctime returns a pointer в a static массив.
-    ткст ткстВрем = ткт[0 .. strlen(ткт)-1]; // -1 removes trailing '\n'.
+    сим* ткт = ctime(&знач_врем); // ctime возвращает указатель на статический массив.
+    ткст ткстВрем = ткт[0 .. strlen(ткт)-1]; // -1 удаляет завершающий '\n'.
     return ткстВрем.dup;
   }
 

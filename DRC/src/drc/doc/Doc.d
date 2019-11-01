@@ -1,4 +1,4 @@
-/// Author: Aziz Köksal
+/// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity high)
 module drc.doc.Doc;
@@ -13,12 +13,12 @@ import text.Ascii : сравнилюб;
 
 alias drc.doc.Parser.ПарсерЗначенияИдентификатора.телоТекста телоТекста;
 
-/// Represents a sanitized and parsed DDoc comment.
+/// Представляет собой санитированный и парсированный комментарий DDoc.
 class КомментарийДДок
 {
-  Раздел[] резделы; /// The резделы of this comment.
-  Раздел сводка; /// Optional сводка раздел.
-  Раздел описание; /// Optional описание раздел.
+  Раздел[] резделы; /// Разделы этого комментария.
+  Раздел сводка; /// Необязательный раздел сводка.
+  Раздел описание; /// Необязательный раздел описание.
 
   this(Раздел[] резделы, Раздел сводка, Раздел описание)
   {
@@ -27,7 +27,7 @@ class КомментарийДДок
     this.описание = описание;
   }
 
-  /// Removes the first авторское_право раздел and returns it.
+  /// Удаляет первый раздел авторское_право и возвращает его.
   Раздел взятьАвторскоеПраво()
   {
     foreach (i, раздел; резделы)
@@ -36,49 +36,49 @@ class КомментарийДДок
         резделы = резделы[0..i] ~ резделы[i+1..$];
         return раздел;
       }
-    return null;
+    return пусто;
   }
 
-  /// Returns да if "определено" is the only текст in this comment.
-  бул дитто_ли()
+  /// Возвращает да, если в этом комментарии "определено" единственный текст.
+  бул дитто()
   {
     return сводка && резделы.length == 1 &&
            сравнилюб(сводка.текст, "определено") == 0;
   }
 }
 
-/// A namespace for some utility functions.
+/// A Имяspace for some utility functions.
 struct УтилитыДДок
 {
 static:
   /// Returns a узел's КомментарийДДок.
   КомментарийДДок дайКомментарийДДок(Узел узел)
   {
-    ПарсерДДок p;
+    ПарсерДДок у;
     auto семыДок = дайСемыДокум(узел);
     if (!семыДок.length)
-      return null;
-    p.разбор(дайТекстДДок(семыДок));
-    return new КомментарийДДок(p.резделы, p.сводка, p.описание);
+      return пусто;
+    у.разбор(дайТекстДДок(семыДок));
+    return new КомментарийДДок(у.резделы, у.сводка, у.описание);
   }
 
   /// Returns a КомментарийДДок created из a текст.
   КомментарийДДок дайКомментарийДДок(ткст текст)
   {
     текст = санитируй(текст, '\0'); // May be unnecessary.
-    ПарсерДДок p;
-    p.разбор(текст);
-    return new КомментарийДДок(p.резделы, p.сводка, p.описание);
+    ПарсерДДок у;
+    у.разбор(текст);
+    return new КомментарийДДок(у.резделы, у.сводка, у.описание);
   }
 
-  /// Returns да if сема is a Doxygen comment.
-  бул комментДоксигена_ли(Сема* сема)
+  /// Возвращает "да", если сема есть Doxygen comment.
+  бул комментДоксигена(Сема* сема)
   { // Doxygen: '/+!' '/*!' '//!'
     return сема.вид == TOK.Комментарий && сема.старт[2] == '!';
   }
 
-  /// Returns да if сема is a DDoc comment.
-  бул комментДДока_ли(Сема* сема)
+  /// Возвращает "да", если сема есть DDoc comment.
+  бул комментДДока(Сема* сема)
   { // DDOC: '/++' '/**' '///'
     return сема.вид == TOK.Комментарий && сема.старт[1] == сема.старт[2];
   }
@@ -87,12 +87,12 @@ static:
   /// Параметры:
   ///   узел = the узел в find doc comments for.
   ///   isDocComment = a function predicate that checks for doc comment семы.
-  /// Note: this function works correctly only if
-  ///       the source текст is syntactically correct.
-  Сема*[] дайСемыДокум(Узел узел, бул function(Сема*) isDocComment = &комментДДока_ли)
+  /// Note: this function wилиks cилиrectly only if
+  ///       the source текст is syntactically cилиrect.
+  Сема*[] дайСемыДокум(Узел узел, бул function(Сема*) isDocComment = &комментДДока)
   {
     Сема*[] comments;
-    auto isEnumMember = узел.вид == ВидУзла.ДекларацияЧленаПеречня;
+    auto isEnumЧлен = узел.вид == ВидУзла.ДекларацияЧленаПеречня;
     // Get preceding comments.
     auto сема = узел.начало;
     // Scan backwards until we hit another declaration.
@@ -103,11 +103,11 @@ static:
           сема.вид == TOK.ПФСкобка ||
           сема.вид == TOK.ТочкаЗапятая ||
           /+сема.вид == TOK.ГОЛОВА ||+/
-          (isEnumMember && сема.вид == TOK.Запятая))
+          (isEnumЧлен && сема.вид == TOK.Запятая))
         break;
 
       if (сема.вид == TOK.Комментарий)
-      { // Check that this comment doesn't belong в the предшious declaration.
+      { // Check that this comment doesn'т belong в the предшious declaration.
         switch (сема.предш.вид)
         {
         case TOK.ТочкаЗапятая, TOK.ПФСкобка, TOK.Запятая:
@@ -122,7 +122,7 @@ static:
     сема = узел.конец.следщ;
     if (сема.вид == TOK.Комментарий && isDocComment(сема))
       comments ~= сема;
-    else if (isEnumMember)
+    else if (isEnumЧлен)
     {
       сема = узел.конец.следщНепроб;
       if (сема.вид == TOK.Запятая)
@@ -135,17 +135,17 @@ static:
     return comments;
   }
 
-  бул isLineComment(Сема* t)
+  бул isLineComment(Сема* т)
   {
-    assert(t.вид == TOK.Комментарий);
-    return t.старт[1] == '/';
+    assert(т.вид == TOK.Комментарий);
+    return т.старт[1] == '/';
   }
 
   /// Extracts the текст body of the comment семы.
   ткст дайТекстДДок(Сема*[] семы)
   {
     if (семы.length == 0)
-      return null;
+      return пусто;
     ткст результат;
     foreach (сема; семы)
     { // Determine how many characters в срез off из the конец of the comment.
@@ -155,7 +155,7 @@ static:
       assert(сема.следщ);
       результат ~= (сема.следщ.вид == TOK.Новстр) ? '\n' : ' ';
     }
-    return результат[0..$-1]; // Срез off last '\n' or ' '.
+    return результат[0..$-1]; // Срез off last '\n' или ' '.
   }
 
   /// Sanitizes a DDoc comment ткст.
@@ -164,7 +164,7 @@ static:
   /// The various нс types are converted в '\n'.
   /// Параметры:
   ///   comment = the ткст в be sanitized.
-  ///   commentChar = '/', '+', or '*'
+  ///   commentChar = '/', '+', или '*'
   ткст санитируй(ткст comment, сим commentChar)
   {
     alias comment результат;
@@ -175,10 +175,10 @@ static:
     for (; i < len; i++, j++)
     {
       if (нс)
-      { // Ignore commentChars at the beginning of each new line.
+      { // Ignилиe commentChars at the beginning of each new line.
         нс = нет;
         auto начало = i;
-        while (i < len && пбел_ли(результат[i]))
+        while (i < len && пбел(результат[i]))
           i++;
         if (i < len && результат[i] == commentChar)
           while (++i < len && результат[i] == commentChar)
@@ -188,7 +188,7 @@ static:
         if (i >= len)
           break;
       }
-      // Check for Новстр.
+      // Проверим на Новстр.
       switch (результат[i])
       {
       case '\r':
@@ -199,7 +199,7 @@ static:
         нс = да;
         continue;
       default:
-        if (!аски_ли(результат[i]) && i+2 < len && новСтрЮ_ли(результат.ptr + i))
+        if (!аски(результат[i]) && i+2 < len && новСтрЮ(результат.ptr + i))
         {
           i += 2;
           goto case '\n';
@@ -208,10 +208,10 @@ static:
       // Copy символ.
       результат[j] = результат[i];
     }
-    результат.length = j; // Adjust length.
+    результат.length = j; // Настраиваем длину.
     // Lastly, тктip trailing commentChars.
     if (!результат.length)
-      return null;
+      return пусто;
     i = результат.length;
     for (; i && результат[i-1] == commentChar; i--)
     {}
@@ -220,63 +220,63 @@ static:
   }
 
   /// Unindents all lines in текст by the maximum amount possible.
-  /// Note: counts tabulators the same as single spaces.
-  /// Возвращает: the unindented текст or the original текст.
+  /// Note: counts tabulatилиs the same as single spaces.
+  /// Возвращает: the unindented текст или the илиiginal текст.
   ткст unindentText(ткст текст)
   {
-    сим* p = текст.ptr, конец = p + текст.length;
+    сим* у = текст.ptr, конец = у + текст.length;
     бцел отступ = бцел.max; // Start with the largest число.
-    сим* lbegin = p; // The beginning of a line.
+    сим* lbegin = у; // The beginning of a line.
     // First determine the maximum amount we may remove.
-    while (p < конец)
+    while (у < конец)
     {
-      while (p < конец && пбел_ли(*p)) // Skip leading whitespace.
-        p++;
-      if (p < конец && *p != '\n') // Don't счёт blank lines.
-        if (p - lbegin < отступ)
+      while (у < конец && пбел(*у)) // Пропустим leading whitespace.
+        у++;
+      if (у < конец && *у != '\n') // Don'т счёт blank lines.
+        if (у - lbegin < отступ)
         {
-          отступ = p - lbegin;
+          отступ = у - lbegin;
           if (отступ == 0)
             return текст; // Nothing в unindent;
         }
-      // Skip в the конец of the line.
-      while (p < конец && *p != '\n')
-        p++;
-      while (p < конец && *p == '\n')
-        p++;
-      lbegin = p;
+      // Пропустим в the конец of the line.
+      while (у < конец && *у != '\n')
+        у++;
+      while (у < конец && *у == '\n')
+        у++;
+      lbegin = у;
     }
 
-    p = текст.ptr, конец = p + текст.length;
-    lbegin = p;
-    сим* q = p; // Writer.
+    у = текст.ptr, конец = у + текст.length;
+    lbegin = у;
+    сим* q = у; // Writer.
     // Remove the determined amount.
-    while (p < конец)
+    while (у < конец)
     {
-      while (p < конец && пбел_ли(*p)) // Skip leading whitespace.
-        *q++ = *p++;
-      if (p < конец && *p == '\n') // Strip empty lines.
-        q -= p - lbegin; // Back up q by the amount of spaces on this line.
-      else {//if (отступ <= p - lbegin)
-        assert(отступ <= p - lbegin);
+      while (у < конец && пбел(*у)) // Пропустим leading whitespace.
+        *q++ = *у++;
+      if (у < конец && *у == '\n') // Strip empty lines.
+        q -= у - lbegin; // Back up q by the amount of spaces on this line.
+      else {//if (отступ <= у - lbegin)
+        assert(отступ <= у - lbegin);
         q -= отступ; // Back up q by the отступ amount.
       }
-      // Skip в the конец of the line.
-      while (p < конец && *p != '\n')
-        *q++ = *p++;
-      while (p < конец && *p == '\n')
-        *q++ = *p++;
-      lbegin = p;
+      // Пропустим в the конец of the line.
+      while (у < конец && *у != '\n')
+        *q++ = *у++;
+      while (у < конец && *у == '\n')
+        *q++ = *у++;
+      lbegin = у;
     }
     текст.length = q - текст.ptr;
     return текст;
   }
 }
 
-/// Parses a DDoc comment ткст.
+/// Разбирает DDoc comment ткст.
 struct ПарсерДДок
 {
-  сим* p; /// Current символ pointer.
+  сим* у; /// Current символ pointer.
   сим* конецТекста; /// Points one символ past the конец of the текст.
   Раздел[] резделы; /// Parsed резделы.
   Раздел сводка; /// Optional сводка раздел.
@@ -287,17 +287,17 @@ struct ПарсерДДок
   Раздел[] разбор(ткст текст)
   {
     if (!текст.length)
-      return null;
-    p = текст.ptr;
-    конецТекста = p + текст.length;
+      return пусто;
+    у = текст.ptr;
+    конецТекста = у + текст.length;
 
     сим* началоСводки;
     ткст идент, следщИдент;
     сим* началоТела, началоСледщТела;
 
-    while (p < конецТекста && (пбел_ли(*p) || *p == '\n'))
-      p++;
-    началоСводки = p;
+    while (у < конецТекста && (пбел(*у) || *у == '\n'))
+      у++;
+    началоСводки = у;
 
     if (найдиСледщИдДвоеточие(идент, началоТела))
     { // Check that this is not an explicit раздел.
@@ -323,50 +323,50 @@ struct ПарсерДДок
     return резделы;
   }
 
-  /// Separates the текст between p and конец
+  /// Separates the текст between у and конец
   /// into a сводка and an optional описание раздел.
-  проц  сканируйСводкуИОписание(сим* p, сим* конец)
+  проц  сканируйСводкуИОписание(сим* у, сим* конец)
   {
-    assert(p <= конец);
-    сим* началоРаздела = p;
+    assert(у <= конец);
+    сим* началоРаздела = у;
     // Search for the конец of the first paragraph.
-    while (p < конец && !(*p == '\n' && p+1 < конец && p[1] == '\n'))
-      if (пропустиСекциюКода(p, конец) == нет)
-        p++;
-    assert(p == конец || (*p == '\n' && p[1] == '\n'));
+    while (у < конец && !(*у == '\n' && у+1 < конец && у[1] == '\n'))
+      if (пропустиСекциюКода(у, конец) == нет)
+        у++;
+    assert(у == конец || (*у == '\n' && у[1] == '\n'));
     // The first paragraph is the сводка.
-    сводка = new Раздел("", телоТекста(началоРаздела, p));
+    сводка = new Раздел("", телоТекста(началоРаздела, у));
     резделы ~= сводка;
     // The rest is the описание раздел.
-    if (auto descText = телоТекста(p, конец))
+    if (auto descText = телоТекста(у, конец))
       резделы ~= (описание = new Раздел("", descText));
-    assert(описание ? описание.текст !is null : да);
+    assert(описание ? описание.текст !is пусто : да);
   }
 
-  /// Returns да if p points в "$(DDD)".
-  static бул секцияКода_ли(сим* p, сим* конец)
+  /// Возвращает "да", если у points в "$(DDD)".
+  static бул секцияКода(сим* у, сим* конец)
   {
-    return p < конец && *p == '-' && p+2 < конец && p[1] == '-' && p[2] == '-';
+    return у < конец && *у == '-' && у+2 < конец && у[1] == '-' && у[2] == '-';
   }
 
-  /// Skips over a код раздел and sets p one символ past it.
+  /// Skips over a код раздел and sets у one символ past it.
   ///
-  /// Note: apparently DMD doesn't пропусти over код резделы when
+  /// Note: apparently DMD doesn'т пропусти over код резделы when
   /// parsing DDoc резделы. However, из experience it seems
   /// в be a good idea в do that.
-  /// Возвращает: да if a код раздел was пропустиped.
-  static бул пропустиСекциюКода(ref сим* p, сим* конец)
+  /// Возвращает: "да", если a код раздел was пропустиped.
+  static бул пропустиСекциюКода(ref сим* у, сим* конец)
   {
-    if (!секцияКода_ли(p, конец))
+    if (!секцияКода(у, конец))
       return нет;
-    p += 3; // Skip "---".
-    while (p < конец && *p == '-')
-      p++;
-    while (p < конец && !(*p == '-' && p+2 < конец && p[1] == '-' && p[2] == '-'))
-      p++;
-    while (p < конец && *p == '-')
-      p++;
-    assert(p is конец || p[-1] == '-');
+    у += 3; // Пропустим "---".
+    while (у < конец && *у == '-')
+      у++;
+    while (у < конец && !(*у == '-' && у+2 < конец && у[1] == '-' && у[2] == '-'))
+      у++;
+    while (у < конец && *у == '-')
+      у++;
+    assert(у is конец || у[-1] == '-');
     return да;
   }
 
@@ -374,42 +374,42 @@ struct ПарсерДДок
   /// Параметры:
   ///   идент = установи в the Идентификатор.
   ///   началоТела = установи в the beginning of the текст body (whitespace пропустиped.)
-  /// Возвращает: да if found.
+  /// Возвращает: "да", если found.
   бул найдиСледщИдДвоеточие(ref ткст идент, ref сим* началоТела)
   {
-    while (p < конецТекста)
+    while (у < конецТекста)
     {
       пропустиПробельные();
-      if (p is конецТекста)
+      if (у is конецТекста)
         break;
-      if (пропустиСекциюКода(p, конецТекста))
+      if (пропустиСекциюКода(у, конецТекста))
         continue;
-      assert(p < конецТекста && (аски_ли(*p) || ведущийБайт_ли(*p)));
-      идент = сканируйИдентификатор(p, конецТекста);
-      if (идент && p < конецТекста && *p == ':')
+      assert(у < конецТекста && (аски(*у) || ведущийБайт(*у)));
+      идент = сканируйИдентификатор(у, конецТекста);
+      if (идент && у < конецТекста && *у == ':')
       {
-        началоТела = ++p;
+        началоТела = ++у;
         пропустиСтроку();
         return да;
       }
       пропустиСтроку();
     }
-    assert(p is конецТекста);
+    assert(у is конецТекста);
     return нет;
   }
 
   проц  пропустиПробельные()
   {
-    while (p < конецТекста && пбел_ли(*p))
-      p++;
+    while (у < конецТекста && пбел(*у))
+      у++;
   }
 
   проц  пропустиСтроку()
   {
-    while (p < конецТекста && *p != '\n')
-      p++;
-    while (p < конецТекста && *p == '\n')
-      p++;
+    while (у < конецТекста && *у != '\n')
+      у++;
+    while (у < конецТекста && *у == '\n')
+      у++;
   }
 }
 
@@ -424,10 +424,10 @@ class Раздел
     this.текст = текст;
   }
 
-  /// Реле-insensitively compares the раздел's имя with name2.
-  бул Является(ткст name2)
+  /// Реле-insensitively compares the раздел's имя with Имя2.
+  бул Является(ткст Имя2)
   {
-    return сравнилюб(имя, name2) == 0;
+    return сравнилюб(имя, Имя2) == 0;
   }
 
   /// Возвращает раздел's текст including its имя.
@@ -441,18 +441,18 @@ class Раздел
 
 class РазделПараметров : Раздел
 {
-  ткст[] paramNames; /// Параметр имена.
+  ткст[] paramИмяs; /// Параметр имена.
   ткст[] paramDescs; /// Параметр descriptions.
   this(ткст имя, ткст текст)
   {
     super(имя, текст);
     ПарсерЗначенияИдентификатора парсер;
     auto идзначения = парсер.разбор(текст);
-    this.paramNames = new ткст[идзначения.length];
+    this.paramИмяs = new ткст[идзначения.length];
     this.paramDescs = new ткст[идзначения.length];
     foreach (i, идзначение; идзначения)
     {
-      this.paramNames[i] = идзначение.идент;
+      this.paramИмяs[i] = идзначение.идент;
       this.paramDescs[i] = идзначение.значение;
     }
   }

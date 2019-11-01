@@ -1,6 +1,3 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity very high)
 module drc.ast.Expression;
 
 import drc.ast.Node;
@@ -19,16 +16,16 @@ abstract class Выражение : Узел
     super(КатегорияУзла.Выражение);
   }
 
-  /// Возвращает да, если член 'тип' не равен null.
+  /// Возвращает да, если член 'тип' не равен пусто.
   бул естьТип()
   {
-    return тип !is null;
+    return тип !is пусто;
   }
 
-  /// Возвращает да, если член 'символ' не равен null.
+  /// Возвращает да, если член 'символ' не равен пусто.
   бул естьСимвол()
   {
-    return символ !is null;
+    return символ !is пусто;
   }
 
   override abstract Выражение копируй();

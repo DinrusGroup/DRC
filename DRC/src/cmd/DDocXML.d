@@ -1,4 +1,4 @@
-/// Authors: Aziz Köksal, Jari-Matti Mäkelä
+/// Authors: Aziz Köksal, Vitaly Kulich, Jari-Matti Mäkelä
 /// License: GPL3
 /// $(Maturity average)
 module cmd.DDocXML;
@@ -10,7 +10,7 @@ import drc.ast.Declarations;
 import drc.semantic.Module;
 import common;
 
-/// Traverses the syntax tree and writes DDoc макрос в a ткст буфер.
+/// Обходит синтактическое дерево и записывает макрос DDoc в текстовый буфер.
 class РЯРЭмиттерДДок : ЭмиттерДДок
 {
   /// Строит РЯРЭмиттерДДок объект.
@@ -27,17 +27,17 @@ override:
   {
     if (!ddoc(d))
       return d;
-    auto тип = textSpan(d.типВозврата.типОснова.начало, d.типВозврата.конец);
-    DECL({
+    auto тип = участокТекста(d.типВозврата.типОснова.начало, d.типВозврата.конец);
+    ДЕКЛ({
       пиши("function, ");
       пиши("$(TYPE ");
       пиши("$(RETURNS ", escape(тип), ")");
-      writeTemplateParams();
-      writeParams(d.парамы);
+      пишиПарамыШаблона();
+      пишиПарамы(d.парамы);
       пиши(")");
-      SYMBOL(d.имя.ткт, "function", d);
+      СИМВОЛ(d.имя.ткт, "function", d);
     }, d);
-    DESC();
+    ДЕСК();
     return d;
   }
 
@@ -47,12 +47,12 @@ override:
       return d;
     ткст тип = "auto";
     if (d.узелТипа)
-      тип = textSpan(d.узелТипа.типОснова.начало, d.узелТипа.конец);
+      тип = участокТекста(d.узелТипа.типОснова.начало, d.узелТипа.конец);
     foreach (имя; d.имена)
-      DECL({ пиши("переменная, "); пиши("$(TYPE ", escape(тип), ")");
-        SYMBOL(имя.ткт, "переменная", d);
+      ДЕКЛ({ пиши("variable, "); пиши("$(TYPE ", escape(тип), ")");
+        СИМВОЛ(имя.ткт, "variable", d);
       }, d);
-    DESC();
+    ДЕСК();
     return d;
   }
 }

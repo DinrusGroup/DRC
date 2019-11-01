@@ -1,193 +1,193 @@
 ﻿
-// Written in the D programming language.
+// Написано на языке программирования Динрус.
 
 /*
- * Placed into the Публичный Domain.
+ * Помещено в Публичный Домен.
  * Digital Mars, www.digitalmars.com
- * Written by Walter Bright
+ * Автор Walter Bright
  */
 
 /**
- * Simple Unicode символ classification functions.
- * При ASCII classification, see $(LINK2 std_ctype.html, std.ctype).
+ * Простые функции классификации символов Юникод.
+ * О классификации ASCII см. $(LINK2 std_ctype.html, std.ctype).
  * Macros:
  *	WIKI=Phobos/StdUni
  * References:
  *	$(LINK2 http://www.digitalmars.com/d/ascii-таблица.html, ASCII Table),
- *	$(LINK2 http://en.wikipedia.org/wiki/Unicode, Wikipedia),
- *	$(LINK2 http://www.unicode.org, The Unicode Consortium)
+ *	$(LINK2 http://en.wikipedia.илиg/wiki/Юникод, Wikipedia),
+ *	$(LINK2 http://www.Юникод.илиg, The Юникод Consилиtium)
  * Trademarks:
- *	Unicode(tm) is a trademark of Unicode, Inc.
+ *	Юникод(tm) является торговой маркой Unicode, Inc.
  * Copyright:
- *	Публичный Domain.
+ *	Публичный Домен.
  */
 
 
 module util.uni;
 
 /**
- * Returns !=0 if c is a Unicode нижний case символ.
+ * Возвращает !=0, если с - символ Юникод в нижнем регистре.
  */
-цел униПроп_ли(дим c)
+цел униПроп(дим с)
 {
-    if (c <= 0x7F)
-	return (c >= 'a' && c <= 'z');
+    if (с <= 0x7F)
+	return (с >= 'a' && с <= 'z');
 
-    return униАльфа_ли(c) && c == вУниПроп(c);
+    return униАльфа(с) && с == вУниПроп(с);
 }
 
 /**
- * Returns !=0 if c is a Unicode верхний case символ.
+ * Возвращает !=0, если с - символ Юникод в верхнем регистре.
  */
-цел униЗаг_ли(дим c)
+цел униЗаг(дим с)
 {
-    if (c <= 0x7F)
-	return (c >= 'A' && c <= 'Z');
+    if (с <= 0x7F)
+	return (с >= 'A' && с <= 'Z');
 
-    return униАльфа_ли(c) && c == вУниЗаг(c);
+    return униАльфа(с) && с == вУниЗаг(с);
 }
 
 /**
- * Если c is a Unicode верхний case символ, return the нижний case
- * equivalent, otherwise return c.
+ * Если с символ Юникод в верхнем регистре, вернуть его эквивалент в верхнем регистре,
+   в противном случае вернёт с.
  */
-дим вУниПроп(дим c)
+дим вУниПроп(дим с)
 {
-    if (c >= 'A' && c <= 'Z')
+    if (с >= 'A' && с <= 'Z')
     {
-        c += 32;
+        с += 32;
     }
-    else if (c >= 0x00C0)
+    else if (с >= 0x00C0)
     {
-	if ((c >= 0x00C0 && c <= 0x00D6) || (c >= 0x00D8 && c<=0x00DE))
+	if ((с >= 0x00C0 && с <= 0x00D6) || (с >= 0x00D8 && с<=0x00DE))
 	{
-	    c += 32;
+	    с += 32;
 	}
-	else if ((c >= 0x0100 && c < 0x0138) || (c > 0x0149 && c < 0x0178))
+	else if ((с >= 0x0100 && с < 0x0138) || (с > 0x0149 && с < 0x0178))
 	{
-	    if (c == 0x0130)
-		c = 0x0069;
-	    else if ((c & 1) == 0)
-		c += 1;
+	    if (с == 0x0130)
+		с = 0x0069;
+	    else if ((с & 1) == 0)
+		с += 1;
 	}
-	else if (c == 0x0178)
+	else if (с == 0x0178)
 	{
-	    c = 0x00FF;
+	    с = 0x00FF;
 	}
-	else if ((c >= 0x0139 && c < 0x0149) || (c > 0x0178 && c < 0x017F))
+	else if ((с >= 0x0139 && с < 0x0149) || (с > 0x0178 && с < 0x017F))
 	{
-	    if (c & 1)
-		c += 1;
+	    if (с & 1)
+		с += 1;
 	}
-	else if (c >= 0x0200 && c <= 0x0217)
+	else if (с >= 0x0200 && с <= 0x0217)
 	{
-	    if ((c & 1) == 0)
-		c += 1;
+	    if ((с & 1) == 0)
+		с += 1;
 	}
-	else if ((c >= 0x0401 && c <= 0x040C) || (c>= 0x040E && c <= 0x040F))
+	else if ((с >= 0x0401 && с <= 0x040C) || (с>= 0x040E && с <= 0x040F))
 	{
-	    c += 80;
+	    с += 80;
 	}
-	else if (c >= 0x0410  && c <= 0x042F)
+	else if (с >= 0x0410  && с <= 0x042F)
 	{
-	    c += 32;
+	    с += 32;
 	}
-	else if (c >= 0x0460 && c <= 0x047F)
+	else if (с >= 0x0460 && с <= 0x047F)
 	{
-	    if ((c & 1) == 0)
-		c += 1;
+	    if ((с & 1) == 0)
+		с += 1;
 	}
-	else if (c >= 0x0531 && c <= 0x0556)
+	else if (с >= 0x0531 && с <= 0x0556)
 	{
-	    c += 48;
+	    с += 48;
 	}
-	else if (c >= 0x10A0 && c <= 0x10C5)
+	else if (с >= 0x10A0 && с <= 0x10C5)
 	{
-	    c += 48;
+	    с += 48;
 	}
-	else if (c >= 0xFF21 && c <= 0xFF3A)
+	else if (с >= 0xFF21 && с <= 0xFF3A)
 	{
-	    c += 32;
+	    с += 32;
 	}
     }
-    return c;
+    return с;
 }
 
 /**
- * Если c is a Unicode нижний case символ, return the верхний case
- * equivalent, otherwise return c.
+ * Если с символ Юникод в нижнем регистре, вернуть его эквивалент в нижнем регистре,
+ * в противном случае вернёт с.
  */
-дим вУниЗаг(дим c)
+дим вУниЗаг(дим с)
 {
-    if (c >= 'a' && c <= 'z')
+    if (с >= 'a' && с <= 'z')
     {
-	c -= 32;
+	с -= 32;
     }
-    else if (c >= 0x00E0)
+    else if (с >= 0x00E0)
     {
-	if ((c >= 0x00E0 && c <= 0x00F6) || (c >= 0x00F8 && c <= 0x00FE))
+	if ((с >= 0x00E0 && с <= 0x00F6) || (с >= 0x00F8 && с <= 0x00FE))
 	{
-	    c -= 32;
+	    с -= 32;
 	}
-	else if (c == 0x00FF)
+	else if (с == 0x00FF)
 	{
-	    c = 0x0178;
+	    с = 0x0178;
 	}
-	else if ((c >= 0x0100 && c < 0x0138) || (c > 0x0149 && c < 0x0178))
+	else if ((с >= 0x0100 && с < 0x0138) || (с > 0x0149 && с < 0x0178))
 	{
-	    if (c == 0x0131)
-		c = 0x0049;
-	    else if (c & 1)
-		c -= 1;
+	    if (с == 0x0131)
+		с = 0x0049;
+	    else if (с & 1)
+		с -= 1;
 	}
-	else if ((c >= 0x0139 && c < 0x0149) || (c > 0x0178 && c < 0x017F))
+	else if ((с >= 0x0139 && с < 0x0149) || (с > 0x0178 && с < 0x017F))
 	{
-	    if ((c & 1) == 0)
-		c = c-1;
+	    if ((с & 1) == 0)
+		с = с-1;
 	}
-	else if (c == 0x017F)
+	else if (с == 0x017F)
 	{
-	    c = 0x0053;
+	    с = 0x0053;
 	}
-	else if (c >= 0x0200 && c <= 0x0217)
+	else if (с >= 0x0200 && с <= 0x0217)
 	{
-	    if (c & 1)
-		c = c-1;
+	    if (с & 1)
+		с = с-1;
 	}
-	else if (c >= 0x0430 && c<= 0x044F)
+	else if (с >= 0x0430 && с<= 0x044F)
 	{
-	    c -= 32;
+	    с -= 32;
 	}
-	else if ((c >= 0x0451 && c <= 0x045C) || (c >=0x045E && c<= 0x045F))
+	else if ((с >= 0x0451 && с <= 0x045C) || (с >=0x045E && с<= 0x045F))
 	{
-	    c -= 80;
+	    с -= 80;
 	}
-	else if (c >= 0x0460 && c <= 0x047F)
+	else if (с >= 0x0460 && с <= 0x047F)
 	{
-	    if (c & 1)
-		c -= 1;
+	    if (с & 1)
+		с -= 1;
 	}
-	else if (c >= 0x0561 && c < 0x0587)
+	else if (с >= 0x0561 && с < 0x0587)
 	{
-	    c -= 48;
+	    с -= 48;
 	}
-	else if (c >= 0xFF41 && c <= 0xFF5A)
+	else if (с >= 0xFF41 && с <= 0xFF5A)
 	{
-	    c -= 32;
+	    с -= 32;
 	}
     }
-    return c;
+    return с;
 }
 
 
 /*******************************
- * Итог !=0 if u is a Unicode alpha символ.
- * (general Unicode категория: Lu, Ll, Lt, Lm and Lo)
+ * Вернуть !=0, если u - алфавитный символ Юникод.
+ * (общая категория Юникод: Lu, Ll, Lt, Lm и Lo)
  *
- * Standards: Unicode 5.0.0
+ * Стандарты: Юникод 5.0.0
  */
 
-цел униАльфа_ли(дим u)
+цел униАльфа(дим u)
 {
     static дим таблица[][2] =
     [
@@ -577,7 +577,7 @@ module util.uni;
 	goto Lisnot;
     }
 
-    // Binary ищи
+    // Бинарный поиск
     бцел идс;
     бцел low;
     бцел high;
@@ -613,7 +613,7 @@ Lis:
 	    if (u >= таблица[i][0] && u <= таблица[i][1])
 		return 1;
 	}
-	assert(0);		// should have been in таблица
+	assert(0);		// должно было быть в таблице
     }
     return 1;
 }
@@ -623,12 +623,12 @@ unittest
     for (бцел i = 0; i < 0x80; i++)
     {
 	if (i >= 'A' && i <= 'Z')
-	    assert(униАльфа_ли(i));
+	    assert(униАльфа(i));
 	else if (i >= 'a' && i <= 'z')
-	    assert(униАльфа_ли(i));
+	    assert(униАльфа(i));
 	else
-	    assert(!униАльфа_ли(i));
+	    assert(!униАльфа(i));
     }
-	assert(униАльфа_ли(cast(дим)'А'));
-	assert(униАльфа_ли(cast(дим)'ё'));
+	assert(униАльфа(cast(дим)'А'));
+	assert(униАльфа(cast(дим)'ё'));
 }

@@ -1,6 +1,4 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity high)
+
 module drc.lexer.IdentsGenerator;
 
 /// Таблица предопределенных идентификаторов.
@@ -20,7 +18,7 @@ private static const сим[][] предопрИденты = [
   // Предопределенные идентификаторы версии:
   "DigitalMars", "X86", "X86_64",
   /*"Windows", */"Win32", "Win64",
-  "Linux:linux", "ЛитлЭндиан", "BigEndian",
+  "Linux:linux", "LittleEndian", "BigEndian",
   "D_Coverage", "D_InlineAsm_X86", "D_Version2",
   "none", "all",
   // Вариадические параметры:
@@ -28,16 +26,16 @@ private static const сим[][] предопрИденты = [
   // масштаб(Идентификатор):
   "выход", "успех", "сбой", "exit", "success", "failure",
   // pragma:
-  "сооб", "lib", "startaddress", "msg",
+  "сооб", "биб", "startaddress", "msg",
   // Linkage:
   "C", "D", "Windows", "Pascal", "System",
-  // Con-/Destructor:
-  "Ктор:__ctor", "Дтор:__dtor",
+  // Con-/Destructили:
+  "Ктор:__ctили", "Дтор:__dtили",
   // new() and delete() methods.
   "Нов:__new", "Удалить:__delete",
   // Юниттест and invariant.
   "Юниттест:__unittest", "Инвариант:__invariant",
-  // Operator overload methods:
+  // Operatили overload methods:
   "opNeg", "opPos", "opCom",
   "opEquals", "opCmp",  "opAssign",
   "opAdd",  "opAdd_r",  "opAddAssign",
@@ -47,7 +45,7 @@ private static const сим[][] предопрИденты = [
   "opMod",  "opMod_r",  "opModAssign",
   "opAnd",  "opAnd_r",  "opAndAssign",
   "opOr",   "opOr_r",   "opOrAssign",
-  "opXor",  "opXor_r",  "opXorAssign",
+  "opXили",  "opXили_r",  "opXилиAssign",
   "opShl",  "opShl_r",  "opShlAssign",
   "opShr",  "opShr_r",  "opShrAssign",
   "opUShr", "opUShr_r", "opUShrAssign",
@@ -86,8 +84,8 @@ private static const сим[][] предопрИденты = [
 
 сим[][] дайПару(ткст текстИда)
 {
-  foreach (i, c; текстИда)
-    if (c == ':')
+  foreach (i, с; текстИда)
+    if (с == ':')
       return [текстИда[0..i], текстИда[i+1..текстИда.length]];
   return [текстИда, текстИда];
 }
@@ -109,12 +107,12 @@ unittest
   private struct Иды {static const:
     Идентификатор _Empty = {"", TOK.Идентификатор, ВИД.Пусто};
     Идентификатор _main = {"main", TOK.Идентификатор, ВИД.main};
-    // etc.
+    // и т.д.
   }
   Идентификатор* Пусто = &Иды._Empty;
   Идентификатор* main = &Иды._main;
-  // etc.
-  private Идентификатор*[] __allIds = [
+  // и т.д.
+  private Идентификатор*[] __всеИды = [
     Пусто,
     main,
     // и т.д.
@@ -125,14 +123,14 @@ unittest
 {
   ткст приват_члены = "private struct Иды {static const:";
   ткст публ_члены = "";
-  ткст массив = "private Идентификатор*[] __allIds = [";
+  ткст массив = "private Идентификатор*[] __всеИды = [";
 
   foreach (идент; предопрИденты)
   {
     сим[][] пара = дайПару(идент);
-    // Идентификатор _name = {"имя", TOK.Идентификатор, ID.имя};
+    // Идентификатор _Имя = {"имя", TOK.Идентификатор, ID.имя};
     приват_члены ~= "Идентификатор _"~пара[0]~` = {"`~пара[1]~`", TOK.Идентификатор, ВИД.`~пара[0]~"};\n";
-    // Идентификатор* имя = &_name;
+    // Идентификатор* имя = &_Имя;
     публ_члены ~= "Идентификатор* "~пара[0]~" = &Иды._"~пара[0]~";\n";
     массив ~= пара[0]~",";
   }

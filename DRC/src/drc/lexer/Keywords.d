@@ -1,17 +1,15 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity high)
+
 module drc.lexer.Keywords;
 
 import drc.lexer.Token,
        drc.lexer.Identifier;
 
 /// Таблица резервированных идентификаторов.
-static const Идентификатор[] g_reservedIds = [
+static const Идентификатор[] г_зарезервированныеИды = [
   {"abstract", TOK.Абстрактный},
   {"абстрактный", TOK.Абстрактный},
   {"alias", TOK.Алиас},
-  {"иной", TOK.Алиас},
+  {"ник", TOK.Алиас},
   {"align", TOK.Расклад},
   {"расклад", TOK.Расклад},
   {"asm", TOK.Асм},
@@ -31,7 +29,9 @@ static const Идентификатор[] g_reservedIds = [
   {"case", TOK.Реле},
   {"реле", TOK.Реле},
   {"cast", TOK.Каст},
+	  //{"cast", TOK.Каст}
   {"catch", TOK.Кэтч},
+	  //{"catch", TOK.Кэтч},
   {"cdouble", TOK.Кдво},
   {"кдво", TOK.Кдво},
   {"cent", TOK.Цент},
@@ -76,18 +76,18 @@ static const Идентификатор[] g_reservedIds = [
   {"нет", TOK.Ложь},
   {"final", TOK.Окончательный},
   {"окончательный", TOK.Окончательный},
-  {"finally", TOK.Finally},
-  {"наконец", TOK.Finally},
+  {"finally", TOK.ВИтоге},
+  {"наконец", TOK.ВИтоге},
   {"float", TOK.Плав},
   {"плав", TOK.Плав},
   {"for", TOK.При},
   {"при", TOK.При},
-  {"foreach", TOK.Длявсех},
-  {"длявсех", TOK.Длявсех},
-  {"foreach_reverse", TOK.Длявсех_реверс},
-  {"длявсехрев", TOK.Длявсех_реверс},
+  {"foreach", TOK.ДляВсех},
+  {"длявсех", TOK.ДляВсех},
+  {"foreach_reverse", TOK.ДляВсех_реверс},
+  {"длявсех_рев", TOK.ДляВсех_реверс},
   {"function", TOK.Функция},
-  {"функ", TOK.Функция},
+  {"функция", TOK.Функция},
   {"goto", TOK.Переход},
   {"переход_на", TOK.Переход},
   {"idouble", TOK.Вдво},
@@ -97,7 +97,7 @@ static const Идентификатор[] g_reservedIds = [
   {"ifloat", TOK.Вплав},
   {"вплав", TOK.Вплав},
   {"import", TOK.Импорт},
-  {"импорт", TOK.Импорт},
+  {"импортируй", TOK.Импорт},
   {"in", TOK.Вхо},
   {"вхо", TOK.Вхо},
   {"inout", TOK.Вховых},
@@ -124,7 +124,8 @@ static const Идентификатор[] g_reservedIds = [
   {"модуль", TOK.Модуль},
   {"new", TOK.Нов},
   {"нов", TOK.Нов},
-  {"nothrow", TOK.Nothrow}, // D2.0
+  {"nothrow", TOK.Неброс}, // D2.0
+	  //{"nothrow", TOK.Неброс}, // D2.0
   {"null", TOK.Нуль},
   {"пусто", TOK.Нуль},
   {"out", TOK.Вых},
@@ -136,18 +137,25 @@ static const Идентификатор[] g_reservedIds = [
   {"pragma", TOK.Прагма},
   {"прагма", TOK.Прагма},
   {"private", TOK.Приватный},
+	  //{"private", TOK.Приватный},
   {"protected", TOK.Защищённый},
+	  //{"protected", TOK.Защищённый},
   {"public", TOK.Публичный},
-  {"pure", TOK.Pure}, // D2.0
+	  //{"public", TOK.Публичный},
+  {"pure", TOK.Чистый}, // D2.0
+	  //{"pure", TOK.Чистый}, // D2.0
   {"real", TOK.Реал},
   {"реал", TOK.Реал},
   {"ref", TOK.Реф},
+	  // {"ref", TOK.Реф},
   {"return", TOK.Итог},
-  {"итог", TOK.Итог},
+  {"верни", TOK.Итог},
   {"scope", TOK.Масштаб},
+	  //{"scope", TOK.Масштаб},
   {"short", TOK.Крат},
   {"крат", TOK.Крат},
   {"static", TOK.Статический},
+	  //{"static", TOK.Статический},
   {"struct", TOK.Структура},
   {"структ", TOK.Структура},
   {"super", TOK.Супер},
@@ -155,14 +163,15 @@ static const Идентификатор[] g_reservedIds = [
   {"switch", TOK.Щит},
   {"щит", TOK.Щит},
   {"synchronized", TOK.Синхронизованный},
-  {"синхронно", TOK.Синхронизованный},
+  {"синхронный", TOK.Синхронизованный},
   {"template", TOK.Шаблон},
   {"шаблон", TOK.Шаблон},
   {"this", TOK.Этот},
-  {"этот", TOK.Этот},
+  {"свой", TOK.Этот},
   {"throw", TOK.Брось},
   {"брось", TOK.Брось},
   {"__traits", TOK.Трэтс}, // D2.0
+	  //{"__traits", TOK.Трэтс}, // D2.0
   {"true", TOK.Истина},
   {"да", TOK.Истина},
   {"try", TOK.Пробуй},
@@ -188,13 +197,14 @@ static const Идентификатор[] g_reservedIds = [
   {"void", TOK.Проц},
   {"проц", TOK.Проц},
   {"volatile", TOK.Волатайл},
+	  //{"volatile", TOK.Волатайл},
   {"wchar", TOK.Шим},
   {"шим", TOK.Шим},
   {"while", TOK.Пока},
   {"пока", TOK.Пока},
   {"with", TOK.Для},
   {"для", TOK.Для},
-  // Special семы:
+  // Специальные семы:
   {"__FILE__", TOK.ФАЙЛ},
   {"__ФАЙЛ__", TOK.ФАЙЛ},
   {"__LINE__", TOK.СТРОКА},

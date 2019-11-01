@@ -1,6 +1,3 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity high)
 module drc.lexer.IdTable;
 
 import drc.lexer.TokensEnum,
@@ -22,7 +19,7 @@ struct Идент
   /// Возвращает массив предопределенных идентификаторов.
   static Идентификатор*[] всеИды()
   {
-    return __allIds;
+    return __всеИды;
   }
 }
 
@@ -38,7 +35,7 @@ static:
   /// Загружает ключевые слова и предопределенные идентификаторы в статическую таблицу.
   static this()
   {
-    foreach (ref k; g_reservedIds)
+    foreach (ref k; г_зарезервированныеИды)
       статическаяТаблица[k.ткт] = &k;
     foreach (ид; Идент.всеИды())
       статическаяТаблица[ид.ткт] = ид;
@@ -58,7 +55,7 @@ static:
   Идентификатор* вСтатической(ткст ткстИда)
   {
     auto ид = ткстИда in статическаяТаблица;
-    return ид ? *ид : null;
+    return ид ? *ид : пусто;
   }
 
   alias Идентификатор* function(ткст ткстИда) ФункцияПоиска;
@@ -75,17 +72,17 @@ static:
   }
 
   /// Возвращает да, если доступ к растущей таблице нитебезопасен.
-  бул нитебезопасно_ли()
+  бул нитебезопасно()
   {
     return вРастущей is &_inGrowing_safe;
   }
 
   /// Ищет ткстИда в таблице.
   ///
-  /// Adds ткстИда в the таблица if not found.
+  /// Добавляет ткстИда в таблицу, если он не найден.
   private Идентификатор* _inGrowing_unsafe(ткст ткстИда)
   out(ид)
-  { assert(ид !is null); }
+  { assert(ид !is пусто); }
   body
   {
     auto ид = ткстИда in растущаяТаблица;
@@ -96,10 +93,10 @@ static:
     return newID;
   }
 
-  /// Looks up ткстИда in the таблица.
+  /// Находит ткстИда в таблице.
   ///
-  /// Adds ткстИда в the таблица if not found.
-  /// Access в the данные structure is synchronized.
+  /// Добавляет ткстИда в таблицу, если он не найден.
+  /// Доступ к структуре данных синхронизируется.
   private Идентификатор* _inGrowing_safe(ткст ткстИда)
   {
     synchronized
@@ -124,49 +121,49 @@ static:
   }
   +/
 
-  static бцел anonCount; /// Counter for anonymous identifiers.
+  static бцел анонСчёт; /// Счётчик анонимных идентификаторов.
 
-  /// Generates an anonymous identifier.
+  /// Генерирует анонимный идентификатор.
   ///
-  /// Concatenates prefix with anonCount.
-  /// The identifier is not inserted into the таблица.
-  Идентификатор* генБезымянныйИД(ткст prefix)
+  /// Объединяет префикс с анонСчёт.
+  /// Этот идентификатор не вставляется в таблицу.
+  Идентификатор* генБезымянныйИД(ткст префикс)
   {
-    ++anonCount;
-    auto x = anonCount;
-    // Convert счёт в a ткст and добавь it в ткт.
+    ++анонСчёт;
+    auto x = анонСчёт;
+    // Конвертировать счёт в ткст и добавить его в ткт.
     ткст чис;
     do
       чис = cast(сим)('0' + (x % 10)) ~ чис;
-    while (x /= 10)
-    return Идентификатор(prefix ~ чис, TOK.Идентификатор);
+    while (x /= 10);
+    return Идентификатор(префикс ~ чис, TOK.Идентификатор);
   }
 
-  /// Generates an identifier for an anonymous enum.
+  /// Генерирует идентификатор для анонимного перечня.
   Идентификатор* генИДАнонПеречня()
   {
     return генБезымянныйИД("__anonenum");
   }
 
-  /// Generates an identifier for an anonymous class.
-  Идентификатор* genAnonClassID()
+  /// Генерирует идентификатор для анонимного класса.
+  Идентификатор* генАнонКлассИД()
   {
     return генБезымянныйИД("__anonclass");
   }
 
-  /// Generates an identifier for an anonymous struct.
-  Идентификатор* genAnonStructID()
+  /// Генерирует идентификатор для анонимной структуры.
+  Идентификатор* генАнонСтруктИД()
   {
     return генБезымянныйИД("__anonstruct");
   }
 
-  /// Generates an identifier for an anonymous union.
-  Идентификатор* genAnonUnionID()
+  /// Генерирует идентификатор для анонимного союза.
+  Идентификатор* генАнонСоюзИД()
   {
     return генБезымянныйИД("__anonunion");
   }
 
-  /// Generates an identifier for a module which has got no valid имя.
+  /// Генерирует идентификатор для модуля, у которого нет соответствующего имени.
   Идентификатор* генИдМодуля()
   {
     return генБезымянныйИД("__module");

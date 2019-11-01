@@ -1,137 +1,134 @@
-/// Author: Aziz Köksal
-/// License: GPL3
-/// $(Maturity very high)
 module drc.Unicode;
 
-import util.uni : униАльфа_ли;
+import util.uni : униАльфа;
 
-/// U+FFFD = �. Используется для замены неверных символов Unicode.
+/// U+FFFD = �. Используется для замены неверных символов Юникод.
 const дим СИМ_ЗАМЕНЫ = '\uFFFD';
 const сим[3] СТР_ЗАМЕНЫ = \uFFFD; /// Ditto
 /// Неверный символ, возвращается при ошибке.
 const дим СИМ_ОШИБКИ = 0xD800;
 
-/// Возвращает: да if this символ is not a surrogate
+/// Возвращает: "да", если this символ is not a surrogate
 /// код point and not higher than 0x10FFFF.
-бул верноСимвол_ли(дим d)
+бул верноСимвол(дим d)
 {
   return d < 0xD800 || d > 0xDFFF && d <= 0x10FFFF;
 }
 
 /// There are a всего of 66 noncharacters.
-/// Возвращает: да if this is one of them.
-/// See_also: Chapter 16.7 Noncharacters in Unicode 5.0
-бул неСимвол_ли(дим d)
+/// Возвращает: "да", если this is one of them.
+/// See_also: Chapter 16.7 Noncharacters in Юникод 5.0
+бул неСимвол(дим d)
 {
   return 0xFDD0 <= d && d <= 0xFDEF || // 32
          d <= 0x10FFFF && (d & 0xFFFF) >= 0xFFFE; // 34
 }
 
-/// Возвращает: да if this is a trail байт of a UTF-8 sequence.
-бул ведомыйБайт_ли(ббайт b)
+/// Возвращает: "да", если this есть trail байт of a UTF-8 sequence.
+бул ведомыйБайт(ббайт b)
 {
   return (b & 0xC0) == 0x80; // 10xx_xxxx
 }
 
-/// Возвращает: да if this is a lead байт of a UTF-8 sequence.
-бул ведущийБайт_ли(ббайт b)
+/// Возвращает: "да", если this есть lead байт of a UTF-8 sequence.
+бул ведущийБайт(ббайт b)
 {
   return (b & 0xC0) == 0xC0; // 11xx_xxxx
 }
 
-/// Advances ref_p only if this is a valid Unicode alpha символ.
+/// Advances ссыл_ук only if this есть valid Юникод alpha символ.
 /// Параметры:
-///   ref_p = установи в the last trail байт of the valid UTF-8 sequence.
-бул юАльфа_ли(ref сим* ref_p, сим* конец)
-in { assert(ref_p && ref_p < конец); }
+///   ссыл_ук = установи в the last trail байт of the valid UTF-8 sequence.
+бул юАльфа(ref сим* ссыл_ук, сим* конец)
+in { assert(ссыл_ук && ссыл_ук < конец); }
 body
 {
-  if (*ref_p < 0x80)
+  if (*ссыл_ук < 0x80)
     return нет;
-  auto p = ref_p;
-  auto c = раскодируй(p, конец);
-  if (!униАльфа_ли(c))
+  auto у = ссыл_ук;
+  auto с = раскодируй(у, конец);
+  if (!униАльфа(с))
     return нет;
-  ref_p = p-1; // Subtract 1 because of раскодируй().
+  ссыл_ук = у-1; // Subtract 1 because of раскодируй().
   return да;
 }
 
-/// Decodes a символ из ткт at индекс.
+/// Раскодирует a символ из ткт at индекс.
 /// Параметры:
-///   индекс = установи в one past the ASCII сим or one past the last trail байт
+///   индекс = установи в one past the ASCII сим или one past the last trail байт
 ///           of the valid UTF-8 sequence.
 дим раскодируй(ткст ткт, ref т_мера индекс)
 in { assert(ткт.length && индекс < ткт.length); }
 out { assert(индекс <= ткт.length); }
 body
 {
-  сим* p = ткт.ptr + индекс;
+  сим* у = ткт.ptr + индекс;
   сим* конец = ткт.ptr + ткт.length;
-  дим c = раскодируй(p, конец);
-  if (c != СИМ_ОШИБКИ)
-    индекс = p - ткт.ptr;
-  return c;
+  дим с = раскодируй(у, конец);
+  if (с != СИМ_ОШИБКИ)
+    индекс = у - ткт.ptr;
+  return с;
 }
 
-/// Decodes a символ starting at ref_p.
+/// Раскодирует a символ starting at ссыл_ук.
 /// Параметры:
-///   ref_p = установи в one past the ASCII сим or one past the last trail байт
+///   ссыл_ук = установи в one past the ASCII сим или one past the last trail байт
 ///           of the valid UTF-8 sequence.
-дим раскодируй(ref сим* ref_p, сим* конец)
-in { assert(ref_p && ref_p < конец); }
-out(c) { assert(ref_p <= конец && (верноСимвол_ли(c) || c == СИМ_ОШИБКИ)); }
+дим раскодируй(ref сим* ссыл_ук, сим* конец)
+in { assert(ссыл_ук && ссыл_ук < конец); }
+out(с) { assert(ссыл_ук <= конец && (верноСимвол(с) || с == СИМ_ОШИБКИ)); }
 body
 {
-  сим* p = ref_p;
-  дим c = *p;
+  сим* у = ссыл_ук;
+  дим с = *у;
 
-  if (c < 0x80)
-    return ref_p++, c;
+  if (с < 0x80)
+    return ссыл_ук++, с;
 
-  p++; // Move в second байт.
-  if (!(p < конец))
+  у++; // Перейти ко второму байту.
+  if (!(у < конец))
     return СИМ_ОШИБКИ;
 
-  // Ошибка if second байт is not a trail байт.
-  if (!ведомыйБайт_ли(*p))
+  // Ошибка, если второй байт не трейлбайт.
+  if (!ведомыйБайт(*у))
     return СИМ_ОШИБКИ;
 
-  // Check for overlong sequences.
-  switch (c)
+  // Проверка на сверхдлинные последовательности.
+  switch (с)
   {
   case 0xE0, // 11100000 100xxxxx
        0xF0, // 11110000 1000xxxx
        0xF8, // 11111000 10000xxx
        0xFC: // 11111100 100000xx
-    if ((*p & c) == 0x80)
+    if ((*у & с) == 0x80)
       return СИМ_ОШИБКИ;
   default:
-    if ((c & 0xFE) == 0xC0) // 1100000x
+    if ((с & 0xFE) == 0xC0) // 1100000x
       return СИМ_ОШИБКИ;
   }
 
-  const ткст проверьСледующийБайт = "if (!(++p < конец && ведомыйБайт_ли(*p)))"
+  const ткст проверьСледующийБайт = "if (!(++у < конец && ведомыйБайт(*у)))"
                                 "  return СИМ_ОШИБКИ;";
-  const ткст добавьШестьБит = "c = (c << 6) | *p & 0b0011_1111;";
+  const ткст добавьШестьБит = "с = (с << 6) | *у & 0b0011_1111;";
 
-  // Decode
-  if ((c & 0b1110_0000) == 0b1100_0000)
+  // Раскодировка
+  if ((с & 0b1110_0000) == 0b1100_0000)
   {
     // 110xxxxx 10xxxxxx
-    c &= 0b0001_1111;
+    с &= 0b0001_1111;
     mixin(добавьШестьБит);
   }
-  else if ((c & 0b1111_0000) == 0b1110_0000)
+  else if ((с & 0b1111_0000) == 0b1110_0000)
   {
     // 1110xxxx 10xxxxxx 10xxxxxx
-    c &= 0b0000_1111;
+    с &= 0b0000_1111;
     mixin(добавьШестьБит ~
           проверьСледующийБайт ~ добавьШестьБит);
   }
-  else if ((c & 0b1111_1000) == 0b1111_0000)
+  else if ((с & 0b1111_1000) == 0b1111_0000)
   {
     // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-    c &= 0b0000_0111;
+    с &= 0b0000_0111;
     mixin(добавьШестьБит ~
           проверьСледующийБайт ~ добавьШестьБит ~
           проверьСледующийБайт ~ добавьШестьБит);
@@ -142,60 +139,60 @@ body
     // 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
     return СИМ_ОШИБКИ;
 
-  assert(ведомыйБайт_ли(*p));
+  assert(ведомыйБайт(*у));
 
-  if (!верноСимвол_ли(c))
+  if (!верноСимвол(с))
     return СИМ_ОШИБКИ;
-  ref_p = p+1;
-  return c;
+  ссыл_ук = у+1;
+  return с;
 }
 
 /// Кодирует символ и прибавляет его к ткт.
-проц  кодируй(ref ткст ткт, дим c)
+проц  кодируй(ref ткст ткт, дим с)
 {
-  assert(верноСимвол_ли(c), "проверка валидности перед вызовом кодируй().");
+  assert(верноСимвол(с), "проверка валидности перед вызовом кодируй().");
   сим[6] b = void;
-  if (c < 0x80)
-    ткт ~= c;
-  else if (c < 0x800)
+  if (с < 0x80)
+    ткт ~= с;
+  else if (с < 0x800)
   {
-    b[0] = 0xC0 | (c >> 6);
-    b[1] = 0x80 | (c & 0x3F);
+    b[0] = 0xC0 | (с >> 6);
+    b[1] = 0x80 | (с & 0x3F);
     ткт ~= b[0..2];
   }
-  else if (c < 0x10000)
+  else if (с < 0x10000)
   {
-    b[0] = 0xE0 | (c >> 12);
-    b[1] = 0x80 | ((c >> 6) & 0x3F);
-    b[2] = 0x80 | (c & 0x3F);
+    b[0] = 0xE0 | (с >> 12);
+    b[1] = 0x80 | ((с >> 6) & 0x3F);
+    b[2] = 0x80 | (с & 0x3F);
     ткт ~= b[0..3];
   }
-  else if (c < 0x200000)
+  else if (с < 0x200000)
   {
-    b[0] = 0xF0 | (c >> 18);
-    b[1] = 0x80 | ((c >> 12) & 0x3F);
-    b[2] = 0x80 | ((c >> 6) & 0x3F);
-    b[3] = 0x80 | (c & 0x3F);
+    b[0] = 0xF0 | (с >> 18);
+    b[1] = 0x80 | ((с >> 12) & 0x3F);
+    b[2] = 0x80 | ((с >> 6) & 0x3F);
+    b[3] = 0x80 | (с & 0x3F);
     ткт ~= b[0..4];
   }
   /+ // There are no 5 and 6 байт UTF-8 sequences yet.
-  else if (c < 0x4000000)
+  else if (с < 0x4000000)
   {
-    b[0] = 0xF8 | (c >> 24);
-    b[1] = 0x80 | ((c >> 18) & 0x3F);
-    b[2] = 0x80 | ((c >> 12) & 0x3F);
-    b[3] = 0x80 | ((c >> 6) & 0x3F);
-    b[4] = 0x80 | (c & 0x3F);
+    b[0] = 0xF8 | (с >> 24);
+    b[1] = 0x80 | ((с >> 18) & 0x3F);
+    b[2] = 0x80 | ((с >> 12) & 0x3F);
+    b[3] = 0x80 | ((с >> 6) & 0x3F);
+    b[4] = 0x80 | (с & 0x3F);
     ткт ~= b[0..5];
   }
-  else if (c < 0x80000000)
+  else if (с < 0x80000000)
   {
-    b[0] = 0xFC | (c >> 30);
-    b[1] = 0x80 | ((c >> 24) & 0x3F);
-    b[2] = 0x80 | ((c >> 18) & 0x3F);
-    b[3] = 0x80 | ((c >> 12) & 0x3F);
-    b[4] = 0x80 | ((c >> 6) & 0x3F);
-    b[5] = 0x80 | (c & 0x3F);
+    b[0] = 0xFC | (с >> 30);
+    b[1] = 0x80 | ((с >> 24) & 0x3F);
+    b[2] = 0x80 | ((с >> 18) & 0x3F);
+    b[3] = 0x80 | ((с >> 12) & 0x3F);
+    b[4] = 0x80 | ((с >> 6) & 0x3F);
+    b[5] = 0x80 | (с & 0x3F);
     ткт ~= b[0..6];
   }
   +/
@@ -204,25 +201,25 @@ body
 }
 
 /// Кодирует символ и прибавляет его к ткт.
-проц  кодируй(ref шим[] ткт, дим c)
-in { assert(верноСимвол_ли(c)); }
+проц  кодируй(ref шим[] ткт, дим с)
+in { assert(верноСимвол(с)); }
 body
 {
-  if (c < 0x10000)
-    ткт ~= cast(шим)c;
+  if (с < 0x10000)
+    ткт ~= cast(шим)с;
   else
-  { // Encode with surrogate пара.
+  { // EnКод with surrogate пара.
     шим[2] пара = void;
-    c -= 0x10000; // c'
-    // higher10bits(c') | 0b1101_10xx_xxxx_xxxx
-    пара[0] = (c >> 10) | 0xD800;
-    // lower10bits(c') | 0b1101_11yy_yyyy_yyyy
-    пара[1] = (c & 0x3FF) | 0xDC00;
+    с -= 0x10000; // с'
+    // higher10bits(с') | 0b1101_10xx_xxxx_xxxx
+    пара[0] = (с >> 10) | 0xD800;
+    // lower10bits(с') | 0b1101_11yy_yyyy_yyyy
+    пара[1] = (с & 0x3FF) | 0xDC00;
     ткт ~= пара;
   }
 }
 
-/// Decodes a символ из a UTF-16 sequence.
+/// Раскодирует a символ из a UTF-16 sequence.
 /// Параметры:
 ///   ткт = the UTF-16 sequence.
 ///   индекс = where в старт из.
@@ -230,78 +227,78 @@ body
 дим раскодируй(шим[] ткт, ref т_мера индекс)
 {
   assert(ткт.length && индекс < ткт.length);
-  дим c = ткт[индекс];
-  if (0xD800 > c || c > 0xDFFF)
+  дим с = ткт[индекс];
+  if (0xD800 > с || с > 0xDFFF)
   {
     ++индекс;
-    return c;
+    return с;
   }
-  if (c <= 0xDBFF && индекс+1 != ткт.length)
+  if (с <= 0xDBFF && индекс+1 != ткт.length)
   {
     шим c2 = ткт[индекс+1];
     if (0xDC00 <= c2 && c2 <= 0xDFFF)
-    { // Decode surrogate пара.
-      // (c - 0xD800) << 10 + 0x10000 ->
-      // (c - 0xD800 + 0x40) << 10 ->
-      c = (c - 0xD7C0) << 10;
-      c |= (c2 & 0x3FF);
+    { // Раскодировка surrogate пара.
+      // (с - 0xD800) << 10 + 0x10000 ->
+      // (с - 0xD800 + 0x40) << 10 ->
+      с = (с - 0xD7C0) << 10;
+      с |= (c2 & 0x3FF);
       индекс += 2;
-      return c;
+      return с;
     }
   }
   return СИМ_ОШИБКИ;
 }
 
-/// Decodes a символ из a UTF-16 sequence.
+/// Раскодирует a символ из a UTF-16 sequence.
 /// Параметры:
-///   p = старт of the UTF-16 sequence.
+///   у = старт of the UTF-16 sequence.
 ///   конец = one past the конец of the sequence.
 /// Возвращает: СИМ_ОШИБКИ in case of an ошибка in the sequence.
-дим раскодируй(ref шим* p, шим* конец)
+дим раскодируй(ref шим* у, шим* конец)
 {
-  assert(p && p < конец);
-  дим c = *p;
-  if (0xD800 > c || c > 0xDFFF)
+  assert(у && у < конец);
+  дим с = *у;
+  if (0xD800 > с || с > 0xDFFF)
   {
-    ++p;
-    return c;
+    ++у;
+    return с;
   }
-  if (c <= 0xDBFF && p+1 != конец)
+  if (с <= 0xDBFF && у+1 != конец)
   {
-    шим c2 = p[1];
+    шим c2 = у[1];
     if (0xDC00 <= c2 && c2 <= 0xDFFF)
     {
-      c = (c - 0xD7C0) << 10;
-      c |= (c2 & 0x3FF);
-      p += 2;
-      return c;
+      с = (с - 0xD7C0) << 10;
+      с |= (c2 & 0x3FF);
+      у += 2;
+      return с;
     }
   }
   return СИМ_ОШИБКИ;
 }
 
-/// Decodes a символ из a zero-terminated UTF-16 ткст.
+/// Раскодирует a символ из a zero-terminated UTF-16 ткст.
 /// Параметры:
-///   p = старт of the UTF-16 sequence.
+///   у = старт of the UTF-16 sequence.
 /// Возвращает: СИМ_ОШИБКИ in case of an ошибка in the sequence.
-дим раскодируй(ref шим* p)
+дим раскодируй(ref шим* у)
 {
-  assert(p);
-  дим c = *p;
-  if (0xD800 > c || c > 0xDFFF)
+  assert(у);
+  дим с = *у;
+  if (0xD800 > с || с > 0xDFFF)
   {
-    ++p;
-    return c;
+    ++у;
+    return с;
   }
-  if (c <= 0xDBFF)
+  if (с <= 0xDBFF)
   {
-    шим c2 = p[1];
+    шим c2 = у[1];
     if (0xDC00 <= c2 && c2 <= 0xDFFF)
     {
-      c = (c - 0xD7C0) << 10;
-      c |= (c2 & 0x3FF);
-      p += 2;
-      return c;
+      с = (с - 0xD7C0) << 10;
+      с |= (c2 & 0x3FF);
+      у += 2;
+      return с;
     }
   }
   return СИМ_ОШИБКИ;
@@ -314,14 +311,14 @@ body
   т_мера idx;
   while (idx < ткт.length)
   {
-    auto c = раскодируй(ткт, idx);
-    if (c == СИМ_ОШИБКИ)
-    { // Skip trail bytes.
-      while (++idx < ткт.length && ведомыйБайт_ли(ткт[idx]))
+    auto с = раскодируй(ткт, idx);
+    if (с == СИМ_ОШИБКИ)
+    { // Пропустим trail bytes.
+      while (++idx < ткт.length && ведомыйБайт(ткт[idx]))
       {}
-      c = СИМ_ЗАМЕНЫ;
+      с = СИМ_ЗАМЕНЫ;
     }
-    кодируй(результат, c);
+    кодируй(результат, с);
   }
   return результат;
 }
@@ -333,14 +330,14 @@ body
   т_мера idx;
   while (idx < ткт.length)
   {
-    auto c = раскодируй(ткт, idx);
-    if (c == СИМ_ОШИБКИ)
-    { // Skip trail bytes.
-      while (++idx < ткт.length && ведомыйБайт_ли(ткт[idx]))
+    auto с = раскодируй(ткт, idx);
+    if (с == СИМ_ОШИБКИ)
+    { // Пропустим trail bytes.
+      while (++idx < ткт.length && ведомыйБайт(ткт[idx]))
       {}
-      c = СИМ_ЗАМЕНЫ;
+      с = СИМ_ЗАМЕНЫ;
     }
-    результат ~= c;
+    результат ~= с;
   }
   return результат;
 }
