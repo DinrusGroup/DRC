@@ -1,6 +1,6 @@
 <DProject>
  <ProjectGuid>{1669EE65-D7E1-45AE-A15C-948B1EEBE433}</ProjectGuid>
- <Config name="Debug" platform="Win32">
+ <Config platform="Win32" name="Debug">
   <obj>0</obj>
   <link>0</link>
   <lib>0</lib>
@@ -32,7 +32,7 @@
   <useIn>0</useIn>
   <useOut>0</useOut>
   <useArrayBounds>0</useArrayBounds>
-  <noboundscheck>0</noboundscheck>
+  <boundscheck>0</boundscheck>
   <useSwitchError>0</useSwitchError>
   <useUnitTests>0</useUnitTests>
   <useInline>0</useInline>
@@ -45,10 +45,22 @@
   <pic>0</pic>
   <cov>0</cov>
   <nofloat>0</nofloat>
-  <Dversion>1</Dversion>
   <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
   <allinst>0</allinst>
   <stackStomp>0</stackStomp>
+  <betterC>0</betterC>
+  <dip25>0</dip25>
+  <dip1000>0</dip1000>
+  <dip1008>0</dip1008>
+  <transition_field>0</transition_field>
+  <revert_import>0</revert_import>
+  <preview_dtorfields>0</preview_dtorfields>
+  <transition_checkimports>0</transition_checkimports>
+  <transition_complex>0</transition_complex>
+  <preview_intpromote>0</preview_intpromote>
+  <preview_fixAliasThis>0</preview_fixAliasThis>
+  <preview_markdown>0</preview_markdown>
+  <transition_vmarkdown>0</transition_vmarkdown>
   <compiler>0</compiler>
   <otherDMD>1</otherDMD>
   <cccmd>$(CC) -c</cccmd>
@@ -86,13 +98,14 @@
   <runargs />
   <runCv2pdb>1</runCv2pdb>
   <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
-  <cv2pdbPre2043>0</cv2pdbPre2043>
   <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
   <cv2pdbEnumType>0</cv2pdbEnumType>
   <cv2pdbOptions />
+  <enableMixin>0</enableMixin>
+  <mixinPath>$(IntDir)\$(SafeProjectName).mixin</mixinPath>
   <objfiles />
   <linkswitches />
-  <libfiles />
+  <libfiles>..\Debug\Dinrus.LLVM900OMF.lib</libfiles>
   <libpaths />
   <deffile />
   <resfile />
@@ -104,11 +117,11 @@
   <cRuntime>2</cRuntime>
   <privatePhobos>0</privatePhobos>
   <additionalOptions />
-  <preBuildCommand />
+  <preBuildCommand>dinrusex</preBuildCommand>
   <postBuildCommand />
   <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep;*.tlog</filesToClean>
  </Config>
- <Config name="Release" platform="Win32">
+ <Config platform="Win32" name="Release">
   <obj>0</obj>
   <link>0</link>
   <lib>0</lib>
@@ -123,7 +136,7 @@
   <vtls>0</vtls>
   <vgc>0</vgc>
   <symdebug>0</symdebug>
-  <symdebugref>1</symdebugref>
+  <symdebugref>0</symdebugref>
   <optimize>1</optimize>
   <cpu>0</cpu>
   <isX86_64>0</isX86_64>
@@ -140,7 +153,7 @@
   <useIn>0</useIn>
   <useOut>0</useOut>
   <useArrayBounds>0</useArrayBounds>
-  <noboundscheck>0</noboundscheck>
+  <boundscheck>0</boundscheck>
   <useSwitchError>0</useSwitchError>
   <useUnitTests>0</useUnitTests>
   <useInline>1</useInline>
@@ -153,17 +166,29 @@
   <pic>0</pic>
   <cov>0</cov>
   <nofloat>0</nofloat>
-  <Dversion>1</Dversion>
   <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
   <allinst>0</allinst>
   <stackStomp>0</stackStomp>
+  <betterC>0</betterC>
+  <dip25>0</dip25>
+  <dip1000>0</dip1000>
+  <dip1008>0</dip1008>
+  <transition_field>0</transition_field>
+  <revert_import>0</revert_import>
+  <preview_dtorfields>0</preview_dtorfields>
+  <transition_checkimports>0</transition_checkimports>
+  <transition_complex>0</transition_complex>
+  <preview_intpromote>0</preview_intpromote>
+  <preview_fixAliasThis>0</preview_fixAliasThis>
+  <preview_markdown>0</preview_markdown>
+  <transition_vmarkdown>0</transition_vmarkdown>
   <compiler>0</compiler>
   <otherDMD>1</otherDMD>
   <cccmd>$(CC) -c</cccmd>
   <ccTransOpt>1</ccTransOpt>
   <addDepImp>0</addDepImp>
   <program>$(DINRUS)\dmd.exe</program>
-  <imppath />
+  <imppath>..\src;..\..\..\..\imp\dinrus</imppath>
   <fileImppath />
   <outdir>D:\dinrus\dev\DINRUS\DRC\bin</outdir>
   <objdir>$(OutDir)</objdir>
@@ -194,13 +219,14 @@
   <runargs />
   <runCv2pdb>0</runCv2pdb>
   <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
-  <cv2pdbPre2043>0</cv2pdbPre2043>
   <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
   <cv2pdbEnumType>0</cv2pdbEnumType>
   <cv2pdbOptions />
+  <enableMixin>0</enableMixin>
+  <mixinPath>$(IntDir)\$(SafeProjectName).mixin</mixinPath>
   <objfiles />
   <linkswitches />
-  <libfiles />
+  <libfiles>..\Release\Dinrus.LLVM900OMF.lib</libfiles>
   <libpaths />
   <deffile />
   <resfile />
@@ -302,11 +328,40 @@
    <File path="..\src\drc\Unicode.d" />
    <File path="..\src\drc\Version.d" />
   </Folder>
+  <Folder name="ll">
+   <File path="..\src\ll\Analysis.d" />
+   <File path="..\src\ll\BitReader.d" />
+   <File path="..\src\ll\BitWriter.d" />
+   <File path="..\src\ll\Comdat.d" />
+   <File path="..\src\ll\Core.d" />
+   <File path="..\src\ll\DataTypes.d" />
+   <File path="..\src\ll\DebugInfo.d" />
+   <File path="..\src\ll\Disassembler.d" />
+   <File path="..\src\ll\DisassemblerTypes.d" />
+   <File path="..\src\ll\Error.d" />
+   <File path="..\src\ll\ErrorHandling.d" />
+   <File path="..\src\ll\ExecutionEngine.d" />
+   <File path="..\src\ll\Initialization.d" />
+   <File path="..\src\ll\IRReader.d" />
+   <File path="..\src\ll\Linker.d" />
+   <File path="..\src\ll\LinkTimeOptimizer.d" />
+   <File path="..\src\ll\lto.d" />
+   <File path="..\src\ll\Object.d" />
+   <File path="..\src\ll\OptRemarks.d" />
+   <File path="..\src\ll\OrcBindings.d" />
+   <File path="..\src\ll\PassManagerBuilder.d" />
+   <File path="..\src\ll\Remarks.d" />
+   <File path="..\src\ll\Support.d" />
+   <File path="..\src\ll\Target.d" />
+   <File path="..\src\ll\TargetMachine.d" />
+   <File path="Transforms.d" />
+   <File path="..\src\ll\Types.d" />
+  </Folder>
   <Folder name="util">
    <File path="..\src\util\uni.d" />
   </Folder>
   <File path="..\src\common.d" />
-  <File path="..\src\main.d" />
+  <File path="llvm-ar.d" />
   <File path="..\src\Settings.d" />
   <File path="..\src\SettingsLoader.d" />
  </Folder>
