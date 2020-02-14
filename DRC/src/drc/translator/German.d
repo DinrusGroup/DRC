@@ -1,7 +1,7 @@
 /// Author: Aziz Köksal, Vitaly Kulich
 /// License: GPL3
 /// $(Maturity average)
-module drc.translatили.German;
+module drc.translator.German;
 
 import drc.ast.DefaultVisitor,
        drc.ast.Node,
@@ -11,14 +11,14 @@ import drc.ast.DefaultVisitor,
        drc.ast.Parameters;
 	   
 import io.stream.Format;
-public alias ФормВывод!(сим) Print;
+public alias ФормВывод!(сим) Принт;
 
 private alias Декларация D;
 
 /// Translates a syntax tree into German.
 class НемецкийПереводчик : ДефолтныйВизитёр
 {
-  Print put; /// Буфер вывода.
+  Принт put; /// Буфер вывода.
 
   ткст отступ; /// Текущий ткст индентации.
   ткст шагОтступа; /// Добавляется к отступу на каждом уровне индентации.
@@ -33,7 +33,7 @@ class НемецкийПереводчик : ДефолтныйВизитёр
   /// Параметры:
   ///   put = буфер для вывода.
   ///   шагОтступа = добавляется на каждом шагу индентации.
-  this(Print put, ткст шагОтступа)
+  this(Принт put, ткст шагОтступа)
   {
     this.put = put;
     this.шагОтступа = шагОтступа;

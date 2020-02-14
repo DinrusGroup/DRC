@@ -1,7 +1,7 @@
 module drc.ast.NodeCopier;
 
 import drc.ast.NodesEnum,
-       drc.ast.NodeЧленs;
+       drc.ast.NodeMembers;
 
 import common;
 

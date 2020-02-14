@@ -1,4 +1,4 @@
-module drc.ast.NodeЧленs;
+module drc.ast.NodeMembers;
 
 import drc.ast.NodesEnum;
 

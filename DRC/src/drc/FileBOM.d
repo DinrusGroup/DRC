@@ -9,7 +9,7 @@ import common;
 enum МПБ
 {
   Нет,    /// Nет МПБ
-  Ю8,    /// UTF-8: EF BB BF
+  Ю8,    /// UTF-8: EF ББ BF
   Ю16БЕ, /// UTF-16 Big Endian: FE FF
   Ю16ЛЕ, /// UTF-16 Little Endian: FF FE
   Ю32БЕ, /// UTF-32 Big Endian: 00 00 FE FF
@@ -42,7 +42,7 @@ enum МПБ
   else if (данные[0..2] ==  cast(ббайт[2])x"EF BB")
   {
     if (данные.length >= 3 && данные[2] == '\xBF')
-      мпб =  МПБ.Ю8; // EF BB BF
+      мпб =  МПБ.Ю8; // EF ББ BF
   }
   return мпб;
 }

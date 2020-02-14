@@ -200,7 +200,7 @@ const ткст[TOK.МАКС] семаВТкст = [
   "mixin","module","new","nothrow","пусто","out","override","package",
   "pragma","private","protected","public","pure","ref","return",
   "scope","static","struct","super","switch","synchronized",
-  "template","this","throw","__traits","да","try","typedef","typeid",
+  "template","this","throw","__traits","да","try","alias","typeid",
   "typeof","union","unittest",
   "version","volatile","while","with",
   // Целочисленные типы.

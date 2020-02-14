@@ -183,7 +183,7 @@ class СемантическаяПроходка1 : Визитёр
     deferred ~= d;
   }
 
-  private alias Декларация Д; /// A handy alias. Saves typing.
+  private alias Декларация Д; /// атр handy alias. Saves typing.
 
 override
 {

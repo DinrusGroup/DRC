@@ -27,15 +27,15 @@ private static const сим[][] предопрИденты = [
   "выход", "успех", "сбой", "exit", "success", "failure",
   // pragma:
   "сооб", "биб", "startaddress", "msg",
-  // Linkage:
-  "C", "D", "Windows", "Pascal", "System",
-  // Con-/Destructили:
-  "Ктор:__ctили", "Дтор:__dtили",
+  // компоновка:
+  "к", "D", "Windows", "Pascal", "System",
+  // Con-/Destructor:
+  "Ктор:__ctor", "Дтор:__dtor",
   // new() and delete() methods.
   "Нов:__new", "Удалить:__delete",
   // Юниттест and invariant.
   "Юниттест:__unittest", "Инвариант:__invariant",
-  // Operatили overload methods:
+  // Operator overload methods:
   "opNeg", "opPos", "opCom",
   "opEquals", "opCmp",  "opAssign",
   "opAdd",  "opAdd_r",  "opAddAssign",
@@ -45,7 +45,7 @@ private static const сим[][] предопрИденты = [
   "opMod",  "opMod_r",  "opModAssign",
   "opAnd",  "opAnd_r",  "opAndAssign",
   "opOr",   "opOr_r",   "opOrAssign",
-  "opXили",  "opXили_r",  "opXилиAssign",
+  "opXor",  "opXor_r",  "opXorAssign",
   "opShl",  "opShl_r",  "opShlAssign",
   "opShr",  "opShr_r",  "opShrAssign",
   "opUShr", "opUShr_r", "opUShrAssign",
@@ -71,7 +71,7 @@ private static const сим[][] предопрИденты = [
   "CL", "CH", "CX", "ECX",
   "DL", "DH", "DX", "EDX",
   "BP", "EBP", "SP", "ESP",
-  "DI", "EDI", "SI", "ESI",
+  "диагИнфо", "EDI", "SI", "ESI",
   "ES", "CS", "SS", "DS", "GS",
   "CR0", "CR2", "CR3", "CR4",
   "DR0", "DR1", "DR2", "DR3", "DR6", "DR7",
@@ -128,7 +128,7 @@ unittest
   foreach (идент; предопрИденты)
   {
     сим[][] пара = дайПару(идент);
-    // Идентификатор _Имя = {"имя", TOK.Идентификатор, ID.имя};
+    // Идентификатор _Имя = {"имя", TOK.Идентификатор, ид.имя};
     приват_члены ~= "Идентификатор _"~пара[0]~` = {"`~пара[1]~`", TOK.Идентификатор, ВИД.`~пара[0]~"};\n";
     // Идентификатор* имя = &_Имя;
     публ_члены ~= "Идентификатор* "~пара[0]~" = &Иды._"~пара[0]~";\n";

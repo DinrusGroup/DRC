@@ -53,7 +53,7 @@ body
   return да;
 }
 
-/// Раскодирует a символ из ткт at индекс.
+/// Раскодирует символ из ткт at индекс.
 /// Параметры:
 ///   индекс = установи в one past the ASCII сим или one past the last trail байт
 ///           of the valid UTF-8 sequence.
@@ -70,7 +70,7 @@ body
   return с;
 }
 
-/// Раскодирует a символ starting at ссыл_ук.
+/// Раскодирует символ starting at ссыл_ук.
 /// Параметры:
 ///   ссыл_ук = установи в one past the ASCII сим или one past the last trail байт
 ///           of the valid UTF-8 sequence.
@@ -219,7 +219,7 @@ body
   }
 }
 
-/// Раскодирует a символ из a UTF-16 sequence.
+/// Раскодирует символ из a UTF-16 sequence.
 /// Параметры:
 ///   ткт = the UTF-16 sequence.
 ///   индекс = where в старт из.
@@ -249,7 +249,7 @@ body
   return СИМ_ОШИБКИ;
 }
 
-/// Раскодирует a символ из a UTF-16 sequence.
+/// Раскодирует символ из a UTF-16 sequence.
 /// Параметры:
 ///   у = старт of the UTF-16 sequence.
 ///   конец = one past the конец of the sequence.
@@ -277,7 +277,7 @@ body
   return СИМ_ОШИБКИ;
 }
 
-/// Раскодирует a символ из a zero-terminated UTF-16 ткст.
+/// Раскодирует символ из a zero-terminated UTF-16 ткст.
 /// Параметры:
 ///   у = старт of the UTF-16 sequence.
 /// Возвращает: СИМ_ОШИБКИ in case of an ошибка in the sequence.
@@ -308,13 +308,13 @@ body
 шим[] вЮ16(ткст ткт)
 {
   шим[] результат;
-  т_мера idx;
-  while (idx < ткт.length)
+  т_мера инд;
+  while (инд < ткт.length)
   {
-    auto с = раскодируй(ткт, idx);
+    auto с = раскодируй(ткт, инд);
     if (с == СИМ_ОШИБКИ)
     { // Пропустим trail bytes.
-      while (++idx < ткт.length && ведомыйБайт(ткт[idx]))
+      while (++инд < ткт.length && ведомыйБайт(ткт[инд]))
       {}
       с = СИМ_ЗАМЕНЫ;
     }
@@ -327,13 +327,13 @@ body
 дим[] вЮ32(ткст ткт)
 {
   дим[] результат;
-  т_мера idx;
-  while (idx < ткт.length)
+  т_мера инд;
+  while (инд < ткт.length)
   {
-    auto с = раскодируй(ткт, idx);
+    auto с = раскодируй(ткт, инд);
     if (с == СИМ_ОШИБКИ)
     { // Пропустим trail bytes.
-      while (++idx < ткт.length && ведомыйБайт(ткт[idx]))
+      while (++инд < ткт.length && ведомыйБайт(ткт[инд]))
       {}
       с = СИМ_ЗАМЕНЫ;
     }

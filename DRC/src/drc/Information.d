@@ -1,4 +1,4 @@
-﻿module drc.Infилиmation;
+﻿module drc.Information;
 
 import drc.Messages;
 import common;

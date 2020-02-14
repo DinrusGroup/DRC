@@ -16,8 +16,8 @@ import common;
 import cidrus : strtof, strtod, strtold, ERANGE;
 import core.Vararg;
 
-extern  (C) int getErrno();      // для внутреннего пользования
-extern  (C) int setErrno(int);   // для внутреннего пользования
+extern(C) цел getErrno();      // для внутреннего пользования
+extern(C) цел setErrno(цел);   // для внутреннего пользования
 
 alias getErrno errno;
 alias setErrno errno;
@@ -1429,7 +1429,7 @@ class Лексер
         {
           if (с <= '9')
             с -= '0';
-          else if (с <= 'F')
+          else if (с <= 'ф')
             с -= 'A' - 10;
           else
             с -= 'a' - 10;
@@ -2536,13 +2536,13 @@ version(D2)
   {
     if (ткт.length == 0 || цифра(ткт[0]))
       return нет;
-    т_мера idx;
+    т_мера инд;
     do
     {
-      auto с = drc.Unicode.раскодируй(ткт, idx);
+      auto с = drc.Unicode.раскодируй(ткт, инд);
       if (с == СИМ_ОШИБКИ || !(идент(с) || !аски(с) && униАльфа(с)))
         return нет;
-    } while (idx < ткт.length)
+    } while (инд < ткт.length)
     return да;
   }
 
@@ -2707,8 +2707,8 @@ version(D2)
   /// Кодирует символ d и добавляет его к ткт.
   static проц  кодируйВЮ8(ref ткст ткт, дим d)
   {
-    assert(!аски(d), "check for ASCII сим befилиe calling кодируйВЮ8().");
-    assert(верноСимвол(d), "check if символ is valid befилиe calling кодируйВЮ8().");
+    assert(!аски(d), "проверка на ASCII сим перед вызовом кодируйВЮ8().");
+    assert(верноСимвол(d), "проверка валидности символа пред вызовом кодируйВЮ8().");
 
     сим[6] b = void;
     if (d < 0x800)

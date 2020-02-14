@@ -22,7 +22,7 @@ class Масштаб
     this.символ = символ;
   }
 
-  /// Find a символ in this Масштаб.
+  /// Find символ in this Масштаб.
   /// Параметры:
   ///   имя = the имя of the символ.
   Символ сыщи(Идентификатор* имя)
@@ -30,7 +30,7 @@ class Масштаб
     return символ.сыщи(имя);
   }
 
-  /// Searches for a символ in this Масштаб and all включающий scopes.
+  /// Searches for символ in this Масштаб and all включающий scopes.
   /// Параметры:
   ///   имя = the имя of the символ.
   Символ ищи(Идентификатор* имя)
@@ -45,7 +45,7 @@ class Масштаб
     return символ;
   }
 
-  /// Searches for a символ in this Масштаб and all включающий scopes.
+  /// Searches for символ in this Масштаб and all включающий scopes.
   /// Параметры:
   ///   имя = the имя of the символ.
   ///   ignилиeSymbol = the символ that must be пропустиped.

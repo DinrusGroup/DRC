@@ -134,7 +134,7 @@ alias раскройПеременные рп;
     auto путьКФайлу = НайдиПутьКФайлуКонфигурации();
     if (путьКФайлу is пусто)
     {
-      диаг ~= new drc.Infилиmation.Ошибка(new Положение("",0),
+      диаг ~= new drc.Information.Ошибка(new Положение("",0),
         "файл конфигурации "~имяФайлаКонфиг~" найти не удалось.");
       return;
     }
@@ -302,7 +302,7 @@ version(DDoc)
 }
 else version(Windows)
 {
-private extern(Windows) бцел GetModuleFileNameA(проц*, сим*, бцел);
+private extern(Windows) бцел GetModuleFileNameA(ук, сим*, бцел);
 
 ткст ДайПутьКИсполнимомуФайлу()
 {

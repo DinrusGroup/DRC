@@ -40,16 +40,16 @@ enum ТИП
   АМассив, /// Ассоциативный массив.
 
   Перечень,       /// An enum.
-  Структура,     /// A struct.
-  Класс,      /// A class.
-  Типдеф,    /// A typedef.
-  Функция,   /// A function.
-  Делегат,   /// A delegate.
-  Указатель,    /// A pointer.
-  Ссылка,  /// A reference.
+  Структура,     /// атр struct.
+  Класс,      /// атр class.
+  Типдеф,    /// атр alias.
+  Функция,   /// атр function.
+  Делегат,   /// атр delegate.
+  Указатель,    /// атр pointer.
+  Ссылка,  /// атр reference.
   Идентификатор, /// An идентификатор.
   ШЭкземпляр,  /// Шаблон instance.
-  Кортеж,      /// A template tuple.
-  Конст,      /// A constant тип. D2.0
+  Кортеж,      /// атр template tuple.
+  Конст,      /// атр constant тип. D2.0
   Инвариант,  /// An invariant тип. D2.0
 }

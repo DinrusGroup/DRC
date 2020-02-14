@@ -27,7 +27,7 @@ struct SourceLocation
         return SourceLocation(clang_getNullLocation());
     }
 
-    Spelling spelling() const
+    Spelling spelling()
     {
         Spelling spell;
 
@@ -41,7 +41,7 @@ struct SourceLocation
         return spell;
     }
 
-    Spelling expansion() const
+    Spelling expansion()
     {
         Spelling spell;
 
@@ -55,45 +55,46 @@ struct SourceLocation
         return spell;
     }
 
-    string path() const
+    string path()
     {
         return file.name;
     }
+    }
 
-    File file() const
+    File file()
     {
         File file;
         clang_getExpansionLocation(cx, &file.cx, пусто, пусто, пусто);
         return file;
     }
 
-    uint line() const
+    uint line()
     {
         uint result;
         clang_getExpansionLocation(cx, пусто, &result, пусто, пусто);
         return result;
     }
 
-    uint column() const
+    uint column()
     {
         uint result;
         clang_getExpansionLocation(cx, пусто, пусто, &result, пусто);
         return result;
     }
 
-    uint offset() const
+    uint offset()
     {
         uint result;
         clang_getExpansionLocation(cx, пусто, пусто, пусто, &result);
         return result;
     }
 
-    bool isFromMainFile() const
+    bool isFromMainFile()
     {
         return clang_Location_isFromMainFile(cx) != 0;
     }
 
-    string toString() const
+    string toString()
     {
         import std.format : format;
         auto localSpelling = spelling;
@@ -106,7 +107,7 @@ struct SourceLocation
             localSpelling.offset);
     }
 
-    string toColonSeparatedString() const
+    string toColonSeparatedString()
     {
         import std.format : format;
         auto localSpelling = spelling;

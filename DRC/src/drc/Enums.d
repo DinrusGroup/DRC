@@ -40,11 +40,11 @@ enum Защита
 enum ТипКомпоновки
 {
   Нет,
-  C,
-  Cpp,
-  D,
-  Windows,
-  Pascal,
+  Си,
+  СиПП,
+  Ди,
+  Виндовс,
+  Паскаль,
   Система
 }
 
@@ -72,9 +72,9 @@ enum ТипКомпоновки
 		case З.Нет:      return "";
 		case З.Приватный:   return "прив";
 		case З.Защищённый: return "защ";
-		case З.Пакет:   return "пак";
+		case З.Пакет:   return "пакет";
 		case З.Публичный:    return "пуб";
-		case З.Экспорт:    return "эксп";
+		case З.Экспорт:    return "экспорт";
 		default:
 			assert(0);
 	}
@@ -148,11 +148,11 @@ enum ТипКомпоновки
   switch (типК)
   { alias ТипКомпоновки ТК;
   case ТК.Нет:    return "";
-  case ТК.C:       return "C";
-  case ТК.Cpp:     return "Cpp";
-  case ТК.D:       return "D";
-  case ТК.Windows: return "Windows";
-  case ТК.Pascal:  return "Pascal";
+  case ТК.Си:       return "к";
+  case ТК.СиПП:     return "Cpp";
+  case ТК.Ди:       return "D";
+  case ТК.Виндовс: return "Windows";
+  case ТК.Паскаль:  return "Pascal";
   case ТК.Система:  return "System";
   default:
     assert(0);
@@ -165,11 +165,11 @@ enum ТипКомпоновки
 	switch (типК)
 	{ alias ТипКомпоновки ТК;
 		case ТК.Нет:    return "";
-		case ТК.C:       return "Си";
-		case ТК.Cpp:     return "СиПП";
-		case ТК.D:       return "Динрус";
-		case ТК.Windows: return "Виндовс";
-		case ТК.Pascal:  return "Паскаль";
+		case ТК.Си:       return "Си";
+		case ТК.СиПП:     return "СиПП";
+		case ТК.Ди:       return "Ди";
+		case ТК.Виндовс: return "Виндовс";
+		case ТК.Паскаль:  return "Паскаль";
 		case ТК.Система:  return "Система";
 		default:
 			assert(0);

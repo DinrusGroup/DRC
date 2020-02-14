@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.102
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "DRC", "DRC\DRC.visualdproj", "{1669EE65-D7E1-45AE-A15C-948B1EEBE433}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LLVM_DLL", "LLVM_DLL\LLVM_DLL.vcxproj", "{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}"
+EndProject
+Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "DinrusBaseDLL", "Base\DinrusBase.visualdproj", "{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,22 @@ Global
 		{1669EE65-D7E1-45AE-A15C-948B1EEBE433}.Release|x64.ActiveCfg = Release|Win32
 		{1669EE65-D7E1-45AE-A15C-948B1EEBE433}.Release|x86.ActiveCfg = Release|Win32
 		{1669EE65-D7E1-45AE-A15C-948B1EEBE433}.Release|x86.Build.0 = Release|Win32
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Debug|x64.ActiveCfg = Debug|x64
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Debug|x64.Build.0 = Debug|x64
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Debug|x86.ActiveCfg = Debug|Win32
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Debug|x86.Build.0 = Debug|Win32
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Release|x64.ActiveCfg = Release|x64
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Release|x64.Build.0 = Release|x64
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Release|x86.ActiveCfg = Release|Win32
+		{B0DDEEE0-9D53-428B-9619-E69EBBF3A485}.Release|x86.Build.0 = Release|Win32
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Debug|x64.ActiveCfg = Debug|x64
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Debug|x64.Build.0 = Debug|x64
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Debug|x86.ActiveCfg = Debug|Win32
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Debug|x86.Build.0 = Debug|Win32
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Release|x64.ActiveCfg = Release|x64
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Release|x64.Build.0 = Release|x64
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Release|x86.ActiveCfg = Release|Win32
+		{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

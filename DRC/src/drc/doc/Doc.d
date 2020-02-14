@@ -16,13 +16,13 @@ alias drc.doc.Parser.ПарсерЗначенияИдентификатора.т
 /// Представляет собой санитированный и парсированный комментарий DDoc.
 class КомментарийДДок
 {
-  Раздел[] резделы; /// Разделы этого комментария.
+  Раздел[] разделы; /// Разделы этого комментария.
   Раздел сводка; /// Необязательный раздел сводка.
   Раздел описание; /// Необязательный раздел описание.
 
-  this(Раздел[] резделы, Раздел сводка, Раздел описание)
+  this(Раздел[] разделы, Раздел сводка, Раздел описание)
   {
-    this.резделы = резделы;
+    this.разделы = разделы;
     this.сводка = сводка;
     this.описание = описание;
   }
@@ -30,10 +30,10 @@ class КомментарийДДок
   /// Удаляет первый раздел авторское_право и возвращает его.
   Раздел взятьАвторскоеПраво()
   {
-    foreach (i, раздел; резделы)
+    foreach (i, раздел; разделы)
       if (раздел.Является("авторское_право"))
       {
-        резделы = резделы[0..i] ~ резделы[i+1..$];
+        разделы = разделы[0..i] ~ разделы[i+1..$];
         return раздел;
       }
     return пусто;
@@ -42,12 +42,12 @@ class КомментарийДДок
   /// Возвращает да, если в этом комментарии "определено" единственный текст.
   бул дитто()
   {
-    return сводка && резделы.length == 1 &&
+    return сводка && разделы.length == 1 &&
            сравнилюб(сводка.текст, "определено") == 0;
   }
 }
 
-/// A Имяspace for some utility functions.
+/// атр Имяspace for some utility functions.
 struct УтилитыДДок
 {
 static:
@@ -59,7 +59,7 @@ static:
     if (!семыДок.length)
       return пусто;
     у.разбор(дайТекстДДок(семыДок));
-    return new КомментарийДДок(у.резделы, у.сводка, у.описание);
+    return new КомментарийДДок(у.разделы, у.сводка, у.описание);
   }
 
   /// Returns a КомментарийДДок created из a текст.
@@ -68,7 +68,7 @@ static:
     текст = санитируй(текст, '\0'); // May be unnecessary.
     ПарсерДДок у;
     у.разбор(текст);
-    return new КомментарийДДок(у.резделы, у.сводка, у.описание);
+    return new КомментарийДДок(у.разделы, у.сводка, у.описание);
   }
 
   /// Возвращает "да", если сема есть Doxygen comment.
@@ -87,8 +87,8 @@ static:
   /// Параметры:
   ///   узел = the узел в find doc comments for.
   ///   isDocComment = a function predicate that checks for doc comment семы.
-  /// Note: this function wилиks cилиrectly only if
-  ///       the source текст is syntactically cилиrect.
+  /// Note: this function wилиks констилиrectly only if
+  ///       the source текст is syntactically констилиrect.
   Сема*[] дайСемыДокум(Узел узел, бул function(Сема*) isDocComment = &комментДДока)
   {
     Сема*[] comments;
@@ -160,7 +160,7 @@ static:
 
   /// Sanitizes a DDoc comment ткст.
   ///
-  /// Leading "commentChar"s are removed из the lines.
+  /// Leading "commentChar"s are removed из the строчки.
   /// The various нс types are converted в '\n'.
   /// Параметры:
   ///   comment = the ткст в be sanitized.
@@ -219,7 +219,7 @@ static:
     return результат;
   }
 
-  /// Unindents all lines in текст by the maximum amount possible.
+  /// Unindents all строчки in текст by the maximum amount possible.
   /// Note: counts tabulatилиs the same as single spaces.
   /// Возвращает: the unindented текст или the илиiginal текст.
   ткст unindentText(ткст текст)
@@ -232,7 +232,7 @@ static:
     {
       while (у < конец && пбел(*у)) // Пропустим leading whitespace.
         у++;
-      if (у < конец && *у != '\n') // Don'т счёт blank lines.
+      if (у < конец && *у != '\n') // Don'т счёт blank строчки.
         if (у - lbegin < отступ)
         {
           отступ = у - lbegin;
@@ -255,7 +255,7 @@ static:
     {
       while (у < конец && пбел(*у)) // Пропустим leading whitespace.
         *q++ = *у++;
-      if (у < конец && *у == '\n') // Strip empty lines.
+      if (у < конец && *у == '\n') // Strip empty строчки.
         q -= у - lbegin; // Back up q by the amount of spaces on this line.
       else {//if (отступ <= у - lbegin)
         assert(отступ <= у - lbegin);
@@ -278,11 +278,11 @@ struct ПарсерДДок
 {
   сим* у; /// Current символ pointer.
   сим* конецТекста; /// Points one символ past the конец of the текст.
-  Раздел[] резделы; /// Parsed резделы.
+  Раздел[] разделы; /// Parsed разделы.
   Раздел сводка; /// Optional сводка раздел.
   Раздел описание; /// Optional описание раздел.
 
-  /// Parses the DDoc текст into резделы.
+  /// Parses the DDoc текст into разделы.
   /// All newlines in the текст must be converted в '\n'.
   Раздел[] разбор(ткст текст)
   {
@@ -304,23 +304,23 @@ struct ПарсерДДок
       if (началоСводки != идент.ptr)
         сканируйСводкуИОписание(началоСводки, идент.ptr);
     }
-    else // There are no explicit резделы.
+    else // There are no explicit разделы.
     {
       сканируйСводкуИОписание(началоСводки, конецТекста);
-      return резделы;
+      return разделы;
     }
 
     assert(идент.length);
     // Далее parsing.
     while (найдиСледщИдДвоеточие(следщИдент, началоСледщТела))
     {
-      резделы ~= new Раздел(идент, телоТекста(началоТела, следщИдент.ptr));
+      разделы ~= new Раздел(идент, телоТекста(началоТела, следщИдент.ptr));
       идент = следщИдент;
       началоТела = началоСледщТела;
     }
     // Add last раздел.
-    резделы ~= new Раздел(идент, телоТекста(началоТела, конецТекста));
-    return резделы;
+    разделы ~= new Раздел(идент, телоТекста(началоТела, конецТекста));
+    return разделы;
   }
 
   /// Separates the текст between у and конец
@@ -336,10 +336,10 @@ struct ПарсерДДок
     assert(у == конец || (*у == '\n' && у[1] == '\n'));
     // The first paragraph is the сводка.
     сводка = new Раздел("", телоТекста(началоРаздела, у));
-    резделы ~= сводка;
+    разделы ~= сводка;
     // The rest is the описание раздел.
     if (auto descText = телоТекста(у, конец))
-      резделы ~= (описание = new Раздел("", descText));
+      разделы ~= (описание = new Раздел("", descText));
     assert(описание ? описание.текст !is пусто : да);
   }
 
@@ -351,8 +351,8 @@ struct ПарсерДДок
 
   /// Skips over a код раздел and sets у one символ past it.
   ///
-  /// Note: apparently DMD doesn'т пропусти over код резделы when
-  /// parsing DDoc резделы. However, из experience it seems
+  /// Note: apparently DMD doesn'т пропусти over код разделы when
+  /// parsing DDoc разделы. However, из experience it seems
   /// в be a good idea в do that.
   /// Возвращает: "да", если a код раздел was пропустиped.
   static бул пропустиСекциюКода(ref сим* у, сим* конец)
@@ -441,19 +441,19 @@ class Раздел
 
 class РазделПараметров : Раздел
 {
-  ткст[] paramИмяs; /// Параметр имена.
-  ткст[] paramDescs; /// Параметр descriptions.
+  ткст[] именаПарамов; /// Параметр имена.
+  ткст[] деклыПарамов; /// Параметр descriptions.
   this(ткст имя, ткст текст)
   {
     super(имя, текст);
     ПарсерЗначенияИдентификатора парсер;
     auto идзначения = парсер.разбор(текст);
-    this.paramИмяs = new ткст[идзначения.length];
-    this.paramDescs = new ткст[идзначения.length];
+    this.именаПарамов = new ткст[идзначения.length];
+    this.деклыПарамов = new ткст[идзначения.length];
     foreach (i, идзначение; идзначения)
     {
-      this.paramИмяs[i] = идзначение.идент;
-      this.paramDescs[i] = идзначение.значение;
+      this.именаПарамов[i] = идзначение.идент;
+      this.деклыПарамов[i] = идзначение.значение;
     }
   }
 }

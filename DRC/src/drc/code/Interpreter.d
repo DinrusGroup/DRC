@@ -84,7 +84,7 @@ class Интерпретатор : Визитёр
     return НЕИ;
   }
 
-  /// Some handy aliases.
+  /// Некоторые удобные  алиасы.
   private alias Декларация D, Д;
   private alias Выражение E, В; /// определено
   private alias Инструкция S, И; /// определено

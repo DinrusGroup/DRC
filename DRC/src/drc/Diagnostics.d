@@ -1,6 +1,6 @@
 module drc.Diagnostics;
 
-public import drc.Infилиmation;
+public import drc.Information;
 
 /// Собирает диагностическую информацию о процессе компиляции.
 class Диагностика

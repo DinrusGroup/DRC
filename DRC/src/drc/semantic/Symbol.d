@@ -47,7 +47,7 @@ class Символ
 
   /// Строит Символ объект.
   /// Параметры:
-  ///   сид = the символ's ID.
+  ///   сид = the символ's ид.
   ///   имя = the символ's имя.
   ///   узел = the символ's узел.
   this(СИМ сид, Идентификатор* имя, Узел узел)
@@ -73,7 +73,7 @@ class Символ
   бул обработан()
   { return состояние == Состояние.Обработан; }
 
-  /// A template macro for building isXYZ() methods.
+  /// атр template macro for building isXYZ() methods.
   private template isX(ткст вид)
   {
     const ткст isX = `бул `~вид~`_ли(){ return сид == СИМ.`~вид~`; }`;

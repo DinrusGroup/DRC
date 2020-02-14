@@ -13,7 +13,7 @@ import drc.semantic.Module,
        drc.semantic.Pass2,
        drc.semantic.Passes;
 import drc.code.Interpreter;
-import drc.translatили.German;
+import drc.translator.German;
 import drc.Messages;
 import drc.CompilerInfo;
 import drc.Diagnostics;
@@ -36,10 +36,15 @@ import io.File;
 import text.Util;
 import time.StopWatch;
 import text.Ascii : сравнилюб;
+import ll.Core, ll.Types;
 
 /// Функция входа в drc.
 проц  main(ткст[] арги)
 {
+    ЛЛРеестрПроходок пр = ЛЛДайГлобРеестрПроходок();
+   	ЛЛИницЯдро(пр);	
+	ЛЛШатдаун();
+
   auto диаг = new Диагностика();
   ЗагрузчикКонфиг(диаг).загрузи();
   if (диаг.естьИнфо)
@@ -51,7 +56,7 @@ import text.Ascii : сравнилюб;
   ткст команда = арги[1];
   switch (команда)
   {
-  case "к", "компилируй", "c", "compile":
+  case "к", "компилируй", "конст", "compile":
     if (арги.length < 3)
       return выведиСправку(команда);
 
@@ -108,7 +113,7 @@ import text.Ascii : сравнилюб;
         кмд.подробно = да;
       else if (арг.length > 3 && ткстнач(арг, "-м=")||ткстнач(арг, "-m="))
         кмд.ПутьТкстаМод = арг[3..$];
-      else if (арг.length > 5 && сравнилюб(арг[$-4..$], "ддок") == 0||сравнилюб(арг[$-4..$], "ddoc") == 0)
+      else if (арг.length > 5 && сравнилюб(арг[$-4..$], "ддок") == 0||сравнилюб(арг[$-4..$], "ддок") == 0)
         кмд.макроПути ~= арг;
       else
         кмд.путиКФайлам ~= арг;
@@ -313,7 +318,7 @@ import text.Ascii : сравнилюб;
 const ткст КОМАНДЫ =
 "  справка,с        (h, /?, help) \n"
 "  компиляция,к     (с,compile)   \n"
-"  ддок, д          (d, ddoc)     \n"
+"  ддок, д          (d, ддок)     \n"
 "  подсвет,псв      (hl)           \n"
 "  графимпорта,ги   (g)           \n"
 "  статистика,стат  (стат)        \n"
@@ -388,7 +393,7 @@ version(D2)
       форматОшибки = ГлобальныеНастройки.форматОшибкиСемантики;
     else if (инфо.classinfo is Предупреждение.classinfo)
       форматОшибки = "{0}: Предупреждение: {3}";
-    else if (инфо.classinfo is drc.Infилиmation.Ошибка.classinfo)
+    else if (инфо.classinfo is drc.Information.Ошибка.classinfo)
       форматОшибки = "Ошибка: {3}";
     else
       continue;
@@ -442,7 +447,7 @@ version(D2)
 	  drc(дрк) ддок Приёмник файл.d [файл2.d, ...] [Опции]
 
 	  Приёмник - это папка, в которую записываются файлы документации.
-	  Файлы с расширением .ddoc распознаются как файлы с определением макросов.
+	  Файлы с расширением .ддок распознаются как файлы с определением макросов.
 
 	Опции:
 	  --ряр            : записать документы РЯР(XML), а не ГЯР(HTML)
@@ -451,7 +456,7 @@ version(D2)
 	  -м=ПУТЬ          : записать список обработанных модулей в ПУТЬ(PATH)
 
 	Пример:
-	  drc(дрк) д doc/ src/main.d src/macros_drc.ddoc -и -м=doc/модули.txt`;+/
+	  drc(дрк) д doc/ src/main.d src/macros_drc.ддок -и -м=doc/модули.txt`;+/
 		break;
 	  case "псв", "подсвет":
 		 сооб = ДайСооб(ИДС.СправкаОПодсветке);
