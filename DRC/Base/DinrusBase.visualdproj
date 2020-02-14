@@ -1,0 +1,603 @@
+<DProject>
+ <ProjectGuid>{F5EC85EE-C15F-4CEF-AC6A-75E070630B6C}</ProjectGuid>
+ <Config platform="Win32" name="Debug">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>2</lib>
+  <subsystem>2</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>1</symdebug>
+  <symdebugref>0</symdebugref>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <boundscheck>0</boundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>0</preservePaths>
+  <warnings>1</warnings>
+  <infowarnings>1</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <betterC>0</betterC>
+  <dip25>0</dip25>
+  <dip1000>0</dip1000>
+  <dip1008>0</dip1008>
+  <transition_field>0</transition_field>
+  <revert_import>0</revert_import>
+  <preview_dtorfields>0</preview_dtorfields>
+  <transition_checkimports>0</transition_checkimports>
+  <transition_complex>0</transition_complex>
+  <preview_intpromote>0</preview_intpromote>
+  <preview_fixAliasThis>0</preview_fixAliasThis>
+  <preview_markdown>0</preview_markdown>
+  <transition_vmarkdown>0</transition_vmarkdown>
+  <compiler>0</compiler>
+  <otherDMD>1</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <addDepImp>0</addDepImp>
+  <program>$(DINRUS)\dmd.exe</program>
+  <imppath>src</imppath>
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>0</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <debuglib>0</debuglib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <enableMixin>0</enableMixin>
+  <mixinPath>$(IntDir)\$(SafeProjectName).mixin</mixinPath>
+  <objfiles />
+  <linkswitches />
+  <libfiles>..\lib\dinrus-w64-i686-windows.lib</libfiles>
+  <libpaths />
+  <deffile>.\res\base.def</deffile>
+  <resfile>.\res\base.res</resfile>
+  <exefile>$(OutDir)\Dinrus.Base_D.dll</exefile>
+  <pdbfile>$(IntDir)\DinrusBaseDbg.pdb</pdbfile>
+  <impfile>$(IntDir)\DinrusBaseDbg.lib</impfile>
+  <mapfile>$(IntDir)\$(SafeProjectName).map</mapfile>
+  <useStdLibPath>0</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand>dinrusdev</preBuildCommand>
+  <postBuildCommand>implib $(OutDir)\DinrusBaseDbgDLL.lib $(OutDir)\Dinrus.Base_D.dll</postBuildCommand>
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep;*.tlog</filesToClean>
+ </Config>
+ <Config platform="Win32" name="Release">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>2</lib>
+  <subsystem>2</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>0</symdebug>
+  <symdebugref>0</symdebugref>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <boundscheck>0</boundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>0</preservePaths>
+  <warnings>1</warnings>
+  <infowarnings>1</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <betterC>0</betterC>
+  <dip25>0</dip25>
+  <dip1000>0</dip1000>
+  <dip1008>0</dip1008>
+  <transition_field>0</transition_field>
+  <revert_import>0</revert_import>
+  <preview_dtorfields>0</preview_dtorfields>
+  <transition_checkimports>0</transition_checkimports>
+  <transition_complex>0</transition_complex>
+  <preview_intpromote>0</preview_intpromote>
+  <preview_fixAliasThis>0</preview_fixAliasThis>
+  <preview_markdown>0</preview_markdown>
+  <transition_vmarkdown>0</transition_vmarkdown>
+  <compiler>0</compiler>
+  <otherDMD>1</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <addDepImp>0</addDepImp>
+  <program>$(DINRUS)\dmd.exe</program>
+  <imppath>src</imppath>
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>1</createImplib>
+  <debuglib>0</debuglib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <enableMixin>0</enableMixin>
+  <mixinPath>$(IntDir)\$(SafeProjectName).mixin</mixinPath>
+  <objfiles />
+  <linkswitches />
+  <libfiles>..\..\..\DINRUS2\lib\dinrus-w64-i686-windows.lib res\dinrus-w64-i686-windows.lib</libfiles>
+  <libpaths />
+  <deffile>.\res\base.def</deffile>
+  <resfile>.\res\base.res</resfile>
+  <exefile>$(OutDir)\Dinrus.Base.dll</exefile>
+  <pdbfile>$(IntDir)\DinrusBaseDLL.pdb</pdbfile>
+  <impfile>$(IntDir)\DinrusBaseDLL.lib</impfile>
+  <mapfile>$(IntDir)\$(SafeProjectName).map</mapfile>
+  <useStdLibPath>0</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand>dinrusdev</preBuildCommand>
+  <postBuildCommand>implib $(OutDir)\DinrusBaseDLL.lib $(OutDir)\Dinrus.Base.dll</postBuildCommand>
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep;*.tlog</filesToClean>
+ </Config>
+ <Config platform="x64" name="Debug">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>2</lib>
+  <subsystem>1</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>1</symdebug>
+  <symdebugref>1</symdebugref>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>1</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <boundscheck>0</boundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <betterC>0</betterC>
+  <dip25>0</dip25>
+  <dip1000>0</dip1000>
+  <dip1008>0</dip1008>
+  <transition_field>0</transition_field>
+  <revert_import>0</revert_import>
+  <preview_dtorfields>0</preview_dtorfields>
+  <transition_checkimports>0</transition_checkimports>
+  <transition_complex>0</transition_complex>
+  <preview_intpromote>0</preview_intpromote>
+  <preview_fixAliasThis>0</preview_fixAliasThis>
+  <preview_markdown>0</preview_markdown>
+  <transition_vmarkdown>0</transition_vmarkdown>
+  <compiler>0</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <addDepImp>0</addDepImp>
+  <program>$(DINRUS)\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <debuglib>0</debuglib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <enableMixin>0</enableMixin>
+  <mixinPath>$(IntDir)\$(SafeProjectName).mixin</mixinPath>
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).dll</exefile>
+  <pdbfile>$(IntDir)\$(SafeProjectName).pdb</pdbfile>
+  <impfile>$(IntDir)\$(SafeProjectName).lib</impfile>
+  <mapfile>$(IntDir)\$(SafeProjectName).map</mapfile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep;*.tlog</filesToClean>
+ </Config>
+ <Config platform="x64" name="Release">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>2</lib>
+  <subsystem>1</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>0</symdebug>
+  <symdebugref>1</symdebugref>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>1</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <boundscheck>0</boundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <betterC>0</betterC>
+  <dip25>0</dip25>
+  <dip1000>0</dip1000>
+  <dip1008>0</dip1008>
+  <transition_field>0</transition_field>
+  <revert_import>0</revert_import>
+  <preview_dtorfields>0</preview_dtorfields>
+  <transition_checkimports>0</transition_checkimports>
+  <transition_complex>0</transition_complex>
+  <preview_intpromote>0</preview_intpromote>
+  <preview_fixAliasThis>0</preview_fixAliasThis>
+  <preview_markdown>0</preview_markdown>
+  <transition_vmarkdown>0</transition_vmarkdown>
+  <compiler>0</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <addDepImp>0</addDepImp>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <debuglib>0</debuglib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <enableMixin>0</enableMixin>
+  <mixinPath>$(IntDir)\$(SafeProjectName).mixin</mixinPath>
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).dll</exefile>
+  <pdbfile>$(IntDir)\$(SafeProjectName).pdb</pdbfile>
+  <impfile>$(IntDir)\$(SafeProjectName).lib</impfile>
+  <mapfile>$(IntDir)\$(SafeProjectName).map</mapfile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep;*.tlog</filesToClean>
+ </Config>
+ <Folder name="DinrusBaseDLL">
+  <Folder name="rt">
+   <File path=".\src\rt\aaA.d" />
+   <File path=".\src\rt\aApply.d" />
+   <File path=".\src\rt\aApplyR.d" />
+   <File path=".\src\rt\adi.d" />
+   <File path=".\src\rt\alloca.d" />
+   <File path=".\src\rt\arraybyte.d" />
+   <File path=".\src\rt\arraycast.d" />
+   <File path=".\src\rt\arraycat.d" />
+   <File path=".\src\rt\arraydouble.d" />
+   <File path=".\src\rt\arrayfloat.d" />
+   <File path=".\src\rt\arrayint.d" />
+   <File path=".\src\rt\arrayreal.d" />
+   <File path=".\src\rt\arrayshort.d" />
+   <File path=".\src\rt\cast.d" />
+   <File path=".\src\rt\charset.d" />
+   <File path=".\src\rt\cmath2.d" />
+   <File path=".\src\rt\compat.d" />
+   <File path=".\src\rt\complex.c" />
+   <File path=".\src\rt\critical.c" />
+   <File path=".\src\rt\deh.c" />
+   <File path=".\src\rt\hash.d" />
+   <File path=".\src\rt\invariant.d" />
+   <File path=".\src\rt\lifetime.d" />
+   <File path=".\src\rt\llmath.d" />
+   <File path=".\src\rt\macros.asm" />
+   <File path=".\src\rt\mars.h" />
+   <File path=".\src\rt\memset.d" />
+   <File path=".\src\rt\minit.asm" />
+   <File path=".\src\rt\monitor.c" />
+   <File path=".\src\rt\qsort.d" />
+   <File path=".\src\rt\switch.d" />
+   <File path=".\src\rt\syserror.d" />
+   <File path=".\src\rt\trace.d" />
+  </Folder>
+  <Folder name="std">
+   <File path=".\src\std\base64.d" />
+   <File path=".\src\std\bitarray.d" />
+   <File path=".\src\std\conv.d" />
+   <File path=".\src\std\cpuid.d" />
+   <File path=".\src\std\crc32.d" />
+   <File path=".\src\std\ctype.d" />
+   <File path=".\src\std\date.d" />
+   <File path=".\src\std\dateparse.d" />
+   <File path=".\src\std\demangle.d" />
+   <File path=".\src\std\file.d" />
+   <File path=".\src\std\format.d" />
+   <File path=".\src\std\intrinsic.d" />
+   <File path=".\src\std\io.d" />
+   <File path=".\src\std\loader.d" />
+   <File path=".\src\std\math.d" />
+   <File path=".\src\std\math2.d" />
+   <File path=".\src\std\md5.d" />
+   <File path=".\src\std\outbuffer.d" />
+   <File path=".\src\std\path.d" />
+   <File path=".\src\std\perf.d" />
+   <File path=".\src\std\process.d" />
+   <File path=".\src\std\random.d" />
+   <File path=".\src\std\regexp.d" />
+   <File path=".\src\std\string.d" />
+   <File path=".\src\std\system.d" />
+   <File path=".\src\std\traits.d" />
+   <File path=".\src\std\uni.d" />
+   <File path=".\src\std\uri.d" />
+   <File path=".\src\std\utf.d" />
+   <File path=".\src\std\zip.d" />
+   <File path=".\src\std\zlib.d" />
+  </Folder>
+  <Folder name="sys">
+   <Folder name="inc">
+    <File path=".\src\sys\inc\advapi32.d" />
+    <File path="src\sys\inc\kernel32.d" />
+    <File path=".\src\sys\inc\user32.d" />
+   </Folder>
+   <File path="src\sys\com.d" />
+   <File path=".\src\sys\Common.d" />
+   <File path="src\sys\memory.d" />
+   <File path="src\sys\registry.d" />
+   <File path=".\src\sys\uuid.d" />
+   <File path=".\src\sys\WinConsts.d" />
+   <File path=".\src\sys\WinFuncs.d" />
+   <File path=".\src\sys\WinIfaces.d" />
+   <File path=".\src\sys\WinProcess.d" />
+   <File path=".\src\sys\WinStructs.d" />
+   <File path=".\src\sys\WinTypes.d" />
+  </Folder>
+  <Folder name="tpl">
+   <File path=".\src\tpl\all.d" />
+   <File path=".\src\tpl\args.d" />
+   <File path=".\src\tpl\bind.d" />
+   <File path=".\src\tpl\com.d" />
+   <File path=".\src\tpl\metastrings.d" />
+   <File path=".\src\tpl\minmax.d" />
+   <File path=".\src\tpl\signal.d" />
+   <File path=".\src\tpl\stream.d" />
+   <File path=".\src\tpl\traits.d" />
+   <File path=".\src\tpl\typetuple.d" />
+  </Folder>
+  <File path=".\src\base.d" />
+  <File path=".\src\tpl\box.d" />
+  <File path=".\src\cidrus.d" />
+  <File path=".\src\dinrus.d" />
+  <File path=".\src\dll.d" />
+  <File path=".\src\exception.d" />
+  <File path=".\src\gc.d" />
+  <File path=".\src\object_.d" />
+  <File path=".\src\runtime.d" />
+  <File path=".\src\stdrus.d" />
+  <File path=".\src\stringz.d" />
+  <File path=".\src\sync.d" />
+  <File path=".\src\thread.d" />
+  <File path=".\src\util.d" />
+  <File path=".\src\win.d" />
+  <File path=".\src\zlib.d" />
+ </Folder>
+</DProject>
